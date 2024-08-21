@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wisight</title>
-    <link rel="stylesheet" href="../../Projeto/CSS/index.css">
+    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="shortcut icon" href="../Assets/logo2.png" type="image/x-icon">
 </head>
 
 <body>
@@ -13,21 +14,23 @@
         <div id="div_nav_1">
             <nav id="navbar">
                 <ul>
-                    <img id="logo_bar" src="../../Projeto/Assets/logo.png" style="width: 5%; margin-top: -15px; margin-left: -100px;">
-                    <li><a href="#valores">Valores</a></li>
-                    <li>|</li>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li>|</li>
-                    <li><a href="#produtos">Produtos</a></li>
-                    <li>|</li>
-                    <li><a href="#contato">Contato</a></li>
+                    <img id="logo_bar" src="../Assets/logo.png"
+                        style="width: 5%; margin-top: -15px; margin-left: -170px;">
+                    <li><a href="#valores">Cultura</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#contato">Referências</a></li>
+                    <li><a href="#contato">Log In</a></li>
+                    <li style="margin-inline: -180px;">|</li>
+                    <li style="margin-right: -150px;"><a href="#cadastro"><b>Sign Up</b></a></li>
                 </ul>
             </nav>
         </div>
+        <div class="nome"></div>
+
     </div>
     <div class="primeira_tela" id="valores">
         <center>
-            <h1>Conheça a Wisight</h1>
+            <h1>Conheça a Wisight!</h1>
             <p>Somos uma empresa de consultoria criada a fim de sanar dores e problemas encontrados com base na análise
                 de sistemas. Nosso trabalho é encontrar soluções e proporcionar o melhor serviço para clientes,
                 desenvolvendo sistemas personalizados e com arquitetura e design simples para clientes de diversos ramos
@@ -36,18 +39,18 @@
 
         <div class="container">
             <div class="cards">
-                <img src="../../Projeto/Assets/dificuldades.png">
+                <img src="../Assets/dificuldades.png">
                 <p class="sub">Análise</p>
                 <br>
                 <p>Entendemos a dor do cliente e projetamos ideias.</p>
             </div>
             <div class="cards">
-                <img src="../../Projeto/Assets/kpi.png">
+                <img src="../Assets/kpi.png">
                 <p class="sub">Desenvolvimento</p>
                 <p>Desenvolvemos um sistema personalizado para solucionar o problema.</p>
             </div>
             <div class="cards">
-                <img src="../../Projeto/Assets/companhia.png">
+                <img src="../Assets/companhia.png">
                 <p class="sub">Entrega</p>
                 <br>
                 <p>Ao final, o cliente obterá aumentos em seus lucros.</p>
@@ -55,20 +58,57 @@
         </div>
     </div>
 
-    <div class="slogan" id="sobre"></div>
+    <div class="slogan" id="sobre">
+    </div>
 
-    <div class="segunda_tela" id="produtos">
+    <div class="segunda_tela" id="cadastro">
         <div class="container">
-            <div id="texto_grande">
-                <h1>LOREM IPSUM <br>DOLOR SIT<br>AMET!</h1>
-            </div>
+            <h1>Cadastre-se em nosso site</h1>
+            <form onsubmit="cadastro()">
+                <div class="form">
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="email">EMAIL</label>
+                        <br>
+                        <input type="email" id="email" required placeholder="Entre com seu email">
+                    </div>
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="nome">NOME</label>
+                        <br>
+                        <input type="text" id="nome" placeholder="Entre com seu nome" required>
+                    </div>
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="sobrenome">SOBRENOME</label>
+                        <br>
+                        <input type="text" id="sobrenome" placeholder="Entre com seu sobrenome" required>
+                    </div>
+                </div>
 
-            <div id="paragrafo">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel ultrices augue. In vitae libero
-                    condimentum diam elementum viverra eu in nunc. Maecenas mollis erat ac diam porta, sit amet
-                    convallis
-                    nisi sagittis. Nunc gravida nisi sit amet tortor tristique, sed elementum elit</p>
-            </div>
+                <div class="form2">
+                    <div class="input_checkbox">
+                        <p>INFORME SEU INTERESSE</p>
+                        <br>
+                        <label class="custom-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>Geral
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>Vendas
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>Experiência do cliente
+                        </label>
+                    </div>
+
+                    <div class="botao_enviar">
+                        <p>Ao clicar em "Enviar" você concorda com a <b>Política de Privacidade</b></p>
+                        <button type="submit">ENVIAR <img id="seta_clara" src="../Assets/seta.png" width="10px"> <img
+                                id="seta_escura" src="../Assets/seta_escura.png" width="10px"></button>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </div>
 
@@ -81,7 +121,7 @@
             <p>wisight@email.com.br</p>
             <p>(11) 98765-4321</p>
         </div>
-        <img src="../../Projeto/Assets/logo2.png">
+        <img src="../Assets/logo.png">
         <div class="comentario">
             <h4>Mande-nos uma mensagem!</h4>
             <textarea placeholder="Digite aqui..."></textarea>
