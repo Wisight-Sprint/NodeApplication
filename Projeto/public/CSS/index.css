@@ -1,6 +1,7 @@
 body {
     padding: 0;
     margin: 0;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 * {
@@ -125,39 +126,42 @@ nav {
     background-repeat: no-repeat;
     height: 120vh;
     background-size: 100vmax;
-    display: flex;
-
-    h1 {
-        position: static;
-        bottom: 10px;
-        right: 10px;
-    }
+    /* display: flex; */
 }
 
+.segunda_tela, h1{
+    
+    /* padding-top: 5vh; */
+    font-size: 80px;
+}
+
+.segunda_tela, span{
+    /* margin-top: 1px; */
+    font-size: 30px;
+    font-weight: lighter;
+}
+
+.titulo_slogan{
+    padding-left: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.paragrafo_segunda_tela{
+    width: 80vh;
+    text-align: end;
+    margin-right: 80px;
+    margin-top: 10vh;
+}
 .segunda_tela {
     display: flex;
-    height: 70vh;
-    background-color: #021526;
+    justify-content: space-between;
+    height: 50vh;
+    background-color: #03346E;
     color: #FFF;
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-inline: 30px;
-        width: 100vw;
-        align-items: center;
-
-        h1 {
-            margin-top: -20px;
-        }
     }
-
-    form {
-        width: 100vw;
-    }
-
-    .form {
+    /* .form {
         display: flex;
         width: 100vw;
         justify-content: space-evenly;
@@ -166,49 +170,9 @@ nav {
         input {
             outline: none;
         }
-    }
+    } */
 
-    .botao_enviar {
-        display: flex;
-        align-items: end;
-
-        p {
-            height: 29px;
-        }
-
-        button {
-            cursor: pointer;
-            margin-left: 30px;
-            background-color: transparent;
-            border: solid #FFF 1px;
-            color: #FFF;
-            width: 170px;
-            height: 70px;
-            transition: 1s;
-
-            #seta_escura {
-                display: none;
-            }
-
-            #seta_clara {
-                display: unset;
-            }
-        }
-
-        button:hover {
-            background-color: #FFF;
-            color: #021526;
-
-            #seta_escura {
-                display: unset;
-            }
-
-            #seta_clara {
-                display: none;
-            }
-        }
-    }
-
+    
     .perguntas label {
         color: #A9A9A9;
         transition: 0.3s;
@@ -311,13 +275,13 @@ nav {
         border-width: 0 3px 3px 0;
         transform: rotate(45deg);
     }
-}
+
 
 .rodape {
     /* background-color: #021526; */
-    background-color: #FFF;
+    background-color: #021526;
     height: 60vh;
-    color: #000;
+    color: #fff;
     padding-inline: 30px;
     padding-block: 20px;
     display: flex;
@@ -338,10 +302,7 @@ nav {
         }
     }
 
-    img {
-        width: 400px;
-        height: fit-content;
-    }
+
 
     .comentario {
         margin-left: 50px;
