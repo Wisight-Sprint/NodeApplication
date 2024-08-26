@@ -1,0 +1,57 @@
+body{
+    background-color: #6EACDA;
+    font-family: "Josefin Sans", sans-serif;
+    color: whitesmoke;
+}
+
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 100vh;
+    align-items: center;
+}
+
+.textos {
+    height: 70vh;
+    width: 40vw;
+    color: #021526;
+    font-size: 25px;
+}
+
+.titulo{
+    font-size: 40px;
+    display: flex;
+    text-align: end;
+}
+
+
+
+.campos {
+    height: 70vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.campos .input {
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.input{
+    border-radius: 16px;
+    border: none;
+    height: 40px;
+    width: 30vw;
+}
+
+.possui{
+    display: flex;
+}
