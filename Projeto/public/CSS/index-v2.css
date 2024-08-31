@@ -68,6 +68,11 @@ nav>button:hover{
     align-items: start;
 }
 
+.entrar-cadastrar a{
+    color: white;
+    text-decoration: none;
+}
+
 .botao-focar{
     font-size: 1.5em;
     padding: 20px;

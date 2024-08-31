@@ -2,6 +2,10 @@ body{
     background-color: #6EACDA;
     font-family: "Josefin Sans", sans-serif;
     color: whitesmoke;
+    background-image: url(../Assets/bolinhas\ do\ fundo.svg);
+    background-repeat: no-repeat;
+    overflow: hidden;
+    
 }
 
 
@@ -14,10 +18,24 @@ body{
 }
 
 .textos {
-    height: 70vh;
     width: 40vw;
     color: #021526;
-    font-size: 25px;
+    font-size: 33px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.textos .traco{
+    display: flex;
+    border-bottom: #021526 solid;
+    width: 20vw;
+}
+
+.textos .imagem{
+    display: flex;
+    justify-content: flex-end;
 }
 
 .titulo{
@@ -26,7 +44,12 @@ body{
     text-align: end;
 }
 
-
+.voltar {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    z-index: 10; 
+}
 
 .campos {
     height: 70vh;
@@ -34,10 +57,29 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size: 20px;
+    /* align-items: center;/ */
 }
 
-.campos .input {
-    align-items: center;
+
+.campos button{
+    font-family: "Josefin Sans", sans-serif;
+    font-size: large;
+    color: #021526;
+    height: 35px;
+    width: 15vw;
+    border-radius: 16px;
+    border: none;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}   
+
+.campos .possui{
+    display: flex;
+    text-align: start;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 a{

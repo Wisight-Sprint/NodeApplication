@@ -2,6 +2,7 @@ body{
     background-color: #021526;
     font-family: "Josefin Sans", sans-serif;
     color: whitesmoke;
+    overflow: hidden;
 }
 
 .container{
@@ -13,19 +14,59 @@ body{
 }
 
 .textos {
-    height: 70vh;
     width: 40vw;
+    font-size: 33px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.textos .traco{
+    display: flex;
+    border-bottom: #ffffff solid;
+    width: 20vw;
 }
 
 .textos h1{
     font-size: 100px;
 }
 
+.voltar {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    z-index: 10; 
+}
+
+
 .campos {
     height: 70vh;
     width: 40vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+}
+
+.campos button{
+    font-family: "Josefin Sans", sans-serif;
+    font-size: large;
+    color: #021526;
+    height: 25px;
+    width: 15vw;
+    border-radius: 16px;
+    border: none;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}   
+
+.campos .possui{
+    display: flex;
+    text-align: start;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 .campos .input {
