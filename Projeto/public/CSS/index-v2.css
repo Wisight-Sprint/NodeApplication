@@ -1,0 +1,131 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Josefin Sans", sans-serif;
+    background-color: #49688D;
+    color: #fff;
+}
+
+* {
+    scroll-behavior: smooth;
+}
+
+nav{
+    /* margin-left: 50px; */
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav>img{
+    height: 100px;
+    width: 125px;
+}
+
+nav>button{
+    font-size: 1.5em;
+    color: #fff;
+    background-color: #49688D;
+    border: none;
+    padding: 20px;
+}
+
+nav>button:hover{
+    cursor: pointer;
+    transition: border 1s;
+    border: 2px 2px 2px 2px #fff;
+    border-radius: 10px;
+}
+
+.secao1{
+    display: flex;
+    margin: 50px 50px 0 50px;
+}
+
+.texto-alinhado{
+    padding-left: 50px;
+    padding-right: 150px;
+}
+
+.texto-alinhado>p{
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.logo{
+    font-size: 90px;
+    font-weight: bold;
+}
+
+.slogan{
+    font-size: 70px;
+    font-weight: lighter;
+}
+
+.entrar-cadastrar{
+    display: flex;
+    align-items: start;
+}
+
+.botao-focar{
+    font-size: 1.5em;
+    padding: 20px;
+    transition: ease-in 1s;
+    margin-left: 20px;
+}
+
+.botao-focar:hover{
+    cursor: pointer;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    transition: ease-in 0.1s;
+}
+
+.linha{
+    width: 80%;
+    height: 2px;
+    background-color: #fff;
+    position: absolute;
+    left: 10%;
+    margin-top: 30px;
+}
+
+.secao2{
+    display: flex;
+    align-items: center;
+    margin-top: 60px;
+    width: 600px;
+    margin-left: 500px;
+}
+
+.secao2 .card-solucoes{
+    /* display: flex; */
+    background-color: #fff;
+    border-radius: 20px;
+    color: #000;
+    height: 200px;
+    width: 400px;
+    padding: 30px;
+}
+
+
+.card-solucoes span{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: end;
+}
+
+.alinhado{
+    display: flex;
+    justify-content: space-between;
+    /* padding: 20px; */
+    align-items: center;
+}
+
+.explicacao{
+    display: block;
+}
+/* .secao2 .card-solucoes img{
+    position: fixed;
+} */
