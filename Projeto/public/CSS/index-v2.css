@@ -94,13 +94,14 @@ nav>button:hover{
 .secao2{
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-top: 60px;
     width: 600px;
-    margin-left: 500px;
+    text-align: center;
+    margin-left: 450px;
 }
 
-.secao2 .card-solucoes{
-    /* display: flex; */
+.card-solucoes{
     background-color: #fff;
     border-radius: 20px;
     color: #000;
@@ -126,6 +127,124 @@ nav>button:hover{
 .explicacao{
     display: block;
 }
-/* .secao2 .card-solucoes img{
-    position: fixed;
-} */
+
+.cards{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+.fundo-azul{
+    background-color: #03346E;
+    background-attachment: fixed;
+    /* width: 100%;
+    height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider{
+    margin: 0 auto;
+    width: 800px;
+    height: 400px;
+    overflow: hidden;
+}
+
+.slides{
+    width: 400%;
+    height: 400px;
+    display: flex;
+}
+
+.slides input{
+    display: none;
+}
+
+.slide{
+    width: 25%;
+    position: relative;
+    transition: 2s;
+}
+
+.slide img{
+    width: 800px;
+}
+
+.nav-manual{
+    position: absolute;
+    width: 800px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+}
+
+.manual-btn{
+    border: 2px solid #fff;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.manual-btn:not(:last-child){
+    margin-right: 40px;
+}
+
+.manual-btn:hover{
+    background-color: #fff;
+}
+
+#radio1:checked ~ .first{
+    margin-left: 0;
+}
+
+#radio2:checked ~ .first{
+    margin-left: -25%;
+}
+
+#radio3:checked ~ .first{
+    margin-left: -50%;
+}
+
+#radio4:checked ~ .first{
+    margin-left: -75%;
+}
+
+.nav-auto div{
+    border: 2px solid #03346E;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.nav-auto{
+    position: relative;
+    width: 800px;
+    margin-top: 360px;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-auto div:not(:last-child){
+    margin-right: 40px;
+
+}
+
+#radio1:checked ~ .nav-auto .auto-btn1{
+    background-color: #fff;
+}
+
+#radio2:checked ~ .nav-auto .auto-btn2{
+    background-color: #fff;
+}
+
+#radio3:checked ~ .nav-auto .auto-btn3{
+    background-color: #fff;
+}
+
+#radio4:checked ~ .nav-auto .auto-btn4{
+    background-color: #fff;
+}

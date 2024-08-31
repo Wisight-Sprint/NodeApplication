@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,11 @@
     <link rel="stylesheet" href="CSS/index-v2.css">
     <link rel="shortcut icon" href="Assets/logo-sem-fundo.png" type="image/x-icon">
 </head>
+<script src="JS/index.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 </style>
+
 <body>
     <header>
         <nav>
@@ -19,53 +22,120 @@
             <button class="botao-focar">VALORES</button>
             <button class="botao-focar">SOBRE NÓS</button>
         </nav>
-        <div class="secao1">
-            <div class="texto-alinhado">
-                <span class="logo">WISIGHT</span> <br>
-                <span class="slogan"><i>SEU FUTURO, <br> NOSSOS DADOS!</i></span>
-        
-                <p>Na Wisight, nossa missão é converter dados em insights poderosos e decisões estratégicas. 
-                Com integridade e inovação como pilares,oferecemos soluções precisas e transparentes para impulsionar o sucesso dos nossos clientes. 
+    </header>
+
+    <div class="secao1">
+        <div class="texto-alinhado">
+            <span class="logo">WISIGHT</span> <br>
+            <span class="slogan"><i>SEU FUTURO, <br> NOSSOS DADOS!</i></span>
+
+            <p>Na Wisight, nossa missão é converter dados em insights poderosos e decisões estratégicas.
+                Com integridade e inovação como pilares,oferecemos soluções precisas e transparentes para
+                impulsionar o sucesso dos nossos clientes.
                 Junte-se a nós e descubra como podemos transformar o futuro dos seus negócios.</p>
 
-                <div class="entrar-cadastrar">
-                    <div class="botao-focar">ENTRAR</div>
-                    <div class="botao-focar">CADASTRAR</div>
-                </div>
+            <div class="entrar-cadastrar">
+                <div class="botao-focar">ENTRAR</div>
+                <div class="botao-focar">CADASTRAR</div>
             </div>
-            
-            <img src="Assets/imagem1-secao1.png" alt="">
         </div>
 
-        <div class="linha"></div>
+        <img src="Assets/imagem1-secao1.png" alt="">
+    </div>
 
-        <div class="secao2">
-            <div class="explicacao">
-                <h2>SOLUÇÕES A PARTIR DE DADOS!</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptas obcaecati, tenetur, consequuntur, repellat suscipit non et maxime ut reprehenderit minima. Culpa cupiditate similique consectetur amet. Vitae veritatis voluptates unde?</p>
-            </div> <br>
-            
-            <div class="card-solucoes">
-                <div class="alinhado">
-                    <img src="Assets/dificuldades.png" alt="">
-                    <span>Análise do <br>problema</span>
-                </div>
-                
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis ratione sapiente dolorem 
-                    iusto qui rerum voluptatem fuga.</p>
+    <div class="linha"></div>
+
+    <div class="secao2">
+        <div class="explicacao">
+            <h2>SOLUÇÕES A PARTIR DE DADOS!</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptas obcaecati, tenetur,
+                consequuntur, repellat suscipit non et maxime ut reprehenderit minima. Culpa cupiditate similique
+                consectetur amet. Vitae veritatis voluptates unde?</p>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card-solucoes">
+            <div class="alinhado">
+                <img src="Assets/dificuldades.png" alt="">
+                <span>Análise do <br>problema</span>
             </div>
 
-            <div class="card-solucoes">
-                <div class="alinhado">
-                    <img src="Assets/dificuldades.png" alt="">
-                    <span>Análise do <br>problema</span>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
+                ratione sapiente dolorem
+                iusto qui rerum voluptatem fuga.</p>
+        </div>
+
+        <div class="card-solucoes">
+            <div class="alinhado">
+                <img src="Assets/dificuldades.png" alt="">
+                <span>Análise do <br>problema</span>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
+                ratione sapiente dolorem
+                iusto qui rerum voluptatem fuga.</p>
+        </div>
+
+        <div class="card-solucoes">
+            <div class="alinhado">
+                <img src="Assets/dificuldades.png" alt="">
+                <span>Análise do <br>problema</span>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
+                ratione sapiente dolorem
+                iusto qui rerum voluptatem fuga.</p>
+        </div>
+    </div>
+
+    <div class="fundo-azul">
+        <div class="slider">
+            <div class="slides">
+                <!-- Botões radio -->
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
+
+                <!-- Slides -->
+                <div class="slide first">
+                    <img src="Assets/primeira-slide.jpg" alt="">
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis ratione sapiente dolorem 
-                    iusto qui rerum voluptatem fuga.</p>
+
+                <div class="slide">
+                    <img src="Assets/segunda-slide.jpg" alt="">
+                </div>
+
+                <div class="slide">
+                    <img src="Assets/terceira-slide.jpg" alt="">
+                </div>
+
+                <div class="slide">
+                    <img src="Assets/quarta-slide.jpg" alt="">
+                </div>
+
+                <!-- Navegação automática -->
+                <div class="nav-auto">
+                    <div class="navigation-btn1"></div>
+                    <div class="navigation-btn2"></div>
+                    <div class="navigation-btn3"></div>
+                    <div class="navigation-btn4"></div>
+                </div>
+
+            </div>
+            <!-- Navegação manual -->
+            <div class="nav-manual">
+                <label for="radio1" class="manual-btn"></label>
+                <label for="radio2" class="manual-btn"></label>
+                <label for="radio3" class="manual-btn"></label>
+                <label for="radio4" class="manual-btn"></label>
             </div>
 
         </div>
-            
-    </header>
-    </body>
+
+        
+
+    </div>
+
+</body>
+
 </html>
