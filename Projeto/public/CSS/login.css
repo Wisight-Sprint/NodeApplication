@@ -25,6 +25,7 @@ body{
     justify-content: flex-end;
     flex-direction: column;
     align-items: flex-end;
+    text-align: end;
 }
 
 .textos .traco{
@@ -66,14 +67,25 @@ body{
     font-family: "Josefin Sans", sans-serif;
     font-size: large;
     color: #021526;
-    height: 35px;
-    width: 15vw;
+    height: 40px;
+    width: 120px;
     border-radius: 16px;
     border: none;
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
+    transition: 1s;
+    border: 2px solid #021526;
 }   
+
+.campos button:hover{
+    cursor: pointer;
+    transition: 1s;
+    border: 2px solid #ffffff;
+    border-radius: 16px;
+    background-color: #021526;
+    color: #ffffff;
+}
 
 .campos .possui{
     display: flex;

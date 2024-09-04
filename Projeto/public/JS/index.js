@@ -9,7 +9,7 @@ window.onscroll = function() {
     }
 };
 
-// Função do slider de contaúdo do index
+// Função do slider de conteúdo do index
 let contador = 1;
 document.getElementById("radio1").checked = true;
 

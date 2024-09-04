@@ -51,16 +51,30 @@ body{
 
 .campos button{
     font-family: "Josefin Sans", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: large;
     color: #021526;
-    height: 25px;
-    width: 15vw;
+    height: 40px;
+    width: 120px;
     border-radius: 16px;
     border: none;
-    margin-top: 25px;
+    transition: 1s;
+    /* margin-top: 25px;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; */
 }   
+
+.campos button:hover{
+    cursor: pointer;
+    transition: 1s;
+    border: 2px solid #ffffff;
+    border-radius: 16px;
+    background-color: #021526;
+    color: #ffffff;
+}
+
 
 .campos .possui{
     display: flex;
