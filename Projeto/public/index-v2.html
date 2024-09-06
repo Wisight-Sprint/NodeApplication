@@ -15,16 +15,18 @@
 
 <body>
     <header>
-        <nav>
+        <nav id="navbar">
             <img src="Assets/logo-sem-fundo.png" alt="">
-            <button class="botao-focar">INÍCIO</button>
-            <button class="botao-focar">SOLUÇÕES</button>
-            <button class="botao-focar">VALORES</button>
-            <button class="botao-focar">SOBRE NÓS</button>
+            <button class="botao-focar"><a href="#secao1">INÍCIO</a></button>
+            <button class="botao-focar"><a href="#secao2">SOLUÇÕES</a></button>
+            <button class="botao-focar"><a href="#secao3">VALORES</a></button>
+            <button class="botao-focar"><a href="#contato">SOBRE NÓS</a></button>
+            <button id="logs"><a href="./login.html">ENTRAR</a></button>
+            <button id="logs" style="margin-left: -50px;"><a href="./cadastro.html">CADASTRAR</a></button>
         </nav>
     </header>
 
-    <div class="secao1">
+    <div class="secao1" id="secao1">
         <div class="texto-alinhado">
             <span class="logo">WISIGHT</span> <br>
             <span class="slogan"><i>SEU FUTURO, <br> NOSSOS DADOS!</i></span>
@@ -34,27 +36,24 @@
                 impulsionar o sucesso dos nossos clientes.
                 Junte-se a nós e descubra como podemos transformar o futuro dos seus negócios.</p>
 
-                <div class="entrar-cadastrar">
-                    <a href="./login.html">
-                        <div class="botao-focar">ENTRAR</div>
-                    </a>
-                    <a href="./cadastro.html">
-                        <div class="botao-focar">CADASTRAR</div>
-                    </a>
-                </div>
+            <div class="entrar-cadastrar">
+                <a href="./login.html">
+                    <div class="botao-focar">ENTRAR</div>
+                </a>
+                <a href="./cadastro.html">
+                    <div class="botao-focar">CADASTRAR</div>
+                </a>
             </div>
-            
-            <img src="Assets/imagem1-secao1.png" alt="">
         </div>
+
+        <img src="Assets/imagem1-secao1.png" alt="">
+    </div>
 
     <div class="linha"></div>
 
-    <div class="secao2">
+    <div class="secao2" id="secao2">
         <div class="explicacao">
             <h2>SOLUÇÕES A PARTIR DE DADOS!</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptas obcaecati, tenetur,
-                consequuntur, repellat suscipit non et maxime ut reprehenderit minima. Culpa cupiditate similique
-                consectetur amet. Vitae veritatis voluptates unde?</p>
         </div>
     </div>
 
@@ -65,33 +64,32 @@
                 <span>Análise do <br>problema</span>
             </div>
 
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
-                ratione sapiente dolorem
-                iusto qui rerum voluptatem fuga.</p>
+            <p>Nossa abordagem é focada em identificar e resolver as principais dores de seu negócio, fornecendo
+                insights que impulsionam a eficiência e os resultados com base em baseadas em análise de dados e na
+                experiência do cliente.</p>
         </div>
 
         <div class="card-solucoes">
             <div class="alinhado">
-                <img src="Assets/dificuldades.png" alt="">
-                <span>Análise do <br>problema</span>
+                <img src="Assets/kpi.png" style="width: 130px">
+                <span>Desenvolvimento <br>da solução</span>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
-                ratione sapiente dolorem
-                iusto qui rerum voluptatem fuga.</p>
+            <p>Desenvolvemos uma solução que oferece uma visão clara e estratégica através de gráficos e
+                indicadores-chave de desempenho (KPIs) ajustados às suas metas, facilitando a tomada de decisões e
+                otimização de processos.</p>
         </div>
 
         <div class="card-solucoes">
             <div class="alinhado">
-                <img src="Assets/dificuldades.png" alt="">
-                <span>Análise do <br>problema</span>
+                <img src="Assets/companhia.png" style="width: 130px">
+                <span>Entrega do <br>produto</span>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi suscipit dicta, cumque reiciendis
-                ratione sapiente dolorem
-                iusto qui rerum voluptatem fuga.</p>
+            <p>Ao final, o cliente não apenas verá uma melhora significativa em sua eficiência operacional, mas também
+                obterá um aumento expressivo em sua qualidade, assegurando um retorno sólido sobre o investimento.</p>
         </div>
     </div>
 
-    <div class="fundo-azul">
+    <div class="fundo-azul" id="secao3">
         <div class="parametros-slide">
             <div class="slider">
                 <div class="slides">
@@ -100,24 +98,24 @@
                     <input type="radio" name="radio-btn" id="radio2">
                     <input type="radio" name="radio-btn" id="radio3">
                     <input type="radio" name="radio-btn" id="radio4">
-    
+
                     <!-- Slides -->
                     <div class="slide first">
                         <img src="Assets/primeira-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/segunda-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/terceira-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/quarta-slide.jpg" alt="">
                     </div>
-    
+
                     <!-- Navegação automática -->
                     <div class="nav-auto">
                         <div class="navigation-btn1"></div>
@@ -125,7 +123,7 @@
                         <div class="navigation-btn3"></div>
                         <div class="navigation-btn4"></div>
                     </div>
-    
+
                 </div>
                 <!-- Navegação manual -->
                 <div class="nav-manual">
@@ -134,14 +132,17 @@
                     <label for="radio3" class="manual-btn"></label>
                     <label for="radio4" class="manual-btn"></label>
                 </div>
-    
+
             </div>
         </div>
-    
+
         <div class="linha"></div>
         <div class="sobre-nos">
-            <h1>CONHEÇA A<br> WISIGHT!</h1>    
-            <p>Somos uma empresa de consultoria criada a fim de sanar dores e problemas encontrados com base na análise de sistemas. Nosso trabalho é encontrar soluções e proporcionar o melhor serviço para clientes, desenvolvendo sistemas personalizados e com arquitetura e design simples para clientes de diversos ramos empresariais.</p>
+            <h1>CONHEÇA A<br> WISIGHT!</h1>
+            <p>Somos uma empresa de consultoria criada a fim de sanar dores e problemas encontrados com base na análise
+                de sistemas. Nosso trabalho é encontrar soluções e proporcionar o melhor serviço para clientes,
+                desenvolvendo sistemas personalizados e com arquitetura e design simples para clientes de diversos ramos
+                empresariais.</p>
         </div>
     </div>
 
@@ -154,14 +155,14 @@
             <p>wisight@email.com.br</p>
             <p>(11) 98765-4321</p>
         </div>
-       
+
         <div class="map">
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.288160205888!2d-46.6616751!3d-23.558092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d2a5270055%3A0x3c7ea4f4c7d51fb6!2sRua%20Haddock%20Lobo%2C%20595%20-%20Cerqueira%20C%C3%A9sar%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001414-001!5e0!3m2!1spt-BR!2sbr!4v1712880078959!5m2!1spt-BR!2sbr"
                 width="650" height="300" style="border:0;" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        
+
         <div class="comentario">
             <h4>Mande-nos uma mensagem!</h4>
             <textarea placeholder="Digite aqui..."></textarea>

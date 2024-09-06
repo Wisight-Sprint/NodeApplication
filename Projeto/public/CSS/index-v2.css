@@ -10,18 +10,30 @@ body {
     scroll-behavior: smooth;
 }
 
-nav{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
+a {
+    text-decoration: none;
+    color: #FFF;
 }
 
-nav>img{
+nav {
+    z-index: 2;
+    padding-top: 20px;
+    background-color: #49688D;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+    transition: 2s;
+}
+
+nav>img {
     height: 100px;
     width: 125px;
 }
 
-nav>button{
+nav>button {
     font-size: 1.5em;
     color: #fff;
     background-color: #49688D;
@@ -31,7 +43,7 @@ nav>button{
     transition: 0.5s;
 }
 
-nav>button:hover{
+nav>button:hover {
     cursor: pointer;
     transition: border 1s;
     border: 2px 2px 2px 2px #fff;
@@ -39,43 +51,54 @@ nav>button:hover{
     transition: 1s;
 }
 
-.secao1{
-    display: flex;
-    margin: 50px 50px 0 50px;
+.scrolled {
+    padding-top: 15px;
+    transition: 2s;
+    border-bottom: solid white 2px;
+
+    #logs {
+        display: unset;
+    }
 }
 
-.texto-alinhado{
+.secao1 {
+    display: flex;
+    margin: 50px 50px 0 50px;
+    padding-top: 125px;
+}
+
+.texto-alinhado {
     padding-left: 50px;
     padding-right: 150px;
 }
 
-.texto-alinhado>p{
+.texto-alinhado>p {
     padding-top: 10px;
     font-size: 20px;
     font-weight: 200;
 }
 
-.logo{
+.logo {
     font-size: 90px;
     font-weight: bold;
 }
 
-.slogan{
+.slogan {
     font-size: 70px;
     font-weight: lighter;
 }
 
-.entrar-cadastrar{
+.entrar-cadastrar {
     display: flex;
     align-items: start;
 }
 
-.entrar-cadastrar a{
+.entrar-cadastrar a {
     color: white;
     text-decoration: none;
 }
 
-.botao-focar{
+.botao-focar {
     font-size: 1.5em;
     padding: 20px;
     margin-left: 20px;
@@ -83,15 +106,24 @@ nav>button:hover{
     transition: 0.5s;
 }
 
-.botao-focar:hover{
+#logs {
+    font-size: 1.2em;
+    padding: 20px;
+    margin-left: 20px;
+    border: 2px solid #49688D;
+    display: none;
+    transition: 2s;
+}
+
+.botao-focar:hover,
+#logs:hover {
     cursor: pointer;
     border-radius: 10px;
     border: 2px solid #fff;
     transition: 1s;
-    /* border: 2px solid #49688D; */
 }
 
-.linha{
+.linha {
     width: 80%;
     height: 2px;
     background-color: #fff;
@@ -101,7 +133,7 @@ nav>button:hover{
     margin-top: 50px;
 }
 
-.secao2{
+.secao2 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,16 +143,16 @@ nav>button:hover{
     margin-left: 450px;
 }
 
-.secao2{
+.secao2 {
     font-size: 21px;
 }
 
-.secao2 p{
+.secao2 p {
     font-weight: 200;
     font-size: 18px;
 }
 
-.card-solucoes{
+.card-solucoes {
     background-color: #fff;
     border-radius: 20px;
     color: #000;
@@ -130,47 +162,47 @@ nav>button:hover{
 }
 
 
-.card-solucoes span{
+.card-solucoes span {
     font-size: 20px;
     font-weight: bold;
     text-align: end;
 }
 
-.alinhado{
+.alinhado {
     display: flex;
     justify-content: space-between;
     /* padding: 20px; */
     align-items: center;
 }
 
-.explicacao{
+.explicacao {
     display: block;
 }
 
-.cards{
+.cards {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     margin-top: 50px;
 }
 
-.fundo-azul{
+.fundo-azul {
     background-color: #03346E;
     background-attachment: fixed;
-    
+
     /* padding-bottom: 50px; */
     margin-top: 50px;
 }
 
-.parametros-slide{
+.parametros-slide {
     /* width: 100%;
     height: 100vh; */
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.slider{
+.slider {
     /* margin: 0 auto; */
     margin-top: 50px;
     width: 800px;
@@ -178,27 +210,27 @@ nav>button:hover{
     overflow: hidden;
 }
 
-.slides{
+.slides {
     width: 400%;
     height: 400px;
     display: flex;
 }
 
-.slides input{
+.slides input {
     display: none;
 }
 
-.slide{
+.slide {
     width: 25%;
     position: relative;
     transition: 2s;
 }
 
-.slide img{
+.slide img {
     width: 800px;
 }
 
-.nav-manual{
+.nav-manual {
     position: absolute;
     width: 800px;
     margin-top: -40px;
@@ -206,7 +238,7 @@ nav>button:hover{
     justify-content: center;
 }
 
-.manual-btn{
+.manual-btn {
     border: 2px solid #fff;
     padding: 5px;
     border-radius: 10px;
@@ -214,31 +246,31 @@ nav>button:hover{
     transition: 1s;
 }
 
-.manual-btn:not(:last-child){
+.manual-btn:not(:last-child) {
     margin-right: 40px;
 }
 
-.manual-btn:hover{
+.manual-btn:hover {
     background-color: #fff;
 }
 
-#radio1:checked ~ .first{
+#radio1:checked~.first {
     margin-left: 0;
 }
 
-#radio2:checked ~ .first{
+#radio2:checked~.first {
     margin-left: -25%;
 }
 
-#radio3:checked ~ .first{
+#radio3:checked~.first {
     margin-left: -50%;
 }
 
-#radio4:checked ~ .first{
+#radio4:checked~.first {
     margin-left: -75%;
 }
 
-.nav-auto div{
+.nav-auto div {
     border: 2px solid #03346E;
     padding: 5px;
     border-radius: 10px;
@@ -246,7 +278,7 @@ nav>button:hover{
     transition: 1s;
 }
 
-.nav-auto{
+.nav-auto {
     position: relative;
     width: 800px;
     margin-top: 360px;
@@ -254,24 +286,24 @@ nav>button:hover{
     justify-content: center;
 }
 
-.nav-auto div:not(:last-child){
+.nav-auto div:not(:last-child) {
     margin-right: 40px;
 
 }
 
-#radio1:checked ~ .nav-auto .auto-btn1{
+#radio1:checked~.nav-auto .auto-btn1 {
     background-color: #fff;
 }
 
-#radio2:checked ~ .nav-auto .auto-btn2{
+#radio2:checked~.nav-auto .auto-btn2 {
     background-color: #fff;
 }
 
-#radio3:checked ~ .nav-auto .auto-btn3{
+#radio3:checked~.nav-auto .auto-btn3 {
     background-color: #fff;
 }
 
-#radio4:checked ~ .nav-auto .auto-btn4{
+#radio4:checked~.nav-auto .auto-btn4 {
     background-color: #fff;
 }
 
@@ -279,7 +311,7 @@ nav>button:hover{
     margin-top: 500px;
 } */
 
-.fundo-azul2{
+.fundo-azul2 {
     background-color: #03346E;
     background-attachment: fixed;
     /* width: 100%;
@@ -290,17 +322,17 @@ nav>button:hover{
     margin-top: 0;
 }
 
-.sobre-nos{
+.sobre-nos {
     display: flex;
     justify-content: space-between;
     padding: 60px;
 }
 
-.sobre-nos h1{
+.sobre-nos h1 {
     font-size: 60px;
 }
 
-.sobre-nos p{
+.sobre-nos p {
     font-weight: 200;
     margin-left: 300px;
     font-size: 25px;
@@ -331,6 +363,7 @@ nav>button:hover{
             font-size: 25px;
         }
     }
+
     .comentario {
         margin-left: 50px;
         font-size: 25px;
@@ -353,7 +386,7 @@ nav>button:hover{
     }
 }
 
-.rodape button{
+.rodape button {
     font-size: 18px;
     color: #fff;
     background-color: #49688D;
@@ -364,10 +397,9 @@ nav>button:hover{
     transition: 1s;
 }
 
-.rodape button:hover{
+.rodape button:hover {
     color: #49688D;
     background-color: #021526;
     border: 2px solid #49688D;
     transition: 1s;
 }
-
