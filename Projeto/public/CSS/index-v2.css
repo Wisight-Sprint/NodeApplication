@@ -10,6 +10,16 @@ body {
     scroll-behavior: smooth;
 }
 
+.nav-responsiva{
+    display: none;
+}
+
+nav{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 a {
     text-decoration: none;
     color: #FFF;
@@ -141,9 +151,6 @@ nav>button:hover {
     width: 600px;
     text-align: center;
     margin-left: 450px;
-}
-
-.secao2 {
     font-size: 21px;
 }
 
@@ -307,16 +314,9 @@ nav>button:hover {
     background-color: #fff;
 }
 
-/* .fundo-azul .linha{
-    margin-top: 500px;
-} */
-
-.fundo-azul2 {
+.fundo-azul2{
     background-color: #03346E;
     background-attachment: fixed;
-    /* width: 100%;
-    height: 100vh; */
-    /* display: flex;  */
     justify-content: center;
     align-items: center;
     margin-top: 0;
@@ -349,41 +349,21 @@ nav>button:hover {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+}
+ 
 
-    .container_informacoes {
-        width: 30%;
-        font-size: 20px;
+.container_informacoes {
+    width: 30%;
+    font-size: 20px;
+}
 
-        h1 {
-            font-size: 50px;
-            margin-bottom: 10%;
-        }
+.container_informacoes h1{
+    font-size: 50px;
+    margin-bottom: 10%;
+}
 
-        p {
-            font-size: 25px;
-        }
-    }
-
-    .comentario {
-        margin-left: 50px;
-        font-size: 25px;
-        width: 30%;
-        text-align: center;
-
-        textarea {
-            margin-top: -15px;
-            padding: 15px;
-            min-width: 300px;
-            min-height: 200px;
-            max-width: 300px;
-            max-height: 200px;
-            background-color: #FFF;
-            color: #000;
-            border: solid #000 2px;
-            border-radius: 30px;
-            font-size: 17px;
-        }
-    }
+.container_informacoes p {
+    font-size: 25px;
 }
 
 .rodape button {
@@ -402,4 +382,304 @@ nav>button:hover {
     background-color: #021526;
     border: 2px solid #49688D;
     transition: 1s;
+}
+
+.comentario {
+    margin-left: 50px;
+    font-size: 25px;
+    width: 30%;
+    text-align: center;
+}
+
+.comentario textarea {
+    margin-top: -15px;
+    padding: 15px;
+    min-width: 300px;
+    min-height: 200px;
+    max-width: 300px;
+    max-height: 200px;
+    background-color: #FFF;
+    color: #000;
+    border: solid #000 2px;
+    border-radius: 30px;
+    font-size: 17px;
+}
+
+
+@media screen and (max-width: 414px){
+    .nav-normal{
+        display: none;
+    }
+
+    .nav-responsiva{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .nav-responsiva img{
+        height: 70px;
+        width: 95px;
+    }
+
+    .nav-responsiva .botao-focar{
+        height: 10px;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #menu {
+        display: none;
+        background-color: #FFF;
+        border-radius: 20px;
+        position: absolute; 
+        height: 200px; 
+        width: 200px; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;   
+        margin-left: -40px ;
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    
+    #menu-button{
+        height: 10px;
+        font-size: 20px;
+    }
+    
+    #menu-button:hover{
+        cursor: pointer;
+    }
+
+    .opcoes-menu{
+        color: #021526;
+    }
+
+    .img-responsiva-secao1{
+        background-image: url(../Assets/img-resp.jpg);
+        height: 450px;
+        background-repeat: no-repeat;
+        background-size: cover; 
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        /* justify-content: center;  */
+    }
+    
+    .secao1{
+        margin: 0;
+        text-align: center;
+        margin-left: 100px;
+        margin-top: 30px; 
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo{
+        font-size: 50px;
+        font-weight: bold;
+    }
+    
+    .slogan{
+        font-size: 30px;
+        font-weight: lighter;
+    }
+    
+    .img-secao1-normal{
+        display: none;
+    }
+
+    .linha{
+        display: none;
+    }
+
+    .secao1 p{
+        font-size: 12px;
+        text-align: justify;
+    }
+
+    .entrar-cadastrar{
+        font-size: 10px;
+    }
+
+    .botao-focar{
+        border-radius: 20px;
+    }
+
+    .secao2{
+        margin-left: -10px;
+        text-align: center;
+    }
+    
+    .secao2 h2{
+        margin: 0;
+        font-size: 20px;
+        width: 200px;
+        margin-left: -100px;
+        margin-bottom: 10px;
+    }
+
+    .secao2 p{
+        margin: 0;
+        font-size: 12px;
+        width: 300px;
+        margin-left: -150px;    
+    }
+
+    .cards{
+        display: block;
+        margin-left: 40px;
+    }
+
+    .card-solucoes{
+        height: 100px;
+        width: 200px;
+        padding: 30px;
+        margin-bottom: 20px;
+        margin-left: 40px;
+    }
+    
+    .card-solucoes span{
+        font-size: 15px;
+        font-weight: bold;
+        text-align: end;
+    }
+
+    .card-solucoes img{
+        width: 60px;
+        height: 60px;
+    }
+
+    .card-solucoes p{
+        font-size: 10px;
+    }
+
+    .slider{
+        /* margin: 0 auto; */
+        margin-top: 50px;
+        width: 300px;
+        height: 150px;
+        overflow: hidden;
+    }
+    
+    .slides{
+        width: 400%;
+        height: 400px;
+        display: flex;
+    }
+    
+    .slides input{
+        display: none;
+    }
+    
+    .slide{
+        width: 25%;
+        position: relative;
+        transition: 2s;
+    }
+    
+    .slide img{
+        width: 300px;
+    }
+    
+    .nav-manual{
+        position: absolute;
+        width: 300px;
+        margin-top: -40px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .manual-btn{
+        border: 2px solid #fff;
+        padding: 5px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 1s;
+    }
+
+    .nav-manual{
+        margin-top: -230px;
+    }
+    
+    .manual-btn:not(:last-child){
+        margin-right: 40px;
+    
+    }
+
+    .sobre-nos{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sobre-nos h1{
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .sobre-nos p{
+        font-size: 14px;
+        width: 300px;
+        text-align: center;
+        margin-left: -10px;
+    }
+
+    .map{
+        display: none;
+    }
+
+    .rodape{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container_informacoes{
+        width: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container_informacoes h1{
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .container_informacoes p{
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .comentario{
+        width: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .comentario textarea{
+        min-width: 300px;
+        min-height: 100px;
+        max-width: 300px;
+        max-height: 100px;
+        border: none;
+    }
+
+    .comentario h4{
+        font-size: 20px;
+        text-align: justify;
+        width: 100px;
+    }
+    
+    .alinhado{
+        display: flex;
+    }
+
 }
