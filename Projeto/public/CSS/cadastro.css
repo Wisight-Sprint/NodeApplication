@@ -125,7 +125,8 @@ a{
     }
 
     .textos .traco{
-        width: 70vw;
+        /* width: 70vw; */
+        display: none;
     }
 
     .textos{
@@ -135,12 +136,18 @@ a{
         text-align: center;
     }
 
+    .voltar{
+        display: none;
+    }
+
     .textos h1{
-        font-size: 80px;
+        display: none;
+        /* font-size: 80px; */
     }
 
     .textos p{
-        width: 100%;
+        display: none;
+        /* width: 100%; */
     }
 
     .inp{
@@ -153,11 +160,14 @@ a{
     }
 
     #imagem{
+        display: block;
         width: 25vw;
     }
 
     .campos {
+        /* margin-top: 45px; */
         width: 320px;
+        height: 100vh;
     }
     
     .campos .possui{
@@ -167,6 +177,10 @@ a{
 
     input{
         font-size: 20px;
+    }
+
+    #butao{
+        height: 45px;
     }
 
 }

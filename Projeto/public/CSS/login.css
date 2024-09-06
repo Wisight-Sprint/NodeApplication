@@ -121,7 +121,8 @@ a{
     body{
         overflow: auto;
         overflow-x: block;
-        background-repeat: round;
+        /* background-repeat: round; */
+        background-position: 30%;
     }
     
     .container { 
@@ -139,12 +140,13 @@ a{
         align-items: center;
     }
 
-    .textos h1{
-        color: #021526;
+    .textos p{
+        display: none;
     }
 
-    .textos .imagem {
-        filter: brightness(100);
+    .textos h1{
+        display: none;
+        /* color: #021526; */
     }
 
     .titulo{
@@ -153,6 +155,7 @@ a{
     }
 
     .textos .traco{
+        display: none;
         width: 70vw;
     }
 
@@ -183,6 +186,8 @@ a{
         width: 300px;
     }
     
-    
+    .voltar {
+        display: none;
+    } 
 
 }
