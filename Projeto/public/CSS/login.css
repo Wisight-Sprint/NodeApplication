@@ -109,3 +109,80 @@ a{
 .possui{
     display: flex;
 }
+
+#img {
+    width: 15vw;
+}
+
+/* RESPONSIVIDADE */
+
+@media only screen and (max-device-width: 425px) {
+
+    body{
+        overflow: auto;
+        overflow-x: block;
+        background-repeat: round;
+    }
+    
+    .container { 
+        width: 100%; 
+        height: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .textos {
+        color: white;
+        width: 320px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .textos h1{
+        color: #021526;
+    }
+
+    .textos .imagem {
+        filter: brightness(100);
+    }
+
+    .titulo{
+        font-size: 42px;
+        text-align: center;
+    }
+
+    .textos .traco{
+        width: 70vw;
+    }
+
+    #img{
+        width: 25vw;
+    }
+
+    input{
+        font-size: 20px;
+    }
+    
+    .campos {
+        width: 320px;
+        font-size: 25px;
+    }
+    
+    .campos .possui{
+        text-align: center;
+        width: 105%;
+        font-size: 20px;
+    }
+    
+    .inp{
+        text-align: center;
+    }
+
+    .input{
+        width: 300px;
+    }
+    
+    
+
+}

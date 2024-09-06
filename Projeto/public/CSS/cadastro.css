@@ -108,7 +108,7 @@ a{
     width: 15vw;
 }
 
-    /* responsividade */
+    /* RESPONSIVIDADE */
 
 @media only screen and (max-device-width: 425px) {
     
@@ -145,6 +145,7 @@ a{
 
     .inp{
         text-align: center;
+        font-size: 23px;
     }
 
     .input{
@@ -162,6 +163,10 @@ a{
     .campos .possui{
         text-align: center;
         width: 81%;
+    }
+
+    input{
+        font-size: 20px;
     }
 
 }
