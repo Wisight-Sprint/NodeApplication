@@ -102,3 +102,66 @@ a{
 .possui{
     display: flex;
 }
+
+
+#imagem{
+    width: 15vw;
+}
+
+    /* responsividade */
+
+@media only screen and (max-device-width: 425px) {
+    
+    body{
+        overflow: auto;
+        overflow-x: block;
+    }
+    
+    .container { 
+        width: 100%; 
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .textos .traco{
+        width: 70vw;
+    }
+
+    .textos{
+        width: 320px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    .textos h1{
+        font-size: 80px;
+    }
+
+    .textos p{
+        width: 100%;
+    }
+
+    .inp{
+        text-align: center;
+    }
+
+    .input{
+        width: 300px;
+    }
+
+    #imagem{
+        width: 25vw;
+    }
+
+    .campos {
+        width: 320px;
+    }
+    
+    .campos .possui{
+        text-align: center;
+        width: 81%;
+    }
+
+}
