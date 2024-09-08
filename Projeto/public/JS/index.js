@@ -8,6 +8,16 @@ window.onscroll = function () {
     }
 };
 
+window.onscroll = function () {
+    var navbar_responsiva = document.getElementById("navbar-responsiva");
+
+    if (window.scrollY > 50) {
+        navbar_responsiva.style = 'background-color: #021526';
+    } else {
+        navbar_responsiva.style = 'background-color: transparent';
+    }
+};
+
 // Função do slider de conteúdo do index
 let contador = 1;
 document.getElementById("radio1").checked = true;

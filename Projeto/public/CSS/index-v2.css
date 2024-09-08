@@ -426,12 +426,13 @@ nav>button:hover {
         top: 0;
         left: 0;
         width: 100vw;
-        background-color: #021526;
+        background-color: transparent;
         z-index: 10;
         display: flex;
         justify-content: space-evenly;
         padding-top: 15px;
         height: 80px;
+        transition: 1s;
     }
 
     .nav-responsiva img{
