@@ -7,8 +7,9 @@
     <title>Wisight</title>
     <link rel="stylesheet" href="CSS/index-v2.css">
     <link rel="shortcut icon" href="Assets/logo-sem-fundo.png" type="image/x-icon">
+    <script defer src="JS/index.js"></script>
 </head>
-<script src="JS/index.js"></script>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 </style>
@@ -16,22 +17,24 @@
 <body>
     <div class="img-responsiva-secao1">
     <header>
-        <nav class="nav-normal">
+        <nav id="navbar-normal" class="nav-normal">
             <img src="Assets/logo-sem-fundo.png" alt="">
             <button class="botao-focar">INÍCIO</button>
             <button class="botao-focar">SOLUÇÕES</button>
             <button class="botao-focar">VALORES</button>
             <button class="botao-focar">SOBRE NÓS</button>
+            <button id="logs" class="botao-focar">ENTRAR</button>
+            <button id="logs" class="botao-focar" style="margin-left: -40px;">CADASTRAR</button>
         </nav>
 
-        <div  class="nav-responsiva">
+        <div class="nav-responsiva">
             <div id="menu-button" class="botao-focar">MENU</div>
-            <!-- <div id="menu" class="opcoes-menu">
+            <div id="menu" class="opcoes-menu">
                 <div>INÍCIO</div>
                 <div>SOLUÇÕES</div>
                 <div>VALORES</div>
                 <div>SOBRE NÓS</div>
-            </div> -->
+            </div>
             <img src="Assets/logo-sem-fundo.png" alt="">
         </div>
     </header>
@@ -197,15 +200,3 @@
 </body>
 
 </html>
-<script>
-    var menu = document.getElementById("menu");
-    var menuButton = document.getElementById("menu-button");
-
-    menuButton.addEventListener("click", function () {
-        if (menu.style.display == "flex") {
-            menu.style.display = "none";
-        } else {
-            menu.style.display = "flex";
-        }
-    });
-</script>

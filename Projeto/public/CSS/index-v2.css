@@ -14,20 +14,14 @@ body {
     display: none;
 }
 
-nav{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
 a {
     text-decoration: none;
     color: #FFF;
 }
 
 nav {
-    z-index: 2;
     padding-top: 20px;
+    z-index: 2;
     background-color: #49688D;
     position: fixed;
     top: 0;
@@ -62,7 +56,6 @@ nav>button:hover {
 }
 
 .scrolled {
-    padding-top: 15px;
     transition: 2s;
     border-bottom: solid white 2px;
 
@@ -122,7 +115,6 @@ nav>button:hover {
     margin-left: 20px;
     border: 2px solid #49688D;
     display: none;
-    transition: 2s;
 }
 
 .botao-focar:hover,
