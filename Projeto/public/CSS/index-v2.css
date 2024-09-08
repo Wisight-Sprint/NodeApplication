@@ -137,9 +137,7 @@ nav>button:hover {
     width: 80%;
     height: 2px;
     background-color: #fff;
-    /* position: absolute; */
-    /* left: 10%; */
-    margin-left: 110px;
+    margin-left: 130px;
     margin-top: 50px;
 }
 
@@ -164,15 +162,23 @@ nav>button:hover {
     border-radius: 20px;
     color: #000;
     height: 200px;
-    width: 400px;
+    width: 370px;
     padding: 30px;
 }
 
+.card-solucoes img{
+    height: 100px;
+    width: 100px;
+}
 
 .card-solucoes span {
     font-size: 20px;
     font-weight: bold;
     text-align: end;
+}
+
+.card-solucoes p {
+    text-align: justify;
 }
 
 .alinhado {
@@ -190,27 +196,24 @@ nav>button:hover {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-left: 40px;
 }
+
 
 .fundo-azul {
     background-color: #03346E;
     background-attachment: fixed;
-
-    /* padding-bottom: 50px; */
     margin-top: 50px;
 }
 
 .parametros-slide {
-    /* width: 100%;
-    height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .slider {
-    /* margin: 0 auto; */
     margin-top: 50px;
     width: 800px;
     height: 400px;
@@ -340,7 +343,6 @@ nav>button:hover {
 }
 
 .rodape {
-    /* background-color: #021526; */
     background-color: #021526;
     height: 60vh;
     color: #fff;
@@ -405,8 +407,24 @@ nav>button:hover {
     font-size: 17px;
 }
 
+.container_informacoes_resp{
+    display: none;       
+}
+
+.linha-resp{
+    display: none;
+}
+
+.comentario .botao-focar{
+    display: none;
+}
+
 
 @media screen and (max-width: 414px){
+    body{
+        background-color: #021526;
+    }
+
     .nav-normal{
         display: none;
     }
@@ -414,11 +432,12 @@ nav>button:hover {
     .nav-responsiva{
         display: flex;
         justify-content: space-evenly;
+        margin-top: 30px;
     }
 
     .nav-responsiva img{
-        height: 70px;
-        width: 95px;
+        height: 60px;
+        width: 82px;
     }
 
     .nav-responsiva .botao-focar{
@@ -427,6 +446,8 @@ nav>button:hover {
         display: flex;
         justify-content: center;
         align-items: center;
+        /* border-radius: 20px;
+        border: solid 2px #fff; */
     }
 
     #menu {
@@ -458,6 +479,9 @@ nav>button:hover {
     .opcoes-menu{
         color: #021526;
     }
+    .secao1 img{
+        display: none;
+    }
 
     .img-responsiva-secao1{
         background-image: url(../Assets/img-resp.jpg);
@@ -467,15 +491,13 @@ nav>button:hover {
         background-attachment: fixed;
         display: flex;
         flex-direction: column;
-        /* align-items: center; */
-        /* justify-content: center;  */
     }
     
     .secao1{
         margin: 0;
         text-align: center;
         margin-left: 100px;
-        margin-top: 30px; 
+        margin-top: -80px; 
         justify-content: center;
         align-items: center;
     }
@@ -512,7 +534,7 @@ nav>button:hover {
     }
 
     .secao2{
-        margin-left: -10px;
+        margin-left: -90px;
         text-align: center;
     }
     
@@ -520,25 +542,17 @@ nav>button:hover {
         margin: 0;
         font-size: 20px;
         width: 200px;
-        margin-left: -100px;
         margin-bottom: 10px;
-    }
-
-    .secao2 p{
-        margin: 0;
-        font-size: 12px;
-        width: 300px;
-        margin-left: -150px;    
     }
 
     .cards{
         display: block;
-        margin-left: 40px;
+        margin-left: 15px;
     }
 
     .card-solucoes{
-        height: 100px;
-        width: 200px;
+        height: 150px;
+        width: 250px;
         padding: 30px;
         margin-bottom: 20px;
         margin-left: 40px;
@@ -551,12 +565,35 @@ nav>button:hover {
     }
 
     .card-solucoes img{
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
     }
 
     .card-solucoes p{
-        font-size: 10px;
+        font-size: 13px;
+    }
+
+    .card-solucoes{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .alinhado{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .img-responsiva-secao2{
+        background-image: url(../Assets/img-resp.jpg);
+        height: 500px;
+        background-repeat: no-repeat;
+        background-size: cover; 
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
     }
 
     .slider{
@@ -641,45 +678,67 @@ nav>button:hover {
     }
 
     .container_informacoes{
-        width: 100px;
+        display: none;
+    }
+
+    .container_informacoes_resp{
         display: flex;
-        flex-direction: column;
+        flex-direction: column ;
+        justify-content: center;
         align-items: center;
     }
 
-    .container_informacoes h1{
-        font-size: 30px;
-        margin-bottom: 10px;
+    .info-rodape{
+        display: flex;
+        flex-direction: row;
+        font-weight: 150;
+        /* margin-bottom: 10px; */
     }
 
-    .container_informacoes p{
-        font-size: 15px;
-        margin-bottom: 10px;
+    .info{
+        margin-right: 20px;
+    }
+
+    .info2{
+        text-align: end;
+    }
+
+    .linha-resp{
+        display: flex;
+        width: 80%;
+        height: 1px;
+        background-color: #fff;
+        /* margin-top: 10px; */
     }
 
     .comentario{
-        width: 100px;
+        width: 300px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* margin-top: 20px; */
+        font-size: 20px;
+        margin-left: -2px;
     }
 
     .comentario textarea{
-        min-width: 300px;
+        min-width: 250px;
         min-height: 100px;
-        max-width: 300px;
+        max-width: 250px;
         max-height: 100px;
         border: none;
+        border-radius: 20px;
     }
 
-    .comentario h4{
-        font-size: 20px;
-        text-align: justify;
-        width: 100px;
-    }
-    
-    .alinhado{
-        display: flex;
+    .comentario button{
+        display: none;
     }
 
+    .comentario .botao-focar{
+        display: block;
+        font-size: 15px;
+        padding: 15px;
+        margin-top: 10px;
+        margin-left: -5px;
+    }
 }
