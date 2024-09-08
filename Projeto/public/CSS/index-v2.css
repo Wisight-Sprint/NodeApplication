@@ -496,8 +496,8 @@ nav>button:hover {
     .secao1{
         margin: 0;
         text-align: center;
-        margin-left: 100px;
-        margin-top: -80px; 
+        margin-left: 110px;
+        margin-top: -90px; 
         justify-content: center;
         align-items: center;
     }
@@ -521,11 +521,12 @@ nav>button:hover {
     }
 
     .secao1 p{
-        font-size: 12px;
+        font-size: 14px;
         text-align: justify;
     }
 
     .entrar-cadastrar{
+        margin-left: -20px;
         font-size: 10px;
     }
 
