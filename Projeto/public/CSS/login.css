@@ -10,7 +10,6 @@ body{
 
 
 .container{
-    margin-top: 10vh;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -32,7 +31,7 @@ body{
 .textos .traco{
     display: flex;
     border-bottom: #021526 solid;
-    width: 20vw;
+    width: 32vw;
 }
 
 .textos .imagem{
@@ -187,8 +186,8 @@ a{
         width: 300px;
     }
     
-    .voltar {
+    /* .voltar {
         display: none;
-    } 
+    }  */
 
 }

@@ -16,38 +16,38 @@
 
 <body>
     <div class="img-responsiva-secao1">
-    <header>
-        <nav id="navbar-normal" class="nav-normal">
-            <img src="Assets/logo-sem-fundo.png" alt="">
-            <button class="botao-focar">INÍCIO</button>
-            <button class="botao-focar">SOLUÇÕES</button>
-            <button class="botao-focar">VALORES</button>
-            <button class="botao-focar">SOBRE NÓS</button>
-            <button id="logs" class="botao-focar">ENTRAR</button>
-            <button id="logs" class="botao-focar" style="margin-left: -40px;">CADASTRAR</button>
-        </nav>
+        <header>
+            <nav id="navbar-normal" class="nav-normal">
+                <img src="Assets/logo-sem-fundo.png" alt="">
+                <button class="botao-focar"><a href="#secao1">INÍCIO</a></button>
+                <button class="botao-focar"><a href="#secao2">SOLUÇÕES</a></button>
+                <button class="botao-focar"><a href="#sobre">SOBRE NÓS</a></button>
+                <button class="botao-focar"><a href="#contato">CONTATO</a></button>
+                <button id="logs" class="botao-focar"><a href="login.html">ENTRAR</a></button>
+                <button id="logs" class="botao-focar" style="margin-left: -40px;"><a href="cadastro.html">CADASTRAR</a></button>
+            </nav>
 
-        <div id="navbar-responsiva" class="nav-responsiva">
-            <div id="menu-button" class="botao-focar">MENU</div>
-            <div id="menu" class="opcoes-menu">
-                <div>INÍCIO</div>
-                <div>SOLUÇÕES</div>
-                <div>VALORES</div>
-                <div>SOBRE NÓS</div>
+            <div id="navbar-responsiva" class="nav-responsiva">
+                <div id="menu-button" class="botao-focar">MENU</div>
+                <div id="menu" class="opcoes-menu">
+                    <div>INÍCIO</div>
+                    <div>SOLUÇÕES</div>
+                    <div>VALORES</div>
+                    <div>SOBRE NÓS</div>
+                </div>
+                <img src="Assets/logo-sem-fundo.png" alt="">
             </div>
-            <img src="Assets/logo-sem-fundo.png" alt="">
-        </div>
-    </header>
+        </header>
 
-    <div class="secao1">
-        <div class="texto-alinhado">
-            <span class="logo">WISIGHT</span> <br>
-            <span class="slogan"><i>SEU FUTURO, <br> NOSSOS DADOS!</i></span>
+        <div id="secao1" class="secao1">
+            <div class="texto-alinhado">
+                <span class="logo">WISIGHT</span> <br>
+                <span class="slogan"><i>SEU FUTURO, <br> NOSSOS DADOS!</i></span>
 
-                    <p>Na Wisight, nossa missão é converter dados em insights poderosos e decisões estratégicas.
-                        Com integridade e inovação como pilares,oferecemos soluções precisas e transparentes para
-                        impulsionar o sucesso dos nossos clientes.
-                        Junte-se a nós e descubra como podemos transformar o futuro dos seus negócios.</p>
+                <p>Na Wisight, nossa missão é converter dados em insights poderosos e decisões estratégicas.
+                    Com integridade e inovação como pilares,oferecemos soluções precisas e transparentes para
+                    impulsionar o sucesso dos nossos clientes.
+                    Junte-se a nós e descubra como podemos transformar o futuro dos seus negócios.</p>
 
                 <div class="entrar-cadastrar">
                     <a href="./login.html">
@@ -58,15 +58,15 @@
                     </a>
                 </div>
             </div>
-            
+
             <img src="Assets/imagem1-secao1.png" alt="">
         </div>
-    
+
     </div>
 
-        <div class="linha"></div>
+    <div class="linha"></div>
 
-    <div class="secao2">
+    <div id="secao2" class="secao2">
         <div class="explicacao">
             <h2>SOLUÇÕES A PARTIR DE DADOS!</h2>
         </div>
@@ -100,9 +100,10 @@
             <p>Ao final, o cliente não apenas verá uma melhora significativa em sua eficiência operacional, mas também
                 obterá um aumento expressivo em sua qualidade, assegurando um retorno sólido sobre o investimento.</p>
         </div>
-    </div>
+            
+    </div>
 
-    <div class="img-responsiva-secao2">
+    <div id="sobre" class="img-responsiva-secao2">
         <div class="parametros-slide">
             <div class="slider">
                 <div class="slides">
@@ -111,24 +112,24 @@
                     <input type="radio" name="radio-btn" id="radio2">
                     <input type="radio" name="radio-btn" id="radio3">
                     <input type="radio" name="radio-btn" id="radio4">
-    
+
                     <!-- Slides -->
                     <div class="slide first">
                         <img src="Assets/primeira-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/segunda-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/terceira-slide.jpg" alt="">
                     </div>
-    
+
                     <div class="slide">
                         <img src="Assets/quarta-slide.jpg" alt="">
                     </div>
-    
+
                     <!-- Navegação automática -->
                     <div class="nav-auto">
                         <div class="navigation-btn1"></div>
@@ -136,7 +137,7 @@
                         <div class="navigation-btn3"></div>
                         <div class="navigation-btn4"></div>
                     </div>
-    
+
                 </div>
                 <!-- Navegação manual -->
                 <div class="nav-manual">
@@ -145,14 +146,18 @@
                     <label for="radio3" class="manual-btn"></label>
                     <label for="radio4" class="manual-btn"></label>
                 </div>
-    
+
             </div>
         </div>
-    
-        <div class="linha"></div>
+        <div class="div_linha">
+            <div class="linha"></div>
+        </div>
         <div class="sobre-nos">
-            <h1>CONHEÇA A<br> WISIGHT!</h1>    
-            <p>Somos uma empresa de consultoria criada a fim de sanar dores e problemas encontrados com base na análise de sistemas. Nosso trabalho é encontrar soluções e proporcionar o melhor serviço para clientes, desenvolvendo sistemas personalizados e com arquitetura e design simples para clientes de diversos ramos empresariais.</p>
+            <h1>CONHEÇA A<br> WISIGHT!</h1>
+            <p>Somos uma empresa de consultoria criada a fim de sanar dores e problemas encontrados com base na análise
+                de sistemas. Nosso trabalho é encontrar soluções e proporcionar o melhor serviço para clientes,
+                desenvolvendo sistemas personalizados e com arquitetura e design simples para clientes de diversos ramos
+                empresariais.</p>
         </div>
     </div>
 
@@ -175,9 +180,9 @@
                 <div class="info2">
                     <p>wisight@email.com.br</p>
                     <p>(11)98765-4321</p>
-                </div>  
+                </div>
             </div>
-            
+
         </div>
 
         <div class="map">
@@ -187,9 +192,9 @@
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
-        
+
         <div class="linha-resp"></div>
-        
+
         <div class="comentario">
             <h4>Mande-nos uma mensagem!</h4>
             <textarea placeholder="Digite aqui..."></textarea>

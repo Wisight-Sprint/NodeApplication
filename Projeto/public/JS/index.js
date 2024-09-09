@@ -6,9 +6,7 @@ window.onscroll = function () {
     } else {
         navbar.classList.remove("scrolled");
     }
-};
 
-window.onscroll = function () {
     var navbar_responsiva = document.getElementById("navbar-responsiva");
 
     if (window.scrollY > 50) {
