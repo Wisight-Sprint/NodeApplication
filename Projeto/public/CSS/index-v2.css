@@ -103,7 +103,7 @@ nav>button:hover {
 }
 
 .botao-focar {
-    background-color: transparent   ;
+    background-color: transparent;
     font-size: 1.5em;
     padding: 20px;
     margin-left: 20px;
@@ -421,6 +421,10 @@ nav>button:hover {
 
 
 @media screen and (max-width: 414px) {
+    html {
+        overflow-x: hidden;
+    }
+
     body {
         background-color: #021526;
     }
@@ -437,7 +441,7 @@ nav>button:hover {
         background-color: transparent;
         z-index: 10;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-around;
         padding-top: 15px;
         height: 80px;
         transition: 1s;
@@ -468,7 +472,7 @@ nav>button:hover {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-left: -31.5vw;
+        margin-left: -39.5vw;
         margin-top: 7vh;
         flex-direction: column;
         justify-content: space-evenly;
@@ -699,7 +703,7 @@ nav>button:hover {
         display: flex;
         flex-direction: row;
         font-weight: 150;
-        /* margin-bottom: 10px; */
+        margin-top: 80px;
     }
 
     .info {
@@ -745,7 +749,7 @@ nav>button:hover {
         display: block;
         font-size: 15px;
         padding: 15px;
-        margin-top: 10px;
+        margin-top: 20px;
         margin-left: -5px;
     }
 }
