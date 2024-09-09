@@ -62,7 +62,7 @@ public class Main {
                 }
             } else {
                 System.out.println("Falha na autenticação. Número de tentativas excedidas. O programa será finalizado...");
-                continuar = false;w
+                continuar = false;
             }
         } while (continuar);
     }
