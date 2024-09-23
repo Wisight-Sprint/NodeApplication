@@ -111,7 +111,8 @@ a {
 
 /* RESPONSIVIDADE */
 
-@media only screen and (max-device-width: 425px) {
+/* para celulares com o tamanho na média*/
+@media only screen and (max-device-width: 600px) {
 
     body {
         overflow-x: none;
@@ -121,7 +122,7 @@ a {
     .container {
         margin-top: 10vh;
         width: 100%;
-        height: 80vh;
+        max-height: 80vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -188,3 +189,87 @@ a {
     width: 120px;
     height: 40px;
 }
+
+/* para celulares menores que a média*/
+@media only screen and (max-device-height: 667px) and (max-device-width: 600px) {
+
+    body {
+        overflow-x: none;
+        overflow-y: none;
+    }
+
+    .container {
+        margin-top: 5vh;
+        width: 100%;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .textos .traco {
+        display: none;
+    }
+
+    .textos {
+        width: 320px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* .voltar {
+        display: none;
+    } */
+
+    .textos h1 {
+        display: none;
+        /* font-size: 80px; */
+    }
+
+    .textos p {
+        display: none;
+        /* width: 100%; */
+    }
+
+    .inp {
+        text-align: center;
+        font-size: 23px;
+    }
+
+    .input {
+        width: 300px;
+        height: 35px;
+    }
+
+    #imagem {
+        margin: 0;
+        margin-top: 50px;
+        display: block;
+        width: 25vw;
+    }
+
+    .campos {
+        /* margin-top: 45px; */
+        width: 320px;
+        height: 100vh;
+    }
+
+    .campos .possui {
+        text-align: center;
+        width: 81%;
+    }
+
+    input {
+        font-size: 20px;
+    }
+
+}
+
+#butao {
+    width: 120px;
+    height: 40px;
+}
+
+

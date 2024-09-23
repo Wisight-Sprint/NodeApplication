@@ -1,15 +1,15 @@
-body{
+body {
     background-color: #6EACDA;
     font-family: "Josefin Sans", sans-serif;
     color: whitesmoke;
     background-image: url(../Assets/bolinhas\ do\ fundo.svg);
     background-repeat: no-repeat;
-    overflow: hidden;
-    
+    overflow-x: none;
+    overflow-y: none;
+
 }
 
-
-.container{
+.container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -28,18 +28,18 @@ body{
     text-align: end;
 }
 
-.textos .traco{
+.textos .traco {
     display: flex;
     border-bottom: #021526 solid;
     width: 32vw;
 }
 
-.textos .imagem{
+.textos .imagem {
     display: flex;
     justify-content: flex-end;
 }
 
-.titulo{
+.titulo {
     font-size: 40px;
     display: flex;
     text-align: end;
@@ -47,9 +47,9 @@ body{
 
 .voltar {
     position: absolute;
-    top: 10px; 
-    left: 10px; 
-    z-index: 10; 
+    top: 10px;
+    left: 10px;
+    z-index: 10;
 }
 
 .campos {
@@ -63,7 +63,7 @@ body{
 }
 
 
-.campos button{
+.campos button {
     font-family: "Josefin Sans", sans-serif;
     font-size: large;
     color: #021526;
@@ -76,9 +76,9 @@ body{
     margin-right: auto;
     transition: 1s;
     border: 2px solid #021526;
-}   
+}
 
-.campos button:hover{
+.campos button:hover {
     cursor: pointer;
     transition: 1s;
     border: 2px solid #ffffff;
@@ -87,26 +87,26 @@ body{
     color: #ffffff;
 }
 
-.campos .possui{
+.campos .possui {
     display: flex;
     text-align: start;
     justify-content: flex-start;
     width: 100%;
 }
 
-a{
+a {
     text-decoration: none;
     color: white;
 }
 
-.input{
+.input {
     border-radius: 16px;
     border: none;
     height: 40px;
     width: 30vw;
 }
 
-.possui{
+.possui {
     display: flex;
 }
 
@@ -116,20 +116,25 @@ a{
 
 /* RESPONSIVIDADE */
 
-@media only screen and (max-device-width: 425px) {
+/*Para celulares compridos e largura padrão*/
+@media only screen and (max-device-width: 600px) and (min-device-height: 800px){
 
-    body{
-        overflow: auto;
-        overflow-x: block;
+    body {
+        overflow-y: none;
+        overflow-x: none;
+        height: 90vh;
+        width: 100%;
         /* background-repeat: round; */
         background-position: 30%;
+
     }
-    
+
     .container {
+       align-items: center;
         margin-top: 10vh;
-        width: 100%; 
-        height: 100%;
         display: flex;
+        width: 100%;
+        height: 100%;
         flex-direction: column-reverse;
     }
 
@@ -141,54 +146,137 @@ a{
         align-items: center;
     }
 
-    .textos p{
+    .textos p {
         display: none;
     }
 
-    .textos h1{
+    .textos h1 {
         display: none;
         /* color: #021526; */
     }
 
-    .titulo{
+    .titulo {
         font-size: 42px;
         text-align: center;
     }
 
-    .textos .traco{
+    .textos .traco {
         display: none;
         width: 70vw;
     }
 
-    #img{
+    #img {
         width: 25vw;
     }
 
-    input{
+    input {
         font-size: 20px;
     }
-    
+
     .campos {
         width: 320px;
         font-size: 25px;
     }
-    
-    .campos .possui{
+
+    .campos .possui {
         text-align: center;
         width: 105%;
         font-size: 20px;
     }
-    
-    .inp{
+
+    .inp {
         text-align: center;
     }
 
-    .input{
+    .input {
         width: 300px;
     }
-    
+
     /* .voltar {
         display: none;
     }  */
-
 }
+
+/*Para celulares com largura padrão e comprimento padrão*/
+    @media only screen and (max-device-width: 640px){
+
+        body {
+            overflow-y: none;
+            overflow-x: none;
+            height: 90vh;
+            width: 100%;
+            /* background-repeat: round; */
+            background-position: 30%;
+    
+        }
+    
+        .container {
+           align-items: center;
+            margin-top: 10vh;
+            width: 100%;
+            height: 100%;
+            flex-direction: column-reverse;
+        }
+    
+        .textos {
+            color: white;
+            width: 320px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+        }
+    
+        .textos p {
+            display: none;
+            margin: 0;
+        }
+    
+        .textos h1 {
+            display: none;
+            /* color: #021526; */
+            margin: 0;
+        }
+    
+        .titulo {
+            font-size: 42px;
+            text-align: center;
+        }
+    
+        .textos .traco {
+            display: none;
+            width: 70vw;
+        }
+    
+        #img {
+            width: 25vw;
+        }
+    
+        input {
+            font-size: 20px;
+        }
+    
+        .campos {
+            width: 320px;
+            font-size: 25px;
+        }
+    
+        .campos .possui {
+            text-align: center;
+            width: 105%;
+            font-size: 20px;
+        }
+    
+        .inp {
+            text-align: center;
+        }
+    
+        .input {
+            width: 300px;
+        }
+    
+        /* .voltar {
+            display: none;
+        }  */
+    
+    }
+

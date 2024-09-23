@@ -140,7 +140,7 @@ nav>button:hover {
     }
 }
 
-.secao2 {
+.explicacao {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +151,7 @@ nav>button:hover {
     font-size: 21px;
 }
 
-.secao2 p {
+.explicacao p {
     font-weight: 200;
     font-size: 18px;
 }
@@ -420,8 +420,10 @@ nav>button:hover {
 }
 
 
-@media screen and (max-width: 414px) {
+@media screen and (max-device-width: 600px) {
     html {
+        margin: 0;
+        padding: 0;
         overflow-x: hidden;
     }
 
@@ -545,28 +547,33 @@ nav>button:hover {
     }
 
     .secao2 {
-        margin-left: -90px;
+        display: flex;
+        justify-content: center;
         text-align: center;
+        align-items: center;
     }
 
     .secao2 h2 {
-        margin: 0;
         font-size: 20px;
         width: 200px;
-        margin-bottom: 10px;
+        display: flex;
+        text-align: center;
+    }
+
+    .explicacao{
+        display: none;
     }
 
     .cards {
-        display: block;
-        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
     }
 
     .card-solucoes {
         height: 150px;
         width: 250px;
-        padding: 30px;
         margin-bottom: 20px;
-        margin-left: 40px;
     }
 
     .card-solucoes span {
@@ -578,6 +585,7 @@ nav>button:hover {
     .card-solucoes img {
         width: 70px;
         height: 70px;
+         margin: 0 auto;
     }
 
     .card-solucoes p {
