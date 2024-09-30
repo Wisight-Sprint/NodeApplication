@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navLeft"></div>
+        <div class="kpiContainer">
+            <div class="kpi"></div>
+            <div class="kpi"></div>
+            <div class="kpi"></div>
+            <div class="kp"></div>
+        </div>
+
+        <div class="dash1">
+
+            <div>
+                <canvas id="mixedChart"></canvas>
+            </div>
+
+
+        </div>
+
+        <div class="dash2">
+
+            <canvas id="PieChart"></canvas>
+
+        </div>
+
+    </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    const ctx = document.getElementById('mixedChart');
+
+    const CHART1 = new Chart(ctx, {
+        data: {
+            datasets: [{
+                type: 'bar',
+                label: 'Bar Dataset',
+                data: [10, 20, 30, 40]
+            }, {
+                type: 'line',
+                label: 'Line Dataset',
+                data: [50, 50, 50, 50],
+            }],
+            labels: ['January', 'February', 'March', 'April']
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'texto teste',
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('PieChart');
+
+    const PieChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Vermelho', 'Azul', 'Amarelo', 'Verde', 'Roxo'],
+            datasets: [{
+                label: 'Cores favoritas',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            }
+        }
+    });
+
+</script>
