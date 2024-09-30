@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +10,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
     </style>
 </head>
+
 <body>
-    
+
 
     <div class="container">
 
@@ -19,31 +21,86 @@
                 <div class="seta"><img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px;"></div>
             </a>
         </div>
-        
-                <div class="campos">
-                    <div class="inp">
-                        <p>Insira o Email:</p>
-                        <input type="text"class="input">
-                        <p>Insira sua senha:</p>
-                        <input type="text"class="input">
-                    </div>
-                    <p class="possui">Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a></p>
-                    <button>Logar</button>
-                </div>
+
+        <div class="campos">
+            <div class="inp">
+                <p>Insira o Email:</p>
+                <input type="text" class="input" id="imp_email">
+                <p>Insira sua senha:</p>
+                <input type="text" class="input" id="imp_senha">
+            </div>
+            <p class="possui">Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a></p>
+            <button onclick="autenticar()">Logar</button>
+        </div>
 
         <div class="textos">
             <div class="titulo">
                 <h1>BEM VINDO DE VOLTA!</h1>
             </div>
             <div class="traco"></div>
-            <p>Agradecemos o seu retorno! Para nós significa muito a sua experiência com nossos serviços, deixe seu feedback na tela inicial</p>
+            <p>Agradecemos o seu retorno! Para nós significa muito a sua experiência com nossos serviços, deixe seu
+                feedback na tela inicial</p>
             <div class="imagem">
                 <img id="img" src="./Assets/logo sem fundo azul.svg" alt="">
             </div>
         </div>
-        
+
 
     </div>
 
 </body>
+
 </html>
+<script>
+    function autenticar() {
+
+        let emailFuncionario = imp_email.value;
+        let senha = imp_senha.value;
+
+        /*
+        validações
+        
+        if (emailVar == "" || senhaVar == "") {
+            return false;
+            alert(`Erro exemplo`)
+        }
+        */
+
+        fetch("/users/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailFuncionario,
+                senhaServer: senha
+            })
+
+        }).then(res => {
+            console.log("Response .then autenticar: " + res)
+
+            if (res.ok) {
+                res.json().then(json => {
+                    sessionStorage.EMAIL_USUARIO = json.emailFuncionario;
+                    sessionStorage.NOME_USUARIO = json.nomeFuncionario;
+                    sessionStorage.ID_USUARIO = json.idFuncionario;
+
+                    setTimeout(() => {
+                        window.location = "caminhoPaginaLogado";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+                res.text().then(texto => {
+                    throw "Houve um erro ao autenticar" + texto;
+                });
+            }
+
+        }).catch((res) => {
+            console.log("#ERRO, autenticar caiu no .catch: " + res);
+        });
+
+        return false;
+    }
+</script>
