@@ -7,7 +7,6 @@ function cadastrarUsuario(req, res) {
     let senha = req.body.senhaServer;
 
 
-    // validações
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
