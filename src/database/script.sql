@@ -54,6 +54,7 @@ create table if not exists Wisight.vitima (
     references relatorio (idRelatorio)
 );
 
+<<<<<<< HEAD
 create table if not exists Wisight.vitima (
     idVitima int,
     idade int,
@@ -67,3 +68,5 @@ create table if not exists Wisight.vitima (
         foreign key (fkRelatorio, fkDepartamento)
         references relatorio (idRelatorio, fkDepartamento)
 );
+=======
+>>>>>>> giovanni

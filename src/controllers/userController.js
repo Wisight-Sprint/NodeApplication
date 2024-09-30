@@ -51,9 +51,9 @@ function autenticar(req, res) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
                     console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
                     res.json({
-                        idUsuario: resultadoAutenticar[0].idUsuario,
-                        nome: resultadoAutenticar[0].nome,
-                        email: resultadoAutenticar[0].email
+                        idFuncionario: resultadoAutenticar[0].idFuncionario,
+                        nomeFuncionario: resultadoAutenticar[0].nomeFuncionario,
+                        emailFuncionario: resultadoAutenticar[0].emailFuncionario
                     })
                 }
             ).catch(
