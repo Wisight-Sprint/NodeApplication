@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="principalContainer">
+
+        <div class="containerNav">
+            <div class="navLeft"></div>
+        </div>
+
+
+        <div class="containerRight">
+
+            <div class="welcome">
+                Bem-vindo,<br>
+                Undefined
+            </div>
+
+            <div class="chartsContainer">
+
+                <div class="charts1Container">
+
+                    <div class="kpiContainer">
+                        <div class="kpi">
+                            <h1 id="h1AgesIncidents">27</h1>
+                            <span>Idade com mais <br> incidentes </span>
+                        </div>
+
+                        <div class="kpi">
+                            <h1 id="h1BodyCamera">38%</h1>
+                            <span>Taxa de oficiais com <br> câmera corporal</span>
+                        </div>
+
+                        <div class="kpi">
+                            <h1 id="h1MentalDisorders">60%</h1>
+                            <span>Taxa de vítimas com <br> transtronos mentais</span>
+                        </div>
+                        <div class="kpi">
+                            <h1 id="h1Gender">Masc</h1>
+                            <span>Gênero de vítimas com <br> mais incidentes</span>
+                        </div>
+                    </div>
+
+                    <div class="chart1">
+
+                        <div class="graphic-size1"><canvas id="mixedChart"></canvas></div>
+
+                    </div>
+                </div>
+
+                <div class="chart2">
+                    <div class="graphic-size2"> <canvas id="PieChart"></canvas></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    const ctx = document.getElementById('mixedChart');
+
+    const CHART1 = new Chart(ctx, {
+        data: {
+            datasets: [{
+                type: 'bar',
+                label: 'Bar Dataset',
+                data: [10, 20, 30, 40]
+            }, {
+                type: 'line',
+                label: 'Line Dataset',
+                data: [50, 50, 50, 50],
+            }],
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago']
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Quantidade de Vítimas por mês',
+                    font: {
+                        size: 22,
+                        weight: 'bold',
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 20,
+                    },
+                    color: '#000',
+                }
+            }
+        }
+    });
+
+
+    const ctx2 = document.getElementById('PieChart');
+
+    const PieChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Vermelho', 'Azul', 'Amarelo', 'Verde', 'Roxo'],
+            datasets: [{
+                label: 'Cores favoritas',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            }
+        }
+    });
+</script>

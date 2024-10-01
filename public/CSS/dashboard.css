@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+}
+
+.principalContainer {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.containerNav {
+    display: flex;
+    padding-right: 5px;
+    margin-right: 25px;
+}
+
+.navLeft {
+    justify-content: left;
+    width: 125px;
+    background-color: #030F1A;
+}
+
+.welcome {
+    margin-top: 15px;
+    font-family: sans-serif;
+    color: #FFF;
+    font-size: 30px;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.containerRight {
+    display: flex;
+    margin: left;
+    flex-direction: column;
+}
+
+.chartsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.charts1Container{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.kpiContainer {
+    display: flex;
+    flex-direction: line;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.kpi {
+    display: flex;
+    width: 185px;
+    height: 128px;
+    background-color: #FFF;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.kpi h1 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.chart1 {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    width: 818px;
+    height: 440px;
+    border-radius: 15px;
+}
+
+.chart2 {
+    background-color: white;
+    width: 500px;
+    height: 580px;
+    border-radius: 15px;
+    margin-left: 25px;
+}
+
+.graphic-size1{
+    width: 714px;
+    height: 400px;
+}
+
+.graphic-size2{
+    width: 300px;
+    height: 270px;
+}
+
+.pieChart {
+   
+}
+
+.mixedChart {
+
+}
