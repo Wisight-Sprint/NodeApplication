@@ -33,7 +33,7 @@ function cadastrarUsuario() {
 // fetch autenticar
 function autenticar() {
 
-    let email = "email@teste.com";
+    let emailFuncionario = "email@teste.com";
     let senha = "senhateste";
 
     /*
@@ -45,13 +45,13 @@ function autenticar() {
     }
     */
 
-    fetch("/usuarios/autenticar", {
+    fetch("/users/autenticar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            emailServer: email,
+            emailServer: emailFuncionario,
             senhaServer: senha
         })
 

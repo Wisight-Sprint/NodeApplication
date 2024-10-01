@@ -80,6 +80,7 @@ nav>button:hover {
     padding-top: 10px;
     font-size: 20px;
     font-weight: 200;
+    text-align: justify;
 }
 
 .logo {
@@ -109,6 +110,18 @@ nav>button:hover {
     margin-left: 20px;
     border: 2px solid #49688D;
     transition: 0.5s;
+}
+
+.linha1{
+    background-color: #FFF;
+    height: 1px;
+    width: 85%;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.secao2 h2{
+    margin: 50px 0 50px 550px;
 }
 
 #logs {

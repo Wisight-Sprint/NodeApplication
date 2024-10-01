@@ -18,14 +18,13 @@ create table if not exists Wisight.departamento (
 );
 
 create table if not exists Wisight.usuario (
-  idFuncionario int,
+  idFuncionario int primary key auto_increment,
   nomeFuncionario varchar(45),
   emailFuncionario varchar(45),
   numeroFuncionario varchar(45),
   cargo varchar(45),
   senha varchar(45),
   fkDepartamento int,
-  primary key (idFuncionario),
     foreign key (fkDepartamento)
     references departamento (idDepartamento)
 );
@@ -52,18 +51,4 @@ create table if not exists Wisight.vitima (
   primary key (idVitima, fkRelatorio),
     foreign key (fkRelatorio)
     references relatorio (idRelatorio)
-);
-
-create table if not exists Wisight.vitima (
-    idVitima int,
-    idade int,
-    raca varchar(45),
-    genero varchar(45),
-    armamento varchar(45),
-    fkRelatorio int,
-    fkDepartamento int,
-    primary key (idVitima, fkRelatorio),
-    constraint fk_Vitima_Relatorio
-        foreign key (fkRelatorio, fkDepartamento)
-        references relatorio (idRelatorio, fkDepartamento)
 );
