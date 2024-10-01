@@ -7,7 +7,6 @@ function cadastrarUsuario(req, res) {
     let senha = req.body.senhaServer;
 
 
-    // validações
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
@@ -51,9 +50,9 @@ function autenticar(req, res) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
                     console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
                     res.json({
-                        idUsuario: resultadoAutenticar[0].idUsuario,
-                        nome: resultadoAutenticar[0].nome,
-                        email: resultadoAutenticar[0].email
+                        idFuncionario: resultadoAutenticar[0].idFuncionario,
+                        nomeFuncionario: resultadoAutenticar[0].nomeFuncionario,
+                        emailFuncionario: resultadoAutenticar[0].emailFuncionario
                     })
                 }
             ).catch(
