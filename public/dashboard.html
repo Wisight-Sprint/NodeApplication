@@ -10,32 +10,62 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="navLeft"></div>
-        <div class="kpiContainer">
-            <div class="kpi"></div>
-            <div class="kpi"></div>
-            <div class="kpi"></div>
-            <div class="kp"></div>
+    <div class="principalContainer">
+
+        <div class="containerNav">
+            <div class="navLeft"></div>
         </div>
 
-        <div class="dash1">
 
-            <div>
-                <canvas id="mixedChart"></canvas>
+        <div class="containerRight">
+
+            <div class="welcome">
+                Bem-vindo,<br>
+                Undefined
+            </div>
+
+            <div class="chartsContainer">
+
+                <div class="charts1Container">
+
+                    <div class="kpiContainer">
+                        <div class="kpi">
+                            <h1 id="h1AgesIncidents">27</h1>
+                            <span>Idade com mais <br> incidentes </span>
+                        </div>
+
+                        <div class="kpi">
+                            <h1 id="h1BodyCamera">38%</h1>
+                            <span>Taxa de oficiais com <br> câmera corporal</span>
+                        </div>
+
+                        <div class="kpi">
+                            <h1 id="h1MentalDisorders">60%</h1>
+                            <span>Taxa de vítimas com <br> transtronos mentais</span>
+                        </div>
+                        <div class="kpi">
+                            <h1 id="h1Gender">Masc</h1>
+                            <span>Gênero de vítimas com <br> mais incidentes</span>
+                        </div>
+                    </div>
+
+                    <div class="chart1">
+
+                        <div class="graphic-size1"><canvas id="mixedChart"></canvas></div>
+
+                    </div>
+                </div>
+
+                <div class="chart2">
+                    <div class="graphic-size2"> <canvas id="PieChart"></canvas></div>
+                </div>
             </div>
 
 
         </div>
-
-        <div class="dash2">
-
-            <canvas id="PieChart"></canvas>
-
-        </div>
-
     </div>
 
+    <div>
     </div>
 </body>
 
@@ -55,7 +85,7 @@
                 label: 'Line Dataset',
                 data: [50, 50, 50, 50],
             }],
-            labels: ['January', 'February', 'March', 'April']
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago']
         },
         options: {
             scales: {
@@ -70,11 +100,21 @@
                 },
                 title: {
                     display: true,
-                    text: 'texto teste',
+                    text: 'Quantidade de Vítimas por mês',
+                    font: {
+                        size: 22,
+                        weight: 'bold',
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 20,
+                    },
+                    color: '#000',
                 }
             }
         }
     });
+
 
     const ctx2 = document.getElementById('PieChart');
 
@@ -114,5 +154,4 @@
             }
         }
     });
-
 </script>
