@@ -1,113 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro Wisight</title>
-    <link rel="stylesheet" href="./css/cadastro.css">
+    <link rel="stylesheet" href="./css/cadastro.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
     </style>
+    <script src="JS/sessao.js"></script>
 </head>
 
-<body>
-
+  <body>
     <div class="container">
+      <div class="voltar">
+        <a href="./index.html">
+          <div class="seta">
+            <img
+              src="./Assets/seta (2).png"
+              alt=""
+              style="width: 50px; height: 50px"
+            />
+          </div>
+        </a>
+      </div>
 
-        <div class="voltar">
-            <a href="./index.html">
-                <div class="seta"><img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px;"></div>
-            </a>
+      <div class="textos">
+        <h1>SEJA BEM VINDO!</h1>
+        <div class="traco"></div>
+        <p>
+          É um prazer ter um novo usuário em nossa plataforma! Aproveite ao
+          máximo nossos serviços, aqui você voa com dados!
+        </p>
+        <div class="imagem">
+          <img id="imagem" src="./Assets/logo-sem-fundo.png" />
+        </div>
+      </div>
+
+      <div class="campos">
+        <div class="inp">
+          <p>Insira o seu nome:</p>
+          <input type="text" class="input" id="inpNome" />
+
+          <p>Insira um email para contato:</p>
+          <input type="text" class="input" id="inpEmail" />
+
+          <p>Insira uma senha:</p>
+          <input type="password" class="input" id="inpSenha" />
+
+          <p>Confirme sua senha:</p>
+          <input type="password" class="input" id="inpConfSenha" />
+        </div>
+        <div class="possui">
+          <p>Já possui conta? <a href="./login.html"> ‎Clique Aqui</a></p>
         </div>
 
-        <div class="textos">
-            <h1>SEJA BEM VINDO!</h1>
-            <div class="traco"></div>
-            <p>É um prazer ter um novo usuário em nossa plataforma! Aproveite ao máximo nossos serviços, aqui você voa
-                com dados!</p>
-            <div class="imagem">
-                <img id="imagem" src="./Assets/logo-sem-fundo.png">
-            </div>
-        </div>
-
-        <div class="campos">
-            <div class="inp">
-                <p>Insira o seu nome:</p>
-                <input type="text" class="input" id="inpNome">
-
-                <p>Insira um email para contato:</p>
-                <input type="text" class="input" id="inpEmail">
-
-                <p>Insira uma senha:</p>
-                <input type="password" class="input" id="inpSenha">
-
-                <p>Confirme sua senha:</p>
-                <input type="password" class="input" id="inpConfSenha">
-            </div>
-            <div class="possui">
-                <p>Já possui conta? <a href="./login.html"> ‎Clique Aqui</a></p>
-            </div>
-
-            <button id="butao" onclick="cadastrarUsuario()">Cadastrar</button>
-
-
-        </div>
-
-
+        <button id="butao" onclick="cadastrarUsuario()">Cadastrar</button>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
 
 <script>
+  function cadastrarUsuario() {
+    var nome = inpNome.value;
+    var email = inpEmail.value;
+    var senha = inpSenha.value;
+    var confSenha = inpConfSenha.value;
 
-function cadastrarUsuario() {
-
-    var nome = inpNome.value
-    var email = inpEmail.value
-    var senha = inpSenha.value
-    var confSenha = inpConfSenha.value
-
-    if(confSenha != senha) {
-        console.log("senhas diferentes")
+    if (confSenha != senha) {
+      console.log("senhas diferentes");
     } else if (senha == "" || nome == "" || senha == "" || confSenha == "") {
-        console.log("algum input esta vazio")
-    } else if (email.indexOf('@') == -1){
-        console.log("email não contem @")
+      console.log("algum input esta vazio");
+    } else if (email.indexOf("@") == -1) {
+      console.log("email não contem @");
     } else {
-        fetch("users/cadastrarUsuario", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                nomeServer: nome,
-                emailServer: email,
-                senhaServer: senha
-            })
-        }).then(res => {
-            console.log("Response .then cadastrarUsuario: " + res)
-            
-            if (res.ok) {
-                console.log("Cadastro realizado")
+      fetch("users/cadastrarUsuario", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          nomeServer: nome,
+          emailServer: email,
+          senhaServer: senha,
+        }),
+      })
+        .then((res) => {
+          console.log("Response .then cadastrarUsuario: " + res);
 
-                setTimeout(() => {
-                window.location = "login.html";
-                }, "2000");
+          if (res.ok) {
+            console.log("Cadastro realizado");
 
-            } else {
-                res.text().then(texto => {
-                    throw "Houve um erro ao tentar realizar o cadastro" + texto;
-                });
-            }
+            setTimeout(() => {
+              window.location = "login.html";
+            }, "2000");
+          } else {
+            res.text().then((texto) => {
+              throw "Houve um erro ao tentar realizar o cadastro" + texto;
+            });
+          }
         })
         .catch((res) => {
-            console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
+          console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
         });
     }
-
-}
-    
+  }
 </script>
