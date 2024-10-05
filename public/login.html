@@ -1,106 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Wisight</title>
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/login.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
     </style>
-</head>
+    <script src="JS/sessao.js"></script>
+  </head>
 
-<body>
-
-
+  <body>
     <div class="container">
+      <div class="voltar">
+        <a href="./index.html">
+          <div class="seta">
+            <img
+              src="./Assets/seta (2).png"
+              alt=""
+              style="width: 50px; height: 50px"
+            />
+          </div>
+        </a>
+      </div>
 
-        <div class="voltar">
-            <a href="./index.html">
-                <div class="seta"><img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px;"></div>
-            </a>
+      <div class="campos">
+        <div class="inp">
+          <p>Insira o Email:</p>
+          <input type="text" class="input" id="imp_email" />
+          <p>Insira sua senha:</p>
+          <input type="text" class="input" id="imp_senha" />
         </div>
+        <p class="possui">
+          Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a>
+        </p>
+        <button onclick="autenticar()">Logar</button>
+      </div>
 
-        <div class="campos">
-            <div class="inp">
-                <p>Insira o Email:</p>
-                <input type="text" class="input" id="imp_email">
-                <p>Insira sua senha:</p>
-                <input type="text" class="input" id="imp_senha">
-            </div>
-            <p class="possui">Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a></p>
-            <button onclick="autenticar()">Logar</button>
+      <div class="textos">
+        <div class="titulo">
+          <h1>BEM VINDO DE VOLTA!</h1>
         </div>
-
-        <div class="textos">
-            <div class="titulo">
-                <h1>BEM VINDO DE VOLTA!</h1>
-            </div>
-            <div class="traco"></div>
-            <p>Agradecemos o seu retorno! Para nós significa muito a sua experiência com nossos serviços, deixe seu
-                feedback na tela inicial</p>
-            <div class="imagem">
-                <img id="img" src="./Assets/logo sem fundo azul.svg" alt="">
-            </div>
+        <div class="traco"></div>
+        <p>
+          Agradecemos o seu retorno! Para nós significa muito a sua experiência
+          com nossos serviços, deixe seu feedback na tela inicial
+        </p>
+        <div class="imagem">
+          <img id="img" src="./Assets/logo sem fundo azul.svg" alt="" />
         </div>
-
-
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
+<script src="JS/sessao.js"></script>
 <script>
-    function autenticar() {
+  function autenticar() {
+    let email = imp_email.value;
+    let senha = imp_senha.value;
 
-        let emailFuncionario = imp_email.value;
-        let senha = imp_senha.value;
+    fetch("/users/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emailServer: email,
+        senhaServer: senha,
+      }),
+    })
+      .then((res) => {
+        console.log("Response .then autenticar: " + res);
 
-        /*
-        validações
-        
-        if (emailVar == "" || senhaVar == "") {
-            return false;
-            alert(`Erro exemplo`)
+        if (res.ok) {
+          res.json().then((json) => {
+            console.log(res);
+            sessionStorage.EMAIL_USUARIO = json.email_usuario;
+            sessionStorage.NOME_USUARIO = json.nome_usuario;
+            sessionStorage.USUARIO_ID = json.usuario_id;
+
+            setTimeout(() => {
+              window.location = "/dashboard.html";
+            }, 1000);
+          });
+        } else {
+          res.text().then((texto) => {
+            throw "Houve um erro ao autenticar" + texto;
+          });
         }
-        */
+      })
+      .catch((res) => {
+        console.log("#ERRO, autenticar caiu no .catch: " + res);
+      });
 
-        fetch("/users/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailFuncionario,
-                senhaServer: senha
-            })
-
-        }).then(res => {
-            console.log("Response .then autenticar: " + res)
-
-            if (res.ok) {
-                res.json().then(json => {
-                    sessionStorage.EMAIL_USUARIO = json.emailFuncionario;
-                    sessionStorage.NOME_USUARIO = json.nomeFuncionario;
-                    sessionStorage.ID_USUARIO = json.idFuncionario;
-
-                    setTimeout(() => {
-                        window.location = "caminhoPaginaLogado";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-
-            } else {
-                res.text().then(texto => {
-                    throw "Houve um erro ao autenticar" + texto;
-                });
-            }
-
-        }).catch((res) => {
-            console.log("#ERRO, autenticar caiu no .catch: " + res);
-        });
-
-        return false;
-    }
+    return false;
+  }
 </script>

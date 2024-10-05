@@ -1,11 +1,11 @@
-// var ambiente_processo = 'producao';
-const ambiente_processo = 'desenvolvimento';
+// const ambiente_processo = 'producao';
+const AMBIENTE_PROCESSO = "desenvolvimento";
 
-const caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
+const CAMINHO_ENV = AMBIENTE_PROCESSO === "producao" ? ".env" : ".env.dev";
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
 // A sintaxe do operador ternário é: condição ? valor_se_verdadeiro : valor_se_falso
 
-require("dotenv").config({ path: caminho_env });
+require("dotenv").config({ path: CAMINHO_ENV });
 
 const express = require("express");
 const cors = require("cors");
@@ -26,7 +26,7 @@ app.use(cors());
 app.use("/users", userRoute);
 
 app.listen(PORTA_APP, function () {
-    console.log(`
+  console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
     ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
