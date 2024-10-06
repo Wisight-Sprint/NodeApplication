@@ -18,9 +18,119 @@ body {
 }
 
 .navLeft {
-    justify-content: left;
     width: 125px;
     background-color: #030F1A;
+    flex-direction: column;
+    display: flex;
+
+    align-items: center;
+}
+
+.icon-logo {
+    width: 110px;
+    height: 76px;
+}
+
+.icon-home {
+    width: 54px;
+    height: 51px;
+}
+
+.icon-support {
+    width: 54px;
+    height: 54px;
+}
+
+.icon-add-user {
+    width: 54px;
+    height: 51px;
+}
+
+.icon-logout {
+    width: 50px;
+    height: 51px;
+    margin-left: 10px;
+}
+
+
+.container-logo{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-logo:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-home{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-home:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-support{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-support:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-add-user{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-add-user:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-logout{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ; 
+}
+
+.container-logout:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
 }
 
 .welcome {
@@ -43,7 +153,7 @@ body {
     flex-direction: row;
 }
 
-.charts1Container{
+.charts1Container {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -90,22 +200,60 @@ body {
     height: 580px;
     border-radius: 15px;
     margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.graphic-size1{
+.graphic-size1 {
     width: 714px;
     height: 400px;
 }
 
-.graphic-size2{
+.graphic-size2 {
     width: 300px;
     height: 270px;
+    margin-top: 40px;
+    margin-left: 23%;
 }
 
-.pieChart {
-   
+#h1BodyCamera {
+    color: #ffa600;
 }
 
-.mixedChart {
-
+#h1MentalDisorders {
+    color: #ff0000;
 }
+
+.inline-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.location {
+    display: flex;
+    margin-left: 71%;
+    margin-top: 30px;
+    font-family: sans-serif;
+    color: #FFF;
+    font-size: 22px;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.icon-location {
+    margin-top: 4px;
+    width: 40px;
+    height: 40px;
+}
+
+.city {
+    margin-top: 14px;
+}
+
+.custom-checkbox{
+    margin-right: 250px;
+}
+
+
+
