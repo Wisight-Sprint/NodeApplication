@@ -9,7 +9,7 @@
       @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
     </style>
     <script src="./js/sessao.js"></script>
-</head>
+  </head>
 
   <body>
     <div class="container">
@@ -42,6 +42,9 @@
           <p>Insira o seu nome:</p>
           <input type="text" class="input" id="inpNome" />
 
+          <p>Insira o nome do seu departamento</p>
+          <input type="text" class="input" id="inpDep" />
+
           <p>Insira um email para contato:</p>
           <input type="text" class="input" id="inpEmail" />
 
@@ -62,48 +65,95 @@
 </html>
 
 <script>
+  let departamentoId;
+
   function cadastrarUsuario() {
-    var nome = inpNome.value;
-    var email = inpEmail.value;
-    var senha = inpSenha.value;
-    var confSenha = inpConfSenha.value;
+    let nome = inpNome.value;
+    let email = inpEmail.value;
+    let senha = inpSenha.value;
+    let confSenha = inpConfSenha.value;
+    let departamento = inpDep.value;
+
+    departamento = departamento.toLowerCase();
+    departamento = departamento.replaceAll(" ", "");
 
     if (confSenha != senha) {
       console.log("senhas diferentes");
-    } else if (senha == "" || nome == "" || senha == "" || confSenha == "") {
+      return;
+    } else if (
+      senha == "" ||
+      nome == "" ||
+      senha == "" ||
+      confSenha == "" ||
+      departamento == ""
+    ) {
       console.log("algum input esta vazio");
-    } else if (email.indexOf("@") == -1) {
+      return;
+    } else if (email.indexOf("@") < 0) {
       console.log("email não contem @");
+      return;
     } else {
-      fetch("users/cadastrarUsuario", {
+      fetch("departamento/buscarDepartamentoPorNome", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          nomeServer: nome,
-          emailServer: email,
-          senhaServer: senha,
+          departamentoServer: departamento,
         }),
       })
         .then((res) => {
-          console.log("Response .then cadastrarUsuario: " + res);
-
+          console.log("caiu no .then buscarDepartamentoPorNome");
           if (res.ok) {
-            console.log("Cadastro realizado");
+            res.json().then((json) => {
+              console.log(json.departamento_id);
+              departamentoId = json.departamento_id;
+              console.log("teste id res" + departamentoId);
+            });
 
-            setTimeout(() => {
-              window.location = "login.html";
-            }, "2000");
+            fetch("users/cadastrarUsuario", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                nomeServer: nome,
+                emailServer: email,
+                senhaServer: senha,
+                departamentoIdServer: departamentoId,
+              }),
+            })
+              .then((res) => {
+                console.log("Response .then cadastrarUsuario: " + res);
+
+                if (res.ok) {
+                  console.log("Cadastro realizado");
+
+                  setTimeout(() => {
+                    window.location = "login.html";
+                  }, "2000");
+                } else {
+                  res.text().then((texto) => {
+                    throw "Houve um erro ao tentar realizar o cadastro" + texto;
+                  });
+                }
+              })
+              .catch((res) => {
+                console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
+              });
           } else {
             res.text().then((texto) => {
-              throw "Houve um erro ao tentar realizar o cadastro" + texto;
+              throw "departamento_id não encontrado" + texto;
             });
           }
         })
         .catch((res) => {
-          console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
+          console.log(
+            "erro caiu no .catch do buscarDepartamentoPorNome: " + res
+          );
         });
+
+      console.log("teste id vamo" + departamentoId);
     }
   }
 </script>

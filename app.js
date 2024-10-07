@@ -16,6 +16,7 @@ const HOST_APP = process.env.APP_HOST;
 const app = express();
 
 const userRoute = require("./src/routes/users");
+const departamentoRoute = require("./src/routes/departamento");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/users", userRoute);
+app.use("/departamento", departamentoRoute);
 
 app.listen(PORTA_APP, function () {
   console.log(`

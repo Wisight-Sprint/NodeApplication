@@ -5,9 +5,10 @@ function cadastrarUsuario(req, res) {
   let nome = req.body.nomeServer;
   let email = req.body.emailServer;
   let senha = req.body.senhaServer;
+  let departamentoId = req.body.departamentoIdServer;
 
   userModel
-    .cadastrarUsuario(nome, email, senha)
+    .cadastrarUsuario(nome, email, senha, departamentoId)
     .then(function (resultado) {
       res.json(resultado);
     })
@@ -32,6 +33,7 @@ function autenticar(req, res) {
         usuario_id: resultadoAutenticar[0].usuario_id,
         nome_usuario: resultadoAutenticar[0].nome,
         email_usuario: resultadoAutenticar[0].email,
+        departamento_usuario: resultadoAutenticar[0].departamento,
       });
     })
     .catch(function (erro) {
