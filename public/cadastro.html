@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro Wisight</title>
-    <link rel="stylesheet" href="./css/cadastro.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
-    </style>
-    <script src="./js/sessao.js"></script>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro Wisight</title>
+  <link rel="stylesheet" href="./css/cadastro.css" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+  </style>
+  <script src="./js/sessao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
-  <body>
-    <div class="container">
-      <div class="voltar">
-        <a href="./index.html">
-          <div class="seta">
-            <img
-              src="./Assets/seta (2).png"
-              alt=""
-              style="width: 50px; height: 50px"
-            />
-          </div>
-        </a>
-      </div>
-
-      <div class="textos">
-        <h1>SEJA BEM VINDO!</h1>
-        <div class="traco"></div>
-        <p>
-          É um prazer ter um novo usuário em nossa plataforma! Aproveite ao
-          máximo nossos serviços, aqui você voa com dados!
-        </p>
-        <div class="imagem">
-          <img id="imagem" src="./Assets/logo-sem-fundo.png" />
+<body>
+  <div class="container">
+    <div class="voltar">
+      <a href="./index.html">
+        <div class="seta">
+          <img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px" />
         </div>
-      </div>
+      </a>
+    </div>
 
-      <div class="campos">
-        <div class="inp">
-          <p>Insira o seu nome:</p>
-          <input type="text" class="input" id="inpNome" />
-
-          <p>Insira um email para contato:</p>
-          <input type="text" class="input" id="inpEmail" />
-
-          <p>Insira uma senha:</p>
-          <input type="password" class="input" id="inpSenha" />
-
-          <p>Confirme sua senha:</p>
-          <input type="password" class="input" id="inpConfSenha" />
-        </div>
-        <div class="possui">
-          <p>Já possui conta? <a href="./login.html"> ‎Clique Aqui</a></p>
-        </div>
-
-        <button id="butao" onclick="cadastrarUsuario()">Cadastrar</button>
+    <div class="textos">
+      <h1>SEJA BEM VINDO!</h1>
+      <div class="traco"></div>
+      <p>
+        É um prazer ter um novo usuário em nossa plataforma! Aproveite ao
+        máximo nossos serviços, aqui você voa com dados!
+      </p>
+      <div class="imagem">
+        <img id="imagem" src="./Assets/logo-sem-fundo.png" />
       </div>
     </div>
-  </body>
+
+    <div class="campos">
+      <div class="inp">
+        <p>Insira o seu nome:</p>
+        <input type="text" class="input" id="inpNome" />
+
+        <p>Insira um email para contato:</p>
+        <input type="text" class="input" id="inpEmail" />
+
+        <p>Insira uma senha:</p>
+        <input type="password" class="input" id="inpSenha" />
+
+        <p>Confirme sua senha:</p>
+        <input type="password" class="input" id="inpConfSenha" />
+      </div>
+      <div class="possui">
+        <p>Já possui conta? <a href="./login.html"> ‎Clique Aqui</a></p>
+      </div>
+
+      <button id="butao" onclick="cadastrarUsuario()">Cadastrar</button>
+    </div>
+  </div>
+</body>
+
 </html>
 
 <script>
@@ -68,13 +68,45 @@
     var senha = inpSenha.value;
     var confSenha = inpConfSenha.value;
 
+    if (nome.length < 4) {
+      inpNome.value = "";
+      inpNome.placeholder = `Nome inválido.`;
+      inpNome.style = `border: solid red 2px`;
+    }
+
+    if (email.indexOf("@") == -1 || email.length < 8) {
+      inpEmail.value = "";
+      inpEmail.placeholder = `Email precisa conter @.`;
+      inpEmail.style = `border: solid red 2px`;
+    }
+
+    if (senha.length < 8 || senha.indexOf("#", "@", "!", "$", "%", "&") == -1) {
+      inpSenha.value = "";
+      inpSenha.placeholder = `Necessário no mínimo 8 caracteres e pelo menos um caractere especial.`;
+      inpSenha.style = `border: solid red 2px`;
+    }
+    
     if (confSenha != senha) {
-      console.log("senhas diferentes");
-    } else if (senha == "" || nome == "" || senha == "" || confSenha == "") {
-      console.log("algum input esta vazio");
-    } else if (email.indexOf("@") == -1) {
-      console.log("email não contem @");
-    } else {
+      inpSenha.style = `border: solid red 2px`;
+      inpConfSenha.value = "";
+      inpConfSenha.placeholder = `As senhas precisam ser iguais.`;
+      inpConfSenha.style = `border: solid red 2px`;
+    }
+
+    if (nome.length >= 4 && email.indexOf("@") > -1 && email.length >= 8 && senha.length >= 8 && senha.indexOf("#", "@", "!", "$", "%", "&") > -1 && confSenha == senha) {
+      inpNome.value = "";
+      inpNome.placeholder = "";
+      inpNome.style = `border: none;`;
+      inpEmail.value = "";
+      inpEmail.placeholder = "";
+      inpEmail.style = `border: none;`;
+      inpConfSenha.value = "";
+      inpConfSenha.placeholder = "";
+      inpConfSenha.style = `border: none;`;
+      inpSenha.value = "";
+      inpSenha.placeholder = "";
+      inpSenha.style = `border: none;`;
+
       fetch("users/cadastrarUsuario", {
         method: "POST",
         headers: {
@@ -91,6 +123,15 @@
 
           if (res.ok) {
             console.log("Cadastro realizado");
+            Swal.fire({
+              position: "bottom-end",
+              icon: "success",
+              title: "Conta criada com sucesso",
+              background: "#1D1D1D",
+              color: "#FFF",
+              showConfirmButton: false,
+              timer: 1500
+            });
 
             setTimeout(() => {
               window.location = "login.html";

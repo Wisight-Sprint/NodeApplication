@@ -36,15 +36,6 @@ function autenticar() {
     let emailFuncionario = "email@teste.com";
     let senha = "senhateste";
 
-    /*
-    validações
-
-    if (emailVar == "" || senhaVar == "") {
-        return false;
-        alert(`Erro exemplo`)
-    }
-    */
-
     fetch("/users/autenticar", {
         method: "POST",
         headers: {

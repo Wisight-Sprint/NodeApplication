@@ -99,15 +99,27 @@ a {
     color: white;
 }
 
+.inp p {
+    padding-left: 15px;
+}
+
 .input {
     border-radius: 16px;
     border: none;
+    border-color: red;
     height: 40px;
     width: 30vw;
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+.input::placeholder {
+    color: red;
 }
 
 .possui {
     display: flex;
+    padding-left: 15px;
 }
 
 #img {
