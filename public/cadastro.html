@@ -41,6 +41,12 @@
         <p>Insira o seu nome:</p>
         <input type="text" class="input" id="inpNome" />
 
+        <p>Insira o nome do seu departamento</p>
+        <input type="text" class="input" id="inpDep" />
+
+        <p>Insira o número do seu distintivo</p>
+        <input type="text" class="input" id="inpNumero" />
+
         <p>Insira um email para contato:</p>
         <input type="text" class="input" id="inpEmail" />
 
@@ -62,11 +68,17 @@
 </html>
 
 <script>
-  function cadastrarUsuario() {
-    var nome = inpNome.value;
-    var email = inpEmail.value;
-    var senha = inpSenha.value;
-    var confSenha = inpConfSenha.value;
+  let departamentoId;
+
+  async function cadastrarUsuario() {
+    let nome = inpNome.value;
+    let email = inpEmail.value;
+    let senha = inpSenha.value;
+    let confSenha = inpConfSenha.value;
+    let departamento = inpDep.value;
+
+    departamento = departamento.toLowerCase();
+    departamento = departamento.replaceAll(" ", "");
 
     if (nome.length < 4) {
       inpNome.value = "";
@@ -85,7 +97,7 @@
       inpSenha.placeholder = `Necessário no mínimo 8 caracteres e pelo menos um caractere especial.`;
       inpSenha.style = `border: solid red 2px`;
     }
-    
+
     if (confSenha != senha) {
       inpSenha.style = `border: solid red 2px`;
       inpConfSenha.value = "";
@@ -93,7 +105,17 @@
       inpConfSenha.style = `border: solid red 2px`;
     }
 
-    if (nome.length >= 4 && email.indexOf("@") > -1 && email.length >= 8 && senha.length >= 8 && senha.indexOf("#", "@", "!", "$", "%", "&") > -1 && confSenha == senha) {
+    if (departamento == "") {
+      inpDep.placeholder = "Campo necessário para cadastro.";
+      inpDep.style = `border: solid red 2px`;
+    }
+
+    if (numero == "") {
+      inpNumero.placeholder = "Campo necessário para cadastro.";
+      inpNumero.style = `border: solid red 2px`;
+    }
+
+    if (nome.length >= 4 && email.indexOf("@") > -1 && email.length >= 8 && senha.length >= 8 && senha.indexOf("#", "@", "!", "$", "%", "&") > -1 && confSenha == senha && departamento != "" && numero != "") {
       inpNome.value = "";
       inpNome.placeholder = "";
       inpNome.style = `border: none;`;
@@ -106,45 +128,72 @@
       inpSenha.value = "";
       inpSenha.placeholder = "";
       inpSenha.style = `border: none;`;
+      inpDep.value = "";
+      inpDep.placeholder = "";
+      inpDep.style = `border: none;`;
+      inpNumero.value = "";
+      inpNumero.placeholder = "";
+      inpNumero.style = `border: none;`;
 
-      fetch("users/cadastrarUsuario", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          nomeServer: nome,
-          emailServer: email,
-          senhaServer: senha,
-        }),
-      })
-        .then((res) => {
-          console.log("Response .then cadastrarUsuario: " + res);
-
-          if (res.ok) {
-            console.log("Cadastro realizado");
-            Swal.fire({
-              position: "bottom-end",
-              icon: "success",
-              title: "Conta criada com sucesso",
-              background: "#1D1D1D",
-              color: "#FFF",
-              showConfirmButton: false,
-              timer: 1500
-            });
-
-            setTimeout(() => {
-              window.location = "login.html";
-            }, "2000");
-          } else {
-            res.text().then((texto) => {
-              throw "Houve um erro ao tentar realizar o cadastro" + texto;
-            });
-          }
-        })
-        .catch((res) => {
-          console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
+      try {
+        // Primeiro fetch para buscar o departamento
+        const responseDepartamento = await fetch("departamento/buscarDepartamentoPorNome", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            departamentoServer: departamento,
+          }),
         });
+        if (responseDepartamento.ok) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Conta criada com sucesso",
+            // background: "#1D1D1D",
+            background: "#FFF",
+            color: "#000",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          if (responseDepartamento.ok) {
+            const jsonDepartamento = await responseDepartamento.json();
+            departamentoId = jsonDepartamento.departamento_id;
+            console.log("Departamento encontrado, ID:", departamentoId);
+
+            // Segundo fetch para cadastrar o usuário
+            const responseUsuario = await fetch("users/cadastrarUsuario", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                nomeServer: nome,
+                emailServer: email,
+                senhaServer: senha,
+                departamentoIdServer: departamentoId,
+                numeroServer: numero
+              }),
+            });
+
+            if (responseUsuario.ok) {
+              console.log("Cadastro realizado com sucesso!");
+              setTimeout(() => {
+                window.location = "login.html";
+              }, 2000);
+            } else {
+              const errorText = await responseUsuario.text();
+              throw new Error("Erro ao cadastrar usuário: " + errorText);
+            }
+          } else {
+            const errorText = await responseDepartamento.text();
+            throw new Error("Erro ao buscar departamento: " + errorText);
+          }
+        }
+      } catch (error) {
+        console.log("Erro:", error);
+      }
     }
   }
 </script>
