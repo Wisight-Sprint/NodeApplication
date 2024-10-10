@@ -94,6 +94,36 @@ body {
     width: 100%;
 }
 
+.senhas {
+    display: flex;
+    flex-direction: row;
+    width: 103.4%;
+    height: 35px;
+    
+    .olho {
+        height: 40px;
+        background-color: #ffffff;
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: solid white 1px;
+    }
+
+    img {
+        margin-right: 10px;
+        width: 110%;
+    }
+
+    .input {
+        width: 200%;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
 a {
     text-decoration: none;
     color: white;
@@ -111,6 +141,7 @@ a {
     width: 30vw;
     padding-left: 15px;
     font-size: 18px;
+    outline: none;
 }
 
 .input::placeholder {
@@ -129,7 +160,7 @@ a {
 /* RESPONSIVIDADE */
 
 /*Para celulares compridos e largura padrão*/
-@media only screen and (max-device-width: 600px) and (min-device-height: 800px){
+@media only screen and (max-device-width: 600px) and (min-device-height: 800px) {
 
     body {
         overflow-y: none;
@@ -142,7 +173,7 @@ a {
     }
 
     .container {
-       align-items: center;
+        align-items: center;
         margin-top: 10vh;
         display: flex;
         width: 100%;
@@ -210,85 +241,84 @@ a {
 }
 
 /*Para celulares com largura padrão e comprimento padrão*/
-    @media only screen and (max-device-width: 640px){
+@media only screen and (max-device-width: 640px) {
 
-        body {
-            overflow-y: none;
-            overflow-x: none;
-            height: 90vh;
-            width: 100%;
-            /* background-repeat: round; */
-            background-position: 30%;
-    
-        }
-    
-        .container {
-           align-items: center;
-            margin-top: 10vh;
-            width: 100%;
-            height: 100%;
-            flex-direction: column-reverse;
-        }
-    
-        .textos {
-            color: white;
-            width: 320px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-        }
-    
-        .textos p {
-            display: none;
-            margin: 0;
-        }
-    
-        .textos h1 {
-            display: none;
-            /* color: #021526; */
-            margin: 0;
-        }
-    
-        .titulo {
-            font-size: 42px;
-            text-align: center;
-        }
-    
-        .textos .traco {
-            display: none;
-            width: 70vw;
-        }
-    
-        #img {
-            width: 25vw;
-        }
-    
-        input {
-            font-size: 20px;
-        }
-    
-        .campos {
-            width: 320px;
-            font-size: 25px;
-        }
-    
-        .campos .possui {
-            text-align: center;
-            width: 105%;
-            font-size: 20px;
-        }
-    
-        .inp {
-            text-align: center;
-        }
-    
-        .input {
-            width: 300px;
-        }
-    
-        /* .voltar {
-            display: none;
-        }  */
-    
+    body {
+        overflow-y: none;
+        overflow-x: none;
+        height: 90vh;
+        width: 100%;
+        /* background-repeat: round; */
+        background-position: 30%;
+
     }
 
+    .container {
+        align-items: center;
+        margin-top: 10vh;
+        width: 100%;
+        height: 100%;
+        flex-direction: column-reverse;
+    }
+
+    .textos {
+        color: white;
+        width: 320px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .textos p {
+        display: none;
+        margin: 0;
+    }
+
+    .textos h1 {
+        display: none;
+        /* color: #021526; */
+        margin: 0;
+    }
+
+    .titulo {
+        font-size: 42px;
+        text-align: center;
+    }
+
+    .textos .traco {
+        display: none;
+        width: 70vw;
+    }
+
+    #img {
+        width: 25vw;
+    }
+
+    input {
+        font-size: 20px;
+    }
+
+    .campos {
+        width: 320px;
+        font-size: 25px;
+    }
+
+    .campos .possui {
+        text-align: center;
+        width: 105%;
+        font-size: 20px;
+    }
+
+    .inp {
+        text-align: center;
+    }
+
+    .input {
+        width: 300px;
+    }
+
+    /* .voltar {
+            display: none;
+        }  */
+
+}

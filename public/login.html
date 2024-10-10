@@ -27,7 +27,12 @@
         <p>Insira o Email:</p>
         <input type="text" class="input" id="imp_email" />
         <p>Insira sua senha:</p>
-        <input type="text" class="input" id="imp_senha" />
+        <div class="senhas">
+          <input type="password" class="input" id="imp_senha" />
+          <div id="botao_ocultar" class="olho" onclick="ocultar()">
+            <img id="olho_ocultar" src="./Assets/closed-eye.png">
+          </div>
+        </div>
       </div>
       <p class="possui">
         Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a>
@@ -54,6 +59,17 @@
 </html>
 <script src="./js/sessao.js"></script>
 <script>
+
+  function ocultar() {
+    if (imp_senha.type == "password") {
+      imp_senha.type = "text";
+      botao_ocultar.innerHTML = '<img id="img_ocultar" src="./Assets/eye_opened.png">';
+    } else {
+      imp_senha.type = "password";
+      botao_ocultar.innerHTML = '<img id="img_ocultar" src="./Assets/closed-eye.png">';
+    }
+  }
+
   function autenticar() {
     let email = imp_email.value;
     let senha = imp_senha.value;

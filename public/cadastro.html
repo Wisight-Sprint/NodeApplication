@@ -38,23 +38,34 @@
 
     <div class="campos">
       <div class="inp">
+
         <p>Insira o seu nome:</p>
-        <input type="text" class="input" id="inpNome" />
+        <input type="text" class="input" id="inpNome">
 
         <p>Insira o nome do seu departamento</p>
-        <input type="text" class="input" id="inpDep" />
+        <input type="text" class="input" id="inpDep">
 
         <p>Insira o número do seu distintivo</p>
-        <input type="text" class="input" id="inpNumero" />
+        <input type="text" class="input" id="inpNumero">
 
         <p>Insira um email para contato:</p>
-        <input type="text" class="input" id="inpEmail" />
+        <input type="text" class="input" id="inpEmail">
 
         <p>Insira uma senha:</p>
-        <input type="password" class="input" id="inpSenha" />
+        <div class="senhas">
+          <input type="password" class="input" id="inpSenha">
+          <div id="botao_ocultar1" class="olho" onclick="ocultar1()">
+            <img id="olho_ocultar1" src="./Assets/closed-eye.png">
+          </div>
+        </div>
 
         <p>Confirme sua senha:</p>
-        <input type="password" class="input" id="inpConfSenha" />
+        <div class="senhas">
+          <input type="password" class="input" id="inpConfSenha">
+          <div id="botao_ocultar2" class="olho" onclick="ocultar2()">
+            <img id="olho_ocultar2" src="./Assets/closed-eye.png">
+          </div>
+        </div>
       </div>
       <div class="possui">
         <p>Já possui conta? <a href="./login.html"> ‎Clique Aqui</a></p>
@@ -64,10 +75,30 @@
     </div>
   </div>
 </body>
-
+<img src="./Assets/eye_opened.png" alt="">
 </html>
 
 <script>
+
+  function ocultar1() {
+    if (inpSenha.type == "password") {
+      inpSenha.type = "text";
+      botao_ocultar1.innerHTML = '<img id="img_ocultar" src="./Assets/eye_opened.png">';
+    } else {
+      inpSenha.type = "password";
+      botao_ocultar1.innerHTML = '<img id="img_ocultar" src="./Assets/closed-eye.png">';
+    }
+  }
+  function ocultar2() {
+    if (inpConfSenha.type == "password") {
+      inpConfSenha.type = "text";
+      botao_ocultar2.innerHTML = '<img id="img_ocultar" src="./Assets/eye_opened.png">';
+    } else {
+      inpConfSenha.type = "password";
+      botao_ocultar2.innerHTML = '<img id="img_ocultar" src="./Assets/closed-eye.png">';
+    }
+  }
+
   let departamentoId;
 
   async function cadastrarUsuario() {
