@@ -65,35 +65,37 @@
 </html>
 
 <script>
-  let departamentoId;
+let departamentoId;
 
-  function cadastrarUsuario() {
-    let nome = inpNome.value;
-    let email = inpEmail.value;
-    let senha = inpSenha.value;
-    let confSenha = inpConfSenha.value;
-    let departamento = inpDep.value;
+async function cadastrarUsuario() {
+  let nome = inpNome.value;
+  let email = inpEmail.value;
+  let senha = inpSenha.value;
+  let confSenha = inpConfSenha.value;
+  let departamento = inpDep.value;
 
-    departamento = departamento.toLowerCase();
-    departamento = departamento.replaceAll(" ", "");
+  departamento = departamento.toLowerCase();
+  departamento = departamento.replaceAll(" ", "");
 
-    if (confSenha != senha) {
-      console.log("senhas diferentes");
-      return;
-    } else if (
-      senha == "" ||
-      nome == "" ||
-      senha == "" ||
-      confSenha == "" ||
-      departamento == ""
-    ) {
-      console.log("algum input esta vazio");
-      return;
-    } else if (email.indexOf("@") < 0) {
-      console.log("email não contem @");
-      return;
-    } else {
-      fetch("departamento/buscarDepartamentoPorNome", {
+  if (confSenha != senha) {
+    console.log("Senhas diferentes");
+    return;
+  } else if (
+    senha === "" ||
+    nome === "" ||
+    email === "" ||
+    confSenha === "" ||
+    departamento === ""
+  ) {
+    console.log("Algum input está vazio");
+    return;
+  } else if (email.indexOf("@") < 0) {
+    console.log("Email não contém @");
+    return;
+  } else {
+    try {
+      // Primeiro fetch para buscar o departamento
+      const responseDepartamento = await fetch("departamento/buscarDepartamentoPorNome", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -101,59 +103,43 @@
         body: JSON.stringify({
           departamentoServer: departamento,
         }),
-      })
-        .then((res) => {
-          console.log("caiu no .then buscarDepartamentoPorNome");
-          if (res.ok) {
-            res.json().then((json) => {
-              console.log(json.departamento_id);
-              departamentoId = json.departamento_id;
-              console.log("teste id res" + departamentoId);
-            });
+      });
 
-            fetch("users/cadastrarUsuario", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify({
-                nomeServer: nome,
-                emailServer: email,
-                senhaServer: senha,
-                departamentoIdServer: departamentoId,
-              }),
-            })
-              .then((res) => {
-                console.log("Response .then cadastrarUsuario: " + res);
+      if (responseDepartamento.ok) {
+        const jsonDepartamento = await responseDepartamento.json();
+        departamentoId = jsonDepartamento.departamento_id;
+        console.log("Departamento encontrado, ID:", departamentoId);
 
-                if (res.ok) {
-                  console.log("Cadastro realizado");
-
-                  setTimeout(() => {
-                    window.location = "login.html";
-                  }, "2000");
-                } else {
-                  res.text().then((texto) => {
-                    throw "Houve um erro ao tentar realizar o cadastro" + texto;
-                  });
-                }
-              })
-              .catch((res) => {
-                console.log("#ERRO, cadastrarUsuario caiu no .catch: " + res);
-              });
-          } else {
-            res.text().then((texto) => {
-              throw "departamento_id não encontrado" + texto;
-            });
-          }
-        })
-        .catch((res) => {
-          console.log(
-            "erro caiu no .catch do buscarDepartamentoPorNome: " + res
-          );
+        // Segundo fetch para cadastrar o usuário
+        const responseUsuario = await fetch("users/cadastrarUsuario", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            nomeServer: nome,
+            emailServer: email,
+            senhaServer: senha,
+            departamentoIdServer: departamentoId,
+          }),
         });
 
-      console.log("teste id vamo" + departamentoId);
+        if (responseUsuario.ok) {
+          console.log("Cadastro realizado com sucesso!");
+          setTimeout(() => {
+            window.location = "login.html";
+          }, 2000);
+        } else {
+          const errorText = await responseUsuario.text();
+          throw new Error("Erro ao cadastrar usuário: " + errorText);
+        }
+      } else {
+        const errorText = await responseDepartamento.text();
+        throw new Error("Erro ao buscar departamento: " + errorText);
+      }
+    } catch (error) {
+      console.log("Erro:", error);
     }
   }
+}
 </script>
