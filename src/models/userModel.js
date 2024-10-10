@@ -21,7 +21,7 @@ function cadastrarUsuario(nome, email, senha, departamentoId) {
     senha
   );
   let instrucaoSql = `
-        INSERT INTO wisight.usuario (nome, email, senha, fk_departamento) VALUES ('${nome}', '${email}', '${senha}', '${departamentoId}');
+        INSERT INTO wisight.usuario (nome, email, senha, fk_departamento) VALUES ('${nome}', '${email}', '${senha}', ${departamentoId});
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
