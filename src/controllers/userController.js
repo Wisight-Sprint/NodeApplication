@@ -6,6 +6,7 @@ function cadastrarUsuario(req, res) {
   let email = req.body.emailServer;
   let senha = req.body.senhaServer;
   let departamentoId = req.body.departamentoIdServer;
+  let numero = req.body.numeroServer
   console.log("Log dentro do controller: " + departamentoId);
   
 
@@ -17,9 +18,11 @@ function cadastrarUsuario(req, res) {
     res.status(400).send("Sua senha está undefined!");
   } else if (departamentoId == undefined) {
     res.status(400).send("O departamento está undefined!");
+  } else if (numero == undefined) {
+    res.status(400).send("O numero está undefined!");
   } else {
     userModel
-      .cadastrarUsuario(nome, email, senha, departamentoId)
+      .cadastrarUsuario(nome, email, senha, departamentoId, numero)
       .then(function (resultado) {
         res.json(resultado);
       })
