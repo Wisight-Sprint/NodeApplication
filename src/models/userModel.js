@@ -13,7 +13,7 @@ function autenticar(email, senha) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrarUsuario(nome, email, senha, departamentoId) {
+function cadastrarUsuario(nome, email, senha, departamentoId, numero) {
   console.log(
     "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarUsuario():",
     nome,
@@ -21,7 +21,7 @@ function cadastrarUsuario(nome, email, senha, departamentoId) {
     senha
   );
   let instrucaoSql = `
-        INSERT INTO wisight.usuario (nome, email, senha, fk_departamento) VALUES ('${nome}', '${email}', '${senha}', ${departamentoId});
+        INSERT INTO wisight.usuario (nome, email, senha, fk_departamento, cargo, numero) VALUES ('${nome}', '${email}', '${senha}', ${departamentoId}, "Chefe", ${numero});
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
