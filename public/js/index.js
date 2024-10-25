@@ -33,15 +33,18 @@ function proxImagem() {
     document.getElementById("radio" + contador).checked = true;
 }
 
+function showMenu(){
+    var menu = document.getElementById("menu");
+    var menuButton = document.getElementById("menu-button");
+    
+    
+    menuButton.addEventListener("click", function () {
+        console.log("passou aqui2")
+        if (menu.style.display == "flex") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "flex";
+        }
+    });
+}
 
-var menu = document.getElementById("menu");
-var menuButton = document.getElementById("menu-button");
-
-menuButton.addEventListener("click", function () {
-
-    if (menu.style.display == "flex") {
-        menu.style.display = "none";
-    } else {
-        menu.style.display = "flex";
-    }
-});
