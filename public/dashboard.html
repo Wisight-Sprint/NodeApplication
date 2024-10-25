@@ -21,7 +21,7 @@
             <div class="container-add-user"> <img class="icon-add-user" src="./Assets/adicionar-usuario 1.png"></div>
             <div class="container-personal-datas"><img class="icon-personal-datas" src="./Assets/dados-pessoais 1.png">
             </div>
-            <div class="container-logout"> <img class="icon-logout" src="./Assets/logout 2.png"></div>
+            <div onclick="limparSessao()" class="container-logout"> <img class="icon-logout" src="./Assets/logout 2.png"></div>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             <span class="city">Washington DC </span> <img class="icon-location" src="./Assets/location-icon.png">
         </div>
 
-        <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;">!</span></div>
+        <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;"></span></div>
 
         <div class="chartsContainer">
             <div class="charts1Container">
@@ -95,6 +95,10 @@
 </html>
 
 <script>
+
+window.onload = validarSessao();
+
+
 
 const vitimas2023 = [120, 160, 120, 110];
 const vitimas2024 = [145, 140, 130, 140];
