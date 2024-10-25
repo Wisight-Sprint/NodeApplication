@@ -1,0 +1,229 @@
+* {
+    box-sizing: border-box;
+    font-family: "Josefin Sans";
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+}
+
+.principalContainer {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.containerNav {
+    display: flex;
+}
+
+.navLeft {
+    width: 125px;
+    background-color: #030F1A;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+
+.icon-logo {
+    width: 110px;
+    height: 76px;
+}
+
+.icon-home {
+    width: 54px;
+    height: 51px;
+}
+
+.icon-support {
+    width: 54px;
+    height: 54px;
+}
+
+.icon-add-user {
+    width: 54px;
+    height: 51px;
+}
+
+.icon-logout {
+    width: 50px;
+    height: 51px;
+    margin-left: 10px;
+}
+
+
+.container-logo{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-logo:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-home{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-home:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-support{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-support:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-add-user{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.container-add-user:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.container-logout{
+    width: 125px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center ; 
+}
+
+.container-logout:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.containerRight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 30px;
+    flex-direction: column;
+}
+
+.contentContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.supportContainer1 {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 100%;
+    border: 3px red solid;
+    border-radius: 15px;
+    padding: 5px;
+    gap: 25px;
+}
+
+.support_tittle {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.support_category {
+    width: 450px;
+    height: 40px;
+    margin-bottom: 25px;
+}
+
+.support_category select {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.support_textarea {
+    width: 450px;
+    height: 160px;
+    margin-bottom: 25px;
+}
+
+.support_textarea textarea {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.support_button {
+    width: 175px;
+    height: 80px;
+}
+
+.support_button button {
+    cursor: pointer;
+    background-color:#030F1A;;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+}
+
+.support_button button:hover{
+    background-color: #49688D;
+}
+
+.supportContainer2 {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 100%;
+    border: 3px red solid;
+    border-radius: 15px;
+    padding: 5px;
+    gap: 25px;
+}
+
+
+
+

@@ -28,7 +28,11 @@ create table if not exists wisight.usuario (
 );
 
 create table if not exists wisight.relatorio (
+<<<<<<< HEAD
   relatorio_id int auto_increment,
+=======
+  relatorio_id int,
+>>>>>>> main
   dt_ocorrencia date,
   fuga varchar(45),
   camera_corporal boolean,
