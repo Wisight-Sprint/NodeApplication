@@ -6,13 +6,7 @@ body {
     display: flex;
     background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
     font-family: 'Josefin Sans', sans-serif;
-}
-
-.principalContainer {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    width: 100vw;
+    overflow-x: hidden;
 }
 
 .containerNav {
@@ -22,15 +16,24 @@ body {
 }
 
 .navLeft {
-    width: 125px;
+    width: 115px;
     background-color: #030F1A;
     flex-direction: column;
     display: flex;
     align-items: center;
+    height: 100vh;
+}
+
+.title-page{
+    color: #FFF;
+    font-size: 40px;
+    font-weight: bold; 
+    margin-top: 20px; 
+    margin-bottom: 5px;
 }
 
 .icon-logo {
-    width: 90px;
+    width: 85px;
     height: 56px;
 }
 
@@ -55,31 +58,28 @@ body {
     margin-left: 10px;
 }
 
+.icon-personal-datas{
+    width: 50px;
+    height: 47px;
+}
 
 .container-logo {
-    width: 125px;
+    width: 115px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.container-logo:hover {
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
+
 
 .container-graphic {
-    width: 125px;
+    width: 115px;
     height: 100px;
     display: flex;
     justify-content: center;
     background-color: #49688D;
     align-items: center;
-    border-radius: 15px;
 }
 
 .container-graphic:hover {
@@ -87,11 +87,10 @@ body {
     display: flex;
     background-color: #49688D;
     justify-content: center;
-    border-radius: 15px;
 }
 
 .container-support {
-    width: 125px;
+    width: 115px;
     height: 100px;
     display: flex;
     justify-content: center;
@@ -103,11 +102,11 @@ body {
     display: flex;
     background-color: #49688D;
     justify-content: center;
-    border-radius: 15px;
+   
 }
 
 .container-add-user {
-    width: 125px;
+    width: 115px;
     height: 100px;
     display: flex;
     justify-content: center;
@@ -119,11 +118,11 @@ body {
     display: flex;
     background-color: #49688D;
     justify-content: center;
-    border-radius: 15px;
+   
 }
 
 .container-logout {
-    width: 125px;
+    width: 115px;
     height: 100px;
     display: flex;
     justify-content: center;
@@ -135,16 +134,62 @@ body {
     display: flex;
     background-color: #49688D;
     justify-content: center;
-    border-radius: 15px;
+}
+
+.container-personal-datas{
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-personal-datas:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+}
+
+.armed-victims{
+    margin-top: 35px;
+    text-align: center;
+}
+
+.ethnicity-victims{
+    margin-top: 35px;
+    text-align: center;
+}
+
+.escape-victims{
+    margin-top: 35px;
+    text-align: center; 
+}
+
+.armed-victims, .ethnicity-victims, .escape-victims {
+    flex: 1; 
+    box-sizing: border-box; 
+}
+
+.line-vertical {
+    width: 2px; 
+    background-color: black; 
+    margin-top: 35px;
+    height: 330px; 
+}
+
+.monthly-victims{
+   text-align: center;
 }
 
 .welcome {
-    margin-top: 15px;
-    font-family: 'Josefin Sans', sans-serif;
-    color: #FFF;
-    font-size: 30px;
-    width: 300px;
-    margin-bottom: 20px;
+display: flex;
+color: #FFF;
+justify-content: end;
+font-size: 25px;
+font-weight: bold;
+margin-right: 10px;
+margin-bottom: 15px;
 }
 
 #bem_vindo {
@@ -153,7 +198,6 @@ body {
 
 .all-indicators {
     display: flex;
-    margin: left;
     flex-direction: column;
 }
 
@@ -199,14 +243,16 @@ body {
     justify-content: center;
     background-color: white;
     width: 818px;
-    height: 440px;
+    height: 405px;
     border-radius: 15px;
+    align-items: stretch;
+    min-height: 300px;
 }
 
 .chart2 {
     background-color: white;
     width: 500px;
-    height: 580px;
+    height: 545px;
     border-radius: 15px;
     margin-left: 25px;
     display: flex;
@@ -214,69 +260,62 @@ body {
     gap: 15px;
 }
 
-.graphic-size1 {
-    width: 714px;
-    height: 400px;
+.graphic-size4{
+    width: 1014px;
+    height: 250px;
+}
+
+.graphicSize1 {
+    width: 260px;
+    height: 230px;
+    margin-top: 40px;    
+    margin-left: 5%;
 }
 
 .graphicSize2 {
-    width: 300px;
-    height: 270px;
-    margin-top: 40px;
-    margin-left: 23%;
+    width: 260px;
+    height: 230px;
+    margin-top: 40px;    
+    margin-left: 5%;
 }
 
 .graphicSize3 {
-    width: 300px;
-    height: 270px;
-    margin-top: 40px;
-    margin-left: 23%;
-    display: none;
+    width: 260px;
+    height: 230px;
+    margin-top: 40px;    
+    margin-left: 5%;
 }
-
-.graphicSize4 {
-    width: 300px;
-    height: 270px;
-    margin-top: 40px;
-    margin-left: 23%;
-    display: none;
-}
-
-
 
 #h1BodyCamera {
     color: #ffa600;
 }
 
+
 #h1MentalDisorders {
     color: #ff0000;
 }
 
-.inline-row {
+.inline-row{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    height: 100px;
 }
 
-.location {
+.city{
     display: flex;
-    margin-left: 70.8%;
-    margin-top: 30px;
-    font-family: 'Josefin Sans', sans-serif;
     color: #FFF;
-    font-size: 22px;
-    width: 300px;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 65%;
+    margin-top: 37px;
+    height: 22px;
 }
 
 .icon-location {
-    margin-top: 4px;
+    margin-top: 25px;
     width: 40px;
     height: 40px;
-}
-
-.city {
-    margin-top: 14px;
 }
 
 .charts2Container {
@@ -310,15 +349,12 @@ label {
     border: 2px solid #000;
     border-radius: 5px;
     cursor: pointer;
-   
 }
 
 .custom-radio:checked {
     background-color: #000;
-    
 }
 
 .radio-span {
     margin-left: 5px;
-   
 }
