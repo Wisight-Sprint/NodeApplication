@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/dashboard.css" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./js/sessao.js"></script>
     <title>Dashboard</title>
@@ -30,19 +31,19 @@
             <span class="city">Washington DC </span> <img class="icon-location" src="./Assets/location-icon.png">
         </div>
 
-        <div class="welcome">Bem-vindo,&nbsp;<span style="color: gray;">Undefined!</span></div>
+        <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;">!</span></div>
 
         <div class="chartsContainer">
             <div class="charts1Container">
                 <div class="kpiContainer">
                     <div class="kpi">
                         <h1 id="h1AgesIncidents">27</h1>
-                        <span id="h1AgesIncidents">Idade com mais <br> incidentes </span>
+                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br>Representando 14% do total de Mortes</span>
                     </div>
 
                     <div class="kpi">
                         <h1 id="h1BodyCamera">38%</h1>
-                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal</span>
+                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal seria entre 80% e 90%</span>
                     </div>
 
                     <div class="kpi">
@@ -51,7 +52,7 @@
                     </div>
                     <div class="kpi">
                         <h1 id="h1Gender">Masc</h1>
-                        <span id="h1Gender">Gênero de vítimas com <br> mais incidentes</span>
+                        <span id="h1Gender">Gênero de vítimas com <br><br>Representando mais de 90% dos incidentes</span>
                     </div>
                 </div>
 
@@ -61,14 +62,14 @@
                         <div class="graphicSize1"><canvas id="PieChart" style="opacity: 1;"></canvas></div>
                     </div>
 
-                    <div class="line-vertical"></div> 
+                    <div class="line-vertical"></div>
 
                     <div class="ethnicity-victims">
                         <h2>Etnia da Vítima</h2>
                         <div class="graphicSize2"><canvas id="PieChart2" style="opacity: 1;"></canvas></div>
                     </div>
 
-                    <div class="line-vertical"></div> 
+                    <div class="line-vertical"></div>
 
                     <div class="escape-victims">
                         <h2>Tentativas de fuga</h2>
@@ -80,9 +81,8 @@
 
             <div class="charts2Container">
                 <div class="chart2">
-
                     <h2 class="monthly-victims">Vítimas Mensais</h2>
-                    <div class="graphic-size4"><canvas id="BarChart" style="opacity: 1;"></canvas></div>
+                    <div id="BarChart" style="width: 95%; height: 400px;"></div>
 
                 </div>
             </div>
@@ -96,80 +96,103 @@
 
 <script>
 
-    const dataBar = [10, 20, 30, 10, 40, 50, 70, 30, 25];
-    const colorBar = dataBar.map(valor => {
-        return valor > 40 ? 'rgb(255, 0, 0)' : 'rgb(128, 128, 128)';
-    });
+const vitimas2023 = [120, 160, 120, 110];
+const vitimas2024 = [145, 140, 130, 140];
 
-    const ctx = document.getElementById('BarChart').getContext('2d');
+const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
 
-    const CHART1 = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
-            datasets: [{
-                label: '',
-                data: dataBar,
-                backgroundColor: colorBar,
-                borderColor: 'rgb(128, 128, 128)',
-                borderWidth: 0.5
-            }]
+function getColor(value, year) {
+    //if (value > 150) return 'rgb(255, 0, 0)'; 
+    return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';  
+}
+
+Highcharts.chart('BarChart', {
+    chart: {
+        type: 'bar' 
+    },
+    title: {
+        text: '',
+        style: {
+            fontSize: '22px',
+            fontWeight: 'bold'
+        }
+    },
+    xAxis: {
+        categories: labels,
+        title: {
+            text: null
         },
-        options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                    beginAtZero: false,
-                    min: 0,
-                    max: 100,
-                    grid: {
-                        display: false,
-                        color: '#000',
-                        lineWidth: 0.3,
-                    },
-                    ticks: {
-                        font: {
-                            weight: 'bold'
-                        }
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            weight: 'bold'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                    position: 'top',
-                    labels: {
-                        font: {
-                            weight: 'bold'
-                        }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: '',
-                    font: {
-                        size: 22,
-                        weight: 'bold'
-                    },
-                    padding: {
-                        top: 10,
-                        bottom: 20
-                    },
-                    color: '#000'
-                }
+        labels: {
+            formatter: function() {
+                return this.value;
             }
         }
-    });
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '',
+            align: 'high'
+        },
+        labels: {
+            formatter: function() {
+                return this.value;
+            }
+        },
+        plotLines: [{
+            color: 'black', 
+            dashStyle: 'Dash', 
+            width: 2, 
+            value: 150, 
+            zIndex: 5, 
+            label: {
+                text: '', 
+                align: 'right',
+                x: -10,
+                style: {
+                    color: 'black',
+                    fontWeight: 'bold'
+                }
+            }
+        }]
+    },
+    legend: {
+        enabled: true 
+    },
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: false
+            },
+            pointWidth: 25,
+            pointPadding: 0.1,
+            groupPadding: 1        }
+    },
+    series: [
+        {
+            name: 'Vítimas em 2023',
+            color: 'rgb(255, 220, 0)',
+            data: [
+                { y: vitimas2023[0], color: getColor(vitimas2023[0], 2023) }, 
+                { y: vitimas2023[1], color: getColor(vitimas2023[1], 2023) }, 
+                { y: vitimas2023[2], color: getColor(vitimas2023[2], 2023) }, 
+                { y: vitimas2023[3], color: getColor(vitimas2023[3], 2023) }  
+            ]
+        },
+        {
+            name: 'Vítimas em 2024',
+            color: 'rgb(0, 0, 255)',
+            data: [
+                { y: vitimas2024[0], color: getColor(vitimas2024[0], 2024) },
+                { y: vitimas2024[1], color: getColor(vitimas2024[1], 2024) }, 
+                { y: vitimas2024[2], color: getColor(vitimas2024[2], 2024) },
+                { y: vitimas2024[3], color: getColor(vitimas2024[3], 2024) },
+                
+            ]
+        }
+    ]
+});
+
 
     const ctx2 = document.getElementById('PieChart');
 
