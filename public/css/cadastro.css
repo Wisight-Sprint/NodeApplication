@@ -225,6 +225,31 @@ a {
         font-size: 13px;
     }
 
+    .senhas {
+        .olho {
+            width: 7vw;
+            height: 15px;
+            background-color: #ffffff;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: solid white 1px;
+        }
+
+        img {
+            margin-right: 5px;
+            width: 80%;
+        }
+
+        .input {
+            width: 70vw;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
 }
 
 #butao {
