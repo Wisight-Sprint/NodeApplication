@@ -6,7 +6,7 @@ create table if not exists wisight.cidade_estado (
   cidade varchar(45),
   estado varchar(45)
 );
-
+ 
 create table if not exists wisight.departamento (
   departamento_id int primary key auto_increment,
   nome varchar(45),
@@ -14,7 +14,7 @@ create table if not exists wisight.departamento (
     foreign key (fk_cidade_estado)
     references cidade_estado (cidade_estado_id)
 );
-
+	
 create table if not exists wisight.usuario (
   usuario_id int primary key auto_increment,
   nome varchar(45),
@@ -28,7 +28,7 @@ create table if not exists wisight.usuario (
 );
 
 create table if not exists wisight.relatorio (
-  relatorio_id int,
+  relatorio_id int auto_increment,
   dt_ocorrencia date,
   fuga varchar(45),
   camera_corporal boolean,
@@ -40,13 +40,15 @@ create table if not exists wisight.relatorio (
 );
 
 create table if not exists wisight.vitima (
-  vitima_id int,
+  vitima_id int auto_increment,
+  nome varchar(150),
   idade int,
   etnia varchar(45),
   genero varchar(45),
   armamento varchar(45),
   fk_relatorio int,
-  primary key (vitima_id, fk_relatorio),
-    foreign key (fk_relatorio)
-    references relatorio (relatorio_id)
+  fk_departamento int,
+  primary key (vitima_id, fk_relatorio, fk_departamento),
+  foreign key (fk_relatorio, fk_departamento)
+    references relatorio (relatorio_id, fk_departamento)
 );

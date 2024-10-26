@@ -564,6 +564,7 @@ nav>button:hover {
         justify-content: center;
         text-align: center;
         align-items: center;
+        flex-direction: column;
     }
 
     .secao2 h2 {
@@ -571,6 +572,7 @@ nav>button:hover {
         width: 200px;
         display: flex;
         text-align: center;
+        margin: 15px 0px 15px 0px;
     }
 
     .explicacao{
@@ -626,6 +628,14 @@ nav>button:hover {
         background-attachment: fixed;
         display: flex;
         flex-direction: column;
+    }
+
+    .linha1{
+        background-color: #FFF;
+        height: 1px;
+        width: 85%;
+        margin-left: 7vw;
+        margin-top: 20px;
     }
 
     .slider {
@@ -705,6 +715,7 @@ nav>button:hover {
     }
 
     .rodape {
+        margin-top: 95px;
         display: flex;
         flex-direction: column;
     }

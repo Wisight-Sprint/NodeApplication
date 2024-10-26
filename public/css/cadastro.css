@@ -197,11 +197,12 @@ a {
 
     .inp {
         text-align: center;
-        font-size: 23px;
+        font-size: 17px;
     }
 
     .input {
         width: 300px;
+        height: 15px;
     }
 
     #imagem {
@@ -221,9 +222,34 @@ a {
     }
 
     input {
-        font-size: 20px;
+        font-size: 13px;
     }
 
+    .senhas {
+        .olho {
+            width: 7vw;
+            height: 15px;
+            background-color: #ffffff;
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: solid white 1px;
+        }
+
+        img {
+            margin-right: 5px;
+            width: 80%;
+        }
+
+        .input {
+            width: 70vw;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
 }
 
 #butao {
@@ -260,28 +286,22 @@ a {
         text-align: center;
     }
 
-    /* .voltar {
-        display: none;
-    } */
-
     .textos h1 {
         display: none;
-        /* font-size: 80px; */
     }
 
     .textos p {
         display: none;
-        /* width: 100%; */
     }
 
     .inp {
         text-align: center;
-        font-size: 23px;
+        font-size: 15px;
     }
 
     .input {
         width: 300px;
-        height: 35px;
+        height: 25px;
     }
 
     #imagem {
@@ -292,7 +312,6 @@ a {
     }
 
     .campos {
-        /* margin-top: 45px; */
         width: 320px;
         height: 100vh;
     }
@@ -303,7 +322,7 @@ a {
     }
 
     input {
-        font-size: 20px;
+        font-size: 13px;
     }
 
 }
