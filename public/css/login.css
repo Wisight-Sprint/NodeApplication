@@ -213,18 +213,18 @@ a {
     }
 
     input {
-        font-size: 20px;
+        font-size: 17px;
     }
 
     .campos {
         width: 320px;
-        font-size: 25px;
+        font-size: 17px;
     }
 
     .campos .possui {
         text-align: center;
         width: 105%;
-        font-size: 20px;
+        font-size: 17px;
     }
 
     .inp {
@@ -300,13 +300,13 @@ a {
 
     .campos {
         width: 320px;
-        font-size: 25px;
+        font-size: 17px;
     }
 
     .campos .possui {
         text-align: center;
         width: 105%;
-        font-size: 20px;
+        font-size: 17px;
     }
 
     .inp {
