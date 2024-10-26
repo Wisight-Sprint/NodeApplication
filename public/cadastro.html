@@ -76,6 +76,7 @@
   </div>
 </body>
 <img src="./Assets/eye_opened.png" alt="">
+
 </html>
 
 <script>
@@ -107,124 +108,129 @@
     let senha = inpSenha.value;
     let confSenha = inpConfSenha.value;
     let departamento = inpDep.value;
+    let numero = inpNumero.value;
 
     departamento = departamento.toLowerCase();
     departamento = departamento.replaceAll(" ", "");
+
+    const caracteresEspeciais = "#@!$%&";
+    let temCaractereEspecial = false;
+
+    console.log("ta aqui")
+
+    for (let i = 0; i < caracteresEspeciais.length; i++) {
+      if (senha.indexOf(caracteresEspeciais[i]) !== -1) {
+        temCaractereEspecial = true;
+        break;
+        console.log("if do for")
+      }
+    }
 
     if (nome.length < 4) {
       inpNome.value = "";
       inpNome.placeholder = `Nome inválido.`;
       inpNome.style = `border: solid red 2px`;
-    }
+    } else
 
-    if (email.indexOf("@") == -1 || email.length < 8) {
-      inpEmail.value = "";
-      inpEmail.placeholder = `Email precisa conter @.`;
-      inpEmail.style = `border: solid red 2px`;
-    }
+      if (email.indexOf("@") == -1 || email.length < 8) {
+        inpEmail.value = "";
+        inpEmail.placeholder = `Email precisa conter @.`;
+        inpEmail.style = `border: solid red 2px`;
+      } else
 
-    if (senha.length < 8 || senha.indexOf("#", "@", "!", "$", "%", "&") == -1) {
-      inpSenha.value = "";
-      inpSenha.placeholder = `Necessário no mínimo 8 caracteres e pelo menos um caractere especial.`;
-      inpSenha.style = `border: solid red 2px`;
-    }
+        if (senha.length < 8) {
+          inpSenha.value = "";
+          inpSenha.placeholder = `Necessário no mínimo 8 caracteres.`;
+          inpSenha.style = `border: solid red 2px`;
+        } else
 
-    if (confSenha != senha) {
-      inpSenha.style = `border: solid red 2px`;
-      inpConfSenha.value = "";
-      inpConfSenha.placeholder = `As senhas precisam ser iguais.`;
-      inpConfSenha.style = `border: solid red 2px`;
-    }
+          if (!temCaractereEspecial) {
+            console.log("if do caracter deu ruim")
+            inpSenha.value = "";
+            inpSenha.placeholder = `Necessário pelo menos um caractere especial.`;
+            inpSenha.style = `border: solid red 2px`;
+          } else
 
-    if (departamento == "") {
-      inpDep.placeholder = "Campo necessário para cadastro.";
-      inpDep.style = `border: solid red 2px`;
-    }
+            if (confSenha != senha) {
+              inpSenha.style = `border: solid red 2px`;
+              inpConfSenha.value = "";
+              inpConfSenha.placeholder = `As senhas precisam ser iguais.`;
+              inpConfSenha.style = `border: solid red 2px`;
+            } else
 
-    if (numero == "") {
-      inpNumero.placeholder = "Campo necessário para cadastro.";
-      inpNumero.style = `border: solid red 2px`;
-    }
+              if (departamento == "") {
+                inpDep.placeholder = "Campo necessário para cadastro.";
+                inpDep.style = `border: solid red 2px`;
+              } else
 
-    if (nome.length >= 4 && email.indexOf("@") > -1 && email.length >= 8 && senha.length >= 8 && senha.indexOf("#", "@", "!", "$", "%", "&") > -1 && confSenha == senha && departamento != "" && numero != "") {
-      inpNome.value = "";
-      inpNome.placeholder = "";
-      inpNome.style = `border: none;`;
-      inpEmail.value = "";
-      inpEmail.placeholder = "";
-      inpEmail.style = `border: none;`;
-      inpConfSenha.value = "";
-      inpConfSenha.placeholder = "";
-      inpConfSenha.style = `border: none;`;
-      inpSenha.value = "";
-      inpSenha.placeholder = "";
-      inpSenha.style = `border: none;`;
-      inpDep.value = "";
-      inpDep.placeholder = "";
-      inpDep.style = `border: none;`;
-      inpNumero.value = "";
-      inpNumero.placeholder = "";
-      inpNumero.style = `border: none;`;
-
-      try {
-        // Primeiro fetch para buscar o departamento
-        const responseDepartamento = await fetch("departamento/buscarDepartamentoPorNome", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            departamentoServer: departamento,
-          }),
-        });
-        if (responseDepartamento.ok) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Conta criada com sucesso",
-            // background: "#1D1D1D",
-            background: "#FFF",
-            color: "#000",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          if (responseDepartamento.ok) {
-            const jsonDepartamento = await responseDepartamento.json();
-            departamentoId = jsonDepartamento.departamento_id;
-            console.log("Departamento encontrado, ID:", departamentoId);
-
-            // Segundo fetch para cadastrar o usuário
-            const responseUsuario = await fetch("users/cadastrarUsuario", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify({
-                nomeServer: nome,
-                emailServer: email,
-                senhaServer: senha,
-                departamentoIdServer: departamentoId,
-                numeroServer: numero
-              }),
-            });
-
-            if (responseUsuario.ok) {
-              console.log("Cadastro realizado com sucesso!");
-              setTimeout(() => {
-                window.location = "login.html";
-              }, 2000);
-            } else {
-              const errorText = await responseUsuario.text();
-              throw new Error("Erro ao cadastrar usuário: " + errorText);
-            }
-          } else {
-            const errorText = await responseDepartamento.text();
-            throw new Error("Erro ao buscar departamento: " + errorText);
-          }
-        }
-      } catch (error) {
-        console.log("Erro:", error);
-      }
-    }
+                if (numero == "") {
+                  inpNumero.placeholder = "Campo necessário para cadastro.";
+                  inpNumero.style = `border: solid red 2px`;
+                } else {
+                  inpDep.value = "";
+                  inpDep.placeholder = "";
+                  inpDep.style = `border: none;`;
+                  inpNumero.value = "";
+                  inpNumero.placeholder = "";
+                  inpNumero.style = `border: none;`;
+                  try {
+                    // Primeiro fetch para buscar o departamento
+                    const responseDepartamento = await fetch("departamento/buscarDepartamentoPorNome", {
+                      method: "POST",
+                      headers: {
+                        "Content-type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        departamentoServer: departamento,
+                      }),
+                    });
+                    if (responseDepartamento.ok) {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Conta criada com sucesso",
+                        // background: "#1D1D1D",
+                        background: "#FFF",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      if (responseDepartamento.ok) {
+                        const jsonDepartamento = await responseDepartamento.json();
+                        departamentoId = jsonDepartamento.departamento_id;
+                        console.log("Departamento encontrado, ID:", departamentoId);
+                        // Segundo fetch para cadastrar o usuário
+                        const responseUsuario = await fetch("users/cadastrarUsuario", {
+                          method: "POST",
+                          headers: {
+                            "Content-type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            nomeServer: nome,
+                            emailServer: email,
+                            senhaServer: senha,
+                            departamentoIdServer: departamentoId,
+                            numeroServer: numero
+                          }),
+                        });
+                        if (responseUsuario.ok) {
+                          console.log("Cadastro realizado com sucesso!");
+                          setTimeout(() => {
+                            window.location = "login.html";
+                          }, 2000);
+                        } else {
+                          const errorText = await responseUsuario.text();
+                          throw new Error("Erro ao cadastrar usuário: " + errorText);
+                        }
+                      } else {
+                        const errorText = await responseDepartamento.text();
+                        throw new Error("Erro ao buscar departamento: " + errorText);
+                      }
+                    }
+                  } catch (error) {
+                    console.log("Erro:", error);
+                  }
+                }
   }
+
 </script>
