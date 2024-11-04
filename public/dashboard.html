@@ -110,6 +110,62 @@ function getColor(value, year) {
     return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';  
 }
 
+
+// vai ter que verificar se o usario pode ou não mudar a sua localização
+// function verificarCargo() {
+//    if (cargo != policial) {
+//    obterRegioes();
+//    exibir a pesquisa de região, e o cadastro de funcionario        
+//    }
+// }
+
+var regioes = []
+
+function obterRegioes() {
+    fetch(`/dashboard/obterRegioes`, {
+        method: "GET",
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) { 
+            console.log(`Dados recebidos: ${JSON.stringify(data)}`); 
+
+            data.forEach(item => {
+                regioes.push(`cidade: ${item.cidade}, ${item.estado}`)
+            
+            })
+        
+
+        })
+        .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+function obterMediaIdade() {
+    fetch(`/dashboard/obterMediaIdade`, {
+        method: "GET"
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Dados recebidos:", data);
+    })
+    .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+obterMediaIdade()
+obterRegioes()
+
+// function obterDadosGrafico() {
+
+// }
+
+// obterDadosGrafico()
+
 Highcharts.chart('BarChart', {
     chart: {
         type: 'bar' 

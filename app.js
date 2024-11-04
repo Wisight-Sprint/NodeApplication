@@ -17,6 +17,7 @@ const app = express();
 
 const userRoute = require("./src/routes/users");
 const departamentoRoute = require("./src/routes/departamento");
+const dashboardRoute = require("./src/routes/dashboard");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,6 +27,7 @@ app.use(cors());
 
 app.use("/users", userRoute);
 app.use("/departamento", departamentoRoute);
+app.use("/dashboard", dashboardRoute)
 
 app.listen(PORTA_APP, function () {
   console.log(`
