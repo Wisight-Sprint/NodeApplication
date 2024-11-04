@@ -1,83 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/suporte.css" />
-    <script src="./js/sessao.js"></script>
-    <title>supporte</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
-    </style>
-  </head>
 
-  <body>
-    <div class="principalContainer">
-      <div class="containerNav">
-        <div class="navLeft">
-          <div class="container-logo">
-            <img class="icon-logo" src="./Assets/logo-sem-fundo.png" />
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/suporte.css" />
+  <script src="./js/sessao.js"></script>
+  <title>Suporte</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+  </style>
+</head>
 
-          <div class="container-home">
-            <img class="icon-home" src="./Assets/home 3.png" />
-          </div>
-
-          <div class="container-support">
-            <img
-              class="icon-support"
-              src="./Assets/operador-de-telemarketing 2.png"
-            />
-          </div>
-
-          <div class="container-add-user">
-            <img class="icon-add-user" src="./Assets/add-user (1) 3.png" />
-          </div>
-
-          <div class="container-logout">
-            <img class="icon-logout" src="./Assets/logout 2.png" />
-          </div>
+<body>
+  <div class="principalContainer">
+    <div class="containerNav">
+      <div class="navLeft">
+        <div class="container-logo">
+          <img class="icon-logo" src="./Assets/logo-sem-fundo.png" />
         </div>
-      </div>
 
-      <div class="containerRight">
-        <div class="contentContainer">
-          <div class="supportContainer1">
-            <div class="support_tittle">
-              <span>Suporte</span>
-            </div>
+        <div class="container-home">
+          <img class="icon-home" src="./Assets/home 3.png" />
+        </div>
 
-            <div class="support_description">
-              <span
-                >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Maecenas et dolor malesuada, venenatis risus at, elementum
-                nulla. Integer malesuada, diam sit amet finibus pharetra, urna
-                ex ultrices tortor</span
-              >
-            </div>
+        <div class="container-support">
+          <img class="icon-support" src="./Assets/operador-de-telemarketing 2.png" />
+        </div>
 
-            <div class="support_category">
-              <span>Categoria do chamado:</span>
-              <br />
-              <select>
-                <option value="#">teste</option>
-              </select>
-            </div>
+        <div class="container-add-user">
+          <img class="icon-add-user" src="./Assets/add-user (1) 3.png" />
+        </div>
 
-            <div class="support_textarea">
-              <span>Insira o motivo do chamado:</span>
-              <br />
-              <textarea></textarea>
-            </div>
-
-            <div class="support_button">
-              <button>Abrir chamado</button>
-            </div>
-          </div>
+        <div class="container-logout">
+          <img class="icon-logout" src="./Assets/logout 2.png" />
         </div>
       </div>
     </div>
-  </body>
+
+    <div class="content">
+      <h1>Suporte</h1>
+      <p>Essa é a aba de chamados para solução de problemas, caso você esteja tendo problemas com a utilização da nossa
+        plataformas, informe aqui o que está havendo e iremos te auxiliar.</p>
+
+      <label> Categoria do chamado </label>
+      <select>
+        <option value="#">Selecione</option>
+        <option value="problema">Problema</option>
+        <option value="dificuldade">Dificuldade</option>
+      </select>
+
+      <label> Insira o motivo do chamado</label>
+      <textarea name="" id=""></textarea>
+
+      <button>Abrir chamado</button>
+    </div>
+
+    <div class="chamados">
+      <div>
+        <h2>Chamados abertos</h2>
+        <div class="linha"></div>
+
+        <span class="numero">Numero</span>
+        <span>Motivo</span>
+        <div class="dados_chamado">
+          <span>12</span>
+          <div class="linha_curta"></div>
+          <span>Dificuldade com sei la oq</span>
+        </div>
+
+        <div class="chamados_encerrados">
+          <h2>Chamados encerrados</h2>
+          <div class="linha"></div>
+
+          <span class="numero">Numero</span>
+          <span>Motivo</span>
+          <div class="dados_chamado">
+            <span>12</span>
+            <div class="linha_curta"></div>
+            <span>Dificuldade com sei la oq</span>
+          </div>
+        </div>
+      </div>
+
+
+</body>
+
 </html>
 <script>
   window.onload = validarSessao();
