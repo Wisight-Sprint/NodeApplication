@@ -1,0 +1,59 @@
+.containerNav {
+    display: flex;
+    padding-right: 5px;
+    margin-right: 25px;
+
+    .navLeft {
+        width: 115px;
+        background-color: #030F1A;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+
+        .container-icon,
+        .container-logo {
+            width: 115px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                font-size: 40px;
+            }
+        }
+
+        .container-icon:hover {
+            cursor: pointer;
+            display: flex;
+            background-color: #49688D;
+            justify-content: center;
+        }
+
+        .icon-logo {
+            width: 100px;
+        }
+
+        .icon-graphic,
+        .icon-add-user {
+            width: 40px;
+            height: 37px;
+        }
+
+        .icon-support {
+            width: 40px;
+            height: 40px;
+        }
+
+        .icon-logout {
+            width: 40px;
+            height: 41px;
+            margin-left: 10px;
+        }
+
+        #telaAtual {
+            background-color: #49688D;
+        }
+    }
+}

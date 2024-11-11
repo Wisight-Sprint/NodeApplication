@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/sessao.js"></script>
+    <link rel="stylesheet" href="./css/gerenciamento.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Gerenciamento | Wisight</title>
+</head>
+
+<body onload="filtro(selectFiltro.value, inpPesquisa)">
+
+    <div class="principalContainer">
+        <div class="containerNav">
+            <div class="navLeft">
+                <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
+                <a href="dashboard.html">
+                    <div class="container-icon"> <img class="icon-graphic" src="./Assets/grafico.png"></div>
+                </a>
+                <a href="suporte.html">
+                    <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
+                </a>
+                <div class="container-icon" id="telaAtual"> <img class="icon-add-user"
+                        src="./Assets/adicionar-usuario 1.png"></div></a>
+                <a href="map.html">
+                    <div class="container-icon">
+                        <span><i class="fa-solid fa-map-location-dot" style="color: #ffffff;"></i></span>
+                    </div>
+                </a>
+                <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout"
+                        src="./Assets/logout 2.png"></div></a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="modalEditar" id="modalEditar">
+                <div class="container">
+                    <div class="cabecalho">
+                        <header>Editar Usuário</header>
+                        <button onclick="sairEditar()">
+                            <i class="fa-solid fa-xmark" style="color: black"></i>
+                        </button>
+
+                    </div>
+                    <div class="container_form">
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Nome</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpNomeEditar">
+                                </div>
+
+                            </div>
+                            <div class="pergunta">
+                                <p>Número de distintivo</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpDistintivoEditar">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Email</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpEmailEditar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Cargo</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpCargoEditar">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpSenhaEditar">
+                                    <i class="fa-solid fa-eye-slash" id="eyeInpSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Confirmar senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpConfSenhaEditar">
+                                    <i class="fa-solid fa-eye-slash" id="eyeInpConfSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixa_button_editar">
+                        <button onclick="editar()">Editar</button>
+                    </div>
+                </div>
+            </div>
+            <header>Cadastro de Usuário</header>
+            <div class="container_form">
+                <div class="caixas_pergunta">
+                    <div class="pergunta">
+                        <p>Nome</p>
+                        <div class="input-container">
+                            <input type="text" id="inpNome">
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Número de distintivo</p>
+                        <div class="input-container">
+                            <input type="text" id="inpDistintivo">
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Email</p>
+                        <div class="input-container">
+                            <input type="text" id="inpEmail">
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas_pergunta">
+                    <div class="pergunta">
+                        <p>Cargo</p>
+                        <div class="input-container">
+                            <input type="text" id="inpCargo">
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Senha</p>
+                        <div class="input-container">
+                            <input type="password" id="inpSenha">
+                            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #ffffff;"
+                                onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Confirmar senha</p>
+                        <div class="input-container">
+                            <input type="password" id="inpConfSenha">
+                            <i class="fa-solid fa-eye-slash" id="eyeInpConfSenha" style="color: #ffffff;"
+                                onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="caixa_button">
+                <button onclick="cadastrar()">Adicionar</button>
+            </div>
+
+            <header>Gerenciamento de Usuários</header>
+            <div class="pesquisa">
+                <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa)">
+                    <option value="#">Selecione um filtro</option>
+                    <option value="nome">Pesquisar por nome</option>
+                    <option value="distintivo">Pesquisar por distintivo</option>
+                    <option value="email">Pesquisar por email</option>
+                    <option value="cargo">Pesquisar por cargo</option>
+                </select>
+                <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                    oninput="filtro(selectFiltro.value, inpPesquisa)">
+            </div>
+
+            <div class="listaUsuarios_container" id="listaUsuarios_container">
+                <div class="cabecalho">
+                    <div class="div-objetos">
+                        <div class="objeto">
+                            <span>Nome</span>
+                        </div>
+                        <div class="objeto">
+                            <span>Número</span>
+                        </div>
+                        <div class="objeto">
+                            <span>Email</span>
+                        </div>
+                        <div class="objeto">
+                            <span>Cargo</span>
+                        </div>
+                    </div>
+                    <div class="div-buttons">
+                        <span>Ações</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    let idUsuario;
+
+    async function cadastrar() {
+        let nome = inpNome.value
+        let email = inpEmail.value
+        let senha = inpSenha.value
+        let confSenha = inpConfSenha.value
+        let distintivo = inpDistintivo.value
+        let cargo = inpCargo.value
+        if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpCargo)) {
+            try {
+                const responseCadastro = await fetch("users/cadastrarUsuario", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nomeServer: nome,
+                        emailServer: email,
+                        senhaServer: senha,
+                        cargoServer: cargo,
+                        distintivoServer: distintivo,
+                        departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                    }),
+                });
+                if (responseCadastro.ok) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Usuário cadastrado com sucesso!",
+                        background: "#FFF",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    atualizarlistaUsuarios();
+                } else {
+                    const errorText = await responseCadastro.text();
+                    throw new Error("Erro ao cadastrar usuário: " + errorText);
+                }
+
+            } catch (error) {
+                console.log("Erro:", error);
+            }
+        }
+    }
+
+    function deletar(usuario_id) {
+        if ((sessionStorage.CARGO_USUARIO).includes("Chefe")) {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Ao confirmar, o usuário será excluído permanentemente!",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/users/deletarUsuario/`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            usuario_idServer: usuario_id
+                        }),
+
+                    }).then(function (resposta) {
+
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Usuário removido com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            atualizarlistaUsuarios();
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a excluir usuário! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                }
+            })
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão para remover um usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function irEditar(usuario_id, nome, numero, email, cargo, senha) {
+
+        if ((sessionStorage.CARGO_USUARIO).includes("Chefe") || usuario_id == sessionStorage.ID_USUARIO) {
+            document.body.style.overflow = 'hidden';
+            idUsuario = usuario_id;
+            modalEditar.style = `display: flex`;
+            inpNomeEditar.value = nome;
+            inpEmailEditar.value = email;
+            inpCargoEditar.value = cargo;
+            inpDistintivoEditar.value = numero;
+            inpSenhaEditar.value = senha;
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão para editar um usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function editar() {
+        let usuario_id = idUsuario;
+        let nome = inpNomeEditar.value;
+        let email = inpEmailEditar.value;
+        let senha = inpSenhaEditar.value;
+        let confSenha = inpConfSenhaEditar.value;
+        let cargo = inpCargoEditar.value;
+        let distintivo = inpDistintivoEditar.value;
+
+        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpCargoEditar, inpDistintivoEditar)) {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Deseja alterar os dados deste usuário?",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    fetch(`/users/atualizarUsuario/`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idServer: usuario_id,
+                            nomeServer: nome,
+                            cargoServer: cargo,
+                            emailServer: email,
+                            senhaServer: senha,
+                            distintivoServer: distintivo
+                        })
+                    }).then(function (resposta) {
+
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Usuário modificado com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1000,
+                            });
+
+                            sessionStorage.NOME_USUARIO = nome;
+                            sessionStorage.CARGO_USUARIO = cargo;
+                            filtro(selectFiltro.value, inpPesquisa);
+                            sairEditar();
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a edição! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                } else {
+                    sairEditar();
+                }
+            }
+            )
+        }
+    }
+
+    function sairEditar() {
+        document.body.style.overflow = 'auto';
+        inpSenhaEditar.type = "password";
+        eyeInpSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        eyeInpConfSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        inpConfSenhaEditar.type = "password";
+        inpConfSenhaEditar.value = "";
+        modalEditar.style = `display: none`;
+    }
+
+    function atualizarlistaUsuarios(temFiltro, filtro, filtroValue) {
+        let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+
+        fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = "";
+                        var usuario_container = document.createElement("span");
+                        usuario_container.innerHTML = "Nenhum usuário encontrado.";
+                        listaUsuarios.appendChild(usuario_container);
+                        return;
+                    }
+
+                    resposta.json().then(function (usuarios) {
+                        console.table(usuarios);
+                        var listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = `<div class="cabecalho">
+                        <div class="div-objetos">
+                            <div class="objeto"><span>Nome</span></div>
+                            <div class="objeto"><span>Número</span></div>
+                            <div class="objeto"><span>Email</span></div>
+                            <div class="objeto"><span>Cargo</span></div>
+                        </div>
+                        <div class="div-buttons"><span>Ações</span></div>
+                    </div>`;
+                        for (let publicacao of usuarios.reverse()) {
+                            if (!temFiltro ||
+                                (temFiltro && filtro == "nome" && publicacao.nome.includes(filtroValue)) ||
+                                (temFiltro && filtro == "distintivo" && publicacao.numero.includes(filtroValue)) ||
+                                (temFiltro && filtro == "email" && publicacao.email.includes(filtroValue)) ||
+                                (temFiltro && filtro == "cargo" && publicacao.cargo.includes(filtroValue))) {
+
+                                let divPublicacao = document.createElement("div");
+                                divPublicacao.className = "publicacao";
+                                divPublicacao.innerHTML = `
+                                <div class="div-objetos">
+                                    <div class="objeto"><span>${publicacao.nome}</span></div>
+                                    <div class="objeto"><span>${publicacao.numero}</span></div>
+                                    <div class="objeto"><span>${publicacao.email}</span></div>
+                                    <div class="objeto"><span>${publicacao.cargo}</span></div>
+                                </div>
+                                <div class="div-buttons">
+                                    <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.cargo}', '${publicacao.senha}')">
+                                        <img src="./Assets/btn_editar.png">
+                                    </button>
+                                    <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                        <img src="./Assets/btn_deletar.png">
+                                    </button>
+                                </div>`;
+                                listaUsuarios.appendChild(divPublicacao);
+                            }
+                        }
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.error("Erro ao buscar usuários:", error);
+            });
+    }
+
+    function filtro(select, inputName) {
+        let temFiltro = select !== "#";
+        inputName.disabled = !temFiltro;
+
+        if (!temFiltro) {
+            inputName.value = "";
+            inputName.placeholder = "Selecione um campo para filtrar..."
+        } else {
+            inputName.placeholder = "Digite o " + select + " desejado..."
+        }
+        atualizarlistaUsuarios(temFiltro, select, inputName.value);
+    }
+
+    function validacao(nome, email, senha, confSenha, distintivo, cargo) {
+        const caracteresEspeciais = "#@!$%&";
+        let temCaractereEspecial = false;
+
+        for (let i = 0; i < caracteresEspeciais.length; i++) {
+            if (senha.value.indexOf(caracteresEspeciais[i]) !== -1) {
+                temCaractereEspecial = true;
+                break;
+            }
+        }
+
+        if (nome.value.length < 4) setFieldError(nome, "Nome inválido.");
+        else setFieldSpecificSuccess(nome);
+        if (email.value.indexOf("@") == -1 || email.value.length < 8) setFieldError(email, "Email precisa conter @ e ter no mínimo 8 caracteres.");
+        else setFieldSpecificSuccess(email);
+        if (senha.value.length < 8) setFieldError(senha, "Necessário no mínimo 8 caracteres.");
+        else if (!temCaractereEspecial) setFieldError(senha, "Necessário pelo menos um caractere especial.");
+        else setFieldSpecificSuccess(senha);
+        if (confSenha.value !== senha.value) setFieldError(confSenha, "As senhas precisam ser iguais.");
+        else setFieldSpecificSuccess(confSenha);
+        if (distintivo.value === "") setFieldError(distintivo, "Campo necessário para cadastro.");
+        else setFieldSpecificSuccess(distintivo);
+        if (cargo.value.trim() === "") setFieldError(cargo, "Cargo inválido.");
+        else setFieldSpecificSuccess(cargo);
+        if (nome.value.length >= 4 && cargo.value != "" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
+            setFieldAllSuccess(nome);
+            setFieldAllSuccess(senha);
+            setFieldAllSuccess(confSenha);
+            setFieldAllSuccess(email);
+            setFieldAllSuccess(cargo);
+            setFieldAllSuccess(distintivo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setFieldError(input, message) {
+        input.value = "";
+        input.placeholder = message;
+        input.style.borderBottom = "solid red 2px";
+    }
+
+    function setFieldSpecificSuccess(input) {
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    function setFieldAllSuccess(input) {
+        input.value = "";
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    function togglePasswordVisibility(inputName, eyeName) {
+
+        if (inputName.type === "password") {
+            inputName.type = "text";
+            eyeName.classList.replace("fa-eye-slash", "fa-eye");
+        } else {
+            inputName.type = "password";
+            eyeName.classList.replace("fa-eye", "fa-eye-slash");
+        }
+    }
+
+    setInterval(() => {
+        atualizarlistaUsuarios(false);
+    }, 20000);
+</script>

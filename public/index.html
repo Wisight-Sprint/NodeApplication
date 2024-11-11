@@ -23,10 +23,9 @@
                 <button class="botao-focar"><a href="#secao1">INÍCIO</a></button>
                 <button class="botao-focar"><a href="#secao2">SOLUÇÕES</a></button>
                 <button class="botao-focar"><a href="#sobre">SOBRE NÓS</a></button>
-                <button class="botao-focar"><a href="#contato">CONTATO</a></button>
                 <button id="logs" class="botao-focar"><a href="login.html">ENTRAR</a></button>
                 <button id="logs" class="botao-focar" style="margin-left: -40px;"><a
-                        href="cadastro.html">CADASTRAR</a></button>
+                        href="#cadastro">CONTATO</a></button>
             </nav>
 
             <div id="navbar-responsiva" class="nav-responsiva" onclick="showMenu()">
@@ -53,10 +52,10 @@
 
                 <div class="entrar-cadastrar">
                     <a href="./login.html">
-                        <div class="botao-focar">ENTRAR</div>
+                        <div class="botao-focar">LOGIN</div>
                     </a>
-                    <a href="./cadastro.html">
-                        <div class="botao-focar">CADASTRAR</div>
+                    <a href="#cadastro">
+                        <div class="botao-focar">CONTATO</div>
                     </a>
                 </div>
             </div>
@@ -66,7 +65,7 @@
 
     <div class="linha1"></div>
 
-    <div class="secao2">
+    <div class="secao2" id="secao2">
         <h2>SOLUÇÕES A PARTIR DE DADOS!</h2>
 
         <div class="cards">
@@ -100,7 +99,6 @@
                     obterá um aumento expressivo em sua qualidade, assegurando um retorno sólido sobre o investimento.
                 </p>
             </div>
-                
         </div>
 
         <div id="sobre" class="img-responsiva-secao2">
@@ -162,6 +160,46 @@
                     empresariais.</p>
             </div>
         </div>
+        <div class="contato_tela" id="cadastro">
+            <div class="container">
+                <h1>Entre em Contato!</h1>
+                <form onsubmit="cadastro()">
+                    <div class="form">
+                        <div class="perguntas">
+                            <label class="labels_cadastro" for="nome">NOME</label>
+                            <br>
+                            <input type="text" id="nome" placeholder="Entre com seu nome" required>
+                        </div>
+                        <div class="perguntas">
+                            <label class="labels_cadastro" for="email">EMAIL</label>
+                            <br>
+                            <input type="email" id="email" required placeholder="Entre com seu email">
+                        </div>
+                        <div class="perguntas">
+                            <label class="labels_cadastro" for="telefone">TELEFONE</label>
+                            <br>
+                            <input type="text" id="telefone" placeholder="Entre com seu telefone" required>
+                        </div>
+                    </div>
+
+                    <div class="form2">
+                        <div class="input_checkbox">
+                            <p>INFORME SEU INTERESSE</p>
+                            <br>
+                            <textarea required placeholder="Digite seu propósito de contato."
+                                id="textarea_form"></textarea>
+                        </div>
+
+                        <div class="botao_enviar">
+                            <p>Ao clicar em "Enviar", você concorda com a nossa <b>Política de Privacidade</b></p>
+                            <button type="submit">ENVIAR <img id="seta_clara" src="../Assets/seta.png" width="10px">
+                                <img id="seta_escura" src="../Assets/seta_escura.png" width="10px"></button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
 
         <div class="rodape" id="contato">
             <div class="container_informacoes">
@@ -198,10 +236,11 @@
             <div class="linha-resp"></div>
 
             <div class="comentario">
-                <h4>Mande-nos uma mensagem!</h4>
+                <!-- <h4>Mande-nos uma mensagem!</h4>
                 <textarea placeholder="Digite aqui..."></textarea>
                 <button>ENVIAR</button>
-                <div class="botao-focar">ENVIAR</div>
+                <div class="botao-focar">ENVIAR</div> -->
+                <img src="./Assets/logo.png" alt="">
             </div>
         </div>
 </body>

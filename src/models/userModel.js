@@ -7,21 +7,21 @@ function autenticar(email, senha) {
     senha
   );
   let instrucaoSql = `
-        SELECT usuario_id, nome, email FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT usuario_id, nome, cargo, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
 
-function cadastrarUsuario(nome, email, senha, departamentoId, numero) {
+function cadastrarUsuario(nome, email, senha, departamentoId, distintivo, cargo) {
   console.log(
     "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarUsuario():",
     nome,
     email,
-    senha
+    senha, cargo
   );
   let instrucaoSql = `
-        INSERT INTO wisight.usuario (nome, email, senha, cargo, fk_departamento, distintivo) VALUES ('${nome}', '${email}', '${senha}', "Chefe", ${departamentoId}, ${numero});
+        INSERT INTO wisight.usuario VALUES (default, '${nome}', '${email}', '${distintivo}', '${cargo}', '${senha}', ${departamentoId});
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -40,10 +40,22 @@ function atualizarSenha(novaSenha, usuario_id) {
   return database.executar(instrucaoSql);
 }
 
+function atualizarUsuario(usuario_id, usuario_nome, usuario_email, usuario_cargo, usuario_distintivo, usuario_senha) {
+  console.log(
+    "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarUsuario():",
+    usuario_id
+  );
+  let instrucaoSql = `
+        UPDATE usuario SET nome = '${usuario_nome}', email = '${usuario_email}', cargo = '${usuario_cargo}', numero = '${usuario_distintivo}', senha = '${usuario_senha}' WHERE usuario_id = ${usuario_id};
+    `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 function deletarUsuario(usuario_id) {
   console.log(
     "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletarUsuario():",
-    idUsuario
+    usuario_id
   );
   let instrucaoSql = `
         DELETE FROM usuario WHERE usuario_id = ('${usuario_id}');
@@ -52,9 +64,22 @@ function deletarUsuario(usuario_id) {
   return database.executar(instrucaoSql);
 }
 
+function buscarUsuarioPorDepartamento(fk_departamento) {
+  console.log(
+    "ACESSEI O userModel \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarUsuarioPorDepartamento(): ",
+  );
+  let instrucaoSql = `
+          SELECT * FROM wisight.usuario WHERE fk_departamento = '${fk_departamento}';
+      `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 module.exports = {
   autenticar,
   cadastrarUsuario,
   atualizarSenha,
+  atualizarUsuario,
   deletarUsuario,
+  buscarUsuarioPorDepartamento
 };

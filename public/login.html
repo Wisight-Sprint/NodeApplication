@@ -2,14 +2,18 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Wisight</title>
-  <link rel="stylesheet" href="./css/login.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Wisight</title>
+  <link rel="stylesheet" href="./css/login.css">
+  <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
   </style>
   <script src="./js/sessao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -17,27 +21,29 @@
     <div class="voltar">
       <a href="./index.html">
         <div class="seta">
-          <img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px" />
+          <i class="fa-solid fa-arrow-right fa-rotate-180" style="color: #ffffff; padding: 15px; font-size: 30px;"></i>
+          <!-- <img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px"> -->
         </div>
       </a>
     </div>
 
     <div class="campos">
+      <header>LOGIN</header>
       <div class="inp">
-        <p>Insira o Email:</p>
-        <input type="text" class="input" id="imp_email" />
-        <p>Insira sua senha:</p>
-        <div class="senhas">
-          <input type="password" class="input" id="imp_senha" />
-          <div id="botao_ocultar" class="olho" onclick="ocultar()">
-            <img id="olho_ocultar" src="./Assets/closed-eye.png">
-          </div>
+        <p style="font-size: 16px;">Email</p>
+        <input type="text" class="input" id="inpEmail" placeholder="@mail.com">
+        <p>Senha</p>
+        <div class="input-container">
+          <input type="password" id="inpSenha" placeholder="senha">
+          <span class="eye-icon" onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)">
+            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #000;"></i>
+          </span>
         </div>
       </div>
       <p class="possui">
-        Ainda não possui conta? <a href="./cadastro.html"> ‎ Clique Aqui</a>
+        Ainda não possui conta? <a href="index.html#cadastro">‎Clique Aqui</a>
       </p>
-      <button onclick="autenticar()">Logar</button>
+      <button onclick="autenticar()">Entrar</button>
     </div>
 
     <div class="textos">
@@ -50,7 +56,7 @@
         com nossos serviços, deixe seu feedback na tela inicial
       </p>
       <div class="imagem">
-        <img id="img" src="./Assets/logo sem fundo azul.svg" alt="" />
+        <img id="img" src="./Assets/logo-sem-fundo.png" alt="">
       </div>
     </div>
   </div>
@@ -60,34 +66,45 @@
 <script src="./js/sessao.js"></script>
 <script>
 
+  sessionStorage.clear();
+
   function ocultar() {
-    if (imp_senha.type == "password") {
-      imp_senha.type = "text";
+    if (inpSenha.type == "password") {
+      inpSenha.type = "text";
       botao_ocultar.innerHTML = '<img id="img_ocultar" src="./Assets/eye_opened.png">';
     } else {
-      imp_senha.type = "password";
+      inpSenha.type = "password";
       botao_ocultar.innerHTML = '<img id="img_ocultar" src="./Assets/closed-eye.png">';
     }
   }
 
   function autenticar() {
-    let email = imp_email.value;
-    let senha = imp_senha.value;
+    let email = inpEmail.value;
+    let senha = inpSenha.value;
+    const inputEmail = document.querySelector("#inpEmail");
+    const inputSenha = document.querySelector("#inpSenha");
 
     if (email == "" && senha == "") {
-      imp_email.placeholder = `Entrada inválida`;
-      imp_senha.placeholder = `Entrada inválida`;
-      imp_email.style = `border: solid red 2px;`;
-      imp_senha.style = `border: solid red 2px;`;
+      inputEmail.classList.add("custom-placeholder");
+      inpSenha.classList.add("custom-placeholder");
+      inputEmail.placeholder = `Entrada inválida`;
+      inpSenha.placeholder = `Entrada inválida`;
+      inputEmail.style = `border: solid red 2px;`;
+      inpSenha.style = `border: solid red 2px;`;
     } else if (email == "") {
-      imp_email.placeholder = `Entrada inválida`;
-      imp_email.style = `border: solid red 2px;`;
+      inputEmail.classList.add("custom-placeholder");
+      inputEmail.placeholder = `Entrada inválida`;
+      inputEmail.style = `border: solid red 2px;`;
     } else if (senha == "") {
-      imp_senha.placeholder = `Entrada inválida`;
-      imp_senha.style = `border: solid red 2px;`;
+      inpSenha.classList.add("custom-placeholder");
+      inpSenha.placeholder = `Entrada inválida`;
+      inpSenha.style = `border: solid red 2px;`;
     } else {
-      imp_email.style = `border: none;`;
-      imp_senha.style = `border: none;`;
+      inputEmail.classList.remove("custom-placeholder");
+      inpSenha.classList.remove("custom-placeholder");
+      inputEmail.style = `border: none;`;
+      inpSenha.style = `border: none;`;
+
       fetch("/users/autenticar", {
         method: "POST",
         headers: {
@@ -103,18 +120,35 @@
 
           if (res.ok) {
             res.json().then((json) => {
-              console.log(res);
-              sessionStorage.EMAIL_USUARIO = json.email_usuario;
+              inputEmail.value = "";
+              inputEmail.placeholder = "";
+              inpSenha.value = "";
+              inpSenha.placeholder = "";
+              console.table(res);
               sessionStorage.NOME_USUARIO = json.nome_usuario;
-              sessionStorage.USUARIO_ID = json.usuario_id;
+              sessionStorage.DEPARTAMENTO_USUARIO = json.departamento_usuario;
+              sessionStorage.ID_USUARIO = json.usuario_id;
+              sessionStorage.CARGO_USUARIO = json.usuario_cargo;
 
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Bem vindo!",
+                background: "#FFF",
+                color: "#000",
+                showConfirmButton: false,
+                timer: 1000,
+              });
               setTimeout(() => {
                 window.location = "/dashboard.html";
               }, 1000);
             });
           } else {
             res.text().then((texto) => {
-              imp_senha.placeholder = `Ops! Email ou senha incorretos...`;
+              inpSenha.value = "";
+              inpSenha.classList.add("custom-placeholder");
+              inpSenha.placeholder = `Ops! Email ou senha incorretos...`;
+              inpSenha.style = `border: solid red 2px;`;
               throw "Houve um erro ao autenticar" + texto;
             });
           }
@@ -124,6 +158,17 @@
         });
 
       return false;
+    }
+  }
+
+  function togglePasswordVisibility(inputName, eyeName) {
+
+    if (inputName.type === "password") {
+      inputName.type = "text";
+      eyeName.classList.replace("fa-eye-slash", "fa-eye"); // Ícone de olho aberto
+    } else {
+      inputName.type = "password";
+      eyeName.classList.replace("fa-eye", "fa-eye-slash"); // Ícone de olho fechado
     }
   }
 </script>

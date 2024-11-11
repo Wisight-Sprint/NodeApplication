@@ -1,7 +1,10 @@
+* {
+    font-family: "Josefin Sans", sans-serif;
+}
+
 body {
     padding: 0;
     margin: 0;
-    font-family: "Josefin Sans", sans-serif;
     background-color: #49688D;
     color: #fff;
     overflow-x: hidden;
@@ -96,12 +99,27 @@ nav>button:hover {
 .entrar-cadastrar {
     display: flex;
     align-items: start;
+
+    .botao-focar {
+        border: 1px solid #FFF;
+        border-radius: 10px;
+        background: linear-gradient(270deg, transparent 50%, white 50%);
+        background-size: 200% 100%;
+        background-position: right;
+        transition: background-position 0.2s ease;
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+    .botao-focar:hover {
+        color:#021526;
+        background-position: left;
+        border: none;
+    }
+
 }
 
-.entrar-cadastrar a {
-    color: white;
-    text-decoration: none;
-}
 
 .botao-focar {
     background-color: transparent;
@@ -112,7 +130,7 @@ nav>button:hover {
     transition: 0.5s;
 }
 
-.linha1{
+.linha1 {
     background-color: #FFF;
     height: 1px;
     width: 85%;
@@ -120,7 +138,7 @@ nav>button:hover {
     margin-top: 20px;
 }
 
-.secao2 h2{
+.secao2 h2 {
     margin: 50px 0 50px 550px;
 }
 
@@ -355,10 +373,160 @@ nav>button:hover {
     text-align: end;
 }
 
-.rodape {
+.contato_tela {
+    display: flex;
+    height: 70vh;
     background-color: #021526;
+    color: #FFF;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100vw;
+        align-items: center;
+
+        h1 {
+            margin-top: -20px;
+        }
+    }
+
+    form {
+        width: 100vw;
+    }
+
+    .form {
+        display: flex;
+        width: 100vw;
+        justify-content: space-evenly;
+        padding-block: 40px;
+
+        input {
+            outline: none;
+        }
+    }
+
+    .botao_enviar {
+        display: flex;
+        align-items: end;
+
+        p {
+            color: #FFF;
+            height: 29px;
+        }
+
+        button {
+            cursor: pointer;
+            margin-left: 30px;
+            background-color: transparent;
+            border: solid #FFF 1px;
+            color: #FFF;
+            width: 170px;
+            height: 70px;
+            background: linear-gradient(270deg, transparent 50%, white 50%);
+            background-size: 200% 100%;
+            background-position: right;
+            transition: background-position 0.4s ease;
+            border-radius: 10px;
+
+            #seta_escura {
+                display: none;
+            }
+
+            #seta_clara {
+                display: unset;
+            }
+        }
+
+        button:hover {
+            background-position: left;
+            color: #021526;
+
+            #seta_escura {
+                display: unset;
+            }
+
+            #seta_clara {
+                display: none;
+            }
+        }
+    }
+
+    .perguntas label {
+        color: #A9A9A9;
+        transition: 0.3s;
+    }
+
+    .perguntas input {
+        color: #FFF;
+        width: 400px;
+        height: 40px;
+        padding-block: 10px;
+        transition: 0.3s;
+    }
+
+    .perguntas input:focus {
+        color: #FFF;
+        border-bottom: solid #FFF 2px;
+    }
+
+    /* Aplica estilo ao label quando o input dentro do .perguntas está focado */
+    .perguntas:focus-within label,
+    .form2:focus-within .input_checkbox p {
+        color: #FFF;
+    }
+
+    .form2 {
+        display: flex;
+        justify-content: space-between;
+        padding-inline: 120px;
+
+        .input_checkbox {
+            p {
+                color: #A9A9A9;
+                transition: 0.5s;
+            }
+
+            textarea {
+                background-color: transparent;
+                color: #FFF;
+                transition: 0.7s;
+                outline: none;
+                border: solid #A9A9A9 1px;
+                border-radius: 10px;
+                width: 390px;
+                height: 90px;
+                padding: 10px;
+                min-width: 390px;
+                max-width: 390px;
+                min-height: 90px;
+                max-height: 90px;
+            }
+
+            textarea:focus {
+                border: none;
+                color: #000;
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+        }
+
+    }
+
+    input {
+        background-color: transparent;
+        color: #FFF;
+        border: transparent;
+        border-bottom: solid #A9A9A9 0.5px;
+        border-radius: 2px;
+    }
+}
+
+.rodape {
+    /* background-color: #021526; */
+    background-color: #FFF;
     height: 60vh;
-    color: #fff;
+    /* color: #FFF; */
+    color: #000;
     padding-inline: 30px;
     padding-block: 20px;
     display: flex;
@@ -368,6 +536,7 @@ nav>button:hover {
 
 
 .container_informacoes {
+    padding-left: 50px;
     width: 30%;
     font-size: 20px;
 }
@@ -400,10 +569,15 @@ nav>button:hover {
 }
 
 .comentario {
-    margin-left: 50px;
+    /* display: none; */
+    /* margin-left: 50px; */
     font-size: 25px;
     width: 30%;
     text-align: center;
+
+    img {
+        width: 300px;
+    }
 }
 
 .comentario textarea {
@@ -575,7 +749,7 @@ nav>button:hover {
         margin: 15px 0px 15px 0px;
     }
 
-    .explicacao{
+    .explicacao {
         display: none;
     }
 
@@ -600,7 +774,7 @@ nav>button:hover {
     .card-solucoes img {
         width: 70px;
         height: 70px;
-         margin: 0 auto;
+        margin: 0 auto;
     }
 
     .card-solucoes p {
@@ -630,7 +804,7 @@ nav>button:hover {
         flex-direction: column;
     }
 
-    .linha1{
+    .linha1 {
         background-color: #FFF;
         height: 1px;
         width: 85%;

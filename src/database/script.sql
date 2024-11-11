@@ -52,3 +52,4 @@ create table if not exists wisight.vitima (
   foreign key (fk_relatorio, fk_departamento)
     references relatorio (relatorio_id, fk_departamento)
 );
+
