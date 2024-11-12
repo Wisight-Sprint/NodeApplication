@@ -77,10 +77,10 @@
                             <div class="pergunta">
                                 <p>Permissão</p>
                                 <div class="input-container">
-                                    <select name="" id="inpCargoEditar">
-                                        <option value="1">administrador</option>
-                                        <option value="2">usuario</option>
-                                        <option value="3">externo</option>
+                                    <select id="inpPermissaoEditar" name="restrito">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Usuário">Usuário</option>
+                                        <option value="Externo">Externo</option>
                                     </select>
                                 </div>
                             </div>
@@ -113,19 +113,19 @@
                     <div class="pergunta">
                         <p>Nome</p>
                         <div class="input-container">
-                            <input type="text" id="inpNome">
+                            <input name="restrito" type="text" id="inpNome">
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Número de distintivo</p>
                         <div class="input-container">
-                            <input type="text" id="inpDistintivo">
+                            <input name="restrito" type="text" id="inpDistintivo">
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Email</p>
                         <div class="input-container">
-                            <input type="text" id="inpEmail">
+                            <input name="restrito" type="text" id="inpEmail">
                         </div>
                     </div>
                 </div>
@@ -133,13 +133,18 @@
                     <div class="pergunta">
                         <p>Permissão</p>
                         <div class="input-container">
-                            <input type="text" id="inpCargo">
+                            <select name="restrito" id="inpPermissao">
+                                <option value="#">Escolha o nível de permissão do usuário.</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Usuário">Usuário</option>
+                                <option value="Externo">Externo</option>
+                            </select>
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Senha</p>
                         <div class="input-container">
-                            <input type="password" id="inpSenha">
+                            <input name="restrito" type="password" id="inpSenha">
                             <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
                         </div>
@@ -147,7 +152,7 @@
                     <div class="pergunta">
                         <p>Confirmar senha</p>
                         <div class="input-container">
-                            <input type="password" id="inpConfSenha">
+                            <input name="restrito" type="password" id="inpConfSenha">
                             <i class="fa-solid fa-eye-slash" id="eyeInpConfSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
                         </div>
@@ -164,32 +169,27 @@
                     <option value="#">Selecione um filtro</option>
                     <option value="nome">Pesquisar por nome</option>
                     <option value="distintivo">Pesquisar por distintivo</option>
-                    <option value="email">Pesquisar por email</option>
-                    <option value="cargo">Pesquisar por cargo</option>
+                    <option value="email">Pesquisar por e-mail</option>
+                    <option value="permissao">Pesquisar por permissao</option>
                 </select>
                 <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
                     oninput="filtro(selectFiltro.value, inpPesquisa)">
             </div>
 
-            <div class="listaUsuarios_container" id="listaUsuarios_container">
-                <div class="cabecalho">
-                    <div class="div-objetos">
-                        <div class="objeto">
-                            <span>Nome</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Número</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Email</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Permissão</span>
-                        </div>
-                    </div>
-                    <div class="div-buttons">
-                        <span>Ações</span>
-                    </div>
+            <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
+            <div class="paginacao">
+                <div class="controleNumPagina">
+                    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
+                        onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                    <input id="inpNumeroPagina" type="txt" oninput="paginacao()" value=1 min=1>
+                    <p>de</p>
+                    <span id="inpTotalPaginas"></span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"
+                        onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                </div>
+                <div class="controleTamanhoPagina">
+                    Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
+                        value=10>
                 </div>
             </div>
             <br>
@@ -201,54 +201,93 @@
 
 <script>
     let idUsuario;
+    let permissaoDeAdministrador = true;
+    let totalPaginas;
+
+    function mudarPagina(acao, numPagina) {
+        if (acao > 0 && numPagina < totalPaginas) inpNumeroPagina.value++; paginacao();
+
+        if (acao < 0 && numPagina > 1) inpNumeroPagina.value--; paginacao();
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
+        permissaoDeAdministrador = false;
+        const inputsRestritos = document.querySelectorAll('[name="restrito"]');
+
+        inputsRestritos.forEach(input => {
+            input.addEventListener("mouseenter", function () {
+                input.style.cursor = "not-allowed";
+                input.disabled = true;
+            });
+
+            input.addEventListener("mouseleave", function () {
+                input.style.cursor = "default";
+                input.disabled = false;
+            });
+        });
+    }
 
     async function cadastrar() {
-        let nome = inpNome.value
-        let email = inpEmail.value
-        let senha = inpSenha.value
-        let confSenha = inpConfSenha.value
-        let distintivo = inpDistintivo.value
-        let cargo = inpCargo.value
-        if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpCargo)) {
-            try {
-                const responseCadastro = await fetch("users/cadastrarUsuario", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        nomeServer: nome,
-                        emailServer: email,
-                        senhaServer: senha,
-                        cargoServer: cargo,
-                        distintivoServer: distintivo,
-                        departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
-                    }),
-                });
-                if (responseCadastro.ok) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Usuário cadastrado com sucesso!",
-                        background: "#FFF",
-                        color: "#000",
-                        showConfirmButton: false,
-                        timer: 1500,
+        if (permissaoDeAdministrador) {
+            let nome = inpNome.value
+            let email = inpEmail.value
+            let senha = inpSenha.value
+            let confSenha = inpConfSenha.value
+            let distintivo = inpDistintivo.value
+            let permissao = inpPermissao.value
+            if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpPermissao)) {
+                try {
+                    const responseCadastro = await fetch("users/cadastrarUsuario", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            nomeServer: nome,
+                            emailServer: email,
+                            senhaServer: senha,
+                            permissaoServer: permissao,
+                            distintivoServer: distintivo,
+                            departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                        }),
                     });
-                    atualizarlistaUsuarios();
-                } else {
-                    const errorText = await responseCadastro.text();
-                    throw new Error("Erro ao cadastrar usuário: " + errorText);
-                }
+                    if (responseCadastro.ok) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Usuário cadastrado com sucesso!",
+                            background: "#FFF",
+                            color: "#000",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        filtro(selectFiltro.value, inpPesquisa);
+                    } else {
+                        const errorText = await responseCadastro.text();
+                        throw new Error("Erro ao cadastrar usuário: " + errorText);
+                    }
 
-            } catch (error) {
-                console.log("Erro:", error);
+                } catch (error) {
+                    console.log("Erro:", error);
+                }
             }
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de administrador para cadastrar um novo usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
         }
     }
 
     function deletar(usuario_id) {
-        if ((sessionStorage.CARGO_USUARIO).includes("Chefe")) {
+        if (permissaoDeAdministrador) {
             Swal.fire({
                 title: "Tem certeza?",
                 text: "Ao confirmar, o usuário será excluído permanentemente!",
@@ -283,7 +322,7 @@
                                 showConfirmButton: false,
                                 timer: 1500,
                             });
-                            atualizarlistaUsuarios();
+                            filtro(selectFiltro.value, inpPesquisa);
                         } else if (resposta.status == 404) {
                             window.alert("Deu 404!");
                         } else {
@@ -297,7 +336,7 @@
         } else {
             Swal.fire({
                 title: "ERRO",
-                text: "É necessária permissão para remover um usuário.",
+                text: "É necessária permissão de administrador para remover um usuário.",
                 icon: "error",
                 background: '#FFF',
                 color: '#000',
@@ -309,15 +348,15 @@
         }
     }
 
-    function irEditar(usuario_id, nome, numero, email, cargo, senha) {
+    function irEditar(usuario_id, nome, numero, email, permissao, senha) {
 
-        if ((sessionStorage.CARGO_USUARIO).includes("Chefe") || usuario_id == sessionStorage.ID_USUARIO) {
+        if (permissaoDeAdministrador || usuario_id == sessionStorage.ID_USUARIO) {
             document.body.style.overflow = 'hidden';
             idUsuario = usuario_id;
             modalEditar.style = `display: flex`;
             inpNomeEditar.value = nome;
             inpEmailEditar.value = email;
-            inpCargoEditar.value = cargo;
+            inpPermissaoEditar.value = permissao;
             inpDistintivoEditar.value = numero;
             inpSenhaEditar.value = senha;
         } else {
@@ -341,10 +380,10 @@
         let email = inpEmailEditar.value;
         let senha = inpSenhaEditar.value;
         let confSenha = inpConfSenhaEditar.value;
-        let cargo = inpCargoEditar.value;
+        let permissao = inpPermissaoEditar.value;
         let distintivo = inpDistintivoEditar.value;
 
-        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpCargoEditar, inpDistintivoEditar)) {
+        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpPermissaoEditar, inpDistintivoEditar)) {
             Swal.fire({
                 title: "Tem certeza?",
                 text: "Deseja alterar os dados deste usuário?",
@@ -367,7 +406,7 @@
                         body: JSON.stringify({
                             idServer: usuario_id,
                             nomeServer: nome,
-                            cargoServer: cargo,
+                            permissaoServer: permissao,
                             emailServer: email,
                             senhaServer: senha,
                             distintivoServer: distintivo
@@ -386,7 +425,7 @@
                             });
 
                             sessionStorage.NOME_USUARIO = nome;
-                            sessionStorage.CARGO_USUARIO = cargo;
+                            sessionStorage.PERMISSAO_USUARIO = permissao;
                             filtro(selectFiltro.value, inpPesquisa);
                             sairEditar();
                         } else if (resposta.status == 404) {
@@ -415,9 +454,13 @@
         modalEditar.style = `display: none`;
     }
 
-    function atualizarlistaUsuarios(temFiltro, filtro, filtroValue) {
+    function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
         let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+        let numeroPagina = Number(inpNumeroPagina.value);
+        let tamanhoPagina = Number(inpTamanhoPagina.value);
+        tamanhoPagina = tamanhoPagina || 10;
 
+        // Requisição para buscar os usuários
         fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
             .then(function (resposta) {
                 if (resposta.ok) {
@@ -431,43 +474,75 @@
                     }
 
                     resposta.json().then(function (usuarios) {
-                        console.table(usuarios);
-                        var listaUsuarios = document.getElementById("listaUsuarios_container");
-                        listaUsuarios.innerHTML = `<div class="cabecalho">
-                        <div class="div-objetos">
-                            <div class="objeto"><span>Nome</span></div>
-                            <div class="objeto"><span>Número</span></div>
-                            <div class="objeto"><span>Email</span></div>
-                            <div class="objeto"><span>Cargo</span></div>
-                        </div>
-                        <div class="div-buttons"><span>Ações</span></div>
-                    </div>`;
-                        for (let publicacao of usuarios.reverse()) {
-                            if (!temFiltro ||
-                                (temFiltro && filtro == "nome" && publicacao.nome.includes(filtroValue)) ||
-                                (temFiltro && filtro == "distintivo" && publicacao.numero.includes(filtroValue)) ||
-                                (temFiltro && filtro == "email" && publicacao.email.includes(filtroValue)) ||
-                                (temFiltro && filtro == "cargo" && publicacao.cargo.includes(filtroValue))) {
+                        let filtroUsuarios = usuarios;
 
-                                let divPublicacao = document.createElement("div");
-                                divPublicacao.className = "publicacao";
-                                divPublicacao.innerHTML = `
-                                <div class="div-objetos">
-                                    <div class="objeto"><span>${publicacao.nome}</span></div>
-                                    <div class="objeto"><span>${publicacao.numero}</span></div>
-                                    <div class="objeto"><span>${publicacao.email}</span></div>
-                                    <div class="objeto"><span>${publicacao.cargo}</span></div>
+                        if (temFiltro) {
+                            filtroUsuarios = usuarios.filter(function (usuario) {
+                                return (filtro === "nome" && usuario.nome.includes(filtroValue)) ||
+                                    (filtro === "distintivo" && usuario.numero.includes(filtroValue)) ||
+                                    (filtro === "email" && usuario.email.includes(filtroValue)) ||
+                                    (filtro === "permissao" && usuario.permissao.includes(filtroValue));
+                            });
+                        }
+
+                        let totalUsuarios = filtroUsuarios.length;
+                        totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
+                        inpTotalPaginas.innerHTML = totalPaginas;
+
+                        let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
+                        let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+
+                        let listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = `
+                        <div class="cabecalho">
+                            <div class="div-objetos">
+                                <div class="objeto">
+                                    <span>Nome</span>
                                 </div>
-                                <div class="div-buttons">
-                                    <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.cargo}', '${publicacao.senha}')">
-                                        <img src="./Assets/btn_editar.png">
-                                    </button>
-                                    <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
-                                        <img src="./Assets/btn_deletar.png">
-                                    </button>
-                                </div>`;
-                                listaUsuarios.appendChild(divPublicacao);
-                            }
+                                <div class="objeto">
+                                    <span>Número</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Email</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Permissão</span>
+                                </div>
+                            </div>
+                            <div class="div-buttons">
+                                <span>Ações</span>
+                            </div>
+                        </div>`;
+                        let tamanhoDiv = 50;
+
+                        for (let i = primeiroItem; i < ultimoItem; i++) {
+                            let publicacao = filtroUsuarios[i];
+
+                            let divPublicacao = document.createElement("div");
+                            divPublicacao.className = "publicacao";
+                            divPublicacao.innerHTML = `
+                            <div class="div-objetos">
+                                <div class="objeto"><span>${publicacao.nome}</span></div>
+                                <div class="objeto"><span>${publicacao.numero}</span></div>
+                                <div class="objeto"><span>${publicacao.email}</span></div>
+                                <div class="objeto"><span>${publicacao.permissao}</span></div>
+                            </div>
+                            <div class="div-buttons">
+                                <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                    <img src="./Assets/btn_editar.png">
+                                </button>
+                                <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                    <img src="./Assets/btn_deletar.png">
+                                </button>
+                            </div>
+                        `;
+                            tamanhoDiv += 90;
+                            if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
+                            listaUsuarios.appendChild(divPublicacao);
+                        }
+                        if (totalPaginas < numeroPagina) {
+                            inpNumeroPagina.value = totalPaginas;
+                            atualizarListaUsuarios();
                         }
                     });
                 }
@@ -475,10 +550,16 @@
             .catch(function (error) {
                 console.error("Erro ao buscar usuários:", error);
             });
+            
     }
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    // });
+
 
     function filtro(select, inputName) {
         let temFiltro = select !== "#";
+        let inputValue = inputName.value.toLowerCase();
         inputName.disabled = !temFiltro;
 
         if (!temFiltro) {
@@ -487,10 +568,14 @@
         } else {
             inputName.placeholder = "Digite o " + select + " desejado..."
         }
-        atualizarlistaUsuarios(temFiltro, select, inputName.value);
+        atualizarListaUsuarios(temFiltro, select, inputValue);
     }
 
-    function validacao(nome, email, senha, confSenha, distintivo, cargo) {
+    function paginacao() {
+        filtro(selectFiltro.value, inpPesquisa);
+    }
+
+    function validacao(nome, email, senha, confSenha, distintivo, permissao) {
         const caracteresEspeciais = "#@!$%&";
         let temCaractereEspecial = false;
 
@@ -512,14 +597,14 @@
         else setFieldSpecificSuccess(confSenha);
         if (distintivo.value === "") setFieldError(distintivo, "Campo necessário para cadastro.");
         else setFieldSpecificSuccess(distintivo);
-        if (cargo.value.trim() === "") setFieldError(cargo, "Cargo inválido.");
-        else setFieldSpecificSuccess(cargo);
-        if (nome.value.length >= 4 && cargo.value != "" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
+        if (permissao.value.trim() === "") setFieldError(permissao, "Permissao inválido.");
+        else setFieldSpecificSuccess(permissao);
+        if (nome.value.length >= 4 && permissao.value != "#" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
             setFieldAllSuccess(nome);
             setFieldAllSuccess(senha);
             setFieldAllSuccess(confSenha);
             setFieldAllSuccess(email);
-            setFieldAllSuccess(cargo);
+            setFieldAllSuccess(permissao);
             setFieldAllSuccess(distintivo);
             return true;
         } else {
@@ -558,6 +643,6 @@
     }
 
     setInterval(() => {
-        atualizarlistaUsuarios(false);
+        filtro(selectFiltro.value, inpPesquisa);
     }, 20000);
 </script>

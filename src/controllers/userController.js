@@ -7,7 +7,7 @@ function cadastrarUsuario(req, res) {
   let senha = req.body.senhaServer;
   let departamentoId = req.body.departamentoServer;
   let distintivo = req.body.distintivoServer
-  let cargo = req.body.cargoServer
+  let permissao = req.body.permissaoServer
   console.log("Log dentro do controller: " + departamentoId);
 
 
@@ -21,11 +21,11 @@ function cadastrarUsuario(req, res) {
     res.status(400).send("O departamento está undefined!");
   } else if (distintivo == undefined) {
     res.status(400).send("O distintivo está undefined!");
-  } else if (cargo == undefined) {
-    res.status(400).send("O cargo está undefined!");
+  } else if (permissao == undefined) {
+    res.status(400).send("O permissao está undefined!");
   } else {
     userModel
-      .cadastrarUsuario(nome, email, senha, departamentoId, distintivo, cargo)
+      .cadastrarUsuario(nome, email, senha, departamentoId, distintivo, permissao)
       .then(function (resultado) {
         res.json(resultado);
       })
@@ -51,7 +51,7 @@ function autenticar(req, res) {
         nome_usuario: resultadoAutenticar[0].nome,
         departamento_usuario: resultadoAutenticar[0].fk_departamento,
         usuario_id: resultadoAutenticar[0].usuario_id,
-        usuario_cargo: resultadoAutenticar[0].cargo,
+        usuario_permissao: resultadoAutenticar[0].permissao,
         pularTutorial: resultadoAutenticar[0].pularTutorial
       });
     })
@@ -69,7 +69,7 @@ function autenticar(req, res) {
 function atualizarUsuario(req, res) {
   let id = req.body.idServer;
   let nome = req.body.nomeServer;
-  let cargo = req.body.cargoServer;
+  let permissao = req.body.permissaoServer;
   let email = req.body.emailServer;
   let senha = req.body.senhaServer;
   let distintivo = req.body.distintivoServer
@@ -82,13 +82,13 @@ function atualizarUsuario(req, res) {
     res.status(400).send("Sua senha está undefined!");
   } else if (distintivo == undefined) {
     res.status(400).send("O distintivo está undefined!");
-  } else if (cargo == undefined) {
-    res.status(400).send("O cargo está undefined!");
+  } else if (permissao == undefined) {
+    res.status(400).send("O permissao está undefined!");
   } else if (id == undefined) {
     res.status(400).send("Seu id está undefined!");
   } else {
     userModel
-      .atualizarUsuario(id, nome, email, cargo, distintivo, senha)
+      .atualizarUsuario(id, nome, email, permissao, distintivo, senha)
       .then(function (resultado) {
         res.json(resultado);
       })

@@ -7,33 +7,33 @@ function autenticar(email, senha) {
     senha
   );
   let instrucaoSql = `
-        SELECT usuario_id, nome, cargo, pularTutorial, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT usuario_id, nome, permissao, pularTutorial, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
 
-function cadastrarUsuario(nome, email, senha, departamentoId, distintivo, cargo) {
+function cadastrarUsuario(nome, email, senha, departamentoId, distintivo, permissao) {
   console.log(
     "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrarUsuario():",
     nome,
     email,
-    senha, cargo
+    senha, permissao
   );
   let instrucaoSql = `
-        INSERT INTO wisight.usuario VALUES (default, '${nome}', '${email}', '${distintivo}', '${cargo}', '${senha}', false, ${departamentoId});
+        INSERT INTO wisight.usuario VALUES (default, '${nome}', '${email}', '${distintivo}', '${permissao}', '${senha}', false, ${departamentoId});
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
 
-function atualizarUsuario(usuario_id, usuario_nome, usuario_email, usuario_cargo, usuario_distintivo, usuario_senha) {
+function atualizarUsuario(usuario_id, usuario_nome, usuario_email, usuario_permissao, usuario_distintivo, usuario_senha) {
   console.log(
     "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarUsuario():",
     usuario_id
   );
   let instrucaoSql = `
-        UPDATE usuario SET nome = '${usuario_nome}', email = '${usuario_email}', cargo = '${usuario_cargo}', numero = '${usuario_distintivo}', senha = '${usuario_senha}' WHERE usuario_id = ${usuario_id};
+        UPDATE usuario SET nome = '${usuario_nome}', email = '${usuario_email}', permissao = '${usuario_permissao}', numero = '${usuario_distintivo}', senha = '${usuario_senha}' WHERE usuario_id = ${usuario_id};
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
