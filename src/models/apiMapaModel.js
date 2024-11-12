@@ -6,7 +6,7 @@ function criarMapa() {
     );
     let instrucaoSql = `
     SELECT c.estado,
-    COUNT(r.relatorio_id) AS total_relatorios,
+    COUNT(r.relatorio_id) AS total_relatorios_por_estado,
     ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
     ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental
     FROM wisight.relatorio r

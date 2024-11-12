@@ -10,7 +10,7 @@ function criarMapa(req, res) {
         .catch(function (erro) {
             console.log(erro);
             console.log(
-                "\nHouve um erro ao criarMapa! Erro: ",
+                "\nHouve um erro em criarMapa! Erro: ",
                 erro.sqlMessage
             );
             res.status(500).json(erro.sqlMessage);

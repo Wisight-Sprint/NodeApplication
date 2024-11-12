@@ -24,19 +24,61 @@
             </span>
         </button>
     </a>
+    <div id="legenda" class="caixa-legenda">
+        <i class="fa-solid fa-xmark" style="color: black" onclick="mudarStatusLegenda()"></i>
+        <h3>Legenda do Mapa</h3>
+        <ul>
+            <li><i class="fa-solid fa-square" style="color: #990000"></i> Intensidade Máxima</li>
+            <li><i class="fa-solid fa-square" style="color: #CC0000"></i> Muito Alta</li>
+            <li><i class="fa-solid fa-square" style="color: #FF4A4A"></i> Alta</li>
+            <li><i class="fa-solid fa-square" style="color: #FF7878"></i> Moderada</li>
+            <li><i class="fa-solid fa-square" style="color: #FFD0D0"></i> Baixa</li>
+            <li><i class="fa-solid fa-square"
+                    style="color: transparent; border: 1px solid #ddd; border-radius: 3px;"></i> Nenhum Incidente</li>
+        </ul>
+    </div>
+    <button id="btnLegenda" onclick="mudarStatusLegenda()" class="buttonLegenda">Abrir Legenda</button>
     <div id="map"></div>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        Swal.fire({
-            title: "Este é o mapa dinâmico!",
-            text: "Aqui, você tem uma visão macro do seu país! Clicando no estado que deseja ver, você terá seu nome e algumas informações relevantes.",
-            icon: "question",
-            background: "#FFF",
-            color: "#000",
-            showConfirmButton: true,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Ok"
-        });
+        let usuario_id = sessionStorage.ID_USUARIO;
+
+        if (sessionStorage.PULARTUTORIAL == 0) {
+            Swal.fire({
+                title: "Este é o mapa dinâmico!",
+                icon: "question",
+                background: "#FFF",
+                color: "#000",
+                showConfirmButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok",
+                html: `
+            <p>Aqui, você tem uma visão macro do seu país! Clicando no estado que deseja ver, você terá seu nome e algumas informações relevantes.</p>
+            <label style="font-size: 16px; color: #333; display: flex; align-items: center; justify-content: center">
+                <input type="checkbox" id="checkbox" style="width: 20px; height: 20px; accent-color: #FF4A4A; margin-right: 5px;">
+                Não mostrar novamente.
+            </label>`
+            }).then(() => {
+                const isChecked = document.getElementById("checkbox").checked;
+                if (isChecked) {
+                    fetch(`users/removerTutorialMapa/${usuario_id}`);
+                    sessionStorage.PULARTUTORIAL = 1;
+                }
+            });
+        }
+
+        function mudarStatusLegenda() {
+            const displayValue = window.getComputedStyle(btnLegenda).display;
+
+            if (displayValue === "none") {
+                legenda.classList.add("oculto");
+                btnLegenda.style.display = "block";
+            } else {
+                legenda.classList.remove("oculto");
+                btnLegenda.style.display = "none";
+            }
+        }
 
         const map = L.map('map', {
             center: [37.8, -96],  // Centro aproximado dos EUA
@@ -61,21 +103,21 @@
 
 
         // Função para definir a cor do estado com base no total de relatórios
-        function getColor(d) {
-            return d > 14 ? 'red' :
-                d > 10 ? 'orange' :
-                    d > 8 ? 'yellow' :
-                        d > 3 ? 'green' :
-                            d > 1 ? 'blue' :
-                                d === 0 ? 'transparent' : // ou outra cor para valores entre 0 e 1
-                                    '#FFEDA0'; // ou cor padrão para 0
+        function getColor(total_relatorios_por_estado) {
+            return total_relatorios_por_estado >= (valorMaximo * 5) ? '#990000' :  // Intensidade máxima
+                total_relatorios_por_estado >= (valorMaximo * 4) ? '#CC0000' :  // Muito alta
+                    total_relatorios_por_estado >= (valorMaximo * 3) ? '#FF4A4A' :  // Alta
+                        total_relatorios_por_estado >= (valorMaximo * 2) ? '#FF7878' :  // Moderada
+                            total_relatorios_por_estado >= valorMaximo ? '#FFD0D0' :  // Baixa
+                                total_relatorios_por_estado === 0 ? 'transparent' :  // Nenhum incidente
+                                    '#FFD0D0';  // Muito baixa
         }
 
-        // Função para estilizar cada estado
         function style(feature) {
             const estado = feature.properties.name;
             const estadoData = estadosData[estado] || { total_relatorios: 0, porcentagemCamera: 0, porcentagemMental: 0 };
             const totalRelatorios = estadoData.total_relatorios;
+
             return {
                 fillColor: getColor(totalRelatorios),
                 weight: 1,
@@ -91,32 +133,41 @@
             const estado = feature.properties.name;
             const estadoData = estadosData[estado] || { total_relatorios: 0, porcentagemCamera: 0, porcentagemMental: 0 };
             const totalRelatorios = estadoData.total_relatorios;
+            listaRelatorios.push(totalRelatorios);
+            valorMaximo = Math.max(...listaRelatorios);
+            valorMaximo = Math.floor(valorMaximo / 6);
             const porcentagemCamera = estadoData.porcentagemCamera;
             const porcentagemMental = estadoData.porcentagemMental;
 
             // Adiciona um popup com os dados do estado
             layer.on('click', function () {
-                layer.bindPopup(`<b>Estado:</b> ${estado}<br><b>Total de Relatórios:</b> ${totalRelatorios}<br><b>Utilização da Câmera Corporal:</b> ${porcentagemCamera}%<br><b>Casos com Problemas Mentais:</b> ${porcentagemMental}%`).openPopup();
+                layer.bindPopup(`<b>Estado:</b> ${estado}<br><b>Total de Incidentes:</b> ${totalRelatorios}<br><b>Utilização da Câmera Corporal:</b> ${porcentagemCamera}%<br><b>Vítimas com Problemas Mentais:</b> ${porcentagemMental}%`).openPopup();
             });
         }
 
         // Variável para armazenar dados de relatórios por estado
         let estadosData = {};
-
+        let listaRelatorios = [];
+        let valorMaximo;
+        let totalRelatorios;
         // Carregar dados dos relatórios do backend
         async function carregarDados() {
-            const response = await fetch("/apiMapa/criarMapa");
-            const data = await response.json();
+            const responseCriarMapa = await fetch("/apiMapa/criarMapa");
+            const dataCriarMapa = await responseCriarMapa.json();
 
-            // Transformar dados para um formato fácil de acessar
-            data.forEach(item => {
+            // Transformar dados em um formato fácil de acessar
+            dataCriarMapa.forEach(item => {
                 estadosData[item.estado] = {
-                    total_relatorios: item.total_relatorios,
+                    total_relatorios: item.total_relatorios_por_estado,
                     porcentagemCamera: item.porcentagemCamera,
                     porcentagemMental: item.porcentagemMental
-                }
+                };
+                listaRelatorios.push(item.total_relatorios_por_estado);
             });
 
+            // Calcular valorMaximo com base na lista de relatórios
+            valorMaximo = Math.max(...listaRelatorios);
+            valorMaximo = Math.floor(valorMaximo / 6);
 
             // Carregar GeoJSON dos estados e aplicar estilo
             fetch("https://raw.githubusercontent.com/Joao-Noce/geoJsonUSA/refs/heads/main/USA_With_States.geo.json")

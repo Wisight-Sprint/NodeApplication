@@ -7,7 +7,7 @@ function autenticar(email, senha) {
     senha
   );
   let instrucaoSql = `
-        SELECT usuario_id, nome, cargo, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT usuario_id, nome, cargo, pularTutorial, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -21,20 +21,7 @@ function cadastrarUsuario(nome, email, senha, departamentoId, distintivo, cargo)
     senha, cargo
   );
   let instrucaoSql = `
-        INSERT INTO wisight.usuario VALUES (default, '${nome}', '${email}', '${distintivo}', '${cargo}', '${senha}', ${departamentoId});
-    `;
-  console.log("Executando a instrução SQL: \n" + instrucaoSql);
-  return database.executar(instrucaoSql);
-}
-
-function atualizarSenha(novaSenha, usuario_id) {
-  console.log(
-    "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarSenha():",
-    novaSenha,
-    idUsuario
-  );
-  let instrucaoSql = `
-        UPDATE usuario SET senha = ('${novaSenha}') WHERE usuario_id = ('${usuario_id}');
+        INSERT INTO wisight.usuario VALUES (default, '${nome}', '${email}', '${distintivo}', '${cargo}', '${senha}', false, ${departamentoId});
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -75,11 +62,22 @@ function buscarUsuarioPorDepartamento(fk_departamento) {
   return database.executar(instrucaoSql);
 }
 
+function removerTutorialMapa(usuario_id) {
+  console.log(
+    "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function removerTutorialMapa(): "
+  );
+  let instrucaoSql = `
+        UPDATE wisight.usuario SET pularTutorial = true WHERE usuario_id = ${usuario_id};
+    `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 module.exports = {
   autenticar,
   cadastrarUsuario,
-  atualizarSenha,
   atualizarUsuario,
   deletarUsuario,
-  buscarUsuarioPorDepartamento
+  buscarUsuarioPorDepartamento,
+  removerTutorialMapa
 };

@@ -51,33 +51,14 @@ function autenticar(req, res) {
         nome_usuario: resultadoAutenticar[0].nome,
         departamento_usuario: resultadoAutenticar[0].fk_departamento,
         usuario_id: resultadoAutenticar[0].usuario_id,
-        usuario_cargo: resultadoAutenticar[0].cargo
+        usuario_cargo: resultadoAutenticar[0].cargo,
+        pularTutorial: resultadoAutenticar[0].pularTutorial
       });
     })
     .catch(function (erro) {
       console.log(erro);
       console.log(
         "\nHouve um erro ao realizar o login! Erro: ",
-        erro.sqlMessage
-      );
-      res.status(500).json(erro.sqlMessage);
-    });
-}
-
-//UPDATE
-function atualizarSenha(req, res) {
-  let novaSenha = req.body.novaSenhaServer;
-  let usuario_id = req.body.usuario_idServer;
-
-  userModel
-    .atualizarSenha(novaSenha, usuario_id)
-    .then(function (resultado) {
-      res.json(resultado);
-    })
-    .catch(function (erro) {
-      console.log(erro);
-      console.log(
-        "\nHouve um erro ao atualizar a senha do usuário ! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -105,7 +86,7 @@ function atualizarUsuario(req, res) {
     res.status(400).send("O cargo está undefined!");
   } else if (id == undefined) {
     res.status(400).send("Seu id está undefined!");
-  }else {
+  } else {
     userModel
       .atualizarUsuario(id, nome, email, cargo, distintivo, senha)
       .then(function (resultado) {
@@ -151,11 +132,25 @@ function buscarUsuarioPorDepartamento(req, res) {
     });
 }
 
+function removerTutorialMapa(req, res) {
+  let usuario_id = req.params.usuario_id;
+  userModel
+    .removerTutorialMapa(usuario_id)
+    .then(function (removerTutorialMapa) {
+      res.json(removerTutorialMapa); // Retorna todos os registros
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("\nHouve um erro ao mudar pularTutorial! Erro: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
   autenticar,
   cadastrarUsuario,
-  atualizarSenha,
   atualizarUsuario,
   deletarUsuario,
-  buscarUsuarioPorDepartamento
+  buscarUsuarioPorDepartamento,
+  removerTutorialMapa
 };
