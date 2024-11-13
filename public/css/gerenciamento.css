@@ -164,6 +164,7 @@ body {
             overflow-y: auto;
             min-height: 50px;
             max-height: 500px;
+            margin-bottom: 25px;
 
             .cabecalho,
             .publicacao {
