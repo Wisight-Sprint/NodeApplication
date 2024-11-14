@@ -239,6 +239,57 @@ obterGenero()
 
 // obterDadosGrafico()
 
+
+function obterVitima() {
+    fetch("/dashboard/obterVitima", {
+        method: "GET",
+    })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log("VITIMA:" + data)
+
+            for (let index = 0; index < data.length; index++) {
+            
+                console.log("teste:" + data[index])
+
+            }
+
+            // let armamentos = {
+            //     'Nenhum': 0,
+            //     'Facão': 0,
+            //     'Arma de fogo': 0
+            // };
+
+            // data.forEach(function(item) {
+            //     if (armamentos[item.armamento] !== undefined) {
+            //         armamentos[item.armamento] = item.quantidade;
+            //     }
+            // });
+
+            // depois trocar esse mychart por:
+            // myChart.data.datasets[0].data = [
+            //     armamentos['Gun'], 
+            //     armamentos['unarmed'], 
+            //     armamentos['knife']
+            // ];
+
+            // myChart.data.datasets[0].data = [
+            //     armamentos['Nenhum'], 
+            //     armamentos['Facão'], 
+            //     armamentos['Arma de fogo']
+            // ];
+            
+            // myChart.update();
+        })
+        .catch(function (error) {
+            console.log("Ocorreu um erro:", error);
+        });
+}
+
+obterVitima()
+
 Highcharts.chart('BarChart', {
     chart: {
         type: 'bar' 

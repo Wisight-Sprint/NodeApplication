@@ -47,7 +47,7 @@ function obterCameraCorporal(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "\nHouve um erro ao buscar a media idade! Erro: ",
+        "\nHouve um erro ao buscar a camera corporal! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -66,7 +66,7 @@ function obterTranstorno(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "\nHouve um erro ao buscar a media idade! Erro: ",
+        "\nHouve um erro ao buscar os transtornos! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -85,7 +85,7 @@ function obterGenero(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "\nHouve um erro ao buscar a media idade! Erro: ",
+        "\nHouve um erro ao buscar o genero! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -104,7 +104,7 @@ function obterArma(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "\nHouve um erro ao buscar a media idade! Erro: ",
+        "\nHouve um erro ao buscar as armas! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -123,7 +123,7 @@ function obterEtnia(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "\nHouve um erro ao buscar a media idade! Erro: ",
+        "\nHouve um erro ao buscar as etnias! Erro: ",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
@@ -142,13 +142,30 @@ function obterFuga(req, res) {
   .catch(function (erro) {
     console.log(erro);
     console.log(
-      "\nHouve um erro ao buscar a media idade! Erro: ",
+      "\nHouve um erro ao buscar as fugas! Erro: ",
       erro.sqlMessage
     );
     res.status(500).json(erro.sqlMessage);
   });
 
 console.log(res);
+
+}
+
+function obterVitima(req, res){
+
+  dashboardModel.obterVitima()
+  .then(function (response) {
+    res.json(response);
+  })
+  .catch(function (erro) {
+    console.log(erro);
+    console.log(
+      "\nHouve um erro ao buscar as vitimas! Erro: ",
+      erro.sqlMessage
+    );
+    res.status(500).json(erro.sqlMessage);
+  });
 
 }
 
@@ -160,5 +177,6 @@ module.exports = {
   obterGenero,
   obterArma,
   obterEtnia,
-  obterFuga
+  obterFuga,
+  obterVitima
 };

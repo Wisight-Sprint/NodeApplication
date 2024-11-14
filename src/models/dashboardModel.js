@@ -119,6 +119,31 @@ function obterFuga() {
 
 }
 
+function obterVitima(){
+
+    let instrucaoSql = `
+    SELECT 
+    YEAR(r.dt_ocorrencia) AS ano,
+    MONTH(r.dt_ocorrencia) AS mes,
+    COUNT(v.vitima_id) AS total_vitimas
+    FROM 
+    wisight.vitima v
+    JOIN 
+    wisight.relatorio r ON v.fk_relatorio = r.relatorio_id
+    WHERE 
+    YEAR(r.dt_ocorrencia) IN (2023, 2024)
+    GROUP BY 
+    ano, mes
+    ORDER BY 
+    ano, mes;
+    `
+
+    console.log("Executando instrução SQL: \n" + instrucaoSql)
+
+    return database.executar(instrucaoSql)
+
+}
+
 module.exports = {
     obterRegioes,
     obterMediaIdade,
@@ -127,5 +152,6 @@ module.exports = {
     obterGenero,
     obterArma,
     obterEtnia,
-    obterFuga
+    obterFuga,
+    obterVitima
 };

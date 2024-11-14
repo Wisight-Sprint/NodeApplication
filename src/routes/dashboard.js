@@ -35,4 +35,8 @@ router.get("/obterFuga", (req,res) => {
     dashboardController.obterFuga(req, res)
 })
 
+router.get("/obterVitima", (req,res) => {
+    dashboardController.obterVitima(req, res)
+})
+
 module.exports = router;
