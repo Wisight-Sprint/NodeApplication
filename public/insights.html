@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/sessao.js"></script>
+    <link rel="stylesheet" href="./css/insights.css" />
+    <link rel="stylesheet" href="./css/nav.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>Insights | Wisight</title>
+  </head>
+
+  <body>
+    <h1>Enviar Departamento para o Servidor</h1>
+
+    <!-- Botão para enviar o depId -->
+    <button id="sendDepIdButton">Enviar Departamento</button>
+
+    <script>
+      document
+        .getElementById("sendDepIdButton")
+        .addEventListener("click", function () {
+          // Pegando o depId do sessionStorage
+          const depId = sessionStorage.getItem("DEPARTAMENTO_USUARIO");
+
+          if (depId) {
+            // Enviando o depId para o servidor Node.js via fetch
+            fetch("/insights/executeJar", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ DEPARTAMENTO_USUARIO: depId }), // Enviando o depId no corpo da requisição
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
+                  console.log("Arquivo .jar executado com sucesso.");
+                } else {
+                  console.log("Erro ao executar .jar: ", data.message);
+                }
+              })
+              .catch((error) => {
+                console.error("Erro na requisição:", error);
+              });
+          } else {
+            console.log(
+              "DEPARTAMENTO_USUARIO não encontrado no sessionStorage."
+            );
+          }
+        });
+    </script>
+  </body>
+</html>
