@@ -12,30 +12,75 @@ function obterRegioes(){
 
 }
 
-function obterMediaIdade() {
-     let instrucaoSql = `
-    SELECT 
-    idade as idadeIncidente,
-    COUNT(*) AS numero_vitimas,
-    (COUNT(*) / (SELECT COUNT(*) FROM wisight.vitima)) * 100 AS porcentagem
-    FROM wisight.vitima
-    GROUP BY idade
-    ORDER BY numero_vitimas DESC
-    LIMIT 1;
-`
+function obterMediaIdade(cidadeUsuario) {
+     
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == '' || cidadeUsuario == undefined) {
+        instrucaoSql = `
+        SELECT 
+        -- round(avg(idade)) as idadeIncidente,
+        COUNT(*) AS numero_vitimas,
+        (COUNT(*) / (SELECT COUNT(*) FROM wisight.vitima)) * 100 AS porcentagem
+        FROM wisight.vitima
+        GROUP BY idade
+        ORDER BY numero_vitimas DESC
+        LIMIT 1;
+    `
+    } else {
+            instrucaoSql = `
+                SELECT 
+                ce.cidade, 
+                ce.estado,
+                round(avg(idade)) as idadeIncidente,
+                COUNT(v.vitima_id) AS numero_vitimas,
+                (COUNT(*) / (SELECT COUNT(*) FROM wisight.vitima)) * 100 AS porcentagem
+                FROM 
+                    wisight.cidade_estado ce
+                JOIN 
+                    wisight.departamento d ON d.fk_cidade_estado = ce.cidade_estado_id
+                JOIN 
+                    wisight.relatorio r ON r.fk_departamento = d.departamento_id
+                JOIN 
+                    wisight.vitima v ON v.fk_relatorio = r.relatorio_id
+                WHERE
+                    ce.cidade = '${cidadeUsuario}'
+                GROUP BY 
+                    ce.cidade, ce.estado;
+            `
+        
+    }
+
 console.log("executando a instrução SQL: \n" + instrucaoSql)
 
 return database.executar(instrucaoSql)
 
 }
 
-function obterCameraCorporal(){
+function obterCameraCorporal(cidadeUsuario){
 
-    let instrucaoSql= `
-    SELECT 
-    ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
-    FROM wisight.relatorio;
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == '' || cidadeUsuario == undefined) {
+        instrucaoSql= `
+        SELECT 
+        ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
+        FROM wisight.relatorio;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+            ROUND((COUNT(CASE WHEN r.camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
+        FROM 
+            wisight.relatorio r
+        JOIN 
+            wisight.departamento d ON d.departamento_id = r.fk_departamento
+        JOIN 
+            wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+        WHERE
+            ce.cidade = '${cidadeUsuario}';
     `
+    }
 
     console.log("executando a instrução SQL: \n" + instrucaoSql)
 
@@ -43,13 +88,31 @@ function obterCameraCorporal(){
 
 }
 
-function obterTranstorno(){
+function obterTranstorno(cidadeUsuario){
 
-    let instrucaoSql = `
-    SELECT 
-    ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
-    FROM wisight.relatorio;
-    `
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
+        instrucaoSql = `
+        SELECT 
+        ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
+        FROM wisight.relatorio;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+            ROUND((COUNT(CASE WHEN r.problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
+        FROM 
+            wisight.relatorio r
+        JOIN 
+            wisight.departamento d ON d.departamento_id = r.fk_departamento
+        JOIN 
+            wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+        WHERE
+            ce.cidade = '${cidadeUsuario}';
+        `
+    }
+    
 
     console.log("executando a instrução SQL: \n" + instrucaoSql)
 
@@ -57,18 +120,48 @@ function obterTranstorno(){
 
 }
 
-function obterGenero(){
+function obterGenero(cidadeUsuario){
 
-    let instrucaoSql = `
-    SELECT 
-    genero as generoIncidente,
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined){
+        instrucaoSql = `
+        SELECT 
+        genero as generoIncidente,
+        COUNT(*) AS numero_vitimas,
+        (COUNT(*) / (SELECT COUNT(*) FROM wisight.vitima)) * 100 AS porcentagem
+        FROM wisight.vitima
+        GROUP BY genero
+        ORDER BY numero_vitimas DESC
+        LIMIT 1;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+    v.genero AS generoIncidente,
     COUNT(*) AS numero_vitimas,
-    (COUNT(*) / (SELECT COUNT(*) FROM wisight.vitima)) * 100 AS porcentagem
-    FROM wisight.vitima
-    GROUP BY genero
-    ORDER BY numero_vitimas DESC
-    LIMIT 1;
-    `
+    (COUNT(*) / (SELECT COUNT(*) AS total_vitimas
+    FROM wisight.vitima v
+    JOIN wisight.relatorio r ON r.relatorio_id = v.fk_relatorio
+    WHERE ce.cidade = '${cidadeUsuario}')) * 100 AS porcentagem
+FROM 
+    wisight.vitima v
+JOIN 
+    wisight.relatorio r ON r.relatorio_id = v.fk_relatorio
+JOIN 
+    wisight.departamento d ON d.departamento_id = r.fk_departamento
+JOIN 
+    wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+WHERE 
+    ce.cidade = '${cidadeUsuario}'
+GROUP BY 
+    v.genero
+ORDER BY 
+    numero_vitimas DESC
+LIMIT 1;
+        `
+    }
+
 
     console.log("executando a instrução SQL: \n" + instrucaoSql)
 
@@ -77,13 +170,37 @@ function obterGenero(){
 
 }
 
-function obterArma(){
+function obterArma(cidadeUsuario){
 
-    let instrucaoSql = `
-    SELECT armamento, COUNT(*) AS quantidade
-    FROM wisight.vitima
-    GROUP BY armamento;
-    `
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined){
+        instrucaoSql = `
+        SELECT armamento, COUNT(*) AS quantidade
+        FROM wisight.vitima
+        GROUP BY armamento;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+            v.armamento, 
+            COUNT(*) AS quantidade
+        FROM 
+            wisight.vitima v
+        JOIN 
+            wisight.relatorio r ON r.relatorio_id = v.fk_relatorio
+        JOIN 
+            wisight.departamento d ON d.departamento_id = r.fk_departamento
+        JOIN 
+            wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+        WHERE 
+            ce.cidade = '${cidadeUsuario}'
+        GROUP BY 
+            v.armamento;
+
+        `
+    }
+
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql)
 
@@ -91,13 +208,37 @@ function obterArma(){
 
 }
 
-function obterEtnia() {
+function obterEtnia(cidadeUsuario) {
 
-    let instrucaoSql = `
-    SELECT etnia, COUNT(*) AS quantidade
-    FROM wisight.vitima
-    GROUP BY etnia;
-    `
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
+        instrucaoSql = `
+        SELECT etnia, COUNT(*) AS quantidade
+        FROM wisight.vitima
+        GROUP BY etnia;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+            v.etnia, 
+            COUNT(*) AS quantidade
+        FROM 
+            wisight.vitima v
+        JOIN 
+            wisight.relatorio r ON r.relatorio_id = v.fk_relatorio
+        JOIN 
+            wisight.departamento d ON d.departamento_id = r.fk_departamento
+        JOIN 
+            wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+        WHERE 
+            ce.cidade = '${cidadeUsuario}'
+        GROUP BY 
+            v.etnia;
+        `
+
+    }
+
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql)
 
@@ -105,13 +246,35 @@ function obterEtnia() {
 
 }
 
-function obterFuga() {
+function obterFuga(cidadeUsuario) {
 
-    let instrucaoSql = `
-    SELECT fuga, COUNT(*) AS quantidade
-    FROM wisight.relatorio
-    GROUP BY fuga;
-    `
+    var instrucaoSql = ``
+
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
+
+        instrucaoSql = `
+        SELECT fuga, COUNT(*) AS quantidade
+        FROM wisight.relatorio
+        GROUP BY fuga;
+        `
+    } else {
+        instrucaoSql = `
+        SELECT 
+            r.fuga, 
+            COUNT(*) AS quantidade
+        FROM 
+            wisight.relatorio r
+        JOIN 
+            wisight.departamento d ON d.departamento_id = r.fk_departamento
+        JOIN 
+            wisight.cidade_estado ce ON ce.cidade_estado_id = d.fk_cidade_estado
+        WHERE 
+            ce.cidade = '${cidadeUsuario}'
+        GROUP BY 
+            r.fuga;
+            `
+    }
+    
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql)
 

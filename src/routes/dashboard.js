@@ -7,7 +7,7 @@ router.get("/obterRegioes", (req,res) => {
     dashboardController.obterRegioes(req, res)
 })
 
-router.get("/obterMediaIdade", (req,res) => {
+router.get("/obterMediaIdade", function (req,res) {
     dashboardController.obterMediaIdade(req, res)
 })
 

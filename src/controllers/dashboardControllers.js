@@ -21,7 +21,9 @@ function obterRegioes(req, res) {
 
 function obterMediaIdade(req, res) {
 
-  dashboardModel.obterMediaIdade()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterMediaIdade(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -40,7 +42,9 @@ function obterMediaIdade(req, res) {
 
 function obterCameraCorporal(req, res) {
 
-  dashboardModel.obterCameraCorporal()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterCameraCorporal(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -59,7 +63,9 @@ function obterCameraCorporal(req, res) {
 
 function obterTranstorno(req, res) {
 
-  dashboardModel.obterTranstorno()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterTranstorno(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -78,7 +84,9 @@ function obterTranstorno(req, res) {
 
 function obterGenero(req, res) {
 
-  dashboardModel.obterGenero()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterGenero(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -97,7 +105,9 @@ function obterGenero(req, res) {
 
 function obterArma(req, res) {
 
-  dashboardModel.obterArma()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterArma(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -116,7 +126,9 @@ function obterArma(req, res) {
 
 function obterEtnia(req, res) {
 
-  dashboardModel.obterEtnia()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterEtnia(cidadeUsuario)
     .then(function (response) {
       res.json(response);
     })
@@ -135,7 +147,9 @@ function obterEtnia(req, res) {
 
 function obterFuga(req, res) {
 
-  dashboardModel.obterFuga()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterFuga(cidadeUsuario)
   .then(function (response) {
     res.json(response);
   })

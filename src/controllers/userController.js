@@ -48,7 +48,8 @@ function autenticar(req, res) {
         usuario_id: resultadoAutenticar[0].usuario_id,
         nome_usuario: resultadoAutenticar[0].nome,
         email_usuario: resultadoAutenticar[0].email,
-        departamento_usuario: resultadoAutenticar[0].departamento,
+        cargo_usuario: resultadoAutenticar[0].cargo,
+        cidade_usuario: resultadoAutenticar[0].cidade,
       });
     })
     .catch(function (erro) {
