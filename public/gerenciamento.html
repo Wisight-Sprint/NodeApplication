@@ -17,7 +17,7 @@
     <title>Gerenciamento | Wisight</title>
 </head>
 
-<body onload="filtro(selectFiltro.value, inpPesquisa)">
+<body onload="filtro(selectFiltro.value, inpPesquisa, false)">
 
     <div class="principalContainer">
         <div class="containerNav">
@@ -29,11 +29,10 @@
                 <a href="suporte.html">
                     <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
                 </a>
-                <div class="container-icon" id="telaAtual"> <img class="icon-add-user"
-                        src="./Assets/adicionar-usuario 1.png"></div></a>
+                <div class="container-icon" id="telaAtual"><i class="fa-solid fa-user-gear"></i></div>
                 <a href="map.html">
                     <div class="container-icon">
-                        <span><i class="fa-solid fa-map-location-dot" style="color: #ffffff;"></i></span>
+                        <i class="fa-solid fa-map-location-dot"></i>
                     </div>
                 </a>
                 <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout"
@@ -165,7 +164,7 @@
 
             <header>Gerenciamento de Usuários</header>
             <div class="pesquisa">
-                <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa)">
+                <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
                     <option value="#">Selecione um filtro</option>
                     <option value="nome">Pesquisar por nome</option>
                     <option value="distintivo">Pesquisar por distintivo</option>
@@ -173,7 +172,7 @@
                     <option value="permissao">Pesquisar por permissao</option>
                 </select>
                 <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
-                    oninput="filtro(selectFiltro.value, inpPesquisa)">
+                    oninput="filtro(selectFiltro.value, inpPesquisa, false)">
             </div>
 
             <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
@@ -205,9 +204,14 @@
     let totalPaginas;
 
     function mudarPagina(acao, numPagina) {
-        if (acao > 0 && numPagina < totalPaginas) inpNumeroPagina.value++; paginacao();
-
-        if (acao < 0 && numPagina > 1) inpNumeroPagina.value--; paginacao();
+        if (acao > 0 && numPagina < totalPaginas) {
+            inpNumeroPagina.value++;
+            paginacao();
+        }
+        if (acao < 0 && numPagina > 1) {
+            inpNumeroPagina.value--;
+            paginacao();
+        }
     }
 
     if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
@@ -261,7 +265,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                         });
-                        filtro(selectFiltro.value, inpPesquisa);
+                        filtro(selectFiltro.value, inpPesquisa, false);
                     } else {
                         const errorText = await responseCadastro.text();
                         throw new Error("Erro ao cadastrar usuário: " + errorText);
@@ -322,7 +326,7 @@
                                 showConfirmButton: false,
                                 timer: 1500,
                             });
-                            filtro(selectFiltro.value, inpPesquisa);
+                            filtro(selectFiltro.value, inpPesquisa, false);
                         } else if (resposta.status == 404) {
                             window.alert("Deu 404!");
                         } else {
@@ -426,7 +430,7 @@
 
                             sessionStorage.NOME_USUARIO = nome;
                             sessionStorage.PERMISSAO_USUARIO = permissao;
-                            filtro(selectFiltro.value, inpPesquisa);
+                            filtro(selectFiltro.value, inpPesquisa, false);
                             sairEditar();
                         } else if (resposta.status == 404) {
                             window.alert("Deu 404!");
@@ -460,7 +464,6 @@
         let tamanhoPagina = Number(inpTamanhoPagina.value);
         tamanhoPagina = tamanhoPagina || 10;
 
-        // Requisição para buscar os usuários
         fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
             .then(function (resposta) {
                 if (resposta.ok) {
@@ -474,16 +477,24 @@
                     }
 
                     resposta.json().then(function (usuarios) {
+
                         let filtroUsuarios = usuarios;
 
                         if (temFiltro) {
-                            filtroUsuarios = usuarios.filter(function (usuario) {
-                                return (filtro === "nome" && usuario.nome.includes(filtroValue)) ||
-                                    (filtro === "distintivo" && usuario.numero.includes(filtroValue)) ||
-                                    (filtro === "email" && usuario.email.includes(filtroValue)) ||
-                                    (filtro === "permissao" && usuario.permissao.includes(filtroValue));
-                            });
+                            filtroUsuarios = [];
+                            for (let i = 0; i < usuarios.length; i++) {
+                                for (let u = 0; u < usuarios[i].nome.split(" ").length; u++) {
+                                    if ((filtro == "nome" && usuarios[i].nome.toLowerCase().split(" ")[u][0].includes(filtroValue.toLowerCase())) || (filtro == "distintivo" && usuarios[i].numero.includes(filtroValue)) || (filtro == "email" && usuarios[i].email.includes(filtroValue)) || (filtro == "permissao" && usuarios[i].permissao.includes(filtroValue))) {
+                                        filtroUsuarios.push(usuarios[i]);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        } else {
+                            filtroUsuarios = usuarios;
                         }
+
 
                         let totalUsuarios = filtroUsuarios.length;
                         totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
@@ -514,13 +525,13 @@
                             </div>
                         </div>`;
                         let tamanhoDiv = 50;
+                        if (filtroUsuarios.length > 0) {
+                            for (let u = primeiroItem; u < ultimoItem; u++) {
+                                let publicacao = filtroUsuarios[u];
 
-                        for (let i = primeiroItem; i < ultimoItem; i++) {
-                            let publicacao = filtroUsuarios[i];
-
-                            let divPublicacao = document.createElement("div");
-                            divPublicacao.className = "publicacao";
-                            divPublicacao.innerHTML = `
+                                let divPublicacao = document.createElement("div");
+                                divPublicacao.className = "publicacao";
+                                divPublicacao.innerHTML = `
                             <div class="div-objetos">
                                 <div class="objeto"><span>${publicacao.nome}</span></div>
                                 <div class="objeto"><span>${publicacao.numero}</span></div>
@@ -536,40 +547,50 @@
                                 </button>
                             </div>
                         `;
-                            tamanhoDiv += 90;
-                            if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
-                            listaUsuarios.appendChild(divPublicacao);
+                                tamanhoDiv += 90;
+                                if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
+                                listaUsuarios.appendChild(divPublicacao);
+                            }
+                            if (totalPaginas < numeroPagina) {
+                                inpNumeroPagina.value = totalPaginas;
+                                atualizarListaUsuarios();
+                            }
+                        } else {
+                            listaUsuarios.innerHTML = `
+                            <div class="error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Nenhum usuário encontrado</span>
+                            </div>`;
+                            usuario_container.innerHTML = "Nenhum usuário encontrado.";
+                            listaUsuarios.appendChild(usuario_container);
+                            inpNumeroPagina.value = 1;
+                            return;
                         }
-                        if (totalPaginas < numeroPagina) {
-                            inpNumeroPagina.value = totalPaginas;
-                            atualizarListaUsuarios();
-                        }
-                    });
+                    })
                 }
             })
             .catch(function (error) {
                 console.error("Erro ao buscar usuários:", error);
             });
-            
+
     }
 
 
-    function filtro(select, inputName) {
-        let temFiltro = select !== "#";
-        let inputValue = inputName.value.toLowerCase();
+    function filtro(select, inputName, passouPorPaginacao) {
+        const temFiltro = select !== "#";
         inputName.disabled = !temFiltro;
-
-        if (!temFiltro) {
-            inputName.value = "";
-            inputName.placeholder = "Selecione um campo para filtrar..."
+        inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
+        if (!temFiltro) inputName.value = "";
+        if (!passouPorPaginacao) {
+            inpNumeroPagina.value = 1;
         } else {
-            inputName.placeholder = "Digite o " + select + " desejado..."
+            inpNumeroPagina.value = inpNumeroPagina.value;
         }
-        atualizarListaUsuarios(temFiltro, select, inputValue);
+        atualizarListaUsuarios(temFiltro, select, inputName.value);
     }
 
     function paginacao() {
-        filtro(selectFiltro.value, inpPesquisa);
+        filtro(selectFiltro.value, inpPesquisa, true);
     }
 
     function validacao(nome, email, senha, confSenha, distintivo, permissao) {
@@ -640,6 +661,6 @@
     }
 
     setInterval(() => {
-        filtro(selectFiltro.value, inpPesquisa);
+        filtro(selectFiltro.value, inpPesquisa, false);
     }, 20000);
 </script>
