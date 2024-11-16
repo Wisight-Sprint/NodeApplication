@@ -52,6 +52,19 @@ create table if not exists wisight.vitima (
     references relatorio (relatorio_id)
 );
 
+create table if not exists wisight.insight (
+  insight_id int auto_increment,
+  dt_insercao datetime,
+  texto_insight varchar(2500),
+  fk_cidade_estado int,
+  fk_departamento int,
+	foreign key (fk_cidade_estado)
+    references cidade_estado (cidade_estado_id),
+	foreign key (fk_departamento)
+    references departamento (departamento_id),
+    primary key (insight_id, fk_cidade_estado, fk_departamento)
+);
+
 INSERT INTO wisight.cidade_estado (cidade_estado_id, cidade, estado) VALUES
 (1, 'New York', 'New York'),
 (2, 'Los Angeles', 'California'),
@@ -196,7 +209,18 @@ INSERT INTO usuario VALUES
 (default, "Marco Antonio", "marco.antonio@wisight.com", "1782", "Administrador", "4444444#", false, 1),
 (default, "Samuel Paz", "samuel.paz@wisight.com", "0986", "Administrador", "5555555#", false, 1),
 (default, "Giovanni de Souza", "giovanni.souza@wisight.com", "431", "Administrador", "6666666#", false, 1);
+
+
 select * from cidade_estado;
 select * from departamento;
 select * from usuario;
 select * from relatorio;
+
+use wisight;
+
+select * from usuario;
+select * from relatorio;
+select * from departamento;
+select * from vitima;
+select * from cidade_estado;
+drop database wisight;
