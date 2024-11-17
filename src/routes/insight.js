@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const insightsController = require("../controllers/insightController");
+const insightController = require("../controllers/insightController");
 
-router.post("/executeJar", insightController.commonUserExecuteJar);
+router.post("/executeJar", (req, res) => {
+    insightController.executeJar(req, res)
+});
 
 module.exports = router;

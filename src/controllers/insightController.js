@@ -1,4 +1,5 @@
 const insightModel = require("../models/insightModel");
+const { exec } = require("child_process");
 
 const executeJar = (req, res) => {
   const bodyServerName = Object.keys(req.body)[0];
@@ -10,8 +11,9 @@ const executeJar = (req, res) => {
       .json({ success: false, message: "Valor não fornecido no body" });
   }
 
+  // const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // Caminho para o arquivo .jar no servidor
-  const jarPath = "C:\\Users\\samue\\Downloads\\insights.jar";
+  const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
   // Comando para executar o .jar, passando o depId como argumento
   const command = `java -jar ${jarPath} ${valueBodyServer}`;
@@ -58,10 +60,6 @@ function getInsight(req, res) {
     })
     .catch(function (erro) {
       console.log(erro);
-      console.log(
-        "\nHouve um erro ao realizar o login! Erro: ",
-        erro.sqlMessage
-      );
       res.status(500).json(erro.sqlMessage);
     });
 }

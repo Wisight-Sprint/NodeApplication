@@ -24,7 +24,8 @@
 
 <script>
   document
-    .getElementById("sendDepIdButton", async function () {
+    .getElementById("sendDepIdButton")
+    .addEventListener("click", async function () {
       const userPermission = sessionStorage.getItem("PERMISSAO_USUARIO");
       let userInsightKey;
       let bodyServerName;
@@ -44,7 +45,6 @@
         whereParam = "fk_departamento";
         joinParam = "JOIN departamento d on i.fk_departamento = d.departamento_id";
         await sendValueForJava(userInsightKey, bodyServerName);
-        await getInsights(userInsightKey, whereParam, joinParam);
       }
     });
 
@@ -78,8 +78,6 @@
     }
   }
 
-  var teste;
-
   async function getInsight(userInsightKey, whereParam, joinParam) {
     if (userInsightKey && whereParam && joinParam) {
       await fetch("/insight/getInsight", {
@@ -100,10 +98,9 @@
             });
           } else {
             res.text().then(texto => {
-              throw "Houve um erro ao autenticar" + texto;
+              throw "a" + texto;
             });
           }
-          console.log("Response .then autenticar: " + res);
         })
         .catch((error) => {
           console.error("Erro na requisição:", error);
