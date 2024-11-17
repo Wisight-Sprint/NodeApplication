@@ -1,3 +1,5 @@
+sessionStorage.clear();
+
 window.onscroll = function () {
     var navbar = document.getElementById("navbar-normal");
 
@@ -33,11 +35,11 @@ function proxImagem() {
     document.getElementById("radio" + contador).checked = true;
 }
 
-function showMenu(){
+function showMenu() {
     var menu = document.getElementById("menu");
     var menuButton = document.getElementById("menu-button");
-    
-    
+
+
     menuButton.addEventListener("click", function () {
         console.log("passou aqui2")
         if (menu.style.display == "flex") {

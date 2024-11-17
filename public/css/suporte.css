@@ -1,7 +1,6 @@
 * {
-    box-sizing: border-box;
-    font-family: "Josefin Sans";
-    color: white;
+    font-family: "Josefin Sans", sans-serif;
+    color: #FFF;
 }
 
 body {
@@ -17,213 +16,136 @@ body {
     width: 100%;
 }
 
-.containerNav {
+.content {
     display: flex;
-}
-
-.navLeft {
-    width: 125px;
-    background-color: #030F1A;
     flex-direction: column;
+    width: 40%;
+
+    h1 {
+        font-size: 55px;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 30px;
+        width: 85%;
+        text-align: justify;
+    }
+
+    label {
+        font-size: 20px;
+        margin-bottom: 15px;
+        margin-top: 20px;
+    }
+
+    select {
+        outline: none;
+        border: none;
+        color: #FFF;
+        background: transparent;
+        border-bottom: solid #A9A9A9 1px;
+        border-right: solid #A9A9A9 1px;
+        width: 81%;
+        height: 25px;
+        font-size: 18px;
+
+        option {
+            outline: none;
+            color: #000;
+        }
+    }
+
+    textarea {
+        background-color: transparent;
+        color: #FFF;
+        transition: 0.7s;
+        outline: none;
+        border: solid #A9A9A9 1px;
+        border-radius: 10px;
+        width: 75%;
+        padding: 3%;
+        min-width: 75%;
+        min-height: 200px;
+        max-width: 90%;
+        max-height: 250px;
+        font-size: 18px;
+    }
+
+    textarea::placeholder {
+        color: #A9A9A9;
+    }
+
+    textarea:focus {
+        border: none;
+        color: #000;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    button {
+        cursor: pointer;
+        color: #FFF;
+        border: 1px solid #FFF;
+        border-radius: 15px;
+        height: 50px;
+        font-size: 18px;
+        width: 180px;
+        margin-top: 30px;
+        background: linear-gradient(270deg, transparent 50%, white 50%);
+        background-size: 200% 100%;
+        background-position: right;
+        transition: background-position 0.4s ease;
+    }
+
+    button:hover {
+        background-position: left;
+        color: #021526;
+    }
+}
+
+.chamados {
+    width: 40%;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    height: 70%;
+    margin-top: 130px;
+    padding: 30px;
+    padding-left: 70px;
+    margin-left: 50px;
+}
+
+.chamados .linha {
+    height: 1px;
+    background-color: #fff;
+    width: 90%;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+.dados_chamado {
     display: flex;
-    align-items: center;
-}
-
-.icon-logo {
-    width: 110px;
-    height: 76px;
-}
-
-.icon-home {
-    width: 54px;
-    height: 51px;
-}
-
-.icon-support {
-    width: 54px;
-    height: 54px;
-}
-
-.icon-add-user {
-    width: 54px;
-    height: 51px;
-}
-
-.icon-logout {
-    width: 50px;
-    height: 51px;
-    margin-left: 10px;
-}
-
-
-.container-logo{
-    width: 125px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center ;
-}
-
-.container-logo:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
-
-.container-home{
-    width: 125px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center ;
-}
-
-.container-home:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
-
-.container-support{
-    width: 125px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center ;
-}
-
-.container-support:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
-
-.container-add-user{
-    width: 125px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center ;
-}
-
-.container-add-user:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
-
-.container-logout{
-    width: 125px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center ; 
-}
-
-.container-logout:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-    border-radius: 15px;
-}
-
-.containerRight {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 30px;
-    flex-direction: column;
-}
-
-.contentContainer {
-    display: flex;
-    width: 100%;
     flex-direction: row;
-    gap: 100px;
-    justify-content: center;
-    align-items: center;
-}
-
-.supportContainer1 {
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-    height: 100%;
-    border: 3px red solid;
+    border: 1px solid #fff;
     border-radius: 15px;
-    padding: 5px;
-    gap: 25px;
+    height: 30px;
+    padding: 7px;
+    width: 90%;
+    margin-top: 5px;
+    padding-left: 25px;
 }
 
-.support_tittle {
-    font-size: 50px;
-    font-weight: bold;
+.chamados .dados_chamado .linha_curta {
+    width: 1px;
+    height: 20px;
+    background-color: #FFF;
+    margin-left: 25px;
+    margin-right: 10px;
+    margin-top: -2px;
 }
 
-.support_category {
-    width: 450px;
-    height: 40px;
-    margin-bottom: 25px;
+.chamados_encerrados {
+    margin-top: 100px;
 }
 
-.support_category select {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
+.numero {
+    margin-right: 15px;
 }
-
-.support_textarea {
-    width: 450px;
-    height: 160px;
-    margin-bottom: 25px;
-}
-
-.support_textarea textarea {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    padding: 10px;
-    background-color: transparent;
-}
-
-.support_button {
-    width: 175px;
-    height: 80px;
-}
-
-.support_button button {
-    cursor: pointer;
-    background-color:#030F1A;;
-    border-radius: 15px;
-    width: 100%;
-    height: 100%;
-}
-
-.support_button button:hover{
-    background-color: #49688D;
-}
-
-.supportContainer2 {
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-    height: 100%;
-    border: 3px red solid;
-    border-radius: 15px;
-    padding: 5px;
-    gap: 25px;
-}
-
-
-
-

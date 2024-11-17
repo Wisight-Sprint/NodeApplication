@@ -9,26 +9,11 @@ body {
     overflow-x: hidden;
 }
 
-.containerNav {
-    display: flex;
-    padding-right: 5px;
-    margin-right: 25px;
-}
-
-.navLeft {
-    width: 115px;
-    background-color: #030F1A;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    height: 100vh;
-}
-
-.title-page{
+.title-page {
     color: #FFF;
     font-size: 40px;
-    font-weight: bold; 
-    margin-top: 20px; 
+    font-weight: bold;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
@@ -152,44 +137,48 @@ body {
 }
 
 .gr-victims{
+
+.armed-victims {
     margin-top: 35px;
     text-align: center;
 }
 
-.ethnicity-victims{
+.ethnicity-victims {
     margin-top: 35px;
     text-align: center;
 }
 
-.escape-victims{
+.escape-victims {
     margin-top: 35px;
-    text-align: center; 
+    text-align: center;
 }
 
-.armed-victims, .ethnicity-victims, .escape-victims {
-    flex: 1; 
-    box-sizing: border-box; 
+.armed-victims,
+.ethnicity-victims,
+.escape-victims {
+    flex: 1;
+    box-sizing: border-box;
 }
 
 .line-vertical {
-    width: 2px; 
-    background-color: black; 
+    width: 2px;
+    background-color: black;
     margin-top: 35px;
-    height: 330px; 
+    height: 330px;
 }
 
-.monthly-victims{
-   text-align: center;
+.monthly-victims {
+    text-align: center;
 }
 
 .welcome {
-display: flex;
-color: #FFF;
-justify-content: end;
-font-size: 25px;
-font-weight: bold;
-margin-right: 10px;
-margin-bottom: 15px;
+    display: flex;
+    color: #FFF;
+    justify-content: end;
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-bottom: 15px;
 }
 
 #bem_vindo {
@@ -260,7 +249,7 @@ margin-bottom: 15px;
     gap: 15px;
 }
 
-.graphic-size4{
+.graphic-size4 {
     width: 1014px;
     height: 250px;
 }
@@ -268,21 +257,21 @@ margin-bottom: 15px;
 .graphicSize1 {
     width: 260px;
     height: 230px;
-    margin-top: 40px;    
+    margin-top: 40px;
     margin-left: 5%;
 }
 
 .graphicSize2 {
     width: 260px;
     height: 230px;
-    margin-top: 40px;    
+    margin-top: 40px;
     margin-left: 5%;
 }
 
 .graphicSize3 {
     width: 260px;
     height: 230px;
-    margin-top: 40px;    
+    margin-top: 40px;
     margin-left: 5%;
 }
 
@@ -295,14 +284,14 @@ margin-bottom: 15px;
     color: #ff0000;
 }
 
-.inline-row{
+.inline-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     height: 100px;
 }
 
-.city{
+.city {
     display: flex;
     color: #FFF;
     font-weight: bold;
