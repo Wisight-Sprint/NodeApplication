@@ -18,120 +18,374 @@
 
 <body>
     <a href="dashboard.html">
-        <button class="btnOut">
-            <span>
-                <i class="fa-solid fa-xmark"></i>
-            </span>
-        </button>
+        <i id="btnSair" class="fa-solid fa-xmark" style="color: #000"></i>
     </a>
+
+    <div id="legenda" class="caixa-legenda">
+        <i id="btnSairLegenda" class="fa-solid fa-xmark" style="color: black" onclick="mudarLegenda()"></i>
+        <h3>Taxa de Incidentes</h3>
+        <ul>
+            <li><i class="fa-solid fa-square" style="color: #990000"></i> Intensidade Máxima</li>
+            <li><i class="fa-solid fa-square" style="color: #CC0000"></i> Muito Alta</li>
+            <li><i class="fa-solid fa-square" style="color: #FF4A4A"></i> Alta</li>
+            <li><i class="fa-solid fa-square" style="color: #FF7878"></i> Moderada</li>
+            <li><i class="fa-solid fa-square" style="color: #FFD0D0"></i> Baixa</li>
+            <li><i class="fa-solid fa-square"
+                    style="color: transparent; border: 1px solid #ddd; border-radius: 3px;"></i> Nenhum Incidente</li>
+        </ul>
+    </div>
+    <div id="filtro" class="caixa-filtro">
+        <i id="btnSairFiltro" class="fa-solid fa-xmark" style="color: black" onclick="mudarFiltro()"></i>
+        <h3>Selecione o filtro</h3>
+        <ul>
+            <li>
+                <label>
+                    <input type="radio" name="filtro" value="totalRelatorios" onchange="carregarDados()" checked> Total
+                    de Relatórios
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="radio" name="filtro" value="etnia" onchange="carregarDados()"> Etnia Predominante
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="radio" name="filtro" value="armamento" onchange="carregarDados()"> Arma Predominante
+                </label>
+            </li>
+        </ul>
+    </div>
+
+    <span id="btnLegenda" onclick="mudarLegenda()" class="buttonLegenda"><i class="fa-solid fa-info"></i></span>
     <div id="map"></div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
+
+    <span id="btnTema" onclick="mudarTema()">
+        <i class="fa-solid fa-moon" style="color: #FFD43B;"></i>
+    </span>
+
+    <span id="btnFiltro" onclick="mudarFiltro()">
+        <i class="fa-solid fa-filter"></i>
+    </span>
+</body>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    let usuario_id = sessionStorage.ID_USUARIO;
+    let alturaBtnTema = 370;
+    let alturaBtnFiltro = 310;
+    let distancia = 220;
+    let estadosData = {};
+    let listaRelatorios = [];
+    let valorMaximo;
+    let totalRelatorios;
+    let limiteLogs = 0;
+    let cores = [
+        { nome: 'null', cor: "vermelha", hex: 'transparent' },
+        { nome: 'Baixa', cor: "vermelha", hex: '#FFD0D0' },
+        { nome: 'Moderada', cor: "vermelha", hex: '#FF7878' },
+        { nome: 'Alta', cor: "vermelha", hex: '#FF4A4A' },
+        { nome: 'Muito Alta', cor: "vermelha", hex: '#CC0000' },
+        { nome: 'Intensidade Máxima', cor: "vermelha", hex: '#990000' },
+        { nome: 'null', cor: "azul", hex: 'transparent' },
+        { nome: 'Baixa', cor: "azul", hex: '#D0E7FF' },
+        { nome: 'Moderada', cor: "azul", hex: '#78A9FF' },
+        { nome: 'Alta', cor: "azul", hex: '#4A8AFF' },
+        { nome: 'Muito Alta', cor: "azul", hex: '#0055CC' },
+        { nome: 'Intensidade Máxima', cor: "azul", hex: '#002766' }
+    ]
+
+    filtro.classList.add("oculto");
+    const map = L.map('map', {
+        center: [37.8, -96],
+        zoom: 4,
+        maxBounds: [[24.396308, -125.0], [49.384358, -66.93457]],
+        maxBoundsViscosity: 1.0,
+        minZoom: 4,
+        maxZoom: 8
+    });
+
+    const theme = {
+        "Claro": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            // "Claro": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }),
+        "Escuro": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        })
+    };
+
+    theme.Claro.addTo(map);
+    let claro = true;
+
+    L.control.scale({
+        position: 'bottomleft',
+        imperial: false,
+        metric: true
+    }).addTo(map);
+
+
+    if (sessionStorage.PULARTUTORIAL == 0) {
         Swal.fire({
             title: "Este é o mapa dinâmico!",
-            text: "Aqui, você tem uma visão macro do seu país! Clicando no estado que deseja ver, você terá seu nome e algumas informações relevantes.",
             icon: "question",
             background: "#FFF",
             color: "#000",
             showConfirmButton: true,
             confirmButtonColor: "#3085d6",
-            confirmButtonText: "Ok"
+            confirmButtonText: "Ok",
+            html: `
+            <p>Aqui, você tem uma visão da taxa de incidentes por estado! Clicando no estado que deseja ver, você terá seu nome e algumas informações relevantes.</p>
+            <label style="font-size: 16px; color: #333; display: flex; align-items: center; justify-content: center">
+                <input type="checkbox" id="checkbox" style="width: 20px; height: 20px; accent-color: #FF4A4A; margin-right: 5px;">
+                Não mostrar novamente.
+            </label>`
+        }).then(() => {
+            const isChecked = document.getElementById("checkbox").checked;
+            if (isChecked) {
+                fetch(`users/removerTutorialMapa/${usuario_id}`);
+                sessionStorage.PULARTUTORIAL = 1;
+            }
         });
+    }
 
-        const map = L.map('map', {
-            center: [37.8, -96],  // Centro aproximado dos EUA
-            zoom: 4,  // Nível de zoom para abranger os EUA
-            maxBounds: [[24.396308, -125.0], [49.384358, -66.93457]],  // Limites aproximados dos EUA
-            maxBoundsViscosity: 1.0,  // Restringe totalmente a visão dentro dos EUA
-            minZoom: 4,  // Define um mínimo de zoom para impedir a visão muito ampla
-            maxZoom: 8,   // Define um máximo de zoom para evitar detalhes muito específicos
+    function mudarLegenda() {
+        distancia = 220;
+        const displayValueLegenda = window.getComputedStyle(btnLegenda).display;
 
-        });
+        if (displayValueLegenda === "none") {
+            legenda.classList.add("oculto");
+            btnLegenda.style.display = "flex";
+            alturaBtnTema -= distancia;
+            alturaBtnFiltro -= distancia;
+        } else {
+            alturaBtnTema += distancia;
+            alturaBtnFiltro += distancia;
+            legenda.classList.remove("oculto");
+            btnLegenda.style.display = "none";
+        }
+        btnTema.style.bottom = `${alturaBtnTema}px`;
+        btnFiltro.style.bottom = `${alturaBtnFiltro}px`;
+        filtro.style.bottom = `${alturaBtnFiltro}px`;
+    }
 
-        // Adicionar camada de mapa (OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.control.scale({
-            position: 'bottomleft',
-            imperial: false,
-            metric: true
-        }).addTo(map);
-
-
-        // Função para definir a cor do estado com base no total de relatórios
-        function getColor(d) {
-            return d > 14 ? 'red' :
-                d > 10 ? 'orange' :
-                    d > 8 ? 'yellow' :
-                        d > 3 ? 'green' :
-                            d > 1 ? 'blue' :
-                                d === 0 ? 'transparent' : // ou outra cor para valores entre 0 e 1
-                                    '#FFEDA0'; // ou cor padrão para 0
+    function mudarFiltro() {
+        const displayValueLegenda = window.getComputedStyle(btnLegenda).display;
+        const displayValueFiltro = window.getComputedStyle(btnFiltro).display;
+        distancia = 130;
+        if (displayValueFiltro === "flex") {
+            filtro.classList.remove("oculto");
+            btnFiltro.style.display = "none";
+            alturaBtnTema += distancia;
+            filtro.style = "z-index: 5";
+        } else {
+            alturaBtnTema -= distancia;
+            filtro.classList.add("oculto");
+            btnFiltro.style.display = "flex";
         }
 
-        // Função para estilizar cada estado
-        function style(feature) {
-            const estado = feature.properties.name;
-            const estadoData = estadosData[estado] || { total_relatorios: 0, porcentagemCamera: 0, porcentagemMental: 0 };
-            const totalRelatorios = estadoData.total_relatorios;
-            return {
-                fillColor: getColor(totalRelatorios),
-                weight: 1,
-                opacity: 1,
-                color: '#FFF',
-                dashArray: '3',
-                fillOpacity: 0.7,
-            };
+        if (displayValueLegenda === "none") {
+            filtro.style.bottom = `${alturaBtnFiltro}px`;
+        }
+        btnTema.style.bottom = `${alturaBtnTema}px`;
+    }
+
+    function mudarTema() {
+        if (claro) {
+            theme.Claro.removeFrom(map);
+            theme.Escuro.addTo(map);
+            btnTema.innerHTML = `<i class="fa-solid fa-sun" style="color: #FFD43B;"></i>`;
+            btnSair.style.color = "#FFF";
+            btnSairLegenda.style.color = "#FFF";
+            btnSairFiltro.style.color = "#FFF";
+            btnTema.classList.add("temaEscuro");
+            btnFiltro.classList.add("temaEscuro");
+            filtro.classList.add("temaEscuro");
+            btnLegenda.classList.add("temaEscuro");
+            legenda.classList.add("temaEscuro");
+            claro = false;
+        } else {
+            btnSairLegenda.style.color = "#000";
+            theme.Escuro.removeFrom(map);
+            btnTema.innerHTML = `<i class="fa-solid fa-moon" style="color: #FFD43B;"></i>`;
+            theme.Claro.addTo(map);
+            btnSair.style.color = "#000";
+            btnSairFiltro.style.color = "#000";
+            btnTema.classList.remove("temaEscuro");
+            btnFiltro.classList.remove("temaEscuro");
+            filtro.classList.remove("temaEscuro");
+            btnLegenda.classList.remove("temaEscuro");
+            legenda.classList.remove("temaEscuro");
+            claro = true;
         }
 
-        // Função para exibir popup com informações do estado
-        function onEachFeature(feature, layer) {
-            const estado = feature.properties.name;
-            const estadoData = estadosData[estado] || { total_relatorios: 0, porcentagemCamera: 0, porcentagemMental: 0 };
-            const totalRelatorios = estadoData.total_relatorios;
-            const porcentagemCamera = estadoData.porcentagemCamera;
-            const porcentagemMental = estadoData.porcentagemMental;
-
-            // Adiciona um popup com os dados do estado
-            layer.on('click', function () {
-                layer.bindPopup(`<b>Estado:</b> ${estado}<br><b>Total de Relatórios:</b> ${totalRelatorios}<br><b>Utilização da Câmera Corporal:</b> ${porcentagemCamera}%<br><b>Casos com Problemas Mentais:</b> ${porcentagemMental}%`).openPopup();
-            });
-        }
-
-        // Variável para armazenar dados de relatórios por estado
-        let estadosData = {};
-
-        // Carregar dados dos relatórios do backend
-        async function carregarDados() {
-            const response = await fetch("/apiMapa/criarMapa");
-            const data = await response.json();
-
-            // Transformar dados para um formato fácil de acessar
-            data.forEach(item => {
-                estadosData[item.estado] = {
-                    total_relatorios: item.total_relatorios,
-                    porcentagemCamera: item.porcentagemCamera,
-                    porcentagemMental: item.porcentagemMental
-                }
-            });
-
-
-            // Carregar GeoJSON dos estados e aplicar estilo
-            fetch("https://raw.githubusercontent.com/Joao-Noce/geoJsonUSA/refs/heads/main/USA_With_States.geo.json")
-                .then(response => response.json())
-                .then(geojson => {
-                    L.geoJson(geojson, {
-                        style: style,
-                        onEachFeature: onEachFeature // Adiciona função para cada estado
-                    }).addTo(map);
-                });
-        }
-
-        // Inicializar carregamento dos dados
         carregarDados();
-    </script>
-</body>
+    }
+
+
+    function atualizarLegenda(filtroSelecionado) {
+        let color;
+        let novasCores;
+        if (claro) {
+            color = "#000";
+            novasCores = cores.slice(0, 6);
+        } else {
+            let color = "#FFF";
+            novasCores = cores.slice(6, 12);
+        }
+
+        if (filtroSelecionado === "totalRelatorios") {
+            legenda.innerHTML = `
+            <i id="btnSairLegenda" class="fa-solid fa-xmark" style="color: ${color}" onclick="mudarLegenda()"></i>
+            <h3>Taxa de Incidentes</h3>
+            <ul>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[5].hex}"></i> Intensidade Máxima</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[4].hex}"></i> Muito Alta</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[3].hex}"></i> Alta</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[2].hex}"></i> Moderada</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[1].hex}"></i> Baixa</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[0].hex}; border: 1px solid #ddd; border-radius: 3px;"></i> Nenhum Incidente</li>
+            </ul>`;
+        } else if (filtroSelecionado === "etnia") {
+            legenda.innerHTML = `
+            <i id="btnSairLegenda" class="fa-solid fa-xmark" style="color: ${color}" onclick="mudarLegenda()"></i>
+            <h3>Etnia mais Atingida</h3>
+            <ul>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[5].hex}"></i> Branca</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[4].hex}"></i> Negra</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[3].hex}"></i> Hispânica</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[2].hex}"></i> Indígena</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[0].hex}; border: 1px solid #ddd; border-radius: 3px;"></i> Sem predominância</li>
+            </ul>`;
+        } else if (filtroSelecionado === "armamento") {
+            legenda.innerHTML = `
+            <i id="btnSairLegenda" class="fa-solid fa-xmark" style="color: ${color}" onclick="mudarLegenda()"></i>
+            <h3>Armamento da Vítima</h3>
+            <ul>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[5].hex}"></i> Arma de fogo</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[3].hex}"></i> Arma branca</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[1].hex}"></i> Desarmada</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[0].hex}; border: 1px solid #ddd; border-radius: 3px;"></i> Nenhum Incidente</li>
+            </ul>`;
+        }
+    }
+
+    function getColor(totalRelatorios_por_estado, etniaPredominante, armamentoPredominante) {
+        let filtroSelecionado = document.querySelector('input[name="filtro"]:checked').value;
+        atualizarLegenda(filtroSelecionado);
+        let novasCores;
+        if (claro) {
+            novasCores = cores.slice(0, 6);
+        } else {
+            novasCores = cores.slice(6, 12);
+        }
+
+
+        if (filtroSelecionado === "totalRelatorios") {
+            return totalRelatorios_por_estado >= (valorMaximo * 5) ? novasCores[5].hex :
+                totalRelatorios_por_estado >= (valorMaximo * 4) ? novasCores[4].hex :
+                    totalRelatorios_por_estado >= (valorMaximo * 3) ? novasCores[3].hex :
+                        totalRelatorios_por_estado >= (valorMaximo * 2) ? novasCores[2].hex :
+                            totalRelatorios_por_estado >= valorMaximo ? novasCores[1].hex :
+                                totalRelatorios_por_estado === 0 ? novasCores[0].hex : novasCores[1].hex;
+        } else if (filtroSelecionado === "etnia") {
+            return etniaPredominante === "Branca" ? novasCores[5].hex :
+                etniaPredominante === "Negra" ? novasCores[4].hex :
+                    etniaPredominante === "Hispânica" ? novasCores[3].hex :
+                        etniaPredominante === "Indígena" ? novasCores[2].hex :
+                            etniaPredominante === "Empate" ? novasCores[1].hex : novasCores[0].hex;
+        } else if (filtroSelecionado === "armamento") {
+            return armamentoPredominante === "Arma de fogo" ? novasCores[5].hex :
+                armamentoPredominante === "Arma branca" ? novasCores[3].hex :
+                    armamentoPredominante === "Não armado" ? novasCores[1].hex :
+                        armamentoPredominante === "Empate" ? novasCores[1].hex : novasCores[0].hex;
+        }
+    }
+
+
+    function style(feature) {
+        const estado = feature.properties.name;
+        const estadoData = estadosData[estado] || { totalRelatorios: 0, porcentagemCamera: 0, porcentagemMental: 0, mediaIdade: 0, generoPredominante: 0, etniaPredominante: 0, fugaPredominante: 0, armamentoPredominante: 0 };
+        const totalRelatorios = estadoData.totalRelatorios;
+        const etniaPredominante = estadoData.etniaPredominante;
+        const armamentoPredominante = estadoData.armamentoPredominante;
+        let colorBorder;
+
+        setTimeout(() => {
+            if (claro) {
+                colorBorder = "#FFF";
+            } if (!claro) {
+                colorBorder = "#000";
+            }
+        });
+
+        return {
+            fillColor: getColor(totalRelatorios, etniaPredominante, armamentoPredominante),
+            weight: 1,
+            opacity: 1,
+            color: colorBorder,
+            dashArray: '1',
+            fillOpacity: 0.7,
+        };
+    }
+
+    function onEachFeature(feature, layer) {
+        const estado = feature.properties.name;
+        const sigla = feature.properties.abbreviation;
+
+        const estadoData = estadosData[estado] || { totalRelatorios: 0, porcentagemCamera: 0, porcentagemMental: 0, mediaIdade: 0, generoPredominante: 0, etniaPredominante: 0, fugaPredominante: 0, armamentoPredominante: 0 };
+
+        const totalRelatorios = estadoData.totalRelatorios;
+        const porcentagemCamera = estadoData.porcentagemCamera;
+        const porcentagemMental = estadoData.porcentagemMental;
+        const mediaIdade = estadoData.mediaIdade;
+        const generoPredominante = estadoData.generoPredominante;
+        const etniaPredominante = estadoData.etniaPredominante;
+        const fugaPredominante = estadoData.fugaPredominante;
+        const armamentoPredominante = estadoData.armamentoPredominante;
+
+        layer.on('click', function () {
+            layer.bindPopup(`<b>Estado:</b> ${estado} (${sigla})<br><b>Total de Incidentes:</b> ${totalRelatorios}<br><b>Utilização da Câmera Corporal:</b> ${porcentagemCamera}%<br><b>Vítimas com Problemas Mentais:</b> ${porcentagemMental}%`).openPopup();
+        });
+    }
+
+
+    async function carregarDados() {
+        const responseCriarMapa = await fetch("/apiMapa/criarMapa");
+        const dataCriarMapa = await responseCriarMapa.json();
+
+        dataCriarMapa.forEach(item => {
+            estadosData[item.estado] = {
+                totalRelatorios: item.total_relatorios_por_estado,
+                porcentagemCamera: item.porcentagemCamera,
+                porcentagemMental: item.porcentagemMental,
+                mediaIdade: item.mediaIdade,
+                generoPredominante: item.generoPredominante,
+                etniaPredominante: item.etniaPredominante,
+                fugaPredominante: item.fugaPredominante,
+                armamentoPredominante: item.armamentoPredominante
+            };
+            if (limiteLogs == 0) {
+                console.table(dataCriarMapa);
+                limiteLogs++;
+            }
+            listaRelatorios.push(item.total_relatorios_por_estado);
+        });
+
+        valorMaximo = Math.max(...listaRelatorios);
+        valorMaximo = Math.floor(valorMaximo / 6);
+
+        fetch("https://raw.githubusercontent.com/Joao-Noce/geoJsonUSA/refs/heads/main/USA_With_States.geo.json")
+            .then(response => response.json())
+            .then(geojson => {
+                L.geoJson(geojson, {
+                    style: style,
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+            });
+    }
+
+    carregarDados();
+</script>
 
 </html>

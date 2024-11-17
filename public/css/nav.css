@@ -51,6 +51,15 @@
             height: 41px;
             margin-left: 10px;
         }
+        
+        i {
+            color: #fff;
+            font-size: 30px;
+        }
+
+        a {
+            all: unset;
+        }
 
         #telaAtual {
             background-color: #49688D;

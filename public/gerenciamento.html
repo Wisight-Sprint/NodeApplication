@@ -17,7 +17,7 @@
     <title>Gerenciamento | Wisight</title>
 </head>
 
-<body onload="filtro(selectFiltro.value, inpPesquisa)">
+<body onload="filtro(selectFiltro.value, inpPesquisa, false)">
 
     <div class="principalContainer">
         <div class="containerNav">
@@ -29,11 +29,10 @@
                 <a href="suporte.html">
                     <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
                 </a>
-                <div class="container-icon" id="telaAtual"> <img class="icon-add-user"
-                        src="./Assets/adicionar-usuario 1.png"></div></a>
+                <div class="container-icon" id="telaAtual"><i class="fa-solid fa-user-gear"></i></div>
                 <a href="map.html">
                     <div class="container-icon">
-                        <span><i class="fa-solid fa-map-location-dot" style="color: #ffffff;"></i></span>
+                        <i class="fa-solid fa-map-location-dot"></i>
                     </div>
                 </a>
                 <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout"
@@ -42,6 +41,9 @@
         </div>
 
         <div class="content">
+            <div class="caixa-delegacia">
+                <span id="delegacia"></span>
+            </div>
             <div class="modalEditar" id="modalEditar">
                 <div class="container">
                     <div class="cabecalho">
@@ -75,16 +77,20 @@
                         </div>
                         <div class="caixas_pergunta">
                             <div class="pergunta">
-                                <p>Cargo</p>
+                                <p>Permissão</p>
                                 <div class="input-container">
-                                    <input type="text" id="inpCargoEditar">
+                                    <select id="inpPermissaoEditar" name="restrito">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Usuário">Usuário</option>
+                                        <option value="Externo">Externo</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="pergunta">
                                 <p>Senha</p>
                                 <div class="input-container">
                                     <input type="password" id="inpSenhaEditar">
-                                    <i class="fa-solid fa-eye-slash" id="eyeInpSenhaEditar" style="color: black"
+                                    <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
                                         onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
                                 </div>
                             </div>
@@ -92,7 +98,7 @@
                                 <p>Confirmar senha</p>
                                 <div class="input-container">
                                     <input type="password" id="inpConfSenhaEditar">
-                                    <i class="fa-solid fa-eye-slash" id="eyeInpConfSenhaEditar" style="color: black"
+                                    <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
                                         onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
                                 </div>
                             </div>
@@ -109,85 +115,105 @@
                     <div class="pergunta">
                         <p>Nome</p>
                         <div class="input-container">
-                            <input type="text" id="inpNome">
+                            <input name="restrito" type="text" id="inpNome">
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Número de distintivo</p>
                         <div class="input-container">
-                            <input type="text" id="inpDistintivo">
+                            <input name="restrito" type="text" id="inpDistintivo">
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Email</p>
                         <div class="input-container">
-                            <input type="text" id="inpEmail">
+                            <input name="restrito" type="text" id="inpEmail">
                         </div>
                     </div>
                 </div>
                 <div class="caixas_pergunta">
                     <div class="pergunta">
-                        <p>Cargo</p>
+                        <p>Permissão</p>
                         <div class="input-container">
-                            <input type="text" id="inpCargo">
+                            <select name="restrito" id="inpPermissao">
+                                <option value="#">Escolha o nível de permissão do usuário.</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Usuário">Usuário</option>
+                                <option value="Externo">Externo</option>
+                            </select>
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Senha</p>
                         <div class="input-container">
-                            <input type="password" id="inpSenha">
-                            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #ffffff;"
+                            <input name="restrito" type="password" id="inpSenha">
+                            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
                         </div>
                     </div>
                     <div class="pergunta">
                         <p>Confirmar senha</p>
                         <div class="input-container">
-                            <input type="password" id="inpConfSenha">
-                            <i class="fa-solid fa-eye-slash" id="eyeInpConfSenha" style="color: #ffffff;"
+                            <input name="restrito" type="password" id="inpConfSenha">
+                            <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="caixa_button">
-                <button onclick="cadastrar()">Adicionar</button>
+                <button onclick="cadastrar()">Cadastrar</button>
             </div>
 
             <header>Gerenciamento de Usuários</header>
-            <div class="pesquisa">
-                <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa)">
-                    <option value="#">Selecione um filtro</option>
-                    <option value="nome">Pesquisar por nome</option>
-                    <option value="distintivo">Pesquisar por distintivo</option>
-                    <option value="email">Pesquisar por email</option>
-                    <option value="cargo">Pesquisar por cargo</option>
-                </select>
-                <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
-                    oninput="filtro(selectFiltro.value, inpPesquisa)">
-            </div>
-
-            <div class="listaUsuarios_container" id="listaUsuarios_container">
-                <div class="cabecalho">
-                    <div class="div-objetos">
-                        <div class="objeto">
-                            <span>Nome</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Número</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Email</span>
-                        </div>
-                        <div class="objeto">
-                            <span>Cargo</span>
-                        </div>
+            <div class="header">
+                <div class="pesquisa">
+                    <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
+                        <option value="#">Selecione um filtro</option>
+                        <option value="nome">Pesquisar por nome</option>
+                        <option value="distintivo">Pesquisar por distintivo</option>
+                        <option value="email">Pesquisar por e-mail</option>
+                        <option value="permissao">Pesquisar por permissao</option>
+                    </select>
+                    <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                        oninput="filtro(selectFiltro.value, inpPesquisa, false)">
+                </div>
+                <div class="paginacao">
+                    <div class="configuracoes">
+                        Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
+                            oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
                     </div>
-                    <div class="div-buttons">
-                        <span>Ações</span>
+                    <div class="info">
+                        <div class="control">
+                            <input disabled id="inpNumeroPagina" type="txt"
+                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
+                            <p>-</p>
+                            <span id="inpTotalPaginas"></span>
+                        </div>
+                        <i class="fa-solid fa-angle-left" style="color: #ffffff;"
+                            onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"
+                            onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
                     </div>
                 </div>
             </div>
+
+            <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
+            <!-- <div class="paginacao">
+                <div class="controleNumPagina">
+                    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
+                        onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                    <input id="inpNumeroPagina" type="txt" oninput="paginacao()" value=1 min=1>
+                    <p>de</p>
+                    <span id="inpTotalPaginas"></span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"
+                        onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                </div>
+                <div class="controleTamanhoPagina">
+                    Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
+                        value=10>
+                </div>
+            </div> -->
             <br>
         </div>
     </div>
@@ -197,54 +223,99 @@
 
 <script>
     let idUsuario;
+    let permissaoDeAdministrador = true;
+    let totalPaginas;
+    delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
+
+    function mudarPagina(acao, numPagina) {
+        if (acao > 0 && numPagina < totalPaginas) {
+            inpNumeroPagina.value++;
+            paginacao();
+        }
+        if (acao < 0 && numPagina > 1) {
+            inpNumeroPagina.value--;
+            paginacao();
+        }
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
+        permissaoDeAdministrador = false;
+        const inputsRestritos = document.querySelectorAll('[name="restrito"]');
+
+        inputsRestritos.forEach(input => {
+            input.addEventListener("mouseenter", function () {
+                input.style.cursor = "not-allowed";
+                input.disabled = true;
+            });
+
+            input.addEventListener("mouseleave", function () {
+                input.style.cursor = "default";
+                input.disabled = false;
+            });
+        });
+    }
 
     async function cadastrar() {
-        let nome = inpNome.value
-        let email = inpEmail.value
-        let senha = inpSenha.value
-        let confSenha = inpConfSenha.value
-        let distintivo = inpDistintivo.value
-        let cargo = inpCargo.value
-        if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpCargo)) {
-            try {
-                const responseCadastro = await fetch("users/cadastrarUsuario", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        nomeServer: nome,
-                        emailServer: email,
-                        senhaServer: senha,
-                        cargoServer: cargo,
-                        distintivoServer: distintivo,
-                        departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
-                    }),
-                });
-                if (responseCadastro.ok) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Usuário cadastrado com sucesso!",
-                        background: "#FFF",
-                        color: "#000",
-                        showConfirmButton: false,
-                        timer: 1500,
+        if (permissaoDeAdministrador) {
+            let nome = inpNome.value
+            let email = inpEmail.value
+            let senha = inpSenha.value
+            let confSenha = inpConfSenha.value
+            let distintivo = inpDistintivo.value
+            let permissao = inpPermissao.value
+            if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpPermissao)) {
+                try {
+                    const responseCadastro = await fetch("users/cadastrarUsuario", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            nomeServer: nome,
+                            emailServer: email,
+                            senhaServer: senha,
+                            permissaoServer: permissao,
+                            distintivoServer: distintivo,
+                            departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                        }),
                     });
-                    atualizarlistaUsuarios();
-                } else {
-                    const errorText = await responseCadastro.text();
-                    throw new Error("Erro ao cadastrar usuário: " + errorText);
-                }
+                    if (responseCadastro.ok) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Usuário cadastrado com sucesso!",
+                            background: "#FFF",
+                            color: "#000",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        filtro(selectFiltro.value, inpPesquisa, false);
+                    } else {
+                        const errorText = await responseCadastro.text();
+                        throw new Error("Erro ao cadastrar usuário: " + errorText);
+                    }
 
-            } catch (error) {
-                console.log("Erro:", error);
+                } catch (error) {
+                    console.log("Erro:", error);
+                }
             }
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de administrador para cadastrar um novo usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
         }
     }
 
     function deletar(usuario_id) {
-        if ((sessionStorage.CARGO_USUARIO).includes("Chefe")) {
+        if (permissaoDeAdministrador) {
             Swal.fire({
                 title: "Tem certeza?",
                 text: "Ao confirmar, o usuário será excluído permanentemente!",
@@ -279,7 +350,7 @@
                                 showConfirmButton: false,
                                 timer: 1500,
                             });
-                            atualizarlistaUsuarios();
+                            filtro(selectFiltro.value, inpPesquisa, false);
                         } else if (resposta.status == 404) {
                             window.alert("Deu 404!");
                         } else {
@@ -293,7 +364,7 @@
         } else {
             Swal.fire({
                 title: "ERRO",
-                text: "É necessária permissão para remover um usuário.",
+                text: "É necessária permissão de administrador para remover um usuário.",
                 icon: "error",
                 background: '#FFF',
                 color: '#000',
@@ -305,15 +376,15 @@
         }
     }
 
-    function irEditar(usuario_id, nome, numero, email, cargo, senha) {
+    function irEditar(usuario_id, nome, numero, email, permissao, senha) {
 
-        if ((sessionStorage.CARGO_USUARIO).includes("Chefe") || usuario_id == sessionStorage.ID_USUARIO) {
+        if (permissaoDeAdministrador || usuario_id == sessionStorage.ID_USUARIO) {
             document.body.style.overflow = 'hidden';
             idUsuario = usuario_id;
             modalEditar.style = `display: flex`;
             inpNomeEditar.value = nome;
             inpEmailEditar.value = email;
-            inpCargoEditar.value = cargo;
+            inpPermissaoEditar.value = permissao;
             inpDistintivoEditar.value = numero;
             inpSenhaEditar.value = senha;
         } else {
@@ -337,10 +408,10 @@
         let email = inpEmailEditar.value;
         let senha = inpSenhaEditar.value;
         let confSenha = inpConfSenhaEditar.value;
-        let cargo = inpCargoEditar.value;
+        let permissao = inpPermissaoEditar.value;
         let distintivo = inpDistintivoEditar.value;
 
-        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpCargoEditar, inpDistintivoEditar)) {
+        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpPermissaoEditar, inpDistintivoEditar)) {
             Swal.fire({
                 title: "Tem certeza?",
                 text: "Deseja alterar os dados deste usuário?",
@@ -363,7 +434,7 @@
                         body: JSON.stringify({
                             idServer: usuario_id,
                             nomeServer: nome,
-                            cargoServer: cargo,
+                            permissaoServer: permissao,
                             emailServer: email,
                             senhaServer: senha,
                             distintivoServer: distintivo
@@ -382,8 +453,8 @@
                             });
 
                             sessionStorage.NOME_USUARIO = nome;
-                            sessionStorage.CARGO_USUARIO = cargo;
-                            filtro(selectFiltro.value, inpPesquisa);
+                            sessionStorage.PERMISSAO_USUARIO = permissao;
+                            filtro(selectFiltro.value, inpPesquisa, false);
                             sairEditar();
                         } else if (resposta.status == 404) {
                             window.alert("Deu 404!");
@@ -411,8 +482,11 @@
         modalEditar.style = `display: none`;
     }
 
-    function atualizarlistaUsuarios(temFiltro, filtro, filtroValue) {
+    function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
         let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+        let numeroPagina = Number(inpNumeroPagina.value);
+        let tamanhoPagina = Number(inpTamanhoPagina.value);
+        tamanhoPagina = tamanhoPagina || 10;
 
         fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
             .then(function (resposta) {
@@ -427,66 +501,133 @@
                     }
 
                     resposta.json().then(function (usuarios) {
-                        console.table(usuarios);
-                        var listaUsuarios = document.getElementById("listaUsuarios_container");
-                        listaUsuarios.innerHTML = `<div class="cabecalho">
-                        <div class="div-objetos">
-                            <div class="objeto"><span>Nome</span></div>
-                            <div class="objeto"><span>Número</span></div>
-                            <div class="objeto"><span>Email</span></div>
-                            <div class="objeto"><span>Cargo</span></div>
-                        </div>
-                        <div class="div-buttons"><span>Ações</span></div>
-                    </div>`;
-                        for (let publicacao of usuarios.reverse()) {
-                            if (!temFiltro ||
-                                (temFiltro && filtro == "nome" && publicacao.nome.includes(filtroValue)) ||
-                                (temFiltro && filtro == "distintivo" && publicacao.numero.includes(filtroValue)) ||
-                                (temFiltro && filtro == "email" && publicacao.email.includes(filtroValue)) ||
-                                (temFiltro && filtro == "cargo" && publicacao.cargo.includes(filtroValue))) {
+
+                        let filtroUsuarios = usuarios;
+
+                        if (temFiltro) {
+                            filtroUsuarios = usuarios.filter(usuario => {
+                                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
+                                if (filtro === "nome") {
+                                    return usuario.nome
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
+                                } else if (filtro === "distintivo") {
+                                    return usuario.numero.startsWith(filtroValue);
+                                } else if (filtro === "email") {
+                                    return usuario.email.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                } else if (filtro === "permissao") {
+                                    return usuario.permissao.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                }
+                                return false;
+                            });
+
+                        } else {
+                            filtroUsuarios = usuarios;
+                        }
+
+
+                        let totalUsuarios = filtroUsuarios.length;
+                        totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
+                        inpTotalPaginas.innerHTML = totalPaginas;
+
+                        let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
+                        let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+
+                        let listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = `
+                        <div class="cabecalho">
+                            <div class="div-objetos">
+                                <div class="objeto">
+                                    <span>Nome</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Número</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Email</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Permissão</span>
+                                </div>
+                            </div>
+                            <div class="div-buttons">
+                                <span>Ações</span>
+                            </div>
+                        </div>`;
+                        let tamanhoDiv = 50;
+                        if (filtroUsuarios.length > 0) {
+                            for (let u = primeiroItem; u < ultimoItem; u++) {
+                                let publicacao = filtroUsuarios[u];
 
                                 let divPublicacao = document.createElement("div");
                                 divPublicacao.className = "publicacao";
                                 divPublicacao.innerHTML = `
-                                <div class="div-objetos">
-                                    <div class="objeto"><span>${publicacao.nome}</span></div>
-                                    <div class="objeto"><span>${publicacao.numero}</span></div>
-                                    <div class="objeto"><span>${publicacao.email}</span></div>
-                                    <div class="objeto"><span>${publicacao.cargo}</span></div>
-                                </div>
-                                <div class="div-buttons">
-                                    <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.cargo}', '${publicacao.senha}')">
-                                        <img src="./Assets/btn_editar.png">
-                                    </button>
-                                    <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
-                                        <img src="./Assets/btn_deletar.png">
-                                    </button>
-                                </div>`;
+                            <div class="div-objetos">
+                                <div class="objeto"><span>${publicacao.nome}</span></div>
+                                <div class="objeto"><span>${publicacao.numero}</span></div>
+                                <div class="objeto"><span>${publicacao.email}</span></div>
+                                <div class="objeto"><span>${publicacao.permissao}</span></div>
+                            </div>
+                            <div class="div-buttons">
+                                <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                    <img src="./Assets/btn_editar.png">
+                                </button>
+                                <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                    <img src="./Assets/btn_deletar.png">
+                                </button>
+                            </div>
+                        `;
+                                tamanhoDiv += 100;
+                                if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
                             }
+                            if (totalPaginas < numeroPagina) {
+                                inpNumeroPagina.value = filtroUsuarios.length;
+                                atualizarListaUsuarios();
+                            }
+                        } else {
+                            listaUsuarios.innerHTML = `
+                            <div class="error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Nenhum usuário encontrado</span>
+                            </div>`;
+                            usuario_container.innerHTML = "Nenhum usuário encontrado.";
+                            listaUsuarios.appendChild(usuario_container);
+                            // inpNumeroPagina.value = 1;
+                            inpNumeroPagina.value = 1;
+                            return;
                         }
-                    });
+                    })
                 }
             })
             .catch(function (error) {
                 console.error("Erro ao buscar usuários:", error);
             });
+
     }
 
-    function filtro(select, inputName) {
-        let temFiltro = select !== "#";
+
+    function filtro(select, inputName, passouPorPaginacao) {
+        const temFiltro = select !== "#";
         inputName.disabled = !temFiltro;
-
-        if (!temFiltro) {
-            inputName.value = "";
-            inputName.placeholder = "Selecione um campo para filtrar..."
+        inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
+        if (!temFiltro) inputName.value = "";
+        if (!passouPorPaginacao) {
+            // inpNumeroPagina.value = 1;
+            inpNumeroPagina.value = 1;
         } else {
-            inputName.placeholder = "Digite o " + select + " desejado..."
+            // inpNumeroPagina.value = inpNumeroPagina.value;
+            inpNumeroPagina.value = inpNumeroPagina.value;
         }
-        atualizarlistaUsuarios(temFiltro, select, inputName.value);
+        atualizarListaUsuarios(temFiltro, select, inputName.value);
     }
 
-    function validacao(nome, email, senha, confSenha, distintivo, cargo) {
+    function paginacao() {
+        filtro(selectFiltro.value, inpPesquisa, true);
+    }
+
+    function validacao(nome, email, senha, confSenha, distintivo, permissao) {
         const caracteresEspeciais = "#@!$%&";
         let temCaractereEspecial = false;
 
@@ -508,14 +649,14 @@
         else setFieldSpecificSuccess(confSenha);
         if (distintivo.value === "") setFieldError(distintivo, "Campo necessário para cadastro.");
         else setFieldSpecificSuccess(distintivo);
-        if (cargo.value.trim() === "") setFieldError(cargo, "Cargo inválido.");
-        else setFieldSpecificSuccess(cargo);
-        if (nome.value.length >= 4 && cargo.value != "" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
+        if (permissao.value.trim() === "") setFieldError(permissao, "Permissao inválido.");
+        else setFieldSpecificSuccess(permissao);
+        if (nome.value.length >= 4 && permissao.value != "#" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
             setFieldAllSuccess(nome);
             setFieldAllSuccess(senha);
             setFieldAllSuccess(confSenha);
             setFieldAllSuccess(email);
-            setFieldAllSuccess(cargo);
+            setFieldAllSuccess(permissao);
             setFieldAllSuccess(distintivo);
             return true;
         } else {
@@ -546,14 +687,14 @@
 
         if (inputName.type === "password") {
             inputName.type = "text";
-            eyeName.classList.replace("fa-eye-slash", "fa-eye");
+            eyeName.classList.replace("fa-eye", "fa-eye-slash");
         } else {
             inputName.type = "password";
-            eyeName.classList.replace("fa-eye", "fa-eye-slash");
+            eyeName.classList.replace("fa-eye-slash", "fa-eye");
         }
     }
 
     setInterval(() => {
-        atualizarlistaUsuarios(false);
+        filtro(selectFiltro.value, inpPesquisa, false);
     }, 20000);
 </script>

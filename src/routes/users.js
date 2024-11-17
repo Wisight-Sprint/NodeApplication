@@ -11,10 +11,6 @@ router.post("/autenticar", (req, res) => {
   userController.autenticar(req, res);
 });
 
-router.put("/atualizarSenha", (req, res) => {
-  userController.atualizarSenha(req, res);
-});
-
 router.put("/atualizarUsuario", (req, res) => {
   userController.atualizarUsuario(req, res);
 });
@@ -25,6 +21,10 @@ router.delete("/deletarUsuario", (req, res) => {
 
 router.get("/buscarUsuarioPorDepartamento/:departamento", (req, res) => {
   userController.buscarUsuarioPorDepartamento(req, res);
+});
+
+router.get("/removerTutorialMapa/:usuario_id", (req, res) => {
+  userController.removerTutorialMapa(req, res);
 });
 
 module.exports = router;

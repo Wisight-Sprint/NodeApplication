@@ -7,7 +7,7 @@ function cadastrarUsuario(req, res) {
   let senha = req.body.senhaServer;
   let departamentoId = req.body.departamentoServer;
   let distintivo = req.body.distintivoServer
-  let cargo = req.body.cargoServer
+  let permissao = req.body.permissaoServer
   console.log("Log dentro do controller: " + departamentoId);
 
 
@@ -21,11 +21,11 @@ function cadastrarUsuario(req, res) {
     res.status(400).send("O departamento está undefined!");
   } else if (distintivo == undefined) {
     res.status(400).send("O distintivo está undefined!");
-  } else if (cargo == undefined) {
-    res.status(400).send("O cargo está undefined!");
+  } else if (permissao == undefined) {
+    res.status(400).send("O permissao está undefined!");
   } else {
     userModel
-      .cadastrarUsuario(nome, email, senha, departamentoId, distintivo, cargo)
+      .cadastrarUsuario(nome, email, senha, departamentoId, distintivo, permissao)
       .then(function (resultado) {
         res.json(resultado);
       })
@@ -48,10 +48,18 @@ function autenticar(req, res) {
       console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
       console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
       res.json({
-        nome_usuario: resultadoAutenticar[0].nome,
+        // fix 
+        nome_usuario: resultadoAutenticar[0].nomeUsuario,
+        nome_departamento: resultadoAutenticar[0].nomeDepartamento,
         departamento_usuario: resultadoAutenticar[0].fk_departamento,
         usuario_id: resultadoAutenticar[0].usuario_id,
-        usuario_cargo: resultadoAutenticar[0].cargo
+        nome_usuario: resultadoAutenticar[0].nome,
+        email_usuario: resultadoAutenticar[0].email,
+        cargo_usuario: resultadoAutenticar[0].cargo,
+        cidade_usuario: resultadoAutenticar[0].cidade,
+        usuario_permissao: resultadoAutenticar[0].permissao,
+        pularTutorial: resultadoAutenticar[0].pularTutorial,
+        estado_usuario: resultadoAutenticar[0].estado_usuario
       });
     })
     .catch(function (erro) {
@@ -65,30 +73,10 @@ function autenticar(req, res) {
 }
 
 //UPDATE
-function atualizarSenha(req, res) {
-  let novaSenha = req.body.novaSenhaServer;
-  let usuario_id = req.body.usuario_idServer;
-
-  userModel
-    .atualizarSenha(novaSenha, usuario_id)
-    .then(function (resultado) {
-      res.json(resultado);
-    })
-    .catch(function (erro) {
-      console.log(erro);
-      console.log(
-        "\nHouve um erro ao atualizar a senha do usuário ! Erro: ",
-        erro.sqlMessage
-      );
-      res.status(500).json(erro.sqlMessage);
-    });
-}
-
-//UPDATE
 function atualizarUsuario(req, res) {
   let id = req.body.idServer;
   let nome = req.body.nomeServer;
-  let cargo = req.body.cargoServer;
+  let permissao = req.body.permissaoServer;
   let email = req.body.emailServer;
   let senha = req.body.senhaServer;
   let distintivo = req.body.distintivoServer
@@ -101,13 +89,13 @@ function atualizarUsuario(req, res) {
     res.status(400).send("Sua senha está undefined!");
   } else if (distintivo == undefined) {
     res.status(400).send("O distintivo está undefined!");
-  } else if (cargo == undefined) {
-    res.status(400).send("O cargo está undefined!");
+  } else if (permissao == undefined) {
+    res.status(400).send("O permissao está undefined!");
   } else if (id == undefined) {
     res.status(400).send("Seu id está undefined!");
-  }else {
+  } else {
     userModel
-      .atualizarUsuario(id, nome, email, cargo, distintivo, senha)
+      .atualizarUsuario(id, nome, email, permissao, distintivo, senha)
       .then(function (resultado) {
         res.json(resultado);
       })
@@ -151,11 +139,25 @@ function buscarUsuarioPorDepartamento(req, res) {
     });
 }
 
+function removerTutorialMapa(req, res) {
+  let usuario_id = req.params.usuario_id;
+  userModel
+    .removerTutorialMapa(usuario_id)
+    .then(function (removerTutorialMapa) {
+      res.json(removerTutorialMapa); // Retorna todos os registros
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("\nHouve um erro ao mudar pularTutorial! Erro: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
   autenticar,
   cadastrarUsuario,
-  atualizarSenha,
   atualizarUsuario,
   deletarUsuario,
-  buscarUsuarioPorDepartamento
+  buscarUsuarioPorDepartamento,
+  removerTutorialMapa
 };

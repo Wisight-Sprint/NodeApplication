@@ -36,7 +36,7 @@
         <div class="input-container">
           <input type="password" id="inpSenha" placeholder="senha">
           <span class="eye-icon" onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)">
-            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #000;"></i>
+            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #000;"></i>
           </span>
         </div>
       </div>
@@ -67,6 +67,12 @@
 <script>
 
   sessionStorage.clear();
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && document.activeElement.id === "inpSenha") {
+      autenticar();
+    }
+  });
 
   function ocultar() {
     if (inpSenha.type == "password") {
@@ -125,10 +131,16 @@
               inpSenha.value = "";
               inpSenha.placeholder = "";
               console.table(res);
+              
+              // fix sessionStorage
               sessionStorage.NOME_USUARIO = json.nome_usuario;
+              sessionStorage.CIDADE_USUARIO = json.cidade_usuario;
+              sessionStorage.CARGO_USUARIO = json.cargo_usuario;
               sessionStorage.DEPARTAMENTO_USUARIO = json.departamento_usuario;
               sessionStorage.ID_USUARIO = json.usuario_id;
-              sessionStorage.CARGO_USUARIO = json.usuario_cargo;
+              sessionStorage.PERMISSAO_USUARIO = json.usuario_permissao;
+              sessionStorage.PULARTUTORIAL = json.pularTutorial;
+              sessionStorage.ESTADO_USUARIO = json.estado_usuario;
 
               Swal.fire({
                 position: "center",
@@ -165,10 +177,10 @@
 
     if (inputName.type === "password") {
       inputName.type = "text";
-      eyeName.classList.replace("fa-eye-slash", "fa-eye"); // Ícone de olho aberto
+      eyeName.classList.replace("fa-eye", "fa-eye-slash"); // Ícone de olho fechado
     } else {
       inputName.type = "password";
-      eyeName.classList.replace("fa-eye", "fa-eye-slash"); // Ícone de olho fechado
+      eyeName.classList.replace("fa-eye-slash", "fa-eye"); // Ícone de olho aberto
     }
   }
 </script>

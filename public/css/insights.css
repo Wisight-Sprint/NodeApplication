@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+    font-family: "Josefin Sans";
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.principalContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+
+    .containerNav .navLeft {
+        position: fixed;
+    }
+
+    .content {
+        margin-top: 2%;
+        margin-left: 125px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        header {
+            width: 100%;
+            font-size: 50px;
+        }
+
+    }
+}

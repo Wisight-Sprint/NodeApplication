@@ -19,23 +19,53 @@ body {
     color: white;
 }
 
-.btnOut {
-    cursor: pointer;
-    background: transparent;
+#btnSair {
+    font-size: 35px;
     position: fixed;
-    top: 2%;
-    right: 1%;
+    top: 15px;
+    right: 15px;
     z-index: 5;
-    border: none;
-    transition: 0.3s;
-
-    span {
-        font-size: 38px;
-    }
 }
 
-.btnOut:hover {
+#btnSair,
+#btnSairLegenda,
+#btnSairFiltro {
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#btnSair:hover,
+#btnSairLegenda:hover,
+#btnSairFiltro:hover {
     transform: scale(1.1);
+}
+
+#btnTema,
+#btnFiltro,
+.buttonLegenda {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    position: fixed;
+    bottom: 370px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+#btnFiltro {
+    bottom: 310px;
+}
+
+.buttonLegenda {
+    display: none;
+    bottom: 30px;
+    font-size: 25px;
 }
 
 .leaflet-control-scale {
@@ -49,4 +79,81 @@ body {
 
 .leaflet-control-scale-line {
     border: none;
+}
+
+.caixa-legenda,
+.caixa-filtro {
+    z-index: 5;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.4s, transform 0.4s;
+
+    h3 {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            i {
+                font-size: 23px;
+                margin-right: 10px;
+            }
+
+            label {
+
+                cursor: pointer;
+
+                input {
+                    cursor: pointer;
+                    accent-color: #FF4A4A;
+                }
+            }
+        }
+    }
+}
+
+.caixa-filtro {
+    bottom: 90px;
+    z-index: 0;
+}
+
+.caixa-filtro.oculto {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+.caixa-legenda.oculto {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+#btnTema.temaEscuro,
+#btnFiltro.temaEscuro,
+#filtro.temaEscuro,
+#btnLegenda.temaEscuro,
+#legenda.temaEscuro {
+    background-color: #1D1D1D;
+    color: white;
+    input {
+        accent-color: #4A8AFF;
+    }
 }
