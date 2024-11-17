@@ -19,23 +19,53 @@ body {
     color: white;
 }
 
-.btnOut {
-    cursor: pointer;
-    background: transparent;
+#btnSair {
+    font-size: 35px;
     position: fixed;
-    top: 2%;
-    right: 1%;
+    top: 15px;
+    right: 15px;
     z-index: 5;
-    border: none;
-    transition: 0.3s;
-
-    span {
-        font-size: 38px;
-    }
 }
 
-.btnOut:hover {
+#btnSair,
+#btnSairLegenda,
+#btnSairFiltro {
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#btnSair:hover,
+#btnSairLegenda:hover,
+#btnSairFiltro:hover {
     transform: scale(1.1);
+}
+
+#btnTema,
+#btnFiltro,
+.buttonLegenda {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    position: fixed;
+    bottom: 370px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+#btnFiltro {
+    bottom: 310px;
+}
+
+.buttonLegenda {
+    display: none;
+    bottom: 30px;
+    font-size: 25px;
 }
 
 .leaflet-control-scale {
@@ -51,7 +81,8 @@ body {
     border: none;
 }
 
-.caixa-legenda {
+.caixa-legenda,
+.caixa-filtro {
     z-index: 5;
     position: fixed;
     bottom: 20px;
@@ -64,10 +95,6 @@ body {
     opacity: 1;
     transform: scale(1);
     transition: opacity 0.4s, transform 0.4s;
-
-    i {
-        cursor: pointer;
-    }
 
     h3 {
         font-size: 1.2em;
@@ -88,8 +115,29 @@ body {
                 font-size: 23px;
                 margin-right: 10px;
             }
+
+            label {
+
+                cursor: pointer;
+
+                input {
+                    cursor: pointer;
+                    accent-color: #FF4A4A;
+                }
+            }
         }
     }
+}
+
+.caixa-filtro {
+    bottom: 90px;
+    z-index: 0;
+}
+
+.caixa-filtro.oculto {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
 }
 
 .caixa-legenda.oculto {
@@ -98,18 +146,14 @@ body {
     pointer-events: none;
 }
 
-.buttonLegenda {
-    position: fixed;
-    bottom: 25px;
-    right: 20px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    background-color: #3085d6;
-    color: #ffffff;
-    border-radius: 5px;
-    display: none;
-    transition: opacity 0.4s, transform 0.4s;
-    z-index: 5;
+#btnTema.temaEscuro,
+#btnFiltro.temaEscuro,
+#filtro.temaEscuro,
+#btnLegenda.temaEscuro,
+#legenda.temaEscuro {
+    background-color: #1D1D1D;
+    color: white;
+    input {
+        accent-color: #4A8AFF;
+    }
 }

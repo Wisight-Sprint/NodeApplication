@@ -2,6 +2,20 @@
     box-sizing: border-box;
     font-family: "Josefin Sans";
     color: white;
+
+    ::-webkit-scrollbar {
+        display: flex;
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #FFF;
+        border-radius: 15px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #00a5f1;
+    }
 }
 
 body {
@@ -28,6 +42,14 @@ body {
         width: 100%;
         display: flex;
         flex-direction: column;
+
+        .caixa-delegacia {
+            margin-left: 75vw;
+
+            span {
+                font-size: 18px;
+            }
+        }
 
         header {
             width: 100%;
@@ -116,45 +138,118 @@ body {
         }
 
 
-        .pesquisa {
+        .header {
             margin-top: 10px;
             display: flex;
             align-items: center;
-            width: 620px;
+            width: 90%;
             height: 50px;
             justify-content: space-around;
-            font-size: 16px;
-            border-bottom: solid white 1px;
-            border-right: solid white 1px;
-            border-bottom-right-radius: 10px;
+            border-bottom: solid #FFF 1px;
 
-            select {
-                color: white;
-                outline: none;
-                width: fit-content;
-                background-color: transparent;
-                border: none;
-                font-size: 16px;
+            .pesquisa {
+                display: flex;
+                justify-content: space-evenly;
+                width: 100%;
+                border-right: solid #FFF 1px;
 
-                option {
-                    color: black;
+                select {
+                    color: white;
+                    outline: none;
+                    width: fit-content;
+                    background-color: transparent;
+                    border: none;
+                    font-size: 16px;
+
+                    option {
+                        color: black;
+                    }
+                }
+
+                input {
+                    border-left: solid #FFF 1px;
+                    font-size: 15px;
+                    color: white;
+                    padding: 15px;
+                    outline: none;
+                    width: 300px;
+                    height: 30px;
+                    border: none;
+                    background-color: transparent;
+                }
+
+                input::placeholder {
+                    color: rgba(255, 255, 255, 0.5);
                 }
             }
 
-            input {
-                font-size: 15px;
-                color: white;
-                padding: 15px;
-                outline: none;
-                width: 300px;
-                height: 30px;
-                border: none;
-                background-color: transparent;
-            }
+            .paginacao {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-evenly;
 
-            input::placeholder {
-                color: rgba(255, 255, 255, 0.5);
+
+                .configuracoes {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 50%;
+                    border-right: solid #FFF 1px;
+
+                    input {
+                        margin-left: 20px;
+                        font-size: 18px;
+                        border: none;
+                        border-radius: 15px;
+                        background-color: rgba(255, 255, 255, 0.25);
+                        text-align: center;
+                        width: 40px;
+                        outline: none;
+                    }
+
+                    input::placeholder {
+                        color: #FFF;
+                    }
+                }
+
+                .info {
+                    width: 50%;
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+
+                    .control {
+                        width: 100px;
+
+                        display: flex;
+                        justify-content: space-evenly;
+                        align-items: center;
+
+                        input,
+                        span,
+                        p {
+                            font-size: 18px;
+                            border: none;
+                            background-color: transparent;
+                            text-align: center;
+                            color: #FFF;
+                            width: 30%;
+                            outline: none;
+                        }
+                    }
+
+                }
+
+                i {
+                    cursor: pointer;
+                }
+
             }
+        }
+
+        .listaUsuarios_container::-webkit-scrollbar {
+            width: 10px;
         }
 
         .listaUsuarios_container {
@@ -162,8 +257,10 @@ body {
             padding-right: 5px;
             padding-bottom: 40px;
             overflow-y: auto;
-            min-height: 50px;
+            min-height: 100px;
             max-height: 500px;
+            margin-bottom: 25px;
+
 
             .cabecalho,
             .publicacao {
@@ -196,7 +293,7 @@ body {
             .publicacao {
                 background-color: white;
                 border-radius: 5px;
-                height: 50px;
+                height: 40px;
 
                 .div-objetos .objeto {
                     border-right: solid black 1px;
@@ -219,6 +316,19 @@ body {
 
                 .div-buttons button:hover {
                     transform: scale(1.2);
+                }
+            }
+
+            .error {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                height: 100px;
+                font-size: 30px;
+
+                i {
+                    font-size: 50px;
                 }
             }
         }
@@ -362,7 +472,7 @@ body {
         }
     }
 
-    .paginacao {
+    /* .paginacao {
         display: flex;
         flex-direction: column;
         width: 90%;
@@ -418,7 +528,7 @@ body {
                 color: #000;
             }
         }
-    }
+    } */
 }
 
 

@@ -36,7 +36,7 @@
         <div class="input-container">
           <input type="password" id="inpSenha" placeholder="senha">
           <span class="eye-icon" onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)">
-            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #000;"></i>
+            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #000;"></i>
           </span>
         </div>
       </div>
@@ -173,10 +173,10 @@
 
     if (inputName.type === "password") {
       inputName.type = "text";
-      eyeName.classList.replace("fa-eye-slash", "fa-eye"); // Ícone de olho aberto
+      eyeName.classList.replace("fa-eye", "fa-eye-slash"); // Ícone de olho fechado
     } else {
       inputName.type = "password";
-      eyeName.classList.replace("fa-eye", "fa-eye-slash"); // Ícone de olho fechado
+      eyeName.classList.replace("fa-eye-slash", "fa-eye"); // Ícone de olho aberto
     }
   }
 </script>
