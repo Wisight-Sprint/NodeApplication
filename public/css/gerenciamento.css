@@ -1,0 +1,538 @@
+* {
+    box-sizing: border-box;
+    font-family: "Josefin Sans";
+    color: white;
+
+    ::-webkit-scrollbar {
+        display: flex;
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #FFF;
+        border-radius: 15px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #00a5f1;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.principalContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+
+    .containerNav .navLeft {
+        position: fixed;
+    }
+
+    .content {
+        margin-top: 2%;
+        margin-left: 125px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .caixa-delegacia {
+            margin-left: 75vw;
+
+            span {
+                font-size: 18px;
+            }
+        }
+
+        header {
+            width: 100%;
+            font-size: 50px;
+        }
+
+        .container_form {
+            display: flex;
+
+            .caixas_pergunta {
+                width: 100%;
+
+                .pergunta {
+                    height: 30%;
+
+                    p {
+                        font-size: 20px;
+                        margin-bottom: 5%;
+                        color: rgba(255, 255, 255, 0.5);
+                    }
+
+                    .input-container {
+                        position: relative;
+                        width: 80%;
+
+                        input,
+                        select {
+                            font-size: 20px;
+                            background: transparent;
+                            border: none;
+                            border-bottom: solid rgba(255, 255, 255, 0.5) 1px;
+                            width: 100%;
+                            outline: none;
+                            padding: 0 0 0.5% 1%;
+                            transition: 0.3s;
+                            padding-right: 30px;
+
+                            option {
+                                font-size: 18px;
+                                color: #000;
+                            }
+                        }
+                    }
+
+                    i {
+                        position: absolute;
+                        right: 10px;
+                        top: -20%;
+                        cursor: pointer;
+                        font-size: 22px;
+                    }
+                }
+
+                .pergunta input:focus {
+                    color: #FFF;
+                    border-bottom: solid #FFF 1px;
+                }
+
+                .pergunta:focus-within p {
+                    color: #FFF;
+                }
+            }
+        }
+
+        .caixa_button {
+            margin: 4% 0 8%;
+
+            button {
+                cursor: pointer;
+                background: linear-gradient(270deg, transparent 50%, white 50%);
+                background-size: 200% 100%;
+                background-position: right;
+                transition: background-position 0.4s ease;
+                color: #FFF;
+                border: 1px solid #FFF;
+                height: 50px;
+                font-size: 18px;
+                width: 180px;
+                border-radius: 15px;
+            }
+
+            button:hover {
+                background-position: left;
+                color: #021526;
+            }
+        }
+
+
+        .header {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            width: 90%;
+            height: 50px;
+            justify-content: space-around;
+            border-bottom: solid #FFF 1px;
+
+            .pesquisa {
+                display: flex;
+                justify-content: space-evenly;
+                width: 100%;
+                border-right: solid #FFF 1px;
+
+                select {
+                    color: white;
+                    outline: none;
+                    width: fit-content;
+                    background-color: transparent;
+                    border: none;
+                    font-size: 16px;
+
+                    option {
+                        color: black;
+                    }
+                }
+
+                input {
+                    border-left: solid #FFF 1px;
+                    font-size: 15px;
+                    color: white;
+                    padding: 15px;
+                    outline: none;
+                    width: 300px;
+                    height: 30px;
+                    border: none;
+                    background-color: transparent;
+                }
+
+                input::placeholder {
+                    color: rgba(255, 255, 255, 0.5);
+                }
+            }
+
+            .paginacao {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-evenly;
+
+
+                .configuracoes {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 50%;
+                    border-right: solid #FFF 1px;
+
+                    input {
+                        margin-left: 20px;
+                        font-size: 18px;
+                        border: none;
+                        border-radius: 15px;
+                        background-color: rgba(255, 255, 255, 0.25);
+                        text-align: center;
+                        width: 40px;
+                        outline: none;
+                    }
+
+                    input::placeholder {
+                        color: #FFF;
+                    }
+                }
+
+                .info {
+                    width: 50%;
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+
+                    .control {
+                        width: 100px;
+
+                        display: flex;
+                        justify-content: space-evenly;
+                        align-items: center;
+
+                        input,
+                        span,
+                        p {
+                            font-size: 18px;
+                            border: none;
+                            background-color: transparent;
+                            text-align: center;
+                            color: #FFF;
+                            width: 30%;
+                            outline: none;
+                        }
+                    }
+
+                }
+
+                i {
+                    cursor: pointer;
+                }
+
+            }
+        }
+
+        .listaUsuarios_container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .listaUsuarios_container {
+            width: 90%;
+            padding-right: 5px;
+            padding-bottom: 40px;
+            overflow-y: auto;
+            min-height: 100px;
+            max-height: 500px;
+            margin-bottom: 25px;
+
+
+            .cabecalho,
+            .publicacao {
+                margin: 2% 0 0 0;
+                width: 100%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            .div-objetos {
+                width: 90%;
+                display: flex;
+
+                .objeto {
+                    width: 25%;
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+                }
+            }
+
+            .div-buttons {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                width: 20%;
+            }
+
+            .publicacao {
+                background-color: white;
+                border-radius: 5px;
+                height: 40px;
+
+                .div-objetos .objeto {
+                    border-right: solid black 1px;
+
+                    span {
+                        color: black;
+                    }
+                }
+
+                .div-buttons button {
+                    background-color: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: 0.3s;
+
+                    img {
+                        width: 20px;
+                    }
+                }
+
+                .div-buttons button:hover {
+                    transform: scale(1.2);
+                }
+            }
+
+            .error {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                height: 100px;
+                font-size: 30px;
+
+                i {
+                    font-size: 50px;
+                }
+            }
+        }
+
+        .modalEditar {
+            z-index: 5;
+            position: fixed;
+            top: 0;
+            left: 115px;
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 93%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            .container {
+                border-radius: 15px;
+
+                .cabecalho {
+                    display: flex;
+                    align-items: center;
+
+                    header {
+                        color: black;
+                        margin-bottom: 10px;
+                    }
+
+                    button {
+                        background: transparent;
+                        border: none;
+                        cursor: pointer;
+                        margin-top: -3%;
+                        margin-right: 4%;
+                        width: fit-content;
+                        height: fit-content;
+
+                        i {
+                            font-size: 40px;
+                        }
+
+                        img {
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
+                }
+
+                padding-top: 3%;
+                padding-left: 6%;
+                width: 80%;
+                height: 70%;
+                /* background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%),
+                linear-gradient(0deg, #021526 0%, #021526 100%),
+                linear-gradient(0deg, #FFF 0%, #FFF 100%),
+                #49688D; */
+                background-color: white;
+
+                .container_form {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-evenly;
+
+                    .caixas_pergunta {
+                        flex-direction: column;
+                        justify-content: center;
+
+                        .pergunta {
+                            width: 100%;
+                            height: 30%;
+
+                            /* select {
+                                background-color: black;
+                            } */
+
+                            p {
+                                font-size: 20px;
+                                margin-bottom: 5%;
+                                color: black;
+                            }
+
+                            .input-container {
+                                position: relative;
+                                width: 80%;
+
+                                input,
+                                select {
+                                    transition: 0.3s;
+                                    color: black;
+                                    border-radius: 10px;
+                                    border: none;
+                                    background-color: #eaf1f7;
+                                    height: 40px;
+                                    width: 30vw;
+                                    padding-left: 15px;
+                                    font-size: 18px;
+                                    outline: none;
+
+                                    option {
+                                        color: #000;
+                                    }
+                                }
+                            }
+
+                            i {
+                                position: absolute;
+                                right: -30px;
+                                top: 10px;
+                                cursor: pointer;
+                                font-size: 20px;
+                            }
+                        }
+                    }
+
+                }
+
+                .caixa_button_editar {
+                    height: 88px;
+                    width: 94%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: end;
+
+                    button {
+                        background-color: #00a5f1;
+                        cursor: pointer;
+                        transition: 0.3s;
+                        color: #FFF;
+                        border: 1px solid #FFF;
+                        height: 50px;
+                        font-size: 18px;
+                        width: 180px;
+                        border-radius: 15px;
+                    }
+
+                    button:hover {
+                        transform: scale(1.05);
+                    }
+                }
+            }
+        }
+    }
+
+    /* .paginacao {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        align-items: center;
+        padding-bottom: 30px;
+
+        .controleNumPagina {
+            display: flex;
+            align-items: center;
+
+            input,
+            span {
+                width: 40px;
+                height: 40px;
+                border-radius: 50px;
+                background-color: #eaf1f7;
+                color: black;
+                font-size: 20px;
+                text-align: center;
+                border: none;
+                margin-inline: 15px;
+                margin-bottom: 10px;
+                outline: none;
+            }
+
+            span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            p {
+                font-size: 18px;
+            }
+
+            i {
+                cursor: pointer;
+                font-size: 28px;
+            }
+        }
+
+        .controleTamanhoPagina {
+            font-size: 18px;
+            color: #FFF;
+
+            input {
+                outline: none;
+                font-size: 18px;
+                border: none;
+                border-radius: 15px;
+                text-align: center;
+                width: 40px;
+                color: #000;
+            }
+        }
+    } */
+}
+
+
+Swap {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}

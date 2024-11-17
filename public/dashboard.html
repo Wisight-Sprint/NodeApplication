@@ -2,13 +2,18 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/dashboard.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./js/sessao.js"></script>
-    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dashboard | Wisight</title>
 
 </head>
 
@@ -16,12 +21,20 @@
     <div class="containerNav">
         <div class="navLeft">
             <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
-            <div class="container-graphic"> <img class="icon-graphic" src="./Assets/grafico.png"></div>
-            <div class="container-support"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
-            <div class="container-add-user"> <img class="icon-add-user" src="./Assets/adicionar-usuario 1.png"></div>
-            <div class="container-personal-datas"><img class="icon-personal-datas" src="./Assets/dados-pessoais 1.png">
-            </div>
-            <div onclick="limparSessao()" class="container-logout"> <img class="icon-logout" src="./Assets/logout 2.png"></div>
+            <div class="container-icon" id="telaAtual"> <img class="icon-graphic" src="./Assets/grafico.png"></div>
+            <a href="suporte.html">
+                <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
+            </a>
+            <a href="gerenciamento.html">
+                <div class="container-icon"><i class="fa-solid fa-user-gear"></i></div>
+            </a>
+            <a href="map.html">
+                <div class="container-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+            </a>
+            <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
+            </div></a>
         </div>
     </div>
 
@@ -38,12 +51,14 @@
                 <div class="kpiContainer">
                     <div class="kpi">
                         <h1 id="h1AgesIncidents">27</h1>
-                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br>Representando 14% do total de Mortes</span>
+                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br>Representando 14% do total de
+                            Mortes</span>
                     </div>
 
                     <div class="kpi">
                         <h1 id="h1BodyCamera">38%</h1>
-                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal seria entre 80% e 90%</span>
+                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal
+                            seria entre 80% e 90%</span>
                     </div>
 
                     <div class="kpi">
@@ -52,7 +67,8 @@
                     </div>
                     <div class="kpi">
                         <h1 id="h1Gender">Masc</h1>
-                        <span id="h1Gender">Gênero de vítimas com <br><br>Representando mais de 90% dos incidentes</span>
+                        <span id="h1Gender">Gênero de vítimas com <br><br>Representando mais de 90% dos
+                            incidentes</span>
                     </div>
                 </div>
 
@@ -96,106 +112,107 @@
 
 <script>
 
-window.onload = validarSessao();
+    window.onload = validarSessao();
 
 
 
-const vitimas2023 = [120, 160, 120, 110];
-const vitimas2024 = [145, 140, 130, 140];
+    const vitimas2023 = [120, 160, 120, 110];
+    const vitimas2024 = [145, 140, 130, 140];
 
-const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
+    const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
 
-function getColor(value, year) {
-    //if (value > 150) return 'rgb(255, 0, 0)'; 
-    return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';  
-}
+    function getColor(value, year) {
+        //if (value > 150) return 'rgb(255, 0, 0)'; 
+        return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
+    }
 
-Highcharts.chart('BarChart', {
-    chart: {
-        type: 'bar' 
-    },
-    title: {
-        text: '',
-        style: {
-            fontSize: '22px',
-            fontWeight: 'bold'
-        }
-    },
-    xAxis: {
-        categories: labels,
-        title: {
-            text: null
+    Highcharts.chart('BarChart', {
+        chart: {
+            type: 'bar'
         },
-        labels: {
-            formatter: function() {
-                return this.value;
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
         title: {
             text: '',
-            align: 'high'
-        },
-        labels: {
-            formatter: function() {
-                return this.value;
+            style: {
+                fontSize: '22px',
+                fontWeight: 'bold'
             }
         },
-        plotLines: [{
-            color: 'black', 
-            dashStyle: 'Dash', 
-            width: 2, 
-            value: 150, 
-            zIndex: 5, 
-            label: {
-                text: '', 
-                align: 'right',
-                x: -10,
-                style: {
-                    color: 'black',
-                    fontWeight: 'bold'
+        xAxis: {
+            categories: labels,
+            title: {
+                text: null
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
                 }
             }
-        }]
-    },
-    legend: {
-        enabled: true 
-    },
-    plotOptions: {
-        series: {
-            dataLabels: {
-                enabled: false
-            },
-            pointWidth: 25,
-            pointPadding: 0.1,
-            groupPadding: 1        }
-    },
-    series: [
-        {
-            name: 'Vítimas em 2023',
-            color: 'rgb(255, 220, 0)',
-            data: [
-                { y: vitimas2023[0], color: getColor(vitimas2023[0], 2023) }, 
-                { y: vitimas2023[1], color: getColor(vitimas2023[1], 2023) }, 
-                { y: vitimas2023[2], color: getColor(vitimas2023[2], 2023) }, 
-                { y: vitimas2023[3], color: getColor(vitimas2023[3], 2023) }  
-            ]
         },
-        {
-            name: 'Vítimas em 2024',
-            color: 'rgb(0, 0, 255)',
-            data: [
-                { y: vitimas2024[0], color: getColor(vitimas2024[0], 2024) },
-                { y: vitimas2024[1], color: getColor(vitimas2024[1], 2024) }, 
-                { y: vitimas2024[2], color: getColor(vitimas2024[2], 2024) },
-                { y: vitimas2024[3], color: getColor(vitimas2024[3], 2024) },
-                
-            ]
-        }
-    ]
-});
+        yAxis: {
+            min: 0,
+            title: {
+                text: '',
+                align: 'high'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            },
+            plotLines: [{
+                color: 'black',
+                dashStyle: 'Dash',
+                width: 2,
+                value: 150,
+                zIndex: 5,
+                label: {
+                    text: '',
+                    align: 'right',
+                    x: -10,
+                    style: {
+                        color: 'black',
+                        fontWeight: 'bold'
+                    }
+                }
+            }]
+        },
+        legend: {
+            enabled: true
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    enabled: false
+                },
+                pointWidth: 25,
+                pointPadding: 0.1,
+                groupPadding: 1
+            }
+        },
+        series: [
+            {
+                name: 'Vítimas em 2023',
+                color: 'rgb(255, 220, 0)',
+                data: [
+                    { y: vitimas2023[0], color: getColor(vitimas2023[0], 2023) },
+                    { y: vitimas2023[1], color: getColor(vitimas2023[1], 2023) },
+                    { y: vitimas2023[2], color: getColor(vitimas2023[2], 2023) },
+                    { y: vitimas2023[3], color: getColor(vitimas2023[3], 2023) }
+                ]
+            },
+            {
+                name: 'Vítimas em 2024',
+                color: 'rgb(0, 0, 255)',
+                data: [
+                    { y: vitimas2024[0], color: getColor(vitimas2024[0], 2024) },
+                    { y: vitimas2024[1], color: getColor(vitimas2024[1], 2024) },
+                    { y: vitimas2024[2], color: getColor(vitimas2024[2], 2024) },
+                    { y: vitimas2024[3], color: getColor(vitimas2024[3], 2024) },
+
+                ]
+            }
+        ]
+    });
 
 
     const ctx2 = document.getElementById('PieChart');

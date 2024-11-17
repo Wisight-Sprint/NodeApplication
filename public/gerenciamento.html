@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/sessao.js"></script>
+    <link rel="stylesheet" href="./css/gerenciamento.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Gerenciamento | Wisight</title>
+</head>
+
+<body onload="filtro(selectFiltro.value, inpPesquisa, false)">
+
+    <div class="principalContainer">
+        <div class="containerNav">
+            <div class="navLeft">
+                <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
+                <a href="dashboard.html">
+                    <div class="container-icon"> <img class="icon-graphic" src="./Assets/grafico.png"></div>
+                </a>
+                <a href="suporte.html">
+                    <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
+                </a>
+                <div class="container-icon" id="telaAtual"><i class="fa-solid fa-user-gear"></i></div>
+                <a href="map.html">
+                    <div class="container-icon">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                </a>
+                <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout"
+                        src="./Assets/logout 2.png"></div></a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="caixa-delegacia">
+                <span id="delegacia"></span>
+            </div>
+            <div class="modalEditar" id="modalEditar">
+                <div class="container">
+                    <div class="cabecalho">
+                        <header>Editar Usuário</header>
+                        <button onclick="sairEditar()">
+                            <i class="fa-solid fa-xmark" style="color: black"></i>
+                        </button>
+
+                    </div>
+                    <div class="container_form">
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Nome</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpNomeEditar">
+                                </div>
+
+                            </div>
+                            <div class="pergunta">
+                                <p>Número de distintivo</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpDistintivoEditar">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Email</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpEmailEditar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Permissão</p>
+                                <div class="input-container">
+                                    <select id="inpPermissaoEditar" name="restrito">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Usuário">Usuário</option>
+                                        <option value="Externo">Externo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpSenhaEditar">
+                                    <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Confirmar senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpConfSenhaEditar">
+                                    <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixa_button_editar">
+                        <button onclick="editar()">Editar</button>
+                    </div>
+                </div>
+            </div>
+            <header>Cadastro de Usuário</header>
+            <div class="container_form">
+                <div class="caixas_pergunta">
+                    <div class="pergunta">
+                        <p>Nome</p>
+                        <div class="input-container">
+                            <input name="restrito" type="text" id="inpNome">
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Número de distintivo</p>
+                        <div class="input-container">
+                            <input name="restrito" type="text" id="inpDistintivo">
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Email</p>
+                        <div class="input-container">
+                            <input name="restrito" type="text" id="inpEmail">
+                        </div>
+                    </div>
+                </div>
+                <div class="caixas_pergunta">
+                    <div class="pergunta">
+                        <p>Permissão</p>
+                        <div class="input-container">
+                            <select name="restrito" id="inpPermissao">
+                                <option value="#">Escolha o nível de permissão do usuário.</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Usuário">Usuário</option>
+                                <option value="Externo">Externo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Senha</p>
+                        <div class="input-container">
+                            <input name="restrito" type="password" id="inpSenha">
+                            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
+                                onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
+                        </div>
+                    </div>
+                    <div class="pergunta">
+                        <p>Confirmar senha</p>
+                        <div class="input-container">
+                            <input name="restrito" type="password" id="inpConfSenha">
+                            <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
+                                onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="caixa_button">
+                <button onclick="cadastrar()">Cadastrar</button>
+            </div>
+
+            <header>Gerenciamento de Usuários</header>
+            <div class="header">
+                <div class="pesquisa">
+                    <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
+                        <option value="#">Selecione um filtro</option>
+                        <option value="nome">Pesquisar por nome</option>
+                        <option value="distintivo">Pesquisar por distintivo</option>
+                        <option value="email">Pesquisar por e-mail</option>
+                        <option value="permissao">Pesquisar por permissao</option>
+                    </select>
+                    <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                        oninput="filtro(selectFiltro.value, inpPesquisa, false)">
+                </div>
+                <div class="paginacao">
+                    <div class="configuracoes">
+                        Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
+                            oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
+                    </div>
+                    <div class="info">
+                        <div class="control">
+                            <input disabled id="inpNumeroPagina" type="txt"
+                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
+                            <p>-</p>
+                            <span id="inpTotalPaginas"></span>
+                        </div>
+                        <i class="fa-solid fa-angle-left" style="color: #ffffff;"
+                            onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"
+                            onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
+            <!-- <div class="paginacao">
+                <div class="controleNumPagina">
+                    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
+                        onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                    <input id="inpNumeroPagina" type="txt" oninput="paginacao()" value=1 min=1>
+                    <p>de</p>
+                    <span id="inpTotalPaginas"></span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"
+                        onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                </div>
+                <div class="controleTamanhoPagina">
+                    Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
+                        value=10>
+                </div>
+            </div> -->
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    let idUsuario;
+    let permissaoDeAdministrador = true;
+    let totalPaginas;
+    delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
+
+    function mudarPagina(acao, numPagina) {
+        if (acao > 0 && numPagina < totalPaginas) {
+            inpNumeroPagina.value++;
+            paginacao();
+        }
+        if (acao < 0 && numPagina > 1) {
+            inpNumeroPagina.value--;
+            paginacao();
+        }
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
+        permissaoDeAdministrador = false;
+        const inputsRestritos = document.querySelectorAll('[name="restrito"]');
+
+        inputsRestritos.forEach(input => {
+            input.addEventListener("mouseenter", function () {
+                input.style.cursor = "not-allowed";
+                input.disabled = true;
+            });
+
+            input.addEventListener("mouseleave", function () {
+                input.style.cursor = "default";
+                input.disabled = false;
+            });
+        });
+    }
+
+    async function cadastrar() {
+        if (permissaoDeAdministrador) {
+            let nome = inpNome.value
+            let email = inpEmail.value
+            let senha = inpSenha.value
+            let confSenha = inpConfSenha.value
+            let distintivo = inpDistintivo.value
+            let permissao = inpPermissao.value
+            if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpPermissao)) {
+                try {
+                    const responseCadastro = await fetch("users/cadastrarUsuario", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            nomeServer: nome,
+                            emailServer: email,
+                            senhaServer: senha,
+                            permissaoServer: permissao,
+                            distintivoServer: distintivo,
+                            departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                        }),
+                    });
+                    if (responseCadastro.ok) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Usuário cadastrado com sucesso!",
+                            background: "#FFF",
+                            color: "#000",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        filtro(selectFiltro.value, inpPesquisa, false);
+                    } else {
+                        const errorText = await responseCadastro.text();
+                        throw new Error("Erro ao cadastrar usuário: " + errorText);
+                    }
+
+                } catch (error) {
+                    console.log("Erro:", error);
+                }
+            }
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de administrador para cadastrar um novo usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function deletar(usuario_id) {
+        if (permissaoDeAdministrador) {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Ao confirmar, o usuário será excluído permanentemente!",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/users/deletarUsuario/`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            usuario_idServer: usuario_id
+                        }),
+
+                    }).then(function (resposta) {
+
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Usuário removido com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            filtro(selectFiltro.value, inpPesquisa, false);
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a excluir usuário! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                }
+            })
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de administrador para remover um usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function irEditar(usuario_id, nome, numero, email, permissao, senha) {
+
+        if (permissaoDeAdministrador || usuario_id == sessionStorage.ID_USUARIO) {
+            document.body.style.overflow = 'hidden';
+            idUsuario = usuario_id;
+            modalEditar.style = `display: flex`;
+            inpNomeEditar.value = nome;
+            inpEmailEditar.value = email;
+            inpPermissaoEditar.value = permissao;
+            inpDistintivoEditar.value = numero;
+            inpSenhaEditar.value = senha;
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão para editar um usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function editar() {
+        let usuario_id = idUsuario;
+        let nome = inpNomeEditar.value;
+        let email = inpEmailEditar.value;
+        let senha = inpSenhaEditar.value;
+        let confSenha = inpConfSenhaEditar.value;
+        let permissao = inpPermissaoEditar.value;
+        let distintivo = inpDistintivoEditar.value;
+
+        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpPermissaoEditar, inpDistintivoEditar)) {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Deseja alterar os dados deste usuário?",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    fetch(`/users/atualizarUsuario/`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idServer: usuario_id,
+                            nomeServer: nome,
+                            permissaoServer: permissao,
+                            emailServer: email,
+                            senhaServer: senha,
+                            distintivoServer: distintivo
+                        })
+                    }).then(function (resposta) {
+
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Usuário modificado com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1000,
+                            });
+
+                            sessionStorage.NOME_USUARIO = nome;
+                            sessionStorage.PERMISSAO_USUARIO = permissao;
+                            filtro(selectFiltro.value, inpPesquisa, false);
+                            sairEditar();
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a edição! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                } else {
+                    sairEditar();
+                }
+            }
+            )
+        }
+    }
+
+    function sairEditar() {
+        document.body.style.overflow = 'auto';
+        inpSenhaEditar.type = "password";
+        eyeInpSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        eyeInpConfSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        inpConfSenhaEditar.type = "password";
+        inpConfSenhaEditar.value = "";
+        modalEditar.style = `display: none`;
+    }
+
+    function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
+        let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+        let numeroPagina = Number(inpNumeroPagina.value);
+        let tamanhoPagina = Number(inpTamanhoPagina.value);
+        tamanhoPagina = tamanhoPagina || 10;
+
+        fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = "";
+                        var usuario_container = document.createElement("span");
+                        usuario_container.innerHTML = "Nenhum usuário encontrado.";
+                        listaUsuarios.appendChild(usuario_container);
+                        return;
+                    }
+
+                    resposta.json().then(function (usuarios) {
+
+                        let filtroUsuarios = usuarios;
+
+                        if (temFiltro) {
+                            filtroUsuarios = usuarios.filter(usuario => {
+                                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
+                                if (filtro === "nome") {
+                                    return usuario.nome
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
+                                } else if (filtro === "distintivo") {
+                                    return usuario.numero.startsWith(filtroValue);
+                                } else if (filtro === "email") {
+                                    return usuario.email.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                } else if (filtro === "permissao") {
+                                    return usuario.permissao.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                }
+                                return false;
+                            });
+
+                        } else {
+                            filtroUsuarios = usuarios;
+                        }
+
+
+                        let totalUsuarios = filtroUsuarios.length;
+                        totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
+                        inpTotalPaginas.innerHTML = totalPaginas;
+
+                        let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
+                        let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+
+                        let listaUsuarios = document.getElementById("listaUsuarios_container");
+                        listaUsuarios.innerHTML = `
+                        <div class="cabecalho">
+                            <div class="div-objetos">
+                                <div class="objeto">
+                                    <span>Nome</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Número</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Email</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Permissão</span>
+                                </div>
+                            </div>
+                            <div class="div-buttons">
+                                <span>Ações</span>
+                            </div>
+                        </div>`;
+                        let tamanhoDiv = 50;
+                        if (filtroUsuarios.length > 0) {
+                            for (let u = primeiroItem; u < ultimoItem; u++) {
+                                let publicacao = filtroUsuarios[u];
+
+                                let divPublicacao = document.createElement("div");
+                                divPublicacao.className = "publicacao";
+                                divPublicacao.innerHTML = `
+                            <div class="div-objetos">
+                                <div class="objeto"><span>${publicacao.nome}</span></div>
+                                <div class="objeto"><span>${publicacao.numero}</span></div>
+                                <div class="objeto"><span>${publicacao.email}</span></div>
+                                <div class="objeto"><span>${publicacao.permissao}</span></div>
+                            </div>
+                            <div class="div-buttons">
+                                <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                    <img src="./Assets/btn_editar.png">
+                                </button>
+                                <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                    <img src="./Assets/btn_deletar.png">
+                                </button>
+                            </div>
+                        `;
+                                tamanhoDiv += 100;
+                                if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
+                                listaUsuarios.appendChild(divPublicacao);
+                            }
+                            if (totalPaginas < numeroPagina) {
+                                inpNumeroPagina.value = filtroUsuarios.length;
+                                atualizarListaUsuarios();
+                            }
+                        } else {
+                            listaUsuarios.innerHTML = `
+                            <div class="error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Nenhum usuário encontrado</span>
+                            </div>`;
+                            usuario_container.innerHTML = "Nenhum usuário encontrado.";
+                            listaUsuarios.appendChild(usuario_container);
+                            // inpNumeroPagina.value = 1;
+                            inpNumeroPagina.value = 1;
+                            return;
+                        }
+                    })
+                }
+            })
+            .catch(function (error) {
+                console.error("Erro ao buscar usuários:", error);
+            });
+
+    }
+
+
+    function filtro(select, inputName, passouPorPaginacao) {
+        const temFiltro = select !== "#";
+        inputName.disabled = !temFiltro;
+        inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
+        if (!temFiltro) inputName.value = "";
+        if (!passouPorPaginacao) {
+            // inpNumeroPagina.value = 1;
+            inpNumeroPagina.value = 1;
+        } else {
+            // inpNumeroPagina.value = inpNumeroPagina.value;
+            inpNumeroPagina.value = inpNumeroPagina.value;
+        }
+        atualizarListaUsuarios(temFiltro, select, inputName.value);
+    }
+
+    function paginacao() {
+        filtro(selectFiltro.value, inpPesquisa, true);
+    }
+
+    function validacao(nome, email, senha, confSenha, distintivo, permissao) {
+        const caracteresEspeciais = "#@!$%&";
+        let temCaractereEspecial = false;
+
+        for (let i = 0; i < caracteresEspeciais.length; i++) {
+            if (senha.value.indexOf(caracteresEspeciais[i]) !== -1) {
+                temCaractereEspecial = true;
+                break;
+            }
+        }
+
+        if (nome.value.length < 4) setFieldError(nome, "Nome inválido.");
+        else setFieldSpecificSuccess(nome);
+        if (email.value.indexOf("@") == -1 || email.value.length < 8) setFieldError(email, "Email precisa conter @ e ter no mínimo 8 caracteres.");
+        else setFieldSpecificSuccess(email);
+        if (senha.value.length < 8) setFieldError(senha, "Necessário no mínimo 8 caracteres.");
+        else if (!temCaractereEspecial) setFieldError(senha, "Necessário pelo menos um caractere especial.");
+        else setFieldSpecificSuccess(senha);
+        if (confSenha.value !== senha.value) setFieldError(confSenha, "As senhas precisam ser iguais.");
+        else setFieldSpecificSuccess(confSenha);
+        if (distintivo.value === "") setFieldError(distintivo, "Campo necessário para cadastro.");
+        else setFieldSpecificSuccess(distintivo);
+        if (permissao.value.trim() === "") setFieldError(permissao, "Permissao inválido.");
+        else setFieldSpecificSuccess(permissao);
+        if (nome.value.length >= 4 && permissao.value != "#" && distintivo.value != "" && confSenha.value == senha.value && temCaractereEspecial && senha.value.length >= 8 && email.value.indexOf("@") != -1 && email.value.length >= 8) {
+            setFieldAllSuccess(nome);
+            setFieldAllSuccess(senha);
+            setFieldAllSuccess(confSenha);
+            setFieldAllSuccess(email);
+            setFieldAllSuccess(permissao);
+            setFieldAllSuccess(distintivo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setFieldError(input, message) {
+        input.value = "";
+        input.placeholder = message;
+        input.style.borderBottom = "solid red 2px";
+    }
+
+    function setFieldSpecificSuccess(input) {
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    function setFieldAllSuccess(input) {
+        input.value = "";
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    function togglePasswordVisibility(inputName, eyeName) {
+
+        if (inputName.type === "password") {
+            inputName.type = "text";
+            eyeName.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+            inputName.type = "password";
+            eyeName.classList.replace("fa-eye-slash", "fa-eye");
+        }
+    }
+
+    setInterval(() => {
+        filtro(selectFiltro.value, inpPesquisa, false);
+    }, 20000);
+</script>
