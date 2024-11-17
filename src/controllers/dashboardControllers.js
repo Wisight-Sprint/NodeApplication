@@ -168,7 +168,9 @@ console.log(res);
 
 function obterVitima(req, res){
 
-  dashboardModel.obterVitima()
+  const cidadeUsuario = req.query.cidadeServerUsuario
+
+  dashboardModel.obterVitima(cidadeUsuario)
   .then(function (response) {
     res.json(response);
   })

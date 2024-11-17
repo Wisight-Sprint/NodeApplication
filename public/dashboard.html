@@ -143,16 +143,35 @@ function obterRegioes() {
         .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
 }
 
+function exibirGeral() {
+    cidadeUsuario = ""
+    chamarGraficos()
+}
 
+function exibirMeuLocal() {
+    cidadeUsuario = sessionStorage.CIDADE_USUARIO
+    chamarGraficos()
+}
+
+function exibirLocalEspecifico(){
+    // essa função é chamada so quando o cara clica pra pesquisar
+    cidadeUsuario = pesquisarCidade.value
+    chamarGraficos()
+}
+
+function chamarGraficos(){
+    obterArma()
+    obterCameraCorporal()
+    obterEtnia()
+    obterFuga()
+    obterGenero()
+    obterMediaIdade()
+    obterRegioes()
+    obterTranstorno()
+    obterVitima()
+}
 
 function obterMediaIdade() {
-
-    // fazer uma function aonde pega a busca e a id do departamento e poe como uma variavel depois:
-    // if (busca.value != ''){
-    //     BuscarDepartamentoDoPesquisar()
-    //     cidadeUsuario = cesquisarCidadeUsuario
-    // }
-
     fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
     .then(response => {
         if (!response.ok) {
@@ -174,13 +193,6 @@ function obterMediaIdade() {
 }
 
 function obterCameraCorporal() {
-
-    // fazer uma function aonde pega a busca e a id do departamento e poe como uma variavel depois:
-    // if (busca.value != ''){
-    //     BuscarDepartamentoDoPesquisar()
-    //     cidadeUsuario = cesquisarCidadeUsuario
-    // }
-
     fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
     .then(response => {
         if (!response.ok) {
@@ -198,13 +210,6 @@ function obterCameraCorporal() {
 }
 
 function obterTranstorno() {
-
-    // fazer uma function aonde pega a busca e a id do departamento e poe como uma variavel depois:
-    // if (busca.value != ''){
-    //     BuscarDepartamentoDoPesquisar()
-    //     cidadeUsuario = cesquisarCidadeUsuario
-    // }
-
     fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
     .then(response => {
         if (!response.ok) {
@@ -242,155 +247,82 @@ function obterGenero(){
 
 }
 
-obterTranstorno()
-obterMediaIdade()
-obterRegioes()
-obterCameraCorporal()
-obterGenero()
-
-// function obterDadosGrafico() {
-
-// }
-
-// obterDadosGrafico()
-
-
 function obterVitima() {
-    fetch("/dashboard/obterVitima", {
-        method: "GET",
-    })
+    fetch(`/dashboard/obterVitima?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
         .then(function (response) {
-            return response.json()
+            return response.json();
         })
         .then(function (data) {
-            console.log("VITIMA:" + data)
+            let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            let vitimas2023 = new Array(12).fill(0); 
+            let vitimas2024 = new Array(12).fill(0); 
 
-            for (let index = 0; index < data.length; index++) {
-            
-                console.log("teste:" + data[index])
+            data.forEach(function(item) {
+                if (item.ano === 2023) {
+                    vitimas2023[item.mes - 1] = item.total_vitimas;
+                } else if (item.ano === 2024) {
+                    vitimas2024[item.mes - 1] = item.total_vitimas;
+                }
+            });
 
-            }
-
-            // let armamentos = {
-            //     'Nenhum': 0,
-            //     'Facão': 0,
-            //     'Arma de fogo': 0
-            // };
-
-            // data.forEach(function(item) {
-            //     if (armamentos[item.armamento] !== undefined) {
-            //         armamentos[item.armamento] = item.quantidade;
-            //     }
-            // });
-
-            // depois trocar esse mychart por:
-            // myChart.data.datasets[0].data = [
-            //     armamentos['Gun'], 
-            //     armamentos['unarmed'], 
-            //     armamentos['knife']
-            // ];
-
-            // myChart.data.datasets[0].data = [
-            //     armamentos['Nenhum'], 
-            //     armamentos['Facão'], 
-            //     armamentos['Arma de fogo']
-            // ];
-            
-            // myChart.update();
+            Highcharts.chart('BarChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Vítimas por Mês - Comparação entre 2023 e 2024',
+                    style: {
+                        fontSize: '22px',
+                        fontWeight: 'bold'
+                    }
+                },
+                xAxis: {
+                    categories: meses,
+                    title: {
+                        text: 'Mês'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Número de Vítimas'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Vítimas em 2023',
+                    color: 'rgb(255, 220, 0)', 
+                    data: vitimas2023 
+                }, {
+                    name: 'Vítimas em 2024',
+                    color: 'rgb(0, 0, 255)', 
+                    data: vitimas2024 
+                }],
+                plotOptions: {
+                    series: {
+                        pointPadding: 0.1,
+                        groupPadding: 0.1,
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
         })
         .catch(function (error) {
             console.log("Ocorreu um erro:", error);
         });
 }
 
-obterVitima()
-
-Highcharts.chart('BarChart', {
-    chart: {
-        type: 'bar' 
-    },
-    title: {
-        text: '',
-        style: {
-            fontSize: '22px',
-            fontWeight: 'bold'
-        }
-    },
-    xAxis: {
-        categories: labels,
-        title: {
-            text: null
-        },
-        labels: {
-            formatter: function() {
-                return this.value;
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: '',
-            align: 'high'
-        },
-        labels: {
-            formatter: function() {
-                return this.value;
-            }
-        },
-        plotLines: [{
-            color: 'black', 
-            dashStyle: 'Dash', 
-            width: 2, 
-            value: 150, 
-            zIndex: 5, 
-            label: {
-                text: '', 
-                align: 'right',
-                x: -10,
-                style: {
-                    color: 'black',
-                    fontWeight: 'bold'
-                }
-            }
-        }]
-    },
-    legend: {
-        enabled: true 
-    },
-    plotOptions: {
-        series: {
-            dataLabels: {
-                enabled: false
-            },
-            pointWidth: 25,
-            pointPadding: 0.1,
-            groupPadding: 1        }
-    },
-    series: [
-        {
-            name: 'Vítimas em 2023',
-            color: 'rgb(255, 220, 0)',
-            data: [
-                { y: vitimas2023[0], color: getColor(vitimas2023[0], 2023) }, 
-                { y: vitimas2023[1], color: getColor(vitimas2023[1], 2023) }, 
-                { y: vitimas2023[2], color: getColor(vitimas2023[2], 2023) }, 
-                { y: vitimas2023[3], color: getColor(vitimas2023[3], 2023) }  
-            ]
-        },
-        {
-            name: 'Vítimas em 2024',
-            color: 'rgb(0, 0, 255)',
-            data: [
-                { y: vitimas2024[0], color: getColor(vitimas2024[0], 2024) },
-                { y: vitimas2024[1], color: getColor(vitimas2024[1], 2024) }, 
-                { y: vitimas2024[2], color: getColor(vitimas2024[2], 2024) },
-                { y: vitimas2024[3], color: getColor(vitimas2024[3], 2024) },
-                
-            ]
-        }
-    ]
-});
 
 
 function obterArma() {
@@ -479,8 +411,6 @@ const myChart = new Chart(ctx2, {
     }
 });
 
-obterArma();
-
 
 function obterEtnia() {
     fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
@@ -494,7 +424,8 @@ function obterEtnia() {
                 'Hispânica': 0,
                 'Asiática': 0,
                 'Branca': 0,
-                'Negra': 0
+                'Negra': 0,
+                'Indígena': 0
             };
 
             data.forEach(function(item) {
@@ -515,7 +446,8 @@ function obterEtnia() {
                 etnias['Hispânica'], 
                 etnias['Asiática'], 
                 etnias['Branca'],
-                etnias['Negra']
+                etnias['Negra'],
+                etnias['Indígena']
             ];
             
             myChartEtnia.update();
@@ -531,21 +463,23 @@ function obterEtnia() {
     const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Etnia Hispânica', 'Etnia Asiática', 'Etnia Branca', 'Etnia Negra'],
+            labels: ['Etnia Hispânica', 'Etnia Asiática', 'Etnia Branca', 'Etnia Negra', 'Etnia Indígena'],
             datasets: [{
                 label: 'Etnias',
-                data: [0, 0, 0, 0],
+                data: [0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgb(74, 144, 226)',
                     'rgb(0, 0, 156)',
                     'rgb(128, 128, 128)',
                     'rgb(0, 0, 0)',
+                    'rgb(255, 255, 255)'
                 ],
                 borderColor: [
                     'rgb(74, 144, 226)',
                     'rgb(0, 0, 156)',
                     'rgb(128, 128, 128)',
                     'rgb(0, 0, 0)',
+                    'rgb(200, 200, 200)'
                 ],
                 borderWidth: 1
             }]
@@ -565,8 +499,6 @@ function obterEtnia() {
             }
         }
     });
-
-    obterEtnia()
 
     function obterFuga(){
 
@@ -648,7 +580,6 @@ function obterEtnia() {
         }
     });
 
-    obterFuga()
-
+    chamarGraficos()
 
 </script>
