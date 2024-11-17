@@ -50,25 +50,24 @@
             <div class="charts1Container">
                 <div class="kpiContainer">
                     <div class="kpi">
-                        <h1 id="h1AgesIncidents">27</h1>
-                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br>Representando 14% do total de
-                            Mortes</span>
+                        <h1 id="h1AgesIncident">XX</h1>
+                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br> <p id="pAgesIncident">Representando XX% do total de Mortes</p></span>
                     </div>
 
                     <div class="kpi">
-                        <h1 id="h1BodyCamera">38%</h1>
-                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal
-                            seria entre 80% e 90%</span>
+                        <h1 id="h1BodyCam" style="color: orange;">XX%</h1>
+                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal seria entre 80% e 90%</span>
+
+
                     </div>
 
                     <div class="kpi">
-                        <h1 id="h1MentalDisorders">60%</h1>
+                        <h1 id="h1MentalDisorder" style="color: red;">XX%</h1>
                         <span id="h1MentalDisorders">Taxa de vítimas com <br> transtornos mentais</span>
                     </div>
                     <div class="kpi">
-                        <h1 id="h1Gender">Masc</h1>
-                        <span id="h1Gender">Gênero de vítimas com <br><br>Representando mais de 90% dos
-                            incidentes</span>
+                        <h1 id="h1Gende">XXX</h1>
+                        <span id="h1Gender">Gênero de vítimas com <br><br> <p id="pGender">Representando mais de XX% dos incidentes</p></span>
                     </div>
                 </div>
 
@@ -126,152 +125,377 @@
         return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
     }
 
-    Highcharts.chart('BarChart', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: '',
-            style: {
-                fontSize: '22px',
-                fontWeight: 'bold'
-            }
-        },
-        xAxis: {
-            categories: labels,
-            title: {
-                text: null
-            },
-            labels: {
-                formatter: function () {
-                    return this.value;
+
+
+// vai ter que verificar se o usario pode ou não mudar a sua localização
+// function verificarCargo() {
+//    if (cargo != policial) {
+//    obterRegioes();
+//    exibir a pesquisa de região, e o cadastro de funcionario        
+//    }
+// }
+
+var regioes = []
+
+var cidadeUsuario = sessionStorage.CIDADE_USUARIO
+
+function obterRegioes() {
+    fetch(`/dashboard/obterRegioes`, {
+        method: "GET",
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) { 
+            console.table(JSON.stringify(data)); 
+
+            data.forEach(item => {
+                regioes.push(`cidade: ${item.cidade}, ${item.estado}`)
+            
+            })
+        
+
+        })
+        .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+function exibirGeral() {
+    cidadeUsuario = ""
+    chamarGraficos()
+}
+
+function exibirMeuLocal() {
+    cidadeUsuario = sessionStorage.CIDADE_USUARIO
+    chamarGraficos()
+}
+
+function exibirLocalEspecifico(){
+    // essa função é chamada so quando o cara clica pra pesquisar
+    cidadeUsuario = pesquisarCidade.value
+    chamarGraficos()
+}
+
+function chamarGraficos(){
+    obterArma()
+    obterCameraCorporal()
+    obterEtnia()
+    obterFuga()
+    obterGenero()
+    obterMediaIdade()
+    obterRegioes()
+    obterTranstorno()
+    obterVitima()
+}
+
+function obterMediaIdade() {
+    fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        var h1Element = document.getElementById('h1AgesIncident')
+        var pElement = document.getElementById('pAgesIncident')
+        var idadeMedia = Number(data[0]["idadeIncidente"])
+        var pctMortes = Number(data[0]["porcentagem"])
+        idadeMedia = Number(idadeMedia.toFixed(0))
+        pctMortes = pctMortes.toFixed(2)
+        h1Element.innerText = idadeMedia
+        pElement.innerText = `Representando ${pctMortes}% do total de Mortes`
+    })
+    .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+function obterCameraCorporal() {
+    fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        var h1Camera = document.getElementById('h1BodyCam')
+        var pctCamera = Number(data[0]["porcentagem"])
+        pctCamera = pctCamera.toFixed(2)
+        h1Camera.innerText = `${pctCamera}%`
+    })
+    .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+function obterTranstorno() {
+    fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        var h1Mental = document.getElementById('h1MentalDisorder')
+        var pctMental = Number(data[0]["porcentagem"])
+        pctMental = pctMental.toFixed(2)
+        h1Mental.innerText = `${pctMental}%`
+    })
+    .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+}
+
+function obterGenero(){
+    fetch(`/dashboard/obterGenero?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        var h1Element = document.getElementById('h1Gende')
+        var pElement = document.getElementById('pGender')
+        var genero = data[0]["generoIncidente"]
+        var pctMortes = Number(data[0]["porcentagem"])
+        pctMortes = pctMortes.toFixed(2)
+        h1Element.innerText = genero
+        pElement.innerText = `Representando ${pctMortes}% dos incidentes`
+    })
+    .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+
+}
+
+function obterVitima() {
+    fetch(`/dashboard/obterVitima?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            let vitimas2023 = new Array(12).fill(0); 
+            let vitimas2024 = new Array(12).fill(0); 
+
+            data.forEach(function(item) {
+                if (item.ano === 2023) {
+                    vitimas2023[item.mes - 1] = item.total_vitimas;
+                } else if (item.ano === 2024) {
+                    vitimas2024[item.mes - 1] = item.total_vitimas;
                 }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: '',
-                align: 'high'
-            },
-            labels: {
-                formatter: function () {
-                    return this.value;
-                }
-            },
-            plotLines: [{
-                color: 'black',
-                dashStyle: 'Dash',
-                width: 2,
-                value: 150,
-                zIndex: 5,
-                label: {
-                    text: '',
-                    align: 'right',
-                    x: -10,
+            });
+
+            Highcharts.chart('BarChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Vítimas por Mês - Comparação entre 2023 e 2024',
                     style: {
-                        color: 'black',
+                        fontSize: '22px',
                         fontWeight: 'bold'
                     }
-                }
-            }]
-        },
-        legend: {
-            enabled: true
-        },
-        plotOptions: {
-            series: {
-                dataLabels: {
-                    enabled: false
                 },
-                pointWidth: 25,
-                pointPadding: 0.1,
-                groupPadding: 1
-            }
-        },
-        series: [
-            {
-                name: 'Vítimas em 2023',
-                color: 'rgb(255, 220, 0)',
-                data: [
-                    { y: vitimas2023[0], color: getColor(vitimas2023[0], 2023) },
-                    { y: vitimas2023[1], color: getColor(vitimas2023[1], 2023) },
-                    { y: vitimas2023[2], color: getColor(vitimas2023[2], 2023) },
-                    { y: vitimas2023[3], color: getColor(vitimas2023[3], 2023) }
-                ]
-            },
-            {
-                name: 'Vítimas em 2024',
-                color: 'rgb(0, 0, 255)',
-                data: [
-                    { y: vitimas2024[0], color: getColor(vitimas2024[0], 2024) },
-                    { y: vitimas2024[1], color: getColor(vitimas2024[1], 2024) },
-                    { y: vitimas2024[2], color: getColor(vitimas2024[2], 2024) },
-                    { y: vitimas2024[3], color: getColor(vitimas2024[3], 2024) },
-
-                ]
-            }
-        ]
-    });
-
-
-    const ctx2 = document.getElementById('PieChart');
-
-    const PieChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: ['Armado com arma branca', 'Armado com arma de fogo', 'Desarmado'],
-            datasets: [{
-                label: 'Cores favoritas',
-                data: [12, 19, 3],
-                backgroundColor: [
-                    'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(128, 128, 128, 1)'
-                ],
-                borderColor: [
-                    'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(128, 128, 128, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    position: 'bottom',
+                xAxis: {
+                    categories: meses,
+                    title: {
+                        text: 'Mês'
+                    },
                     labels: {
-                        font: {
-                            weight: 'bold'
-                        },
-                        color: 'rgba(0,0,0)',
-                        padding: 10
+                        formatter: function() {
+                            return this.value;
+                        }
                     }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Número de Vítimas'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Vítimas em 2023',
+                    color: 'rgb(255, 220, 0)', 
+                    data: vitimas2023 
+                }, {
+                    name: 'Vítimas em 2024',
+                    color: 'rgb(0, 0, 255)', 
+                    data: vitimas2024 
+                }],
+                plotOptions: {
+                    series: {
+                        pointPadding: 0.1,
+                        groupPadding: 0.1,
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(function (error) {
+            console.log("Ocorreu um erro:", error);
+        });
+}
+
+
+
+function obterArma() {
+    fetch(`/dashboard/obterArma?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+
+            let armamentos = {
+                'Nenhum': 0,
+                'Facão': 0,
+                'Arma de fogo': 0,
+                'Faca': 0,
+                'Arma Branca': 0
+            };
+
+            data.forEach(function(item) {
+                if (armamentos[item.armamento] !== undefined) {
+                    armamentos[item.armamento] = item.quantidade;
+                }
+            });
+
+            // depois trocar esse mychart por:
+            // myChart.data.datasets[0].data = [
+            //     armamentos['Gun'], 
+            //     armamentos['unarmed'], 
+            //     armamentos['knife']
+            // ];
+
+            myChart.data.datasets[0].data = [
+                armamentos['Nenhum'], 
+                armamentos['Facão'], 
+                armamentos['Arma de fogo'],
+                armamentos['Faca'],
+                armamentos['Arma branca']
+            ];
+            
+            myChart.update();
+        })
+        .catch(function (error) {
+            console.log("Ocorreu um erro:", error);
+        });
+}
+
+const ctx2 = document.getElementById('PieChart');
+
+const myChart = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+        labels: ['Desarmado', 'Facão', 'Arma de fogo', 'Faca', 'Arma branca'],
+        datasets: [{
+            label: 'Distribuição de armas',
+            data: [0, 0, 0, 0, 0],  
+            backgroundColor: [
+                'rgba(128, 128, 128, 1)',  
+                'rgba(110, 172, 218, 1)',  
+                'rgba(44, 65, 89, 1)',
+                'rgba(90, 165, 26, 1)',
+                'rgba(4, 244, 244, 2)'       
+            ],
+            borderColor: [
+                'rgba(128, 128, 128, 1)',
+                'rgba(110, 172, 218, 1)',
+                'rgba(44, 65, 89, 1)',
+                'rgba(90, 165, 26, 1)',
+                'rgba(4, 244, 244, 2)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: {
+                        weight: 'bold'
+                    },
+                    color: 'rgba(0,0,0)',
+                    padding: 10
                 }
             }
         }
-    });
+    }
+});
+
+
+function obterEtnia() {
+    fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+
+            let etnias = {
+                'Hispânica': 0,
+                'Asiática': 0,
+                'Branca': 0,
+                'Negra': 0,
+                'Indígena': 0
+            };
+
+            data.forEach(function(item) {
+                if (etnias[item.etnia] !== undefined) {
+                    etnias[item.etnia] = item.quantidade;
+                }
+            });
+
+            // depois trocar esse mychart por:
+            // myChartEtnia.data.datasets[0].data = [
+            //     etnias['Hispanic'], 
+            //     etnias['Asian'], 
+            //     etnias['White'],
+            //     etnias['Black']
+            // ];
+
+            myChartEtnia.data.datasets[0].data = [
+                etnias['Hispânica'], 
+                etnias['Asiática'], 
+                etnias['Branca'],
+                etnias['Negra'],
+                etnias['Indígena']
+            ];
+            
+            myChartEtnia.update();
+        })
+        .catch(function (error) {
+            console.log("Ocorreu um erro:", error);
+        });
+}
+
 
     const ctx3 = document.getElementById('PieChart2');
 
-    const PieChart2 = new Chart(ctx3, {
+    const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Etnia Preta', 'Etnia Branca', 'Etnia Asiática'],
+            labels: ['Etnia Hispânica', 'Etnia Asiática', 'Etnia Branca', 'Etnia Negra', 'Etnia Indígena'],
             datasets: [{
-                label: 'Cores favoritas',
-                data: [80, 35, 45],
+                label: 'Etnias',
+                data: [0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgb(74, 144, 226)',
                     'rgb(0, 0, 156)',
                     'rgb(128, 128, 128)',
+                    'rgb(0, 0, 0)',
+                    'rgb(255, 255, 255)'
                 ],
                 borderColor: [
                     'rgb(74, 144, 226)',
                     'rgb(0, 0, 156)',
                     'rgb(128, 128, 128)',
-
+                    'rgb(0, 0, 0)',
+                    'rgb(200, 200, 200)'
                 ],
                 borderWidth: 1
             }]
@@ -292,15 +516,58 @@
         }
     });
 
+    function obterFuga(){
+
+        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+
+            let fugas = {
+                'A pé': 0,
+                'Carro': 0,
+                'Não fugiu': 0
+            };
+
+            data.forEach(function(item) {
+                if (fugas[item.fuga] !== undefined) {
+                    fugas[item.fuga] = item.quantidade;
+                }
+            });
+
+            // depois trocar esse mychart por:
+            // myChartEtnia.data.datasets[0].data = [
+            //     etnias['Hispanic'], 
+            //     etnias['Asian'], 
+            //     etnias['White'],
+            //     etnias['Black']
+            // ];
+
+            myChartFuga.data.datasets[0].data = [
+                fugas['A pé'], 
+                fugas['Carro'], 
+                fugas['Não fugiu']
+            ];
+            
+            myChartFuga.update();
+        })
+        .catch(function (error) {
+            console.log("Ocorreu um erro:", error);
+        });
+
+    }
+
     const ctx4 = document.getElementById('PieChart3');
 
-    const PieChart3 = new Chart(ctx4, {
+    const myChartFuga = new Chart(ctx4, {
         type: 'pie',
         data: {
             labels: ['Com os pés', 'Veículo motorizado', 'Não houve tentativa'],
             datasets: [{
                 label: 'Cores favoritas',
-                data: [63, 49, 17],
+                data: [0, 0, 0],
                 backgroundColor: [
                     'rgb(255, 0, 0)',
                     'rgb(255, 220, 0)',
@@ -329,5 +596,6 @@
         }
     });
 
+    chamarGraficos()
 
 </script>

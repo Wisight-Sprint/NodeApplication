@@ -131,7 +131,11 @@
               inpSenha.value = "";
               inpSenha.placeholder = "";
               console.table(res);
+              
+              // fix sessionStorage
               sessionStorage.NOME_USUARIO = json.nome_usuario;
+              sessionStorage.CIDADE_USUARIO = json.cidade_usuario;
+              sessionStorage.CARGO_USUARIO = json.cargo_usuario;
               sessionStorage.DEPARTAMENTO_USUARIO = json.departamento_usuario;
               sessionStorage.ID_USUARIO = json.usuario_id;
               sessionStorage.PERMISSAO_USUARIO = json.usuario_permissao;
