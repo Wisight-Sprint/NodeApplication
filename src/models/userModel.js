@@ -7,7 +7,10 @@ function autenticar(email, senha) {
     senha
   );
   let instrucaoSql = `
-        SELECT usuario_id, nome, permissao, pularTutorial, fk_departamento FROM wisight.usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT usuario_id, usuario.nome as nomeUsuario, permissao, pularTutorial, fk_departamento, departamento.nome as nomeDepartamento
+        FROM wisight.usuario
+        JOIN wisight.departamento ON departamento_id = fk_departamento
+        WHERE email = '${email}' AND senha = '${senha}';
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);

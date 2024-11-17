@@ -122,6 +122,7 @@ body {
 
                 input {
                     cursor: pointer;
+                    accent-color: #FF4A4A;
                 }
             }
         }
@@ -152,4 +153,7 @@ body {
 #legenda.temaEscuro {
     background-color: #1D1D1D;
     color: white;
+    input {
+        accent-color: #4A8AFF;
+    }
 }

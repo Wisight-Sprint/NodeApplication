@@ -41,6 +41,9 @@
         </div>
 
         <div class="content">
+            <div class="caixa-delegacia">
+                <span id="delegacia"></span>
+            </div>
             <div class="modalEditar" id="modalEditar">
                 <div class="container">
                     <div class="cabecalho">
@@ -87,7 +90,7 @@
                                 <p>Senha</p>
                                 <div class="input-container">
                                     <input type="password" id="inpSenhaEditar">
-                                    <i class="fa-solid fa-eye-slash" id="eyeInpSenhaEditar" style="color: black"
+                                    <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
                                         onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
                                 </div>
                             </div>
@@ -95,7 +98,7 @@
                                 <p>Confirmar senha</p>
                                 <div class="input-container">
                                     <input type="password" id="inpConfSenhaEditar">
-                                    <i class="fa-solid fa-eye-slash" id="eyeInpConfSenhaEditar" style="color: black"
+                                    <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
                                         onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
                                 </div>
                             </div>
@@ -144,7 +147,7 @@
                         <p>Senha</p>
                         <div class="input-container">
                             <input name="restrito" type="password" id="inpSenha">
-                            <i class="fa-solid fa-eye-slash" id="eyeInpSenha" style="color: #ffffff;"
+                            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
                         </div>
                     </div>
@@ -152,31 +155,51 @@
                         <p>Confirmar senha</p>
                         <div class="input-container">
                             <input name="restrito" type="password" id="inpConfSenha">
-                            <i class="fa-solid fa-eye-slash" id="eyeInpConfSenha" style="color: #ffffff;"
+                            <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
                                 onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="caixa_button">
-                <button onclick="cadastrar()">Adicionar</button>
+                <button onclick="cadastrar()">Cadastrar</button>
             </div>
 
             <header>Gerenciamento de Usuários</header>
-            <div class="pesquisa">
-                <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
-                    <option value="#">Selecione um filtro</option>
-                    <option value="nome">Pesquisar por nome</option>
-                    <option value="distintivo">Pesquisar por distintivo</option>
-                    <option value="email">Pesquisar por e-mail</option>
-                    <option value="permissao">Pesquisar por permissao</option>
-                </select>
-                <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
-                    oninput="filtro(selectFiltro.value, inpPesquisa, false)">
+            <div class="header">
+                <div class="pesquisa">
+                    <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
+                        <option value="#">Selecione um filtro</option>
+                        <option value="nome">Pesquisar por nome</option>
+                        <option value="distintivo">Pesquisar por distintivo</option>
+                        <option value="email">Pesquisar por e-mail</option>
+                        <option value="permissao">Pesquisar por permissao</option>
+                    </select>
+                    <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                        oninput="filtro(selectFiltro.value, inpPesquisa, false)">
+                </div>
+                <div class="paginacao">
+                    <div class="configuracoes">
+                        Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
+                            oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
+                    </div>
+                    <div class="info">
+                        <div class="control">
+                            <input disabled id="inpNumeroPagina" type="txt"
+                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
+                            <p>-</p>
+                            <span id="inpTotalPaginas"></span>
+                        </div>
+                        <i class="fa-solid fa-angle-left" style="color: #ffffff;"
+                            onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"
+                            onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                    </div>
+                </div>
             </div>
 
             <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
-            <div class="paginacao">
+            <!-- <div class="paginacao">
                 <div class="controleNumPagina">
                     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
                         onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
@@ -190,7 +213,7 @@
                     Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
                         value=10>
                 </div>
-            </div>
+            </div> -->
             <br>
         </div>
     </div>
@@ -202,6 +225,7 @@
     let idUsuario;
     let permissaoDeAdministrador = true;
     let totalPaginas;
+    delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
 
     function mudarPagina(acao, numPagina) {
         if (acao > 0 && numPagina < totalPaginas) {
@@ -481,15 +505,22 @@
                         let filtroUsuarios = usuarios;
 
                         if (temFiltro) {
-                            filtroUsuarios = [];
-                            for (let i = 0; i < usuarios.length; i++) {
-                                for (let u = 0; u < usuarios[i].nome.split(" ").length; u++) {
-                                    if ((filtro == "nome" && usuarios[i].nome.toLowerCase().split(" ")[u][0].includes(filtroValue.toLowerCase())) || (filtro == "distintivo" && usuarios[i].numero.includes(filtroValue)) || (filtro == "email" && usuarios[i].email.includes(filtroValue)) || (filtro == "permissao" && usuarios[i].permissao.includes(filtroValue))) {
-                                        filtroUsuarios.push(usuarios[i]);
-                                        break;
-                                    }
+                            filtroUsuarios = usuarios.filter(usuario => {
+                                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
+                                if (filtro === "nome") {
+                                    return usuario.nome
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
+                                } else if (filtro === "distintivo") {
+                                    return usuario.numero.startsWith(filtroValue);
+                                } else if (filtro === "email") {
+                                    return usuario.email.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                } else if (filtro === "permissao") {
+                                    return usuario.permissao.toLowerCase().startsWith(filtroValue.toLowerCase());
                                 }
-                            }
+                                return false;
+                            });
 
                         } else {
                             filtroUsuarios = usuarios;
@@ -547,12 +578,12 @@
                                 </button>
                             </div>
                         `;
-                                tamanhoDiv += 90;
+                                tamanhoDiv += 100;
                                 if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
                             }
                             if (totalPaginas < numeroPagina) {
-                                inpNumeroPagina.value = totalPaginas;
+                                inpNumeroPagina.value = filtroUsuarios.length;
                                 atualizarListaUsuarios();
                             }
                         } else {
@@ -563,6 +594,7 @@
                             </div>`;
                             usuario_container.innerHTML = "Nenhum usuário encontrado.";
                             listaUsuarios.appendChild(usuario_container);
+                            // inpNumeroPagina.value = 1;
                             inpNumeroPagina.value = 1;
                             return;
                         }
@@ -582,8 +614,10 @@
         inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
         if (!temFiltro) inputName.value = "";
         if (!passouPorPaginacao) {
+            // inpNumeroPagina.value = 1;
             inpNumeroPagina.value = 1;
         } else {
+            // inpNumeroPagina.value = inpNumeroPagina.value;
             inpNumeroPagina.value = inpNumeroPagina.value;
         }
         atualizarListaUsuarios(temFiltro, select, inputName.value);
@@ -653,10 +687,10 @@
 
         if (inputName.type === "password") {
             inputName.type = "text";
-            eyeName.classList.replace("fa-eye-slash", "fa-eye");
+            eyeName.classList.replace("fa-eye", "fa-eye-slash");
         } else {
             inputName.type = "password";
-            eyeName.classList.replace("fa-eye", "fa-eye-slash");
+            eyeName.classList.replace("fa-eye-slash", "fa-eye");
         }
     }
 
