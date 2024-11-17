@@ -18,6 +18,7 @@ const app = express();
 const userRoute = require("./src/routes/users");
 const departamentoRoute = require("./src/routes/departamento");
 const apiMapaRoute = require("./src/routes/apiMapa");
+const insightRoute = require("./src/routes/insight");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ app.use(cors());
 app.use("/users", userRoute);
 app.use("/departamento", departamentoRoute);
 app.use("/apiMapa", apiMapaRoute);
+app.use("/insight", insightRoute);
 
 app.listen(PORTA_APP, function () {
   console.log(`

@@ -53,7 +53,8 @@ function autenticar(req, res) {
         departamento_usuario: resultadoAutenticar[0].fk_departamento,
         usuario_id: resultadoAutenticar[0].usuario_id,
         usuario_permissao: resultadoAutenticar[0].permissao,
-        pularTutorial: resultadoAutenticar[0].pularTutorial
+        pularTutorial: resultadoAutenticar[0].pularTutorial,
+        estado_usuario: resultadoAutenticar[0].estado_usuario
       });
     })
     .catch(function (erro) {
