@@ -125,7 +125,7 @@
     }).addTo(map);
 
 
-    if (sessionStorage.PULARTUTORIAL == 0) {
+    if (sessionStorage.PULAR_TUTORIAL == 0) {
         Swal.fire({
             title: "Este é o mapa dinâmico!",
             icon: "question",
@@ -304,7 +304,7 @@
 
 
     function style(feature) {
-        const estado = feature.properties.name;
+        const estado = feature.properties.abbreviation;
         const estadoData = estadosData[estado] || { totalRelatorios: 0, porcentagemCamera: 0, porcentagemMental: 0, mediaIdade: 0, generoPredominante: 0, etniaPredominante: 0, fugaPredominante: 0, armamentoPredominante: 0 };
         const totalRelatorios = estadoData.totalRelatorios;
         const etniaPredominante = estadoData.etniaPredominante;
