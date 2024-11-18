@@ -82,7 +82,6 @@
                                     <select id="inpPermissaoEditar" name="restrito">
                                         <option value="Administrador">Administrador</option>
                                         <option value="Usuário">Usuário</option>
-                                        <option value="Externo">Externo</option>
                                     </select>
                                 </div>
                             </div>
@@ -140,7 +139,6 @@
                                     <option value="#">Escolha o nível de permissão do usuário.</option>
                                     <option value="Administrador">Administrador</option>
                                     <option value="Usuário">Usuário</option>
-                                    <option value="Externo">Externo</option>
                                 </select>
                             </div>
                         </div>
@@ -166,55 +164,42 @@
                     <button onclick="cadastrar()">Cadastrar</button>
                 </div>
             </div>
-            <header>Gerenciamento de Usuários</header>
-            <div class="header">
-                <div class="pesquisa">
-                    <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
-                        <option value="#">Selecione um filtro</option>
-                        <option value="nome">Pesquisar por nome</option>
-                        <option value="distintivo">Pesquisar por distintivo</option>
-                        <option value="email">Pesquisar por e-mail</option>
-                        <option value="permissao">Pesquisar por permissao</option>
-                    </select>
-                    <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
-                        oninput="filtro(selectFiltro.value, inpPesquisa, false)">
-                </div>
-                <div class="paginacao">
-                    <div class="configuracoes">
-                        Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
-                            oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
+            <div id="divGerenciamento">
+                <header>Gerenciamento de Usuários</header>
+                <div class="header">
+                    <div class="pesquisa">
+                        <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
+                            <option value="#">Selecione um filtro</option>
+                            <option value="nome">Pesquisar por nome</option>
+                            <option value="distintivo">Pesquisar por distintivo</option>
+                            <option value="email">Pesquisar por e-mail</option>
+                            <option value="permissao">Pesquisar por permissao</option>
+                        </select>
+                        <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                            oninput="filtro(selectFiltro.value, inpPesquisa, false)">
                     </div>
-                    <div class="info">
-                        <div class="control">
-                            <input disabled id="inpNumeroPagina" type="txt"
-                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
-                            <p>-</p>
-                            <span id="inpTotalPaginas"></span>
+                    <div class="paginacao">
+                        <div class="configuracoes">
+                            Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
+                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
                         </div>
-                        <i class="fa-solid fa-angle-left" style="color: #ffffff;"
-                            onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
-                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"
-                            onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                        <div class="info">
+                            <div class="control">
+                                <input disabled id="inpNumeroPagina" type="txt"
+                                    oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
+                                <p>-</p>
+                                <span id="inpTotalPaginas"></span>
+                            </div>
+                            <i class="fa-solid fa-angle-left" style="color: #ffffff;"
+                                onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"
+                                onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
-            <!-- <div class="paginacao">
-                <div class="controleNumPagina">
-                    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
-                        onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
-                    <input id="inpNumeroPagina" type="txt" oninput="paginacao()" value=1 min=1>
-                    <p>de</p>
-                    <span id="inpTotalPaginas"></span>
-                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"
-                        onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
-                </div>
-                <div class="controleTamanhoPagina">
-                    Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
-                        value=10>
-                </div>
-            </div> -->
+                <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
+            </div>
             <br>
         </div>
     </div>
@@ -239,7 +224,11 @@
         }
     }
 
-    if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
+    if (sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+        // mostrar botão...
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Usuário") {
         permissaoDeAdministrador = false;
         const inputsRestritos = document.querySelectorAll('[name="restrito"]');
 
@@ -260,6 +249,67 @@
 
     if (sessionStorage.PERMISSAO_USUARIO == "Externo") {
 
+        modalEditar.innerHTML = `
+            <div class="container">
+                <div class="cabecalho">
+                    <header>Gerenciar Usuário</header>
+                    <button onclick="sairEditar()">
+                        <i class="fa-solid fa-xmark" style="color: black"></i>
+                    </button>
+                </div>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Nome</p>
+                            <div class="input-container">
+                                <input type="text" id="inpNomeEditar">
+                            </div>
+                        </div>
+                        <div class="perguntaExterno">
+                            <p>Email</p>
+                            <div class="input-container">
+                                <input type="text" id="inpEmailEditar">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Senha</p>
+                            <div class="input-container">
+                                <input type="password" id="inpSenhaEditar">
+                                <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
+                                    onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                            </div>
+                        </div>
+                        <div class="perguntaExterno">
+                            <p>Confirmar senha</p>
+                            <div class="input-container">
+                                <input type="password" id="inpConfSenhaEditar">
+                                <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
+                                    onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixa_button_editarExterno">
+                    <button onclick="editar()">Editar</button>
+                </div>
+            </div>`;
+
+        divCadastrar.style.display = "none";
+        idUsuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/users/buscarExterno/${idUsuario}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (usuario) {
+                        irEditar(idUsuario, sessionStorage.NOME_USUARIO, null, usuario[0].email, "externo", usuario[0].senha);
+                    })
+                }
+            })
+            .catch(function (error) {
+                console.error("Erro ao buscar usuários:", error);
+            });
     }
 
     async function cadastrar() {
@@ -391,8 +441,6 @@
             modalEditar.style = `display: flex`;
             inpNomeEditar.value = nome;
             inpEmailEditar.value = email;
-            inpPermissaoEditar.value = permissao;
-            inpDistintivoEditar.value = numero;
             inpSenhaEditar.value = senha;
         } else {
             Swal.fire({
@@ -549,7 +597,7 @@
                                     <span>Nome</span>
                                 </div>
                                 <div class="objeto">
-                                    <span>Número</span>
+                                    <span>Distintivo</span>
                                 </div>
                                 <div class="objeto">
                                     <span>Email</span>
@@ -601,7 +649,6 @@
                             </div>`;
                             usuario_container.innerHTML = "Nenhum usuário encontrado.";
                             listaUsuarios.appendChild(usuario_container);
-                            // inpNumeroPagina.value = 1;
                             inpNumeroPagina.value = 1;
                             return;
                         }
@@ -621,13 +668,16 @@
         inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
         if (!temFiltro) inputName.value = "";
         if (!passouPorPaginacao) {
-            // inpNumeroPagina.value = 1;
             inpNumeroPagina.value = 1;
         } else {
-            // inpNumeroPagina.value = inpNumeroPagina.value;
             inpNumeroPagina.value = inpNumeroPagina.value;
         }
         atualizarListaUsuarios(temFiltro, select, inputName.value);
+    }
+
+    function adicionarDepartamento() {
+        //mostra tela
+
     }
 
     function paginacao() {

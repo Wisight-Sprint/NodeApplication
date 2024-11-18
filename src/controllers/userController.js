@@ -133,6 +133,23 @@ function buscarUsuarioPorDepartamento(req, res) {
     });
 }
 
+//GET / READ
+function buscarExterno(req, res) {
+  let usuario_id = req.params.idUsuario;
+  userModel
+    .buscarExterno(usuario_id)
+    .then(function (resultadoBuscarExterno) {
+      console.log(`\nResultados encontrados: ${resultadoBuscarExterno.length}`);
+      res.json(resultadoBuscarExterno); // Retorna o registro
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("\nHouve um erro ao buscar usuários! Erro: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
+
+
 function removerTutorialMapa(req, res) {
   let usuario_id = req.params.usuario_id;
   userModel
@@ -153,5 +170,6 @@ module.exports = {
   atualizarUsuario,
   deletarUsuario,
   buscarUsuarioPorDepartamento,
+  buscarExterno,
   removerTutorialMapa
 };
