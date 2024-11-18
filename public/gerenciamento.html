@@ -109,62 +109,63 @@
                     </div>
                 </div>
             </div>
-            <header>Cadastro de Usuário</header>
-            <div class="container_form">
-                <div class="caixas_pergunta">
-                    <div class="pergunta">
-                        <p>Nome</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpNome">
+            <div id="divCadastrar">
+                <header>Cadastro de Usuário</header>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Nome</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpNome">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Número de distintivo</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpDistintivo">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Email</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpEmail">
+                            </div>
                         </div>
                     </div>
-                    <div class="pergunta">
-                        <p>Número de distintivo</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpDistintivo">
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Permissão</p>
+                            <div class="input-container">
+                                <select name="restrito" id="inpPermissao">
+                                    <option value="#">Escolha o nível de permissão do usuário.</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Usuário">Usuário</option>
+                                    <option value="Externo">Externo</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Email</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpEmail">
+                        <div class="pergunta">
+                            <p>Senha</p>
+                            <div class="input-container">
+                                <input name="restrito" type="password" id="inpSenha">
+                                <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
+                                    onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Confirmar senha</p>
+                            <div class="input-container">
+                                <input name="restrito" type="password" id="inpConfSenha">
+                                <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
+                                    onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="caixas_pergunta">
-                    <div class="pergunta">
-                        <p>Permissão</p>
-                        <div class="input-container">
-                            <select name="restrito" id="inpPermissao">
-                                <option value="#">Escolha o nível de permissão do usuário.</option>
-                                <option value="Administrador">Administrador</option>
-                                <option value="Usuário">Usuário</option>
-                                <option value="Externo">Externo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Senha</p>
-                        <div class="input-container">
-                            <input name="restrito" type="password" id="inpSenha">
-                            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
-                                onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
-                        </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Confirmar senha</p>
-                        <div class="input-container">
-                            <input name="restrito" type="password" id="inpConfSenha">
-                            <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
-                                onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
-                        </div>
-                    </div>
+                <div class="caixa_button">
+                    <button onclick="cadastrar()">Cadastrar</button>
                 </div>
             </div>
-            <div class="caixa_button">
-                <button onclick="cadastrar()">Cadastrar</button>
-            </div>
-
             <header>Gerenciamento de Usuários</header>
             <div class="header">
                 <div class="pesquisa">
@@ -253,6 +254,12 @@
                 input.disabled = false;
             });
         });
+
+        divCadastrar.style.display = "none";
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Externo") {
+
     }
 
     async function cadastrar() {
@@ -570,10 +577,10 @@
                                 <div class="objeto"><span>${publicacao.permissao}</span></div>
                             </div>
                             <div class="div-buttons">
-                                <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
                                     <img src="./Assets/btn_editar.png">
                                 </button>
-                                <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
                                     <img src="./Assets/btn_deletar.png">
                                 </button>
                             </div>

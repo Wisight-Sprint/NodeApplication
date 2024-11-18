@@ -3,8 +3,6 @@
 }
 
 body {
-    /* background-color: #6EACDA; */
-    /* background-color: #fff; */
     background-color: #49688D;
     background-image: url(../Assets/bolinhas\ do\ fundo.svg);
     background-repeat: no-repeat;
@@ -23,9 +21,7 @@ body {
 
 .textos {
     width: 40vw;
-    /* color: #021526; */
     color: #FFF;
-    /* color: #6EACDA; */
     font-size: 33px;
     display: flex;
     justify-content: flex-end;
@@ -35,7 +31,6 @@ body {
 
     .traco {
         display: flex;
-        /* border-bottom: #021526 solid; */
         border-bottom: #FFF solid;
         width: 32vw;
     }
@@ -43,6 +38,7 @@ body {
     .imagem {
         display: flex;
         justify-content: flex-end;
+
         img {
             width: 50%;
         }
@@ -100,7 +96,7 @@ body {
         position: relative;
         width: 80%;
 
-        .eye-icon {
+        i {
             position: absolute;
             left: 28vw;
             top: 20%;
@@ -120,7 +116,6 @@ body {
         border-radius: 15px;
         border: none;
         margin-top: 25px;
-        margin-inline: auto;
         transition: 0.3s;
         cursor: pointer;
         color: #FFF;
@@ -133,9 +128,11 @@ body {
 
     .possui {
         color: black;
-        padding-right: 180px;
+        display: flex;
+        justify-content: center;
 
         a {
+            margin-left: 10px;
             text-decoration: none;
             color: #6EACDA;
         }
@@ -156,14 +153,13 @@ body {
         overflow-x: none;
         height: 90vh;
         width: 100%;
-        /* background-repeat: round; */
         background-position: 30%;
 
     }
 
     .container {
         align-items: center;
-        margin-top: 10vh;
+        /* margin-top: 10vh; */
         display: flex;
         width: 100%;
         height: 100%;
@@ -231,83 +227,61 @@ body {
 
 /*Para celulares com largura padrão e comprimento padrão*/
 @media only screen and (max-device-width: 640px) {
+    * {
+        overflow-y: hidden;
+        overflow-x: hidden;
+
+    }
 
     body {
-        overflow-y: none;
-        overflow-x: none;
-        height: 90vh;
-        width: 100%;
-        /* background-repeat: round; */
-        background-position: 30%;
-
+        height: 100vh;
+        width: 100vw;
+        padding: 0;
+        margin: 0;
+        justify-content: space-evenly;
     }
 
     .container {
-        align-items: center;
-        margin-top: 10vh;
-        width: 100%;
-        height: 100%;
-        flex-direction: column-reverse;
-    }
-
-    .textos {
-        color: white;
-        width: 320px;
-        text-align: center;
+        margin-top: -5vh;
         display: flex;
         align-items: center;
-    }
 
-    .textos p {
-        display: none;
-        margin: 0;
-    }
+        .campos {
 
-    .textos h1 {
-        display: none;
-        /* color: #021526; */
-        margin: 0;
-    }
+            .inp {
+                width: 100%;
 
-    .titulo {
-        font-size: 42px;
-        text-align: center;
-    }
+                p {
+                    margin-right: 70%;
+                }
 
-    .textos .traco {
-        display: none;
-        width: 70vw;
-    }
+                input {
+                    width: 80%;
+                }
 
-    #img {
-        width: 25vw;
-    }
+                .input-container {
+                    width: 100%;
 
-    input {
-        font-size: 20px;
-    }
+                    input {
 
-    .campos {
-        width: 320px;
-        font-size: 17px;
-    }
+                        width: 80%;
+                    }
 
-    .campos .possui {
-        text-align: center;
-        width: 105%;
-        font-size: 17px;
-    }
+                    i {
+                        width: 30px;
+                        left: 80%;
+                    }
+                }
+            }
 
-    .inp {
-        text-align: center;
-    }
+            .possui {
+                flex-direction: column;
 
-    .input {
-        width: 300px;
+                a {
+                    margin: 0;
+                }
+            }
+        }
     }
-
-    /* .voltar {
-            display: none;
-        }  */
 
 }
