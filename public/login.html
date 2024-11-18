@@ -131,12 +131,15 @@
               inpSenha.value = "";
               inpSenha.placeholder = "";
               console.table(res);
+
+              sessionStorage.USUARIO_ID = json.usuario_id;
               sessionStorage.NOME_USUARIO = json.nome_usuario;
+              sessionStorage.EMAIL_USUARIO = json.email_usuario;
+              sessionStorage.CIDADE_USUARIO = json.cidade_usuario;
+              sessionStorage.ESTADO_USUARIO = json.estado_usuario;
               sessionStorage.DEPARTAMENTO_USUARIO = json.departamento_usuario;
-              sessionStorage.ID_USUARIO = json.usuario_id;
               sessionStorage.PERMISSAO_USUARIO = json.usuario_permissao;
-              sessionStorage.PULARTUTORIAL = json.pularTutorial;
-              sessionStorage.DEPARTAMENTO = json.nome_departamento
+              sessionStorage.PULAR_TUTORIAL = json.pularTutorial;
 
               Swal.fire({
                 position: "center",
