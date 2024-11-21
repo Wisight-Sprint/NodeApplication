@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="./js/sessao.js"></script>
   <link rel="stylesheet" href="./css/insights.css" />
-  <link rel="stylesheet" href="./css/nav.css" />
+  <link rel="stylesheet" href="./css/nav.css">
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
   </style>
@@ -15,9 +15,39 @@
 </head>
 
 <body>
-  <h1>Enviar Departamento para o Servidor</h1>
-  <button id="sendDepIdButton">Gerar insights</button>
-  <div id="textAreaInsights"></div>
+  <div class="principalContainer">
+
+    <div class="containerNav">
+      <div class="navLeft">
+        <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
+        <a href="dashboard.html">
+          <div class="container-icon"> <img class="icon-graphic" src="./Assets/grafico.png"></div>
+        </a>
+        <a href="suporte.html">
+          <div class="container-icon"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
+        </a>
+        <a href="gerenciamento.html">
+          <div class="container-icon"><i class="fa-solid fa-user-gear"></i></div>
+        </a>
+        <a href="map.html">
+          <div class="container-icon">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </div>
+        </a>
+        <div class="container-icon" id="telaAtual"> <img class="icon-insights" src="./Assets/Insights.png"></div>
+        <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
+        </div></a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Enviar Departamento para o Servidor</h1>
+      <div class="caixa_texto" id="textAreaInsights"></div>
+      <div class="caixa_button">
+        <button id="sendDepIdButton">Gerar insights</button>
+      </div>
+  </div>
+
 </body>
 
 </html>

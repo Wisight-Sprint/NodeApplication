@@ -11,12 +11,14 @@ const executeJar = (req, res) => {
       .json({ success: false, message: "Valor não fornecido no body" });
   }
 
-  // const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // Caminho para o arquivo .jar no servidor
-  const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
-  // Comando para executar o .jar, passando o depId como argumento
-  const command = `java -jar ${jarPath} ${valueBodyServer}`;
+  const command = `sudo docker run --name AI-container   -e DBHOST=54.166.154.90   -e DBPORT=3306   -e DBNAME=wisight   -e DBURL=jdbc:mysql://54.166.154.90:3306/wisight   -e DBDRIVER=com.mysql.cj.jdbc.Driver   -e DBUSER=root   -e DBPASSWORD=wisight123
+-e INSIGHT_KEY=${valueBodyServer}`
+
+  // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  // LOCAL = const command = `java -jar ${jarPath} ${valueBodyServer}`;
 
   // Executa o comando no sistema operacional
   exec(command, (error, stdout, stderr) => {

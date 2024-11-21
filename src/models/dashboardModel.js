@@ -1,7 +1,7 @@
 const database = require("../database/config");
 
 
-function obterRegioes(){
+function obterRegioes() {
 
     let instrucaoSql = `
     select cidade, estado from wisight.cidade_estado;
@@ -13,7 +13,7 @@ function obterRegioes(){
 }
 
 function obterMediaIdade(cidadeUsuario) {
-     
+
     var instrucaoSql = ``
 
     if (cidadeUsuario == null || cidadeUsuario == '' || cidadeUsuario == undefined) {
@@ -28,7 +28,7 @@ function obterMediaIdade(cidadeUsuario) {
         LIMIT 1;
     `
     } else {
-            instrucaoSql = `
+        instrucaoSql = `
                 SELECT 
                 ce.cidade, 
                 ce.estado,
@@ -48,21 +48,21 @@ function obterMediaIdade(cidadeUsuario) {
                 GROUP BY 
                     ce.cidade, ce.estado;
             `
-        
+
     }
 
-console.log("executando a instrução SQL: \n" + instrucaoSql)
+    console.log("executando a instrução SQL: \n" + instrucaoSql)
 
-return database.executar(instrucaoSql)
+    return database.executar(instrucaoSql)
 
 }
 
-function obterCameraCorporal(cidadeUsuario){
+function obterCameraCorporal(cidadeUsuario) {
 
     var instrucaoSql = ``
 
     if (cidadeUsuario == null || cidadeUsuario == '' || cidadeUsuario == undefined) {
-        instrucaoSql= `
+        instrucaoSql = `
         SELECT 
         ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
         FROM wisight.relatorio;
@@ -88,7 +88,7 @@ function obterCameraCorporal(cidadeUsuario){
 
 }
 
-function obterTranstorno(cidadeUsuario){
+function obterTranstorno(cidadeUsuario) {
 
     var instrucaoSql = ``
 
@@ -112,7 +112,7 @@ function obterTranstorno(cidadeUsuario){
             ce.cidade = '${cidadeUsuario}';
         `
     }
-    
+
 
     console.log("executando a instrução SQL: \n" + instrucaoSql)
 
@@ -120,11 +120,11 @@ function obterTranstorno(cidadeUsuario){
 
 }
 
-function obterGenero(cidadeUsuario){
+function obterGenero(cidadeUsuario) {
 
     var instrucaoSql = ``
 
-    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined){
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
         instrucaoSql = `
         SELECT 
     v.genero AS generoIncidente,
@@ -192,11 +192,11 @@ LIMIT 1;
 
 }
 
-function obterArma(cidadeUsuario){
+function obterArma(cidadeUsuario) {
 
     var instrucaoSql = ``
 
-    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined){
+    if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
         instrucaoSql = `
         SELECT armamento, COUNT(*) AS quantidade
         FROM wisight.vitima
@@ -296,7 +296,7 @@ function obterFuga(cidadeUsuario) {
             r.fuga;
             `
     }
-    
+
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql)
 
@@ -304,22 +304,22 @@ function obterFuga(cidadeUsuario) {
 
 }
 
-function obterVitima(cidadeUsuario){
+function obterVitima(cidadeUsuario) {
 
     var instrucaoSql = ``
 
     if (cidadeUsuario == null || cidadeUsuario == "" || cidadeUsuario == undefined) {
         instrucaoSql = `
         SELECT 
-        YEAR(r.dt_ocorrencia) AS ano,
-        MONTH(r.dt_ocorrencia) AS mes,
+        YEAR(r.dt_dep) AS ano,
+        MONTH(r.dt_dep) AS mes,
         COUNT(v.vitima_id) AS total_vitimas
         FROM 
         wisight.vitima v
         JOIN 
         wisight.relatorio r ON v.fk_relatorio = r.relatorio_id
         WHERE 
-        YEAR(r.dt_ocorrencia) IN (2023, 2024)
+        YEAR(r.dt_dep) IN (2023, 2024)
         GROUP BY 
         ano, mes
         ORDER BY 
@@ -328,8 +328,8 @@ function obterVitima(cidadeUsuario){
     } else {
         instrucaoSql = `
         SELECT 
-            YEAR(r.dt_ocorrencia) AS ano,
-            MONTH(r.dt_ocorrencia) AS mes,
+            YEAR(r.dt_dep) AS ano,
+            MONTH(r.dt_dep) AS mes,
             COUNT(v.vitima_id) AS total_vitimas
         FROM 
             wisight.vitima v
@@ -340,7 +340,7 @@ function obterVitima(cidadeUsuario){
         JOIN 
             wisight.cidade_estado ce ON d.fk_cidade_estado = ce.cidade_estado_id
         WHERE 
-            YEAR(r.dt_ocorrencia) IN (2023, 2024)
+            YEAR(r.dt_dep) IN (2023, 2024)
             AND ce.cidade = '${cidadeUsuario}'  -- Filtrando pela cidade "Atlanta"
         GROUP BY 
             ano, mes
