@@ -44,10 +44,25 @@ body {
         flex-direction: column;
 
         .caixa-delegacia {
-            margin-left: 75vw;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-left: 74vw;
 
             span {
                 font-size: 18px;
+            }
+
+            i {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                border-radius: 15px;
+                width: 30px;
+                height: 30px;
+                background-color: white;
+                color: #000;
+                cursor: pointer;
             }
         }
 
@@ -333,7 +348,8 @@ body {
             }
         }
 
-        .modalEditar {
+        .modalEditar,
+        .modalAdicionarDepartamento {
             z-index: 5;
             position: fixed;
             top: 0;
@@ -351,29 +367,25 @@ body {
                 .cabecalho {
                     display: flex;
                     align-items: center;
+                    justify-content: space-around;
+                    width: 100%;
 
                     header {
                         color: black;
                         margin-bottom: 10px;
                     }
 
-                    button {
-                        background: transparent;
-                        border: none;
+                    i {
                         cursor: pointer;
                         margin-top: -3%;
                         margin-right: 4%;
-                        width: fit-content;
-                        height: fit-content;
+                        font-size: 40px;
+                        color: #000;
+                    }
 
-                        i {
-                            font-size: 40px;
-                        }
-
-                        img {
-                            width: 40px;
-                            height: 40px;
-                        }
+                    #voltar {
+                        margin-right: 2.5%;
+                        margin-left: -6%;
                     }
                 }
 
@@ -381,28 +393,21 @@ body {
                 padding-left: 6%;
                 width: 80%;
                 height: 70%;
-                /* background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%),
-                linear-gradient(0deg, #021526 0%, #021526 100%),
-                linear-gradient(0deg, #FFF 0%, #FFF 100%),
-                #49688D; */
                 background-color: white;
 
-                .container_form {
+                .container_form,
+                .container_form_departamento {
                     width: 100%;
                     display: flex;
                     justify-content: space-evenly;
 
-                    .caixas_pergunta {
-                        flex-direction: column;
-                        justify-content: center;
+                    .caixas_pergunta,
+                    .caixas_pergunta_departamento {
 
-                        .pergunta {
+                        .pergunta,
+                        .perguntaExterno {
                             width: 100%;
                             height: 30%;
-
-                            /* select {
-                                background-color: black;
-                            } */
 
                             p {
                                 font-size: 20px;
@@ -441,11 +446,20 @@ body {
                                 font-size: 20px;
                             }
                         }
+
+                        .perguntaExterno {
+                            height: 50%;
+                        }
                     }
 
                 }
 
-                .caixa_button_editar {
+                .container_form_departamento {
+                    margin-left: -4%;
+                }
+
+                .caixa_button_editar,
+                .caixa_button_editarExterno {
                     height: 88px;
                     width: 94%;
                     display: flex;
@@ -468,67 +482,14 @@ body {
                         transform: scale(1.05);
                     }
                 }
+
+                .caixa_button_editarExterno {
+                    height: 195px;
+                }
+
             }
         }
     }
-
-    /* .paginacao {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        align-items: center;
-        padding-bottom: 30px;
-
-        .controleNumPagina {
-            display: flex;
-            align-items: center;
-
-            input,
-            span {
-                width: 40px;
-                height: 40px;
-                border-radius: 50px;
-                background-color: #eaf1f7;
-                color: black;
-                font-size: 20px;
-                text-align: center;
-                border: none;
-                margin-inline: 15px;
-                margin-bottom: 10px;
-                outline: none;
-            }
-
-            span {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            p {
-                font-size: 18px;
-            }
-
-            i {
-                cursor: pointer;
-                font-size: 28px;
-            }
-        }
-
-        .controleTamanhoPagina {
-            font-size: 18px;
-            color: #FFF;
-
-            input {
-                outline: none;
-                font-size: 18px;
-                border: none;
-                border-radius: 15px;
-                text-align: center;
-                width: 40px;
-                color: #000;
-            }
-        }
-    } */
 }
 
 

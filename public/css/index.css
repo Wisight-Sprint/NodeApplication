@@ -479,7 +479,7 @@ nav>button:hover {
     .form2 {
         display: flex;
         justify-content: space-between;
-        padding-inline: 120px;
+        padding-inline: 80px;
 
         .input_checkbox {
             p {
