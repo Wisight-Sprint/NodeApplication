@@ -48,12 +48,18 @@ function autenticar(req, res) {
       console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
       console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
       res.json({
+        // fix 
         nome_usuario: resultadoAutenticar[0].nomeUsuario,
         nome_departamento: resultadoAutenticar[0].nomeDepartamento,
         departamento_usuario: resultadoAutenticar[0].fk_departamento,
         usuario_id: resultadoAutenticar[0].usuario_id,
+        nome_usuario: resultadoAutenticar[0].nome,
+        email_usuario: resultadoAutenticar[0].email,
+        cargo_usuario: resultadoAutenticar[0].cargo,
+        cidade_usuario: resultadoAutenticar[0].cidade,
         usuario_permissao: resultadoAutenticar[0].permissao,
-        pularTutorial: resultadoAutenticar[0].pularTutorial
+        pularTutorial: resultadoAutenticar[0].pularTutorial,
+        estado_usuario: resultadoAutenticar[0].estado_usuario
       });
     })
     .catch(function (erro) {

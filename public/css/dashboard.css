@@ -17,6 +17,127 @@ body {
     margin-bottom: 5px;
 }
 
+.icon-logo {
+    width: 85px;
+    height: 56px;
+}
+
+.icon-graphic {
+    width: 40px;
+    height: 37px;
+}
+
+.icon-support {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-add-user {
+    width: 40px;
+    height: 37px;
+}
+
+.icon-logout {
+    width: 40px;
+    height: 41px;
+    margin-left: 10px;
+}
+
+.icon-personal-datas{
+    width: 50px;
+    height: 47px;
+}
+
+.container-logo {
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.container-graphic {
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    background-color: #49688D;
+    align-items: center;
+}
+
+.container-graphic:hover {
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+}
+
+.container-support {
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-support:hover {
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+   
+}
+
+.container-add-user {
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-add-user:hover {
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+   
+}
+
+.container-logout {
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-logout:hover {
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+}
+
+.container-personal-datas{
+    width: 115px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-personal-datas:hover{
+    cursor: pointer;
+    display: flex;
+    background-color: #49688D;
+    justify-content: center;
+}
+
+.gr-victims{
+
 .armed-victims {
     margin-top: 35px;
     text-align: center;

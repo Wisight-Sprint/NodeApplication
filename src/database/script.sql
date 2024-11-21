@@ -52,9 +52,21 @@ create table if not exists wisight.vitima (
     references relatorio (relatorio_id)
 );
 
+create table if not exists wisight.insight (
+  insight_id int auto_increment,
+  dt_insercao datetime,
+  texto_insight varchar(2500),
+  fk_cidade_estado int,
+  fk_departamento int,
+	foreign key (fk_cidade_estado)
+    references cidade_estado (cidade_estado_id),
+	foreign key (fk_departamento)
+    references departamento (departamento_id),
+    primary key (insight_id, fk_cidade_estado, fk_departamento)
+);
+
 INSERT INTO wisight.cidade_estado (cidade_estado_id, cidade, estado) VALUES
-(0, 'Externo', 'EXT'),
-(1, 'New York', 'NY'),
+(1, 'Externo', 'EXT'),
 (2, 'Los Angeles', 'CA'),
 (3, 'Chicago', 'IL'),
 (4, 'Houston', 'TX'),
@@ -143,7 +155,9 @@ INSERT INTO wisight.cidade_estado (cidade_estado_id, cidade, estado) VALUES
 (87, 'Chesapeake', 'VA'),
 (88, 'Garland', 'TX'),
 (89, 'Irving', 'TX'),
-(90, 'Hialeah', 'FL');
+(90, 'Hialeah', 'FL'),
+(91, 'New York', 'NY');
+
 
 INSERT INTO wisight.departamento (departamento_id, nome, fk_cidade_estado) VALUES
 (1, 'Externos', 0),
@@ -244,8 +258,8 @@ INSERT INTO wisight.departamento (departamento_id, nome, fk_cidade_estado) VALUE
 (96, 'Patrulha de Anaheim 65', 48),
 (97, 'Patrulha de Honolulu 47', 49),
 (98, 'Patrulha de Honolulu 87', 49),
-(99, 'Patrulha de New York 85', 1),
-(100, 'Patrulha de New York 19', 1);
+(99, 'Patrulha de New York 85', 91),
+(100, 'Patrulha de New York 19', 91);
 
 INSERT INTO wisight.relatorio (relatorio_id, dt_dep, fuga, camera_corporal, problemas_mentais, fk_departamento)
 VALUES 
@@ -596,3 +610,11 @@ SELECT c.estado,
     JOIN wisight.cidade_estado c ON d.fk_cidade_estado = c.cidade_estado_id
     GROUP BY c.estado
     ORDER BY c.estado;
+
+select * from usuario;
+select * from relatorio;
+select * from departamento;
+select * from vitima;
+select * from cidade_estado;
+select * from insight;
+
