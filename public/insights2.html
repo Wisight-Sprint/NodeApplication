@@ -41,115 +41,24 @@
     </div>
 
     <div class="content">
-      <div class="container" id="container">
-        <div class="caixa-gemini" id="caixa-gemini">
-          <header>RoboCop</header>
-          <div style="margin-bottom: 8vh;"></div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>Olá, João Pedro Mori Noce! Eu sou RoboCop, seu assistente virtual.</p>
-          </div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me
-              fazer uma pergunta!</p>
-          </div>
-          <div class="conversa-gemini" id="pergunta-exemplo">
-            <p>Qual a etnia mais atingida em meu departamento?</p>
-          </div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>De acordo com os dados de <b>Departamento de Nova York, 99</B>, a etnia mais atingida foi a negra. Foram
-              relatadas 53 ocorrências durante o período de um mês.</p>
-          </div>
-        </div>
-
-        <div class="prompt" id="pergunta-gemini">
-          <input type="text" placeholder="Faça uma pergunta ou utilize um prompt" id="input-pergunta">
-          <i class="fa-solid fa-lightbulb" style="color: #FFD43B;" id="btn-sugestoes"></i>
-          <i class="fa-solid fa-circle-right" onclick="enviarMensagem()"></i>
-          <div class="caixaSugestoes" id="caixa-sugestoes">
-            <div class="sugestao">Taxa de câmera corporal</div>
-            <div class="sugestao">Idade mais atingida</div>
-            <div class="sugestao">Gênero mais atingido</div>
-            <div class="sugestao">Etnia mais atingida</div>
-            <div class="sugestao">Taxa de fuga</div>
-            <div class="sugestao">Etnia mais atingida</div>
-          </div>
-        </div>
+      <!-- <h1>Enviar Departamento para o Servidor</h1> -->
+      <div class="caixa_texto" id="textAreaInsights">
+      </div>
+      <div class="caixa_button">
+        <div class="sugestao">Taxa de câmera corporal</div>
+        <div class="sugestao">Idade mais atingida</div>
+        <div class="sugestao">Gênero mais atingido</div>
+        <div class="sugestao">Etnia mais atingida</div>
+        <div class="sugestao">Taxa de fuga</div>
+        <div class="sugestao">Etnia mais atingida</div>
       </div>
     </div>
-  </div>
+
 </body>
 
 </html>
 
 <script>
-
-  const btnSugestoes = document.getElementById('btn-sugestoes');
-  const caixaSugestoes = document.getElementById('caixa-sugestoes');
-  const inputPergunta = document.getElementById('input-pergunta');
-  const sugestoes = document.querySelectorAll('.sugestao');
-
-  btnSugestoes.addEventListener('click', () => {
-    const legenda = document.getElementById('caixa-sugestoes');
-    let displayValueLegenda = legenda.style.display || "none";
-
-    displayValueLegenda = displayValueLegenda === "flex" ? "none" : "flex";
-    legenda.style.display = displayValueLegenda;
-  });
-
-  sugestoes.forEach(sugestao => {
-    sugestao.addEventListener('click', () => {
-      inputPergunta.value = sugestao.textContent;
-      caixaSugestoes.style.display = 'none';
-    });
-  });
-
-  // Função para enviar mensagens
-  function enviarMensagem() {
-    const inputField = document.getElementById('pergunta-gemini').querySelector('input');
-    const mensagemTexto = inputField.value.trim();
-
-    if (mensagemTexto) {
-      adicionarMensagem(mensagemTexto, 'pergunta');
-      inputField.value = ''; // Limpa o campo de entrada
-
-      // Simulação de resposta
-      setTimeout(() => {
-        const respostaTexto = "Esta é uma resposta simulada."; // Aqui você pode integrar com uma IA ou lógica
-        adicionarMensagem(respostaTexto, 'resposta');
-      }, 1000);
-    }
-  }
-
-  function adicionarMensagem(textoMensagem, tipoMensagem) {
-    const caixaConversas = document.getElementById('caixa-gemini');
-
-    const novaMensagemElement = document.createElement('div');
-    novaMensagemElement.classList.add('conversa-gemini');
-
-    if (tipoMensagem === 'pergunta') {
-      caixaConversas.innerHTML += `
-      <div class="conversa-gemini" id="pergunta-exemplo">
-        <p>${textoMensagem}</p>
-      </div>`
-    } else {
-      caixaConversas.innerHTML += `
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>${textoMensagem}</p>
-          </div>`
-    }
-
-    caixaConversas.appendChild(novaMensagemElement);
-    caixaConversas.scrollTop = caixaConversas.scrollHeight;
-  }
-
-  document.getElementById('pergunta-gemini').querySelector('img').addEventListener('click', enviarMensagem);
-
-  document.getElementById('pergunta-gemini').querySelector('input').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      enviarMensagem();
-    }
-  });
-
   document
     .getElementById("sendDepIdButton")
     .addEventListener("click", async function () {

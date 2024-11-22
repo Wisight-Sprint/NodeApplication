@@ -319,7 +319,7 @@
     let idUsuario;
     let permissaoDeAdministrador = true;
     let totalPaginas;
-    delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
+    delegacia.innerHTML = sessionStorage.NOME_DEPARTAMENTO;
     inpPermissaoNovo.disabled = true;
     inpPermissaoNovo.style.cursor = "not-allowed";
 
@@ -443,7 +443,7 @@
                             senhaServer: senha,
                             permissaoServer: permissao,
                             distintivoServer: distintivo,
-                            departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                            departamentoServer: sessionStorage.ID_DEPARTAMENTO
                         }),
                     });
                     if (responseCadastro.ok) {
@@ -648,7 +648,7 @@
     }
 
     function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
-        let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+        let departamento = sessionStorage.ID_DEPARTAMENTO;
         let numeroPagina = Number(inpNumeroPagina.value);
         let tamanhoPagina = Number(inpTamanhoPagina.value);
         tamanhoPagina = tamanhoPagina || 10;

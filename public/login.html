@@ -22,7 +22,6 @@
       <a href="./index.html">
         <div class="seta">
           <i class="fa-solid fa-arrow-right fa-rotate-180" style="color: #ffffff; padding: 15px; font-size: 30px;"></i>
-          <!-- <img src="./Assets/seta (2).png" alt="" style="width: 50px; height: 50px"> -->
         </div>
       </a>
     </div>
@@ -131,14 +130,15 @@
               inpSenha.placeholder = "";
               console.table(res);
 
-              sessionStorage.USUARIO_ID = json.usuario_id;
+              sessionStorage.ID_USUARIO = json.id_usuario;
               sessionStorage.NOME_USUARIO = json.nome_usuario;
               sessionStorage.EMAIL_USUARIO = json.email_usuario;
               sessionStorage.CIDADE_USUARIO = json.cidade_usuario;
               sessionStorage.ESTADO_USUARIO = json.estado_usuario;
-              sessionStorage.DEPARTAMENTO_USUARIO = json.departamento_usuario;
-              sessionStorage.PERMISSAO_USUARIO = json.usuario_permissao;
-              sessionStorage.PULAR_TUTORIAL = json.pularTutorial;
+              sessionStorage.PERMISSAO_USUARIO = json.permissao_usuario;
+              sessionStorage.ID_DEPARTAMENTO = json.id_departamento;
+              sessionStorage.NOME_DEPARTAMENTO = json.nome_departamento;
+              sessionStorage.PULAR_TUTORIAL = json.pular_tutorial;
 
               Swal.fire({
                 position: "center",

@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+    font-family: "Josefin Sans";
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%),
+        linear-gradient(0deg, #021526 0%, #021526 100%),
+        linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.principalContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+
+    .containerNav .navLeft {
+        position: fixed;
+    }
+
+    .content {
+        margin-bottom: 2%;
+        margin-left: 80px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        header {
+            width: 100%;
+            font-size: 50px;
+        }
+
+        .caixa_texto {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* width: 99%; */
+            height: 100vh;
+            /* background-color: rgba(255, 255, 255, 0.1); */
+            /* border: 1px solid rgba(255, 255, 255, 0.5); */
+            /* border-radius: 15px; */
+        }
+
+        .caixa_button {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+
+            button {
+                cursor: pointer;
+                background: linear-gradient(270deg, transparent 50%, white 50%);
+                background-size: 200% 100%;
+                background-position: right;
+                transition: background-position 0.4s ease;
+                color: #FFF;
+                border: 1px solid #FFF;
+                height: 30px;
+                font-size: 16px;
+                width: 250px;
+                border-radius: 15px;
+            }
+
+            button:hover {
+                background-position: left;
+                color: #021526;
+            }
+        }
+    }
+}
