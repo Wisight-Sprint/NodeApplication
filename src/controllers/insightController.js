@@ -2,11 +2,10 @@ const insightModel = require("../models/insightModel");
 const { exec } = require("child_process");
 
 const executeJar = (req, res) => {
-  const bodyServerName = Object.keys(req.body)[0];
-  const valueBodyServer = req.body[bodyServerName];
-  const mensagem = req.body.mensagem;
+  const insightKey = req.insightKeyServer;
+  const mensagem = req.body.mensagemServer;
 
-  if (!valueBodyServer) {
+  if (!insightKey) {
     return res
       .status(400)
       .json({ success: false, message: "Valor não fornecido no body" });
@@ -15,20 +14,20 @@ const executeJar = (req, res) => {
   const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // Caminho para o arquivo .jar no servidor
 
-//   const command = `sudo docker run --name AI-container \
-//   -e DBHOST=23.23.14.86 \
-//   -e DBPORT=3306 \
-//   -e DBNAME=wisight \
-//   -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight \
-//   -e DBDRIVER=com.mysql.cj.jdbc.Driver \
-//   -e DBUSER=root \
-//   -e DBPASSWORD=wisight123 \
-//   -e INSIGHT_KEY=${valueBodyServer} \
-//   -e INSIGHT_MESSAGE=${mensagem} \
-//   imagem-ia && sudo docker rm AI-container
-// `
+  //   const command = `sudo docker run --name AI-container \
+  //   -e DBHOST=23.23.14.86 \
+  //   -e DBPORT=3306 \
+  //   -e DBNAME=wisight \
+  //   -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight \
+  //   -e DBDRIVER=com.mysql.cj.jdbc.Driver \
+  //   -e DBUSER=root \
+  //   -e DBPASSWORD=wisight123 \
+  //   -e INSIGHT_KEY=${valueBodyServer} \
+  //   -e INSIGHT_MESSAGE=${mensagem} \
+  //   imagem-ia && sudo docker rm AI-container
+  // `
 
-const command = `
+  const command = `
   if [ $(sudo docker ps -aq -f name=AI-container) ]; then 
     sudo docker rm -f AI-container; 
   fi; 
@@ -40,7 +39,7 @@ const command = `
   -e DBDRIVER=com.mysql.cj.jdbc.Driver \
   -e DBUSER=root \
   -e DBPASSWORD=wisight123 \
-  -e INSIGHT_KEY=${valueBodyServer} \
+  -e INSIGHT_KEY=${insightKey} \
   -e INSIGHT_MESSAGE=${mensagem} \
   imagem-ia && sudo docker rm AI-container
 `;
