@@ -15,8 +15,18 @@ const executeJar = (req, res) => {
   const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // Caminho para o arquivo .jar no servidor
 
-  const command = `sudo docker run --name AI-container   -e DBHOST=23.23.14.86   -e DBPORT=3306   -e DBNAME=wisight   -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight   -e DBDRIVER=com.mysql.cj.jdbc.Driver   -e DBUSER=root   -e DBPASSWORD=wisight123
--e INSIGHT_KEY=${valueBodyServer} -e INSIGHT_MESSAGE=${mensagem}`
+  const command = `sudo docker run --name AI-container \
+  -e DBHOST=23.23.14.86 \
+  -e DBPORT=3306 \
+  -e DBNAME=wisight \
+  -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight \
+  -e DBDRIVER=com.mysql.cj.jdbc.Driver \
+  -e DBUSER=root \
+  -e DBPASSWORD=wisight123 \
+  -e INSIGHT_KEY=${valueBodyServer} \
+  -e INSIGHT_MESSAGE=${mensagem} \
+  imagem-ia
+`
 
   // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // LOCAL = const command = `java -jar ${jarPath} ${valueBodyServer}`;
