@@ -169,7 +169,7 @@
   }
 
   async function sendValueForJava(userInsightKey, bodyServerName, mensagemTexto) {
-    if (userInsightKey && obj) {
+    if (userInsightKey && mensagemTexto) {
       await fetch("/insight/executeJar", {
         method: "POST",
         headers: {
