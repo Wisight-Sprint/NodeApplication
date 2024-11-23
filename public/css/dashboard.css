@@ -170,6 +170,27 @@ body {
     height: 100px;
 }
 
+.inline-row input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20px;
+    color: #FFF;
+    width: 200px;
+    border-radius: 10px;
+    border-color: #FFF;
+    background-color: initial;
+    font-size: large;
+}
+
+.inline-row select{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 20px;
+    width: 15px;
+}
+
 .city {
     display: flex;
     color: #FFF;

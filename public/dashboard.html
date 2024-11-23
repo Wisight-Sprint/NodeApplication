@@ -44,7 +44,7 @@
     <div class="all-indicators">
         <div class="inline-row">
             <div class="title-page">Vítimas Por<br>região</div>
-            <span class="city">Washington DC </span> <img class="icon-location" src="./Assets/location-icon.png">
+            <input id="fk_departamento" class="city" name="fk_departamento"><img class="icon-location" src="./Assets/location-icon.png">
         </div>
 
         <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;"></span></div>
@@ -114,9 +114,14 @@
 </html>
 
 <script>
-
+        
     window.onload = validarSessao();
 
+    const fkDepartamento = sessionStorage.DEPARTAMENTO_USUARIO;
+    const inputFkDepartamento = document.getElementById('fk_departamento');
+
+    inputFkDepartamento.value = fkDepartamento;
+    
 
 
     const vitimas2023 = [120, 160, 120, 110];
