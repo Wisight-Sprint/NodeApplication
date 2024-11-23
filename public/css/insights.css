@@ -40,8 +40,7 @@ body {
             align-items: center;
             gap: 5vh;
 
-            .caixa-gemini {
-                width: 60vw;
+            .caixa-IA {
                 width: 90%;
                 height: 80%;
                 display: flex;
@@ -75,7 +74,7 @@ body {
             }
         }
 
-        .conversa-gemini {
+        .conversa-IA {
             max-width: 60%;
             padding: 1.5vh;
             border-radius: 1.5vh;
@@ -109,6 +108,7 @@ body {
             gap: 2vw;
             position: relative;
             background-color: #06050d;
+            /* background-color: #FFF; */
             border-radius: 10px;
             padding: 0vw 1vw 0vw 1vw;
 
@@ -118,6 +118,7 @@ body {
                 border: none;
                 font-size: 2.5vh;
                 color: #FFF;
+                /* color: #000; */
                 font-weight: 300;
                 background-color: transparent;
                 outline: none;
@@ -159,20 +160,20 @@ body {
             }
         }
 
-        #caixa-gemini::-webkit-scrollbar {
+        #caixa-IA::-webkit-scrollbar {
             width: 8px;
         }
 
-        #caixa-gemini::-webkit-scrollbar-track {
+        #caixa-IA::-webkit-scrollbar-track {
             background: #06050d;
         }
 
-        #caixa-gemini::-webkit-scrollbar-thumb {
+        #caixa-IA::-webkit-scrollbar-thumb {
             background-color: #888;
             border-radius: 10px;
         }
 
-        #caixa-gemini::-webkit-scrollbar-thumb:hover {
+        #caixa-IA::-webkit-scrollbar-thumb:hover {
             background-color: #555;
         }
     }

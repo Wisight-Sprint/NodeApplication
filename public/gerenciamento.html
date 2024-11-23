@@ -358,14 +358,12 @@
     }
 
     if (sessionStorage.PERMISSAO_USUARIO == "Externo") {
-
+        permissaoDeAdministrador = false;
         modalEditar.innerHTML = `
-            <div class="container">
-                <div class="cabecalho">
-                    <header>Gerenciar Usuário</header>
-                    <button onclick="sairEditar()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+        <div class="container">
+            <div class="cabecalho">
+                <header>Gerenciar Usuário</header>
+                <i class="fa-solid fa-xmark" onclick="sairEditar()"></i>
                 </div>
                 <div class="container_form">
                     <div class="caixas_pergunta">
@@ -379,47 +377,35 @@
                             <p>Email</p>
                             <div class="input-container">
                                 <input type="text" id="inpEmailEditar">
-                            </div>
-                        </div>
-                    </div>
+                                </div>
+                                </div>
+                                </div>
                     <div class="caixas_pergunta">
                         <div class="perguntaExterno">
                             <p>Senha</p>
                             <div class="input-container">
                                 <input type="password" id="inpSenhaEditar">
                                 <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
-                                    onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
-                            </div>
-                        </div>
-                        <div class="perguntaExterno">
-                            <p>Confirmar senha</p>
-                            <div class="input-container">
-                                <input type="password" id="inpConfSenhaEditar">
-                                <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
-                                    onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="caixa_button_editarExterno">
-                    <button onclick="editar()">Editar</button>
-                </div>
-            </div>`;
-
+                                onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                                </div>
+                                </div>
+                                <div class="perguntaExterno">
+                                    <p>Confirmar senha</p>
+                                    <div class="input-container">
+                                        <input type="password" id="inpConfSenhaEditar">
+                                        <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div class="caixa_button_editarExterno">
+                                            <button onclick="editar()">Editar</button>
+                                            <input id="inpPermissaoEditar" value="Externo" style="display: none;"></input>
+                                            <input id="inpDistintivoEditar" value="null" style="display: none;"></input>
+                                            </div>
+                                            </div>`;
         divCadastrar.style.display = "none";
-        idUsuario = sessionStorage.ID_USUARIO;
-
-        fetch(`/users/buscarExterno/${idUsuario}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (usuario) {
-                        irEditar(idUsuario, sessionStorage.NOME_USUARIO, null, usuario[0].email, "externo", usuario[0].senha);
-                    })
-                }
-            })
-            .catch(function (error) {
-                console.error("Erro ao buscar usuários:", error);
-            });
     }
 
     async function cadastrar() {
@@ -747,6 +733,7 @@
                                 if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
                             }
+
                             if (totalPaginas < numeroPagina) {
                                 inpNumeroPagina.value = filtroUsuarios.length;
                                 atualizarListaUsuarios();

@@ -10,6 +10,8 @@
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <title>Insights | Wisight</title>
 </head>
@@ -36,42 +38,28 @@
         </a>
         <div class="container-icon" id="telaAtual"> <img class="icon-insights" src="./Assets/Insights.png"></div>
         <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
-        </div></a>
+        </div>
       </div>
     </div>
 
     <div class="content">
       <div class="container" id="container">
-        <div class="caixa-gemini" id="caixa-gemini">
+        <div class="caixa-IA" id="caixa-IA">
           <header>RoboCop</header>
           <div style="margin-bottom: 8vh;"></div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>Olá, João Pedro Mori Noce! Eu sou RoboCop, seu assistente virtual.</p>
-          </div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me
-              fazer uma pergunta!</p>
-          </div>
-          <div class="conversa-gemini" id="pergunta-exemplo">
-            <p>Qual a etnia mais atingida em meu departamento?</p>
-          </div>
-          <div class="conversa-gemini" id="resposta-exemplo">
-            <p>De acordo com os dados de <b>Departamento de Nova York, 99</B>, a etnia mais atingida foi a negra. Foram
-              relatadas 53 ocorrências durante o período de um mês.</p>
-          </div>
         </div>
 
-        <div class="prompt" id="pergunta-gemini">
+        <div class="prompt" id="pergunta-IA">
           <input type="text" placeholder="Faça uma pergunta ou utilize um prompt" id="input-pergunta">
           <i class="fa-solid fa-lightbulb" style="color: #FFD43B;" id="btn-sugestoes"></i>
-          <i class="fa-solid fa-circle-right" onclick="enviarMensagem()"></i>
+          <i class="fa-solid fa-circle-right" style="color: #FFF;" onclick="enviarMensagem()"></i>
           <div class="caixaSugestoes" id="caixa-sugestoes">
             <div class="sugestao">Taxa de câmera corporal</div>
+            <div class="sugestao">Taxa de fuga</div>
             <div class="sugestao">Idade mais atingida</div>
             <div class="sugestao">Gênero mais atingido</div>
             <div class="sugestao">Etnia mais atingida</div>
-            <div class="sugestao">Taxa de fuga</div>
-            <div class="sugestao">Etnia mais atingida</div>
+            <div class="sugestao">Armamento padrão</div>
           </div>
         </div>
       </div>
@@ -82,6 +70,14 @@
 </html>
 
 <script>
+
+  adicionarMensagem(`Olá, ${sessionStorage.NOME_USUARIO}! Eu sou RoboCop, seu assistente virtual.`, "resposta");
+  adicionarMensagem(`Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me
+              fazer uma pergunta!`, "resposta");
+  adicionarMensagem(`Qual a etnia mais atingida em meu departamento?`, "pergunta");
+  adicionarMensagem(`De acordo com os dados de <b>${sessionStorage.NOME_DEPARTAMENTO}</b>, a etnia mais atingida foi a negra. Foram
+              relatadas 53 ocorrências durante o período de um mês.`, "resposta");
+
 
   const btnSugestoes = document.getElementById('btn-sugestoes');
   const caixaSugestoes = document.getElementById('caixa-sugestoes');
@@ -105,35 +101,36 @@
 
   // Função para enviar mensagens
   function enviarMensagem() {
-    const inputField = document.getElementById('pergunta-gemini').querySelector('input');
+    const inputField = document.getElementById('pergunta-IA').querySelector('input');
     const mensagemTexto = inputField.value.trim();
 
     if (mensagemTexto) {
       adicionarMensagem(mensagemTexto, 'pergunta');
-      inputField.value = ''; // Limpa o campo de entrada
+      inputField.value = '';
+      inputField.disabled = true;
 
-      // Simulação de resposta
       setTimeout(() => {
-        const respostaTexto = "Esta é uma resposta simulada."; // Aqui você pode integrar com uma IA ou lógica
+        const respostaTexto = "Esta é uma resposta simulada.";
         adicionarMensagem(respostaTexto, 'resposta');
+        inputField.disabled = false;
       }, 1000);
     }
   }
 
   function adicionarMensagem(textoMensagem, tipoMensagem) {
-    const caixaConversas = document.getElementById('caixa-gemini');
+    const caixaConversas = document.getElementById('caixa-IA');
 
     const novaMensagemElement = document.createElement('div');
-    novaMensagemElement.classList.add('conversa-gemini');
+    novaMensagemElement.classList.add('conversa-IA');
 
     if (tipoMensagem === 'pergunta') {
       caixaConversas.innerHTML += `
-      <div class="conversa-gemini" id="pergunta-exemplo">
+      <div class="conversa-IA" id="pergunta-exemplo">
         <p>${textoMensagem}</p>
       </div>`
     } else {
       caixaConversas.innerHTML += `
-          <div class="conversa-gemini" id="resposta-exemplo">
+          <div class="conversa-IA" id="resposta-exemplo">
             <p>${textoMensagem}</p>
           </div>`
     }
@@ -142,10 +139,8 @@
     caixaConversas.scrollTop = caixaConversas.scrollHeight;
   }
 
-  document.getElementById('pergunta-gemini').querySelector('img').addEventListener('click', enviarMensagem);
-
-  document.getElementById('pergunta-gemini').querySelector('input').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && document.activeElement.id === "input-pergunta") {
       enviarMensagem();
     }
   });
@@ -164,18 +159,18 @@
         bodyServerName = "userStateNameServer";
         whereParam = "fk_cidade_estado";
         joinParam = "JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id";
-        await sendValueForJava(userInsightKey, stringFetch, bodyServerName);
+        await sendValueForJava(userInsightKey, bodyServerName, mensagem);
         await getInsights(userInsightKey, whereParam, joinParam);
       } else {
         userInsightKey = sessionStorage.getItem("ID_DEPARTAMENTO");
         bodyServerName = "depUserServer";
         whereParam = "fk_departamento";
         joinParam = "JOIN departamento d on i.fk_departamento = d.departamento_id";
-        await sendValueForJava(userInsightKey, bodyServerName);
+        await sendValueForJava(userInsightKey, bodyServerName, mensagem);
       }
     });
 
-  async function sendValueForJava(userInsightKey, bodyServerName) {
+  async function sendValueForJava(userInsightKey, bodyServerName, mensagem) {
     let obj = {};
     obj[bodyServerName] = userInsightKey;
 
@@ -185,7 +180,10 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(obj)
+        body: JSON.stringify({
+          obj,
+          mensagem
+        })
       })
         .then((response) => response.json())
         .then((data) => {

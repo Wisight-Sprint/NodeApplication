@@ -4,6 +4,7 @@ const { exec } = require("child_process");
 const executeJar = (req, res) => {
   const bodyServerName = Object.keys(req.body)[0];
   const valueBodyServer = req.body[bodyServerName];
+  const mensagem = req.body.mensagem;
 
   if (!valueBodyServer) {
     return res
@@ -15,7 +16,7 @@ const executeJar = (req, res) => {
   // Caminho para o arquivo .jar no servidor
 
   const command = `sudo docker run --name AI-container   -e DBHOST=54.166.154.90   -e DBPORT=3306   -e DBNAME=wisight   -e DBURL=jdbc:mysql://54.166.154.90:3306/wisight   -e DBDRIVER=com.mysql.cj.jdbc.Driver   -e DBUSER=root   -e DBPASSWORD=wisight123
--e INSIGHT_KEY=${valueBodyServer}`
+-e INSIGHT_KEY=${valueBodyServer} -e INSIGHT_MESSAGE=${mensagem}`
 
   // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   // LOCAL = const command = `java -jar ${jarPath} ${valueBodyServer}`;
