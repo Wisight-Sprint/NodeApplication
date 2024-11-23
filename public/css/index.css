@@ -463,6 +463,7 @@ nav>button:hover {
         height: 40px;
         padding-block: 10px;
         transition: 0.3s;
+        background-color: #03346E;
     }
 
     .perguntas input:focus {
@@ -479,7 +480,7 @@ nav>button:hover {
     .form2 {
         display: flex;
         justify-content: space-between;
-        padding-inline: 120px;
+        padding-inline: 80px;
 
         .input_checkbox {
             p {

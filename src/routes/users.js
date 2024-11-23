@@ -23,6 +23,10 @@ router.get("/buscarUsuarioPorDepartamento/:departamento", (req, res) => {
   userController.buscarUsuarioPorDepartamento(req, res);
 });
 
+router.get("/buscarExterno/:idUsuario", (req, res) => {
+  userController.buscarExterno(req, res);
+});
+
 router.get("/removerTutorialMapa/:usuario_id", (req, res) => {
   userController.removerTutorialMapa(req, res);
 });

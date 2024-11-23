@@ -126,6 +126,8 @@
 
 
     if (sessionStorage.PULAR_TUTORIAL == 0) {
+        console.log("NÃO PULA");
+        
         Swal.fire({
             title: "Este é o mapa dinâmico!",
             icon: "question",
@@ -144,7 +146,7 @@
             const isChecked = document.getElementById("checkbox").checked;
             if (isChecked) {
                 fetch(`users/removerTutorialMapa/${usuario_id}`);
-                sessionStorage.PULARTUTORIAL = 1;
+                sessionStorage.PULAR_TUTORIAL = 1;
             }
         });
     }
@@ -333,7 +335,7 @@
         const estado = feature.properties.name;
         const sigla = feature.properties.abbreviation;
 
-        const estadoData = estadosData[estado] || { totalRelatorios: 0, porcentagemCamera: 0, porcentagemMental: 0, mediaIdade: 0, generoPredominante: 0, etniaPredominante: 0, fugaPredominante: 0, armamentoPredominante: 0 };
+        const estadoData = estadosData[sigla] || { totalRelatorios: 0, porcentagemCamera: 0, porcentagemMental: 0, mediaIdade: 0, generoPredominante: 0, etniaPredominante: 0, fugaPredominante: 0, armamentoPredominante: 0 };
 
         const totalRelatorios = estadoData.totalRelatorios;
         const porcentagemCamera = estadoData.porcentagemCamera;

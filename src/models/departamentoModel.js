@@ -1,12 +1,59 @@
 const database = require("../database/config");
 
-function buscarDepartamentoPorNome(nome) {
+function buscarDepartamentoPorNome(nome, cidade, estado) {
   console.log(
-    "ACESSEI O DEPARTAMENTO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarDepartamentoPorNome(): ",
-    nome
+    "function buscarDepartamentoPorNome(nome, cidade, estado): ",
+    nome, cidade, estado
   );
   let instrucaoSql = `
-          SELECT departamento_id FROM wisight.departamento WHERE nome = '${nome}';
+          SELECT departamento_id, cidade_estado_id
+          FROM wisight.departamento
+          JOIN wisight.cidade_estado
+          ON fk_cidade_estado = cidade_estado_id
+          WHERE nome = "${nome}"
+          AND cidade = "${cidade}"
+          AND estado = "${estado}";
+      `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+function buscarCidadeEstado(cidade, estado) {
+  console.log(
+    "function buscarCidadeEstado(cidade, estado): ",
+    cidade, estado
+  );
+  let instrucaoSql = `
+          SELECT cidade_estado_id
+          FROM wisight.cidade_estado
+          WHERE cidade = "${cidade}"
+          AND estado = "${estado}";
+      `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+function cadastrarCidadeEstado(cidade, estado) {
+  console.log(
+    "function cadastrarCidadeEstado(cidade, estado): ",
+    cidade, estado
+  );
+  let instrucaoSql = `
+          INSERT INTO wisight.cidade_estado (cidade, estado) VALUES
+          ("${cidade}", "${estado}");
+      `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+function cadastrarDepartamento(nome, idCidadeEstado) {
+  console.log(
+    "function cadastrarDepartamento(nome, idCidadeEstado): ",
+    nome, idCidadeEstado
+  );
+  let instrucaoSql = `
+          INSERT INTO wisight.departamento (nome, fk_cidade_estado) VALUES
+          ("${nome}", ${idCidadeEstado})
       `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -14,4 +61,7 @@ function buscarDepartamentoPorNome(nome) {
 
 module.exports = {
   buscarDepartamentoPorNome,
+  buscarCidadeEstado,
+  cadastrarCidadeEstado,
+  cadastrarDepartamento
 };

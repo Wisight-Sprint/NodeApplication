@@ -47,15 +47,14 @@
         <div class="content">
             <div class="caixa-delegacia">
                 <span id="delegacia"></span>
+                <i id="btnAdicionarDepartamento" class="fa-solid fa-plus"
+                    onclick="mostrarAdicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)"></i>
             </div>
             <div class="modalEditar" id="modalEditar">
                 <div class="container">
                     <div class="cabecalho">
                         <header>Editar Usuário</header>
-                        <button onclick="sairEditar()">
-                            <i class="fa-solid fa-xmark" style="color: black"></i>
-                        </button>
-
+                        <i class="fa-solid fa-xmark" onclick="sairEditar()"></i>
                     </div>
                     <div class="container_form">
                         <div class="caixas_pergunta">
@@ -86,7 +85,6 @@
                                     <select id="inpPermissaoEditar" name="restrito">
                                         <option value="Administrador">Administrador</option>
                                         <option value="Usuário">Usuário</option>
-                                        <option value="Externo">Externo</option>
                                     </select>
                                 </div>
                             </div>
@@ -113,111 +111,203 @@
                     </div>
                 </div>
             </div>
-            <header>Cadastro de Usuário</header>
-            <div class="container_form">
-                <div class="caixas_pergunta">
-                    <div class="pergunta">
-                        <p>Nome</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpNome">
-                        </div>
+            <div id="modalAdicionarDepartamento" class="modalAdicionarDepartamento">
+                <div class="container" id="containerAdicionarAdministrador">
+                    <div class="cabecalho">
+                        <header>Registre o Administrador</header>
+                        <i class="fa-solid fa-xmark"
+                            onclick="mostrarAdicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)"></i>
                     </div>
-                    <div class="pergunta">
-                        <p>Número de distintivo</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpDistintivo">
-                        </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Email</p>
-                        <div class="input-container">
-                            <input name="restrito" type="text" id="inpEmail">
-                        </div>
-                    </div>
-                </div>
-                <div class="caixas_pergunta">
-                    <div class="pergunta">
-                        <p>Permissão</p>
-                        <div class="input-container">
-                            <select name="restrito" id="inpPermissao">
-                                <option value="#">Escolha o nível de permissão do usuário.</option>
-                                <option value="Administrador">Administrador</option>
-                                <option value="Usuário">Usuário</option>
-                                <option value="Externo">Externo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Senha</p>
-                        <div class="input-container">
-                            <input name="restrito" type="password" id="inpSenha">
-                            <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
-                                onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
-                        </div>
-                    </div>
-                    <div class="pergunta">
-                        <p>Confirmar senha</p>
-                        <div class="input-container">
-                            <input name="restrito" type="password" id="inpConfSenha">
-                            <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
-                                onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="caixa_button">
-                <button onclick="cadastrar()">Cadastrar</button>
-            </div>
+                    <div class="container_form">
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Nome</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpNomeNovo">
+                                </div>
 
-            <header>Gerenciamento de Usuários</header>
-            <div class="header">
-                <div class="pesquisa">
-                    <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
-                        <option value="#">Selecione um filtro</option>
-                        <option value="nome">Pesquisar por nome</option>
-                        <option value="distintivo">Pesquisar por distintivo</option>
-                        <option value="email">Pesquisar por e-mail</option>
-                        <option value="permissao">Pesquisar por permissao</option>
-                    </select>
-                    <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
-                        oninput="filtro(selectFiltro.value, inpPesquisa, false)">
-                </div>
-                <div class="paginacao">
-                    <div class="configuracoes">
-                        Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
-                            oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
-                    </div>
-                    <div class="info">
-                        <div class="control">
-                            <input disabled id="inpNumeroPagina" type="txt"
-                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
-                            <p>-</p>
-                            <span id="inpTotalPaginas"></span>
+                            </div>
+                            <div class="pergunta">
+                                <p>Número de distintivo</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpDistintivoNovo">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Email</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpEmailNovo">
+                                </div>
+                            </div>
                         </div>
-                        <i class="fa-solid fa-angle-left" style="color: #ffffff;"
-                            onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
-                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"
-                            onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                        <div class="caixas_pergunta">
+                            <div class="pergunta">
+                                <p>Permissão</p>
+                                <div class="input-container">
+                                    <select id="inpPermissaoNovo">
+                                        <option value="Administrador">Administrador</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpSenhaNovo">
+                                    <i class="fa-solid fa-eye" id="eyeInpSenhaNovo" style="color: black"
+                                        onclick="togglePasswordVisibility(inpSenhaNovo, eyeInpSenhaNovo)"></i>
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Confirmar senha</p>
+                                <div class="input-container">
+                                    <input type="password" id="inpConfSenhaNovo">
+                                    <i class="fa-solid fa-eye" id="eyeInpConfSenhaNovo" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaNovo, eyeInpConfSenhaNovo)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixa_button_editar">
+                        <button
+                            onclick="mudarContainer(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo)">Continuar</button>
+                    </div>
+                </div>
+                <div class="container" id="containerAdicionarDepartamento">
+                    <div class="cabecalho">
+                        <i class="fa-solid fa-arrow-left" id="voltar" onclick="mudarContainer()"></i>
+                        <header>Registre o Departamento</header>
+                        <i class="fa-solid fa-xmark"
+                            onclick="mostrarAdicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)"></i>
+
+                    </div>
+                    <div class="container_form_departamento">
+                        <div class="caixas_pergunta_departamento">
+                            <div class="pergunta">
+                                <p>Nome</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpNomeDepartamento">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Cidade</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpCidade">
+                                </div>
+                            </div>
+                            <div class="pergunta">
+                                <p>Sigla do Estado</p>
+                                <div class="input-container">
+                                    <input type="text" id="inpEstado">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caixas_pergunta_departamento">
+                            <div class="pergunta">
+                                <div class="input-container"
+                                    style="width: 30vw; padding-left: 150px; padding-top: 50px;">
+                                    <img src="./Assets/logo sem fundo azul.svg" style="width: 90%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixa_button_editar">
+                        <button
+                            onclick="adicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)">Cadastrar</button>
                     </div>
                 </div>
             </div>
+            <div id="divCadastrar">
+                <header>Cadastro de Usuário</header>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Nome</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpNome">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Número de distintivo</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpDistintivo">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Email</p>
+                            <div class="input-container">
+                                <input name="restrito" type="text" id="inpEmail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Permissão</p>
+                            <div class="input-container">
+                                <select name="restrito" id="inpPermissao">
+                                    <option value="#">Escolha o nível de permissão do usuário.</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Usuário">Usuário</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Senha</p>
+                            <div class="input-container">
+                                <input name="restrito" type="password" id="inpSenha">
+                                <i class="fa-solid fa-eye" id="eyeInpSenha" style="color: #ffffff;"
+                                    onclick="togglePasswordVisibility(inpSenha, eyeInpSenha)"></i>
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Confirmar senha</p>
+                            <div class="input-container">
+                                <input name="restrito" type="password" id="inpConfSenha">
+                                <i class="fa-solid fa-eye" id="eyeInpConfSenha" style="color: #ffffff;"
+                                    onclick="togglePasswordVisibility(inpConfSenha, eyeInpConfSenha)"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixa_button">
+                    <button onclick="cadastrar()">Cadastrar</button>
+                </div>
+            </div>
+            <div id="divGerenciamento">
+                <header>Gerenciamento de Usuários</header>
+                <div class="header">
+                    <div class="pesquisa">
+                        <select id="selectFiltro" onchange="filtro(selectFiltro.value, inpPesquisa, false)">
+                            <option value="#">Selecione um filtro</option>
+                            <option value="nome">Pesquisar por nome</option>
+                            <option value="distintivo">Pesquisar por distintivo</option>
+                            <option value="email">Pesquisar por e-mail</option>
+                            <option value="permissao">Pesquisar por permissao</option>
+                        </select>
+                        <input disabled type="text" id="inpPesquisa" placeholder="Digite o nome para filtrar..."
+                            oninput="filtro(selectFiltro.value, inpPesquisa, false)">
+                    </div>
+                    <div class="paginacao">
+                        <div class="configuracoes">
+                            Itens por página: <input placeholder="10" id="inpTamanhoPagina" type="txt"
+                                oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=10>
+                        </div>
+                        <div class="info">
+                            <div class="control">
+                                <input disabled id="inpNumeroPagina" type="txt"
+                                    oninput="filtro(selectFiltro.value, inpPesquisa, true)" value=1 min=1>
+                                <p>-</p>
+                                <span id="inpTotalPaginas"></span>
+                            </div>
+                            <i class="fa-solid fa-angle-left" style="color: #ffffff;"
+                                onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
+                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"
+                                onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
-            <!-- <div class="paginacao">
-                <div class="controleNumPagina">
-                    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"
-                        onclick="mudarPagina(-1, inpNumeroPagina.value)"></i>
-                    <input id="inpNumeroPagina" type="txt" oninput="paginacao()" value=1 min=1>
-                    <p>de</p>
-                    <span id="inpTotalPaginas"></span>
-                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"
-                        onclick="mudarPagina(1, inpNumeroPagina.value)"></i>
-                </div>
-                <div class="controleTamanhoPagina">
-                    Tamanho da página: <input placeholder="10" id="inpTamanhoPagina" type="txt" oninput="paginacao()"
-                        value=10>
-                </div>
-            </div> -->
+                <div class="listaUsuarios_container" id="listaUsuarios_container"></div>
+            </div>
             <br>
         </div>
     </div>
@@ -229,7 +319,9 @@
     let idUsuario;
     let permissaoDeAdministrador = true;
     let totalPaginas;
-    delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
+    delegacia.innerHTML = sessionStorage.NOME_DEPARTAMENTO;
+    inpPermissaoNovo.disabled = true;
+    inpPermissaoNovo.style.cursor = "not-allowed";
 
     function mudarPagina(acao, numPagina) {
         if (acao > 0 && numPagina < totalPaginas) {
@@ -242,7 +334,11 @@
         }
     }
 
-    if (sessionStorage.PERMISSAO_USUARIO != "Administrador") {
+    if (sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+        btnAdicionarDepartamento.style.display = "flex";
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Usuário") {
         permissaoDeAdministrador = false;
         const inputsRestritos = document.querySelectorAll('[name="restrito"]');
 
@@ -257,6 +353,59 @@
                 input.disabled = false;
             });
         });
+
+        divCadastrar.style.display = "none";
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Externo") {
+        permissaoDeAdministrador = false;
+        modalEditar.innerHTML = `
+        <div class="container">
+            <div class="cabecalho">
+                <header>Gerenciar Usuário</header>
+                <i class="fa-solid fa-xmark" onclick="sairEditar()"></i>
+                </div>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Nome</p>
+                            <div class="input-container">
+                                <input type="text" id="inpNomeEditar">
+                            </div>
+                        </div>
+                        <div class="perguntaExterno">
+                            <p>Email</p>
+                            <div class="input-container">
+                                <input type="text" id="inpEmailEditar">
+                                </div>
+                                </div>
+                                </div>
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Senha</p>
+                            <div class="input-container">
+                                <input type="password" id="inpSenhaEditar">
+                                <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
+                                onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                                </div>
+                                </div>
+                                <div class="perguntaExterno">
+                                    <p>Confirmar senha</p>
+                                    <div class="input-container">
+                                        <input type="password" id="inpConfSenhaEditar">
+                                        <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div class="caixa_button_editarExterno">
+                                            <button onclick="editar()">Editar</button>
+                                            <input id="inpPermissaoEditar" value="Externo" style="display: none;"></input>
+                                            <input id="inpDistintivoEditar" value="null" style="display: none;"></input>
+                                            </div>
+                                            </div>`;
+        divCadastrar.style.display = "none";
     }
 
     async function cadastrar() {
@@ -267,7 +416,7 @@
             let confSenha = inpConfSenha.value
             let distintivo = inpDistintivo.value
             let permissao = inpPermissao.value
-            if (validacao(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpPermissao)) {
+            if (validacaoUsuario(inpNome, inpEmail, inpSenha, inpConfSenha, inpDistintivo, inpPermissao)) {
                 try {
                     const responseCadastro = await fetch("users/cadastrarUsuario", {
                         method: "POST",
@@ -280,7 +429,7 @@
                             senhaServer: senha,
                             permissaoServer: permissao,
                             distintivoServer: distintivo,
-                            departamentoServer: sessionStorage.DEPARTAMENTO_USUARIO
+                            departamentoServer: sessionStorage.ID_DEPARTAMENTO
                         }),
                     });
                     if (responseCadastro.ok) {
@@ -388,8 +537,6 @@
             modalEditar.style = `display: flex`;
             inpNomeEditar.value = nome;
             inpEmailEditar.value = email;
-            inpPermissaoEditar.value = permissao;
-            inpDistintivoEditar.value = numero;
             inpSenhaEditar.value = senha;
         } else {
             Swal.fire({
@@ -415,7 +562,7 @@
         let permissao = inpPermissaoEditar.value;
         let distintivo = inpDistintivoEditar.value;
 
-        if (validacao(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpPermissaoEditar, inpDistintivoEditar)) {
+        if (validacaoUsuario(inpNomeEditar, inpEmailEditar, inpSenhaEditar, inpConfSenhaEditar, inpPermissaoEditar, inpDistintivoEditar)) {
             Swal.fire({
                 title: "Tem certeza?",
                 text: "Deseja alterar os dados deste usuário?",
@@ -487,7 +634,7 @@
     }
 
     function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
-        let departamento = sessionStorage.DEPARTAMENTO_USUARIO;
+        let departamento = sessionStorage.ID_DEPARTAMENTO;
         let numeroPagina = Number(inpNumeroPagina.value);
         let tamanhoPagina = Number(inpTamanhoPagina.value);
         tamanhoPagina = tamanhoPagina || 10;
@@ -546,7 +693,7 @@
                                     <span>Nome</span>
                                 </div>
                                 <div class="objeto">
-                                    <span>Número</span>
+                                    <span>Distintivo</span>
                                 </div>
                                 <div class="objeto">
                                     <span>Email</span>
@@ -574,10 +721,10 @@
                                 <div class="objeto"><span>${publicacao.permissao}</span></div>
                             </div>
                             <div class="div-buttons">
-                                <button name="botoesAcao" id="btnEditar" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
                                     <img src="./Assets/btn_editar.png">
                                 </button>
-                                <button name="botoesAcao" id="btnDeletar" onclick="deletar(${publicacao.usuario_id})">
+                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
                                     <img src="./Assets/btn_deletar.png">
                                 </button>
                             </div>
@@ -586,6 +733,7 @@
                                 if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
                             }
+
                             if (totalPaginas < numeroPagina) {
                                 inpNumeroPagina.value = filtroUsuarios.length;
                                 atualizarListaUsuarios();
@@ -598,7 +746,6 @@
                             </div>`;
                             usuario_container.innerHTML = "Nenhum usuário encontrado.";
                             listaUsuarios.appendChild(usuario_container);
-                            // inpNumeroPagina.value = 1;
                             inpNumeroPagina.value = 1;
                             return;
                         }
@@ -611,27 +758,160 @@
 
     }
 
-
     function filtro(select, inputName, passouPorPaginacao) {
         const temFiltro = select !== "#";
         inputName.disabled = !temFiltro;
         inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
         if (!temFiltro) inputName.value = "";
         if (!passouPorPaginacao) {
-            // inpNumeroPagina.value = 1;
             inpNumeroPagina.value = 1;
         } else {
-            // inpNumeroPagina.value = inpNumeroPagina.value;
             inpNumeroPagina.value = inpNumeroPagina.value;
         }
         atualizarListaUsuarios(temFiltro, select, inputName.value);
+    }
+
+    function mostrarAdicionarDepartamento(nome, distintivo, email, permissao, senha, confSenha, nomeDepartamento, cidade, estado) {
+        nome.value = ""; setFieldAllSuccess(nome);
+        distintivo.value = ""; setFieldAllSuccess(distintivo);
+        email.value = ""; setFieldAllSuccess(email);
+        setFieldAllSuccess(permissao); permissao.value = "Administrador";
+        senha.value = ""; setFieldAllSuccess(senha);
+        confSenha.value = ""; setFieldAllSuccess(confSenha);
+        nomeDepartamento.value = ""; setFieldAllSuccess(nomeDepartamento);
+        cidade.value = "";
+        estado.value = "";
+        const displayValue = window.getComputedStyle(modalAdicionarDepartamento).display;
+        if (displayValue === "none") {
+            document.body.style.overflow = 'hidden';
+            modalAdicionarDepartamento.style.display = "flex";
+            containerAdicionarAdministrador.style.display = "block";
+            containerAdicionarDepartamento.style.display = "none";
+        }
+        else {
+            modalAdicionarDepartamento.style.display = "none";
+            document.body.style.overflow = 'unset';
+        }
+    }
+
+    function mudarContainer(nome, distintivo, email, permissao, senha, confSenha) {
+
+        const administradorDisplay = window.getComputedStyle(containerAdicionarAdministrador).display;
+
+        if (administradorDisplay === "block") {
+            let nomeValue = nome.value;
+            let distintivoValue = distintivo.value;
+            let emailValue = email.value;
+            let permissaoValue = permissao.value;
+            let senhaValue = senha.value;
+            let confSenhaValue = confSenha.value;
+            if (validacaoUsuario(nome, email, senha, confSenha, distintivo, permissao)) {
+                nome.value = nomeValue;
+                distintivo.value = distintivoValue;
+                email.value = emailValue;
+                permissao.value = permissaoValue;
+                senha.value = senhaValue;
+                confSenha.value = confSenhaValue;
+
+                containerAdicionarAdministrador.style.display = "none";
+                containerAdicionarDepartamento.style.display = "block";
+
+            } else permissao.value = "Administrador";
+        } else {
+            containerAdicionarAdministrador.style.display = "block";
+            containerAdicionarDepartamento.style.display = "none";
+        }
+    }
+
+    async function adicionarDepartamento(nome, distintivo, email, permissao, senha, confSenha, nomeDepartamento, cidade, estado) {
+        permissao.value = "Administrador";
+
+        const nomeValue = nome.value;
+        const distintivoValue = distintivo.value;
+        const emailValue = email.value;
+        const permissaoValue = permissao.value;
+        const senhaValue = senha.value;
+        const confSenhaValue = confSenha.value;
+        const nomeDepartamentoValue = nomeDepartamento.value;
+        const cidadeValue = cidade.value;
+        const estadoValue = estado.value;
+
+        if (validacaoDepartamento(nomeDepartamento, cidade, estado)) {
+            try {
+                const responseDepartamento = await fetch(`/departamento/buscarDepartamentoPorNome/${nomeDepartamentoValue}/${cidadeValue}/${estadoValue.toUpperCase()}`);
+                if (!responseDepartamento.ok) {
+                    throw new Error("Erro ao buscar departamento");
+                }
+
+                const departamento = await responseDepartamento.json();
+                let idDepartamento = departamento.departamento_id;
+
+                if (idDepartamento === "Departamento já existe") {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Departamento já registrado.",
+                        background: "#FFF",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    return;
+                } else {
+                    const responseCadastro = await fetch("/users/cadastrarUsuario", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            nomeServer: nomeValue,
+                            emailServer: emailValue,
+                            senhaServer: senhaValue,
+                            permissaoServer: permissaoValue,
+                            distintivoServer: distintivoValue,
+                            departamentoServer: idDepartamento,
+                        }),
+                    });
+
+                    if (!responseCadastro.ok) {
+                        const errorText = await responseCadastro.text();
+                        throw new Error("Erro ao cadastrar usuário: " + errorText);
+                    }
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Departamento e administrador cadastrados com sucesso!",
+                        background: "#FFF",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+
+                    nome.value = "";
+                    distintivo.value = "";
+                    email.value = "";
+                    permissao.value = "";
+                    senha.value = "";
+                    confSenha.value = "";
+                    nomeDepartamento.value = "";
+                    cidade.value = "";
+                    estado.value = "";
+
+                    mostrarAdicionarDepartamento(nome, distintivo, email, permissao, senha, confSenha, nomeDepartamento, cidade, estado);
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+            }
+        } else console.log("Não passei nas validações");
+
     }
 
     function paginacao() {
         filtro(selectFiltro.value, inpPesquisa, true);
     }
 
-    function validacao(nome, email, senha, confSenha, distintivo, permissao) {
+    function validacaoUsuario(nome, email, senha, confSenha, distintivo, permissao) {
         const caracteresEspeciais = "#@!$%&";
         let temCaractereEspecial = false;
 
@@ -662,6 +942,29 @@
             setFieldAllSuccess(email);
             setFieldAllSuccess(permissao);
             setFieldAllSuccess(distintivo);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function validacaoDepartamento(nomeDepartamento, cidade, estado) {
+        console.log("Cheguei no validacaoDepartamento");
+
+        if (nomeDepartamento.value.length < 4) setFieldError(nomeDepartamento, "Departamento inválido.");
+        else setFieldSpecificSuccess(nomeDepartamento);
+
+        if (cidade.value.length < 2) setFieldError(cidade, "Cidade inválida.");
+        else setFieldSpecificSuccess(cidade);
+
+        if (estado.value.length > 3 || estado.value.length <= 1) setFieldError(estado, "Estado inválida.");
+        else setFieldSpecificSuccess(estado);
+
+        if (nomeDepartamento.value.length >= 4 && cidade.value.length >= 2 && estado.value.length <= 3) {
+            console.log("passei nas validações");
+            setFieldAllSuccess(nomeDepartamento);
+            setFieldAllSuccess(cidade);
+            setFieldAllSuccess(estado);
             return true;
         } else {
             return false;
