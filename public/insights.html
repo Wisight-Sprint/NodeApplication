@@ -169,9 +169,6 @@
   }
 
   async function sendValueForJava(userInsightKey, bodyServerName, mensagemTexto) {
-    let obj = {};
-    obj[bodyServerName] = userInsightKey;
-
     if (userInsightKey && obj) {
       await fetch("/insight/executeJar", {
         method: "POST",
@@ -179,8 +176,8 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          insightKeyServer: obj,
-          mensagemServer: mensagem
+          insightKeyServer: userInsightKey,
+          mensagemServer: mensagemTexto
         })
       })
         .then((response) => response.json())
