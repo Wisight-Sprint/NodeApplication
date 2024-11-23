@@ -151,7 +151,7 @@
     let whereParam;
     let joinParam;
 
-    if (PERMISSAO_USUARIO == "Externo") {
+    if (userPermission == "Externo") {
       userInsightKey = sessionStorage.getItem("ESTADO_USUARIO");
       bodyServerName = "userStateNameServer";
       whereParam = "fk_cidade_estado";
