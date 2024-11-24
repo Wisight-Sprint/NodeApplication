@@ -32,10 +32,10 @@ function executeJar(req, res) {
     sudo docker rm -f AI-container; 
   fi; 
   sudo docker run --name AI-container \
-  -e DBHOST=23.23.14.86 \
+  -e DBHOST=3.84.76.96 \
   -e DBPORT=3306 \
   -e DBNAME=wisight \
-  -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight \
+  -e DBURL=jdbc:mysql://3.84.76.96:3306/wisight \
   -e DBDRIVER=com.mysql.cj.jdbc.Driver \
   -e DBUSER=root \
   -e DBPASSWORD=wisight123 \
