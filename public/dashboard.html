@@ -18,8 +18,6 @@
 </head>
 
 <body>
-    <input type="text" name="" id="inpTeste">
-    <button onclick="acharLocal()">aaa</button>
     <div class="containerNav">
         <div class="navLeft">
             <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
@@ -43,7 +41,12 @@
     <div class="all-indicators">
         <div class="inline-row">
             <div class="title-page">Vítimas Por<br>região</div>
-            <span class="city">Washington DC </span> <img class="icon-location" src="./Assets/location-icon.png">
+            <div class="sugests" id="sugests">
+                <input id="inpBuscar" class="city" name="inpBuscar" oninput="mostrarSugestoes()">
+                <div id="sugestoesContainer"></div>
+            </div>
+            <button onclick="acharLocal()" style="height: 25px; width: 25px; margin-top: 30px; border-radius: 5px;"><img src="./Assets/pesquisa.png" alt="" style="height: 15px; width: 15px;"></button>
+            <img class="icon-location" src="./Assets/location-icon.png">
         </div>
 
         <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;"></span></div>
@@ -118,20 +121,87 @@
 
 <script>
 
-    window.onload = validarSessao();
+    window.onload = validarSessao()
 
-    const vitimas2023 = [120, 160, 120, 110];
-    const vitimas2024 = [145, 140, 130, 140];
+    var sugestoes = []
 
-    const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
+    function mostrarSugestoes() {
 
-    function getColor(value, year) {
-        //if (value > 150) return 'rgb(255, 0, 0)'; 
-        return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
+    console.log("função chamada")
+
+    var local = inpBuscar.value.toLowerCase();
+    var sugestoesContainer = document.getElementById('sugestoesContainer');
+    
+    console.log(local)
+
+    sugestoesContainer.innerHTML = '';
+
+    sugestoes = []
+
+    if (local != '') {
+
+        
+        if (tipoLocalizacao === "departamento") {
+            for (let i = 0; i < departamentos.length; i++) {
+            const depDaVez = departamentos[i]              
+            
+            
+                if (depDaVez.toLowerCase().includes(local)) { 
+                    sugestoes.push(depDaVez)
+                }
+            
+                if (sugestoes.length >= 5) break
+                
+            }
+        } else if (tipoLocalizacao === "cidade") {
+            for (let i = 0; i < cidades.length; i++) {
+                const cidadeDaVez = cidades[i]               
+                
+                
+                if (cidadeDaVez.toLowerCase().includes(local)) { 
+                    sugestoes.push(cidadeDaVez)
+                }
+                
+                if (sugestoes.length >= 5) break;
+
+        }
+        
+    } else if (tipoLocalizacao === "estado") {
+        for (let i = 0; i < estados.length; i++) {
+            const estadoDaVez = estados[i]               
+            
+            
+            if (estadoDaVez.toLowerCase().includes(local)) { 
+                    sugestoes.push(estadoDaVez)
+                }
+                
+                if (sugestoes.length >= 5) break
+                
+            }    
+        }
+        console.log(sugestoes)
+        
+        sugestoes.forEach(sugestao => {
+            const divSugestao = document.createElement('div')
+            divSugestao.textContent = sugestao
+            divSugestao.classList.add('sugestao')
+            
+            divSugestao.onclick = () => selecionarSugestao(sugestao)
+            
+            sugestoesContainer.appendChild(divSugestao)
+            console.log("Sugestão adicionada")
+        });
     }
+}
+
+function selecionarSugestao(sugestao) {
+    inpBuscar.value = sugestao
+    document.getElementById('sugestoesContainer').innerHTML = ''
+    acharLocal()
+}
 
     function acharLocal() {
-    var local = inpTeste.value;  
+    var local = inpBuscar.value
 
     if (tipoLocalizacao == "departamento") {
 
@@ -139,17 +209,17 @@
             method: "GET",
         })
             .then(function (response) {
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 console.log(data)
 
                 for (let i = 0; i < departamentos.length; i++) {
-                    const depDaVez = departamentos[i];
+                    const depDaVez = departamentos[i]
                     
                     if (local === depDaVez) { 
-                        localizacaoUsuario = data[0]["departamento_id"];
-                        break;  
+                        localizacaoUsuario = data[0]["departamento_id"]
+                        break
                     }
                 }
             })
@@ -158,21 +228,21 @@
 
     } else if (tipoLocalizacao == "cidade") {
         for (let i = 0; i < cidades.length; i++) {
-            const cidadeDaVez = cidades[i];
+            const cidadeDaVez = cidades[i]
 
             if (local === cidadeDaVez) {  
-                localizacaoUsuario = local;  
-                break;  
+                localizacaoUsuario = local 
+                break
             }
         }
         
     } else if (tipoLocalizacao == "estado") {
         for (let i = 0; i < estados.length; i++) {
-            const estadoDaVez = estados[i];
+            const estadoDaVez = estados[i]
 
             if (local === estadoDaVez) { 
-                localizacaoUsuario = local;  
-                break;  
+                localizacaoUsuario = local  
+                break
             }
         }
         
@@ -229,10 +299,10 @@
             method: "GET",
         })
             .then(function (response) {
-                return response.json();
+                return response.json()
             })
             .then(function (data) {
-                console.table(JSON.stringify(data));
+                console.table(JSON.stringify(data))
 
                 data.forEach(item => {
                     estados.push(`${item.estado}`)
@@ -245,7 +315,7 @@
                 console.log(departamentos)
 
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function chamarGraficos() {
@@ -264,9 +334,9 @@
         fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Element = document.getElementById('h1AgesIncident')
@@ -278,16 +348,16 @@
                 h1Element.innerText = idadeMedia
                 pElement.innerText = `Representando ${pctMortes}% do total de Mortes`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterCameraCorporal() {
         fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Camera = document.getElementById('h1BodyCam')
@@ -295,16 +365,16 @@
                 pctCamera = pctCamera.toFixed(2)
                 h1Camera.innerText = `${pctCamera}%`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterTranstorno() {
         fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Mental = document.getElementById('h1MentalDisorder')
@@ -312,16 +382,16 @@
                 pctMental = pctMental.toFixed(2)
                 h1Mental.innerText = `${pctMental}%`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterGenero() {
         fetch(`/dashboard/obterGenero?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Element = document.getElementById('h1Gende')
@@ -332,19 +402,19 @@
                 h1Element.innerText = genero
                 pElement.innerText = `Representando ${pctMortes}% dos incidentes`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
 
     }
 
     function obterVitima() {
         fetch(`/dashboard/obterVitima?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
-                return response.json();
+                return response.json()
             })
             .then(function (data) {
                 let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-                let vitimas2023 = new Array(12).fill(0);
-                let vitimas2024 = new Array(12).fill(0);
+                let vitimas2023 = new Array(12).fill(0)
+                let vitimas2024 = new Array(12).fill(0)
 
                 data.forEach(function (item) {
                     if (item.ano === 2023) {
@@ -372,7 +442,7 @@
                         },
                         labels: {
                             formatter: function () {
-                                return this.value;
+                                return this.value
                             }
                         }
                     },
@@ -383,7 +453,7 @@
                         },
                         labels: {
                             formatter: function () {
-                                return this.value;
+                                return this.value
                             }
                         }
                     },
@@ -430,7 +500,7 @@
 
                 data.forEach(function (item) {
                     if (armamentos[item.armamento] !== undefined) {
-                        armamentos[item.armamento] = item.quantidade;
+                        armamentos[item.armamento] = item.quantidade
                     }
                 });
 
@@ -450,11 +520,11 @@
                 myChart.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
     }
 
-    const ctx2 = document.getElementById('PieChart');
+    const ctx2 = document.getElementById('PieChart')
 
     const myChart = new Chart(ctx2, {
         type: 'pie',
@@ -511,7 +581,7 @@
 
                 data.forEach(function (item) {
                     if (etnias[item.etnia] !== undefined) {
-                        etnias[item.etnia] = item.quantidade;
+                        etnias[item.etnia] = item.quantidade
                     }
                 });
 
@@ -534,7 +604,7 @@
                 myChartEtnia.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
     }
 
@@ -598,7 +668,7 @@
 
                 data.forEach(function (item) {
                     if (fugas[item.fuga] !== undefined) {
-                        fugas[item.fuga] = item.quantidade;
+                        fugas[item.fuga] = item.quantidade
                     }
                 });
 
@@ -619,12 +689,12 @@
                 myChartFuga.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
 
     }
 
-    const ctx4 = document.getElementById('PieChart3');
+    const ctx4 = document.getElementById('PieChart3')
 
     const myChartFuga = new Chart(ctx4, {
         type: 'pie',

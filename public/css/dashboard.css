@@ -291,11 +291,7 @@ body {
 }
 
 .city {
-    display: flex;
-    color: #FFF;
     font-weight: bold;
-    font-size: 25px;
-    margin-left: 65%;
     margin-top: 37px;
     height: 22px;
 }
@@ -345,4 +341,47 @@ label {
 
 .radio-span {
     margin-left: 5px;
+}
+
+.inline-row input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20px;
+    color: #FFF;
+    width: 200px;
+    border-radius: 10px;
+    border-color: #FFF;
+    background-color: initial;
+    font-size: large;
+}
+.inline-row select{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 20px;
+    width: 15px;
+}
+
+#sugestoesContainer {
+    border: 1px solid #000000;
+    z-index: 1;
+    background: white;
+}
+
+.sugestao {
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.sugestao:hover {
+    background-color: #f0f0f0;
+}
+
+.sugests{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
