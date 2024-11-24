@@ -1,14 +1,11 @@
 const departamentoModel = require("../models/departamentoModel");
 
 function buscarDepartamentoPorNome(req, res) {
-  let nome = req.body.departamentoServer;
+  let nome = req.query.departamentoServer;
 
-  departamentoModel
-    .buscarDepartamentoPorNome(nome)
+  departamentoModel.buscarDepartamentoPorNome(nome)
     .then(function (response) {
-      res.json({
-        departamento_id: response[0].departamento_id,
-      });
+      res.json(response);
     })
     .catch(function (erro) {
       console.log(erro);

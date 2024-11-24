@@ -18,6 +18,8 @@
 </head>
 
 <body>
+    <input type="text" name="" id="inpTeste">
+    <button onclick="acharLocal()">aaa</button>
     <div class="containerNav">
         <div class="navLeft">
             <div class="container-logo"><img class="icon-logo" src="./Assets/logo-sem-fundo.png"></div>
@@ -118,8 +120,6 @@
 
     window.onload = validarSessao();
 
-
-
     const vitimas2023 = [120, 160, 120, 110];
     const vitimas2024 = [145, 140, 130, 140];
 
@@ -130,19 +130,99 @@
         return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
     }
 
+    function acharLocal() {
+    var local = inpTeste.value;  
+
+    if (tipoLocalizacao == "departamento") {
+
+        fetch(`/departamento/buscarDepartamentoPorNome?departamentoServer=${local}`, {
+            method: "GET",
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+
+                for (let i = 0; i < departamentos.length; i++) {
+                    const depDaVez = departamentos[i];
+                    
+                    if (local === depDaVez) { 
+                        localizacaoUsuario = data[0]["departamento_id"];
+                        break;  
+                    }
+                }
+            })
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
 
 
-    // vai ter que verificar se o usario pode ou não mudar a sua localização
-    // function verificarCargo() {
-    //    if (cargo != policial) {
-    //    obterRegioes();
-    //    exibir a pesquisa de região, e o cadastro de funcionario        
-    //    }
-    // }
+    } else if (tipoLocalizacao == "cidade") {
+        for (let i = 0; i < cidades.length; i++) {
+            const cidadeDaVez = cidades[i];
 
-    var regioes = []
+            if (local === cidadeDaVez) {  
+                localizacaoUsuario = local;  
+                break;  
+            }
+        }
+        
+    } else if (tipoLocalizacao == "estado") {
+        for (let i = 0; i < estados.length; i++) {
+            const estadoDaVez = estados[i];
 
-    var cidadeUsuario = sessionStorage.CIDADE_USUARIO;
+            if (local === estadoDaVez) { 
+                localizacaoUsuario = local;  
+                break;  
+            }
+        }
+        
+    } else {
+    // div que tem o pesquisar some ou algo parecido
+        console.log("Tipo de localização inválido.");
+    }    
+
+    console.log(local)
+    console.log(localizacaoUsuario)
+    chamarGraficos()
+
+}
+
+    var estados = []
+    var cidades = []
+    var departamentos = []
+
+    var localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+    var tipoLocalizacao = "departamento"
+
+    function visualizarDepartamento() {
+        tipoLocalizacao = "departamento"
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarCidades() {
+        tipoLocalizacao = "cidade"
+        localizacaoUsuario = sessionStorage.CIDADE_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarEstado() {
+        tipoLocalizacao = "estado"
+        localizacaoUsuario = sessionStorage.ESTADO_USUARIO
+        chamarGraficos()
+    }
+
+    function exibirGeral() {
+        localizacaoUsuario = ""
+        tipoLocalizacao = ""
+        chamarGraficos()
+    }
+
+    function exibirMeuLocal() {
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        tipoLocalizacao = "departamento"
+        chamarGraficos()
+    }
 
     function obterRegioes() {
         fetch(`/dashboard/obterRegioes`, {
@@ -155,29 +235,17 @@
                 console.table(JSON.stringify(data));
 
                 data.forEach(item => {
-                    regioes.push(`cidade: ${item.cidade}, ${item.estado}`)
-
+                    estados.push(`${item.estado}`)
+                    cidades.push(`${item.cidade}`)
+                    departamentos.push(`${item.nome}`)
                 })
 
+                console.log(estados)
+                console.log(cidades)
+                console.log(departamentos)
 
             })
             .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
-
-    function exibirGeral() {
-        cidadeUsuario = ""
-        chamarGraficos()
-    }
-
-    function exibirMeuLocal() {
-        cidadeUsuario = sessionStorage.CIDADE_USUARIO
-        chamarGraficos()
-    }
-
-    function exibirLocalEspecifico() {
-        // essa função é chamada so quando o cara clica pra pesquisar
-        cidadeUsuario = pesquisarCidade.value
-        chamarGraficos()
     }
 
     function chamarGraficos() {
@@ -193,7 +261,7 @@
     }
 
     function obterMediaIdade() {
-        fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -214,7 +282,7 @@
     }
 
     function obterCameraCorporal() {
-        fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -231,7 +299,7 @@
     }
 
     function obterTranstorno() {
-        fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -248,7 +316,7 @@
     }
 
     function obterGenero() {
-        fetch(`/dashboard/obterGenero?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterGenero?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -269,7 +337,7 @@
     }
 
     function obterVitima() {
-        fetch(`/dashboard/obterVitima?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterVitima?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json();
             })
@@ -347,7 +415,7 @@
 
 
     function obterArma() {
-        fetch(`/dashboard/obterArma?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterArma?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -355,10 +423,8 @@
                 console.log(data)
 
                 let armamentos = {
-                    'Nenhum': 0,
-                    'Facão': 0,
+                    'Não armado': 0,
                     'Arma de fogo': 0,
-                    'Faca': 0,
                     'Arma Branca': 0
                 };
 
@@ -376,10 +442,8 @@
                 // ];
 
                 myChart.data.datasets[0].data = [
-                    armamentos['Nenhum'],
-                    armamentos['Facão'],
+                    armamentos['Não armado'],
                     armamentos['Arma de fogo'],
-                    armamentos['Faca'],
                     armamentos['Arma branca']
                 ];
 
@@ -395,23 +459,19 @@
     const myChart = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Facão', 'Arma de fogo', 'Faca', 'Arma branca'],
+            labels: ['Desarmado', 'Arma de fogo', 'Arma branca'],
             datasets: [{
                 label: 'Distribuição de armas',
                 data: [0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgba(128, 128, 128, 1)',
                     'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    'rgba(44, 65, 89, 1)'
                 ],
                 borderColor: [
                     'rgba(128, 128, 128, 1)',
                     'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    'rgba(44, 65, 89, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -434,7 +494,7 @@
 
 
     function obterEtnia() {
-        fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -523,7 +583,7 @@
 
     function obterFuga() {
 
-        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -532,8 +592,8 @@
 
                 let fugas = {
                     'A pé': 0,
-                    'Carro': 0,
-                    'Não fugiu': 0
+                    'Veículo': 0,
+                    'Sem tentativa': 0
                 };
 
                 data.forEach(function (item) {
@@ -552,8 +612,8 @@
 
                 myChartFuga.data.datasets[0].data = [
                     fugas['A pé'],
-                    fugas['Carro'],
-                    fugas['Não fugiu']
+                    fugas['Veículo'],
+                    fugas['Sem tentativa']
                 ];
 
                 myChartFuga.update();

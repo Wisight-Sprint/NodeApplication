@@ -3,7 +3,7 @@ const router = express.Router();
 
 const departamentoController = require("../controllers/departamentoController");
 
-router.post("/buscarDepartamentoPorNome", (req, res) => {
+router.get("/buscarDepartamentoPorNome", (req, res) => {
   departamentoController.buscarDepartamentoPorNome(req, res);
 });
 
