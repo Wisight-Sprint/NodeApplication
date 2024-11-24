@@ -676,6 +676,10 @@
     let numeroVitima = 1;
     let vitimas = [];
 
+    if (sessionStorage.PERMISSAO_USUARIO == "Administrador" || sessionStorage.PERMISSAO_USUARIO == "Usuário") {
+        btnAdicionarRelatorio.style.display = "flex";
+    }
+
     function abrirContainer() {
         modalRelatorio.style.display = "flex";
         inpData.value = "";
