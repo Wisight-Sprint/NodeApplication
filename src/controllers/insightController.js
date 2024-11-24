@@ -5,7 +5,7 @@ const executeJar = (req, res) => {
   const insightKey = req.body.insightKeyServer;
   const mensagem = req.body.mensagemServer;
 
-  if (!insightKey) {
+  if (insightKey == "" || mensagem == "") {
     return res
       .status(400)
       .json({ success: false, message: "Valor não fornecido no body" });
