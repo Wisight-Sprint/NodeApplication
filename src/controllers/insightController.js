@@ -2,7 +2,7 @@ const insightModel = require("../models/insightModel");
 const { exec } = require("child_process");
 
 const executeJar = (req, res) => {
-  const insightKey = req.insightKeyServer;
+  const insightKey = req.body.insightKeyServer;
   const mensagem = req.body.mensagemServer;
 
   if (!insightKey) {
