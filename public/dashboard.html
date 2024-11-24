@@ -45,7 +45,8 @@
                 <input id="inpBuscar" class="city" name="inpBuscar" oninput="mostrarSugestoes()">
                 <div id="sugestoesContainer"></div>
             </div>
-            <button onclick="acharLocal()" style="height: 25px; width: 25px; margin-top: 30px; border-radius: 5px;"><img src="./Assets/pesquisa.png" alt="" style="height: 15px; width: 15px;"></button>
+            <button onclick="acharLocal()" style="height: 25px; width: 25px; margin-top: 30px; border-radius: 5px;"><img
+                    src="./Assets/pesquisa.png" alt="" style="height: 15px; width: 15px;"></button>
             <img class="icon-location" src="./Assets/location-icon.png">
         </div>
 
@@ -127,135 +128,129 @@
 
     function mostrarSugestoes() {
 
-    console.log("função chamada")
+        var local = inpBuscar.value.toLowerCase();
+        var sugestoesContainer = document.getElementById('sugestoesContainer');
 
-    var local = inpBuscar.value.toLowerCase();
-    var sugestoesContainer = document.getElementById('sugestoesContainer');
-    
-    console.log(local)
+        console.log(local)
 
-    sugestoesContainer.innerHTML = '';
+        sugestoesContainer.innerHTML = '';
 
-    sugestoes = []
+        sugestoes = []
 
-    if (local != '') {
+        if (local != '') {
 
-        
-        if (tipoLocalizacao === "departamento") {
-            for (let i = 0; i < departamentos.length; i++) {
-            const depDaVez = departamentos[i]              
-            
-            
-                if (depDaVez.toLowerCase().includes(local)) { 
-                    sugestoes.push(depDaVez)
-                }
-            
-                if (sugestoes.length >= 5) break
-                
-            }
-        } else if (tipoLocalizacao === "cidade") {
-            for (let i = 0; i < cidades.length; i++) {
-                const cidadeDaVez = cidades[i]               
-                
-                
-                if (cidadeDaVez.toLowerCase().includes(local)) { 
-                    sugestoes.push(cidadeDaVez)
-                }
-                
-                if (sugestoes.length >= 5) break;
 
-        }
-        
-    } else if (tipoLocalizacao === "estado") {
-        for (let i = 0; i < estados.length; i++) {
-            const estadoDaVez = estados[i]               
-            
-            
-            if (estadoDaVez.toLowerCase().includes(local)) { 
-                    sugestoes.push(estadoDaVez)
-                }
-                
-                if (sugestoes.length >= 5) break
-                
-            }    
-        }
-        console.log(sugestoes)
-        
-        sugestoes.forEach(sugestao => {
-            const divSugestao = document.createElement('div')
-            divSugestao.textContent = sugestao
-            divSugestao.classList.add('sugestao')
-            
-            divSugestao.onclick = () => selecionarSugestao(sugestao)
-            
-            sugestoesContainer.appendChild(divSugestao)
-            console.log("Sugestão adicionada")
-        });
-    }
-}
-
-function selecionarSugestao(sugestao) {
-    inpBuscar.value = sugestao
-    document.getElementById('sugestoesContainer').innerHTML = ''
-    acharLocal()
-}
-
-    function acharLocal() {
-    var local = inpBuscar.value
-
-    if (tipoLocalizacao == "departamento") {
-
-        fetch(`/departamento/buscarDepartamentoPorNome?departamentoServer=${local}`, {
-            method: "GET",
-        })
-            .then(function (response) {
-                return response.json()
-            })
-            .then(data => {
-                console.log(data)
-
+            if (tipoLocalizacao === "departamento") {
                 for (let i = 0; i < departamentos.length; i++) {
                     const depDaVez = departamentos[i]
-                    
-                    if (local === depDaVez) { 
-                        localizacaoUsuario = data[0]["departamento_id"]
-                        break
+
+
+                    if (depDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(depDaVez)
                     }
+
+                    if (sugestoes.length >= 5) break
+
                 }
+            } else if (tipoLocalizacao === "cidade") {
+                for (let i = 0; i < cidades.length; i++) {
+                    const cidadeDaVez = cidades[i]
+
+
+                    if (cidadeDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(cidadeDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break;
+
+                }
+
+            } else if (tipoLocalizacao === "estado") {
+                for (let i = 0; i < estados.length; i++) {
+                    const estadoDaVez = estados[i]
+
+
+                    if (estadoDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(estadoDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break
+
+                }
+            }
+
+            sugestoes.forEach(sugestao => {
+                const divSugestao = document.createElement('div')
+                divSugestao.textContent = sugestao
+                divSugestao.classList.add('sugestao')
+
+                divSugestao.onclick = () => selecionarSugestao(sugestao)
+
+                sugestoesContainer.appendChild(divSugestao)
+            });
+        }
+    }
+
+    function selecionarSugestao(sugestao) {
+        inpBuscar.value = sugestao
+        document.getElementById('sugestoesContainer').innerHTML = ''
+        acharLocal()
+    }
+
+    function acharLocal() {
+        var local = inpBuscar.value
+
+        if (tipoLocalizacao == "departamento") {
+
+            fetch(`/departamento/buscarDepartamentoPorNome?departamentoServer=${local}`, {
+                method: "GET",
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data)
+
+                    for (let i = 0; i < departamentos.length; i++) {
+                        const depDaVez = departamentos[i]
+
+                        if (local === depDaVez) {
+                            localizacaoUsuario = data[0]["departamento_id"]
+                            break
+                        }
+                    }
+                })
+                .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
 
 
-    } else if (tipoLocalizacao == "cidade") {
-        for (let i = 0; i < cidades.length; i++) {
-            const cidadeDaVez = cidades[i]
+        } else if (tipoLocalizacao == "cidade") {
+            for (let i = 0; i < cidades.length; i++) {
+                const cidadeDaVez = cidades[i]
 
-            if (local === cidadeDaVez) {  
-                localizacaoUsuario = local 
-                break
+                if (local === cidadeDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
             }
-        }
-        
-    } else if (tipoLocalizacao == "estado") {
-        for (let i = 0; i < estados.length; i++) {
-            const estadoDaVez = estados[i]
 
-            if (local === estadoDaVez) { 
-                localizacaoUsuario = local  
-                break
+        } else if (tipoLocalizacao == "estado") {
+            for (let i = 0; i < estados.length; i++) {
+                const estadoDaVez = estados[i]
+
+                if (local === estadoDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
             }
+
+        } else {
+            // div que tem o pesquisar some ou algo parecido
+            console.log("Tipo de localização inválido.");
         }
-        
-    } else {
-    // div que tem o pesquisar some ou algo parecido
-        console.log("Tipo de localização inválido.");
-    }    
 
-    console.log(local)
-    console.log(localizacaoUsuario)
-    chamarGraficos()
+        chamarGraficos()
 
-}
+    }
 
     var estados = []
     var cidades = []

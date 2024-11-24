@@ -227,6 +227,207 @@
     let totalPaginas;
     delegacia.innerHTML = sessionStorage.DEPARTAMENTO;
 
+    var sugestoes = []
+
+    function mostrarSugestoes() {
+
+        var local = inpBuscar.value.toLowerCase();
+        var sugestoesContainer = document.getElementById('sugestoesContainer');
+
+        console.log(local)
+
+        sugestoesContainer.innerHTML = '';
+
+        sugestoes = []
+
+        if (local != '') {
+
+
+            if (tipoLocalizacao === "departamento") {
+                for (let i = 0; i < departamentos.length; i++) {
+                    const depDaVez = departamentos[i]
+
+
+                    if (depDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(depDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break
+
+                }
+            } else if (tipoLocalizacao === "cidade") {
+                for (let i = 0; i < cidades.length; i++) {
+                    const cidadeDaVez = cidades[i]
+
+
+                    if (cidadeDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(cidadeDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break;
+
+                }
+
+            } else if (tipoLocalizacao === "estado") {
+                for (let i = 0; i < estados.length; i++) {
+                    const estadoDaVez = estados[i]
+
+
+                    if (estadoDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(estadoDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break
+
+                }
+            }
+
+            sugestoes.forEach(sugestao => {
+                const divSugestao = document.createElement('div')
+                divSugestao.textContent = sugestao
+                divSugestao.classList.add('sugestao')
+
+                divSugestao.onclick = () => selecionarSugestao(sugestao)
+
+                sugestoesContainer.appendChild(divSugestao)
+            });
+        }
+    }
+
+    function selecionarSugestao(sugestao) {
+        inpBuscar.value = sugestao
+        document.getElementById('sugestoesContainer').innerHTML = ''
+        acharLocal()
+    }
+
+    function acharLocal() {
+        var local = inpBuscar.value
+
+        if (tipoLocalizacao == "departamento") {
+
+            fetch(`/departamento/buscarDepartamentoPorNome?departamentoServer=${local}`, {
+                method: "GET",
+            })
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data)
+
+                    for (let i = 0; i < departamentos.length; i++) {
+                        const depDaVez = departamentos[i]
+
+                        if (local === depDaVez) {
+                            localizacaoUsuario = data[0]["departamento_id"]
+                            break
+                        }
+                    }
+                })
+                .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+
+
+        } else if (tipoLocalizacao == "cidade") {
+            for (let i = 0; i < cidades.length; i++) {
+                const cidadeDaVez = cidades[i]
+
+                if (local === cidadeDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
+            }
+
+        } else if (tipoLocalizacao == "estado") {
+            for (let i = 0; i < estados.length; i++) {
+                const estadoDaVez = estados[i]
+
+                if (local === estadoDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
+            }
+
+        } else {
+            // div que tem o pesquisar some ou algo parecido
+            console.log("Tipo de localização inválido.");
+        }
+
+        chamarGraficos()
+
+    }
+
+    var estados = []
+    var cidades = []
+    var departamentos = []
+
+    var localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+    var tipoLocalizacao = "departamento"
+
+    function visualizarDepartamento() {
+        tipoLocalizacao = "departamento"
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarCidades() {
+        tipoLocalizacao = "cidade"
+        localizacaoUsuario = sessionStorage.CIDADE_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarEstado() {
+        tipoLocalizacao = "estado"
+        localizacaoUsuario = sessionStorage.ESTADO_USUARIO
+        chamarGraficos()
+    }
+
+    function exibirGeral() {
+        localizacaoUsuario = ""
+        tipoLocalizacao = ""
+        chamarGraficos()
+    }
+
+    function exibirMeuLocal() {
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        tipoLocalizacao = "departamento"
+        chamarGraficos()
+    }
+
+    function obterRegioes() {
+        fetch(`/dashboard/obterRegioes`, {
+            method: "GET",
+        })
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (data) {
+                console.table(JSON.stringify(data))
+
+                data.forEach(item => {
+                    estados.push(`${item.estado}`)
+                    cidades.push(`${item.cidade}`)
+                    departamentos.push(`${item.nome}`)
+                })
+
+                console.log(estados)
+                console.log(cidades)
+                console.log(departamentos)
+
+            })
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
+    }
+
+    function chamarGraficos() {
+        obterArma()
+        obterCameraCorporal()
+        obterEtnia()
+        obterFuga()
+        obterGenero()
+        obterMediaIdade()
+        obterRegioes()
+        obterTranstorno()
+        obterVitima()
+    }
+
     function mudarPagina(acao, numPagina) {
         if (acao > 0 && numPagina < totalPaginas) {
             inpNumeroPagina.value++;
