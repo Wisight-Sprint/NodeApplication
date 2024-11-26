@@ -27,12 +27,16 @@
         </a>
         <div class="container-icon" id="telaAtual"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
         <a href="gerenciamento.html">
-          <div class="container-icon"> <img class="icon-add-user" src="./Assets/adicionar-usuario 1.png"></div>
-        </a>
+          <div class="container-icon"><i class="fa-solid fa-user-gear"></i></div>
+      </a>
         <a href="map.html">
           <div class="container-icon">
             <span><i class="fa-solid fa-map-location-dot" style="color: #ffffff;"></i></span>
           </div>
+        </a>
+      </a>
+      <a href="insights.html">
+          <div class="container-icon"> <img class="icon-insights" src="./Assets/Insights.png"></div>
         </a>
         <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
         </div></a>
@@ -67,29 +71,25 @@
         <div class="dados_chamado">
           <span>12</span>
           <div class="linha_curta"></div>
-          <span>Dificuldade com sei la oq</span>
+          <span>Dificuldade com visualização do mapa do Texas</span>
         </div>
 
         <div class="chamados_encerrados">
           <h2>Chamados encerrados</h2>
           <div class="linha"></div>
-
           <span class="numero">Numero</span>
           <span>Motivo</span>
           <div class="dados_chamado">
             <span>12</span>
             <div class="linha_curta"></div>
-            <span>Dificuldade com sei la oq</span>
+            <span>Problema na criação de um novo usuário</span>
           </div>
         </div>
       </div>
     </div>
-
-
 </body>
-
 </html>
-<script>
+<!-- <script>
   window.onload = validarSessao();
 
   const nodemailer = require("nodemailer");
@@ -115,4 +115,4 @@
     }
     console.log("Email enviado: " + info.response);
   });
-</script>
+</script> -->

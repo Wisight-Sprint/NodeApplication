@@ -174,14 +174,14 @@ function obterTranstorno(localizacaoUsuario, tipoLocalizacao) {
         instrucaoSql = `
         SELECT 
         ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
-        FROM wisight.relatorio;
+        FROM wisight.vitima;
         `
     } else if (tipoLocalizacao == 'cidade') {
         instrucaoSql = `
         SELECT 
             ROUND((COUNT(CASE WHEN r.problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagem
         FROM 
-            wisight.relatorio r
+            wisight.vitima r
         JOIN 
             wisight.departamento d ON d.departamento_id = r.fk_departamento
         JOIN 

@@ -44,7 +44,7 @@ body {
         color: #FFF;
         background: transparent;
         border-bottom: solid #A9A9A9 1px;
-        border-right: solid #A9A9A9 1px;
+        /* border-right: solid #A9A9A9 1px; */
         width: 81%;
         height: 25px;
         font-size: 18px;
@@ -106,39 +106,45 @@ body {
     width: 40%;
     border: 1px solid #fff;
     border-radius: 20px;
+    background-color: #FFF; 
+    color: #000;
     height: 70%;
     margin-top: 130px;
     padding: 30px;
     padding-left: 70px;
     margin-left: 50px;
-}
 
-.chamados .linha {
-    height: 1px;
-    background-color: #fff;
-    width: 90%;
-    margin-top: -20px;
-    margin-bottom: 20px;
+    p {
+        color: #000;
+    }
+
+    h2{
+        color: #000;
+    }
+
+    span{
+        color: #000;
+    }
 }
 
 .dados_chamado {
     display: flex;
     flex-direction: row;
-    border: 1px solid #fff;
+    border: 1px solid #000;
     border-radius: 15px;
     height: 30px;
     padding: 7px;
     width: 90%;
-    margin-top: 5px;
-    padding-left: 25px;
+    align-items: center;
+    padding-left: 18px;
 }
 
 .chamados .dados_chamado .linha_curta {
     width: 1px;
-    height: 20px;
-    background-color: #FFF;
-    margin-left: 25px;
-    margin-right: 10px;
+    height: 25px;
+    background-color: #000;
+    margin-left: 18px;
+    margin-right: 18px;
     margin-top: -2px;
 }
 
