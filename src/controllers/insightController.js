@@ -12,41 +12,9 @@ function executeJar(req, res) {
   }
 
   const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  // Caminho para o arquivo .jar no servidor
-
-  //   const command = `sudo docker run --name AI-container \
-  //   -e DBHOST=23.23.14.86 \
-  //   -e DBPORT=3306 \
-  //   -e DBNAME=wisight \
-  //   -e DBURL=jdbc:mysql://23.23.14.86:3306/wisight \
-  //   -e DBDRIVER=com.mysql.cj.jdbc.Driver \
-  //   -e DBUSER=root \
-  //   -e DBPASSWORD=wisight123 \
-  //   -e INSIGHT_KEY=${valueBodyServer} \
-  //   -e INSIGHT_MESSAGE=${mensagem} \
-  //   imagem-ia && sudo docker rm AI-container
-  // `
-
-  const command = `
-  if [ $(sudo docker ps -aq -f name=AI-container) ]; then 
-    sudo docker rm -f AI-container; 
-  fi; 
-  sudo docker run --name AI-container \
-  -e DBHOST=3.84.76.96 \
-  -e DBPORT=3306 \
-  -e DBNAME=wisight \
-  -e DBURL=jdbc:mysql://3.84.76.96:3306/wisight \
-  -e DBDRIVER=com.mysql.cj.jdbc.Driver \
-  -e DBUSER=root \
-  -e DBPASSWORD=wisight123 \
-  -e INSIGHT_KEY=${insightKey} \
-  -e INSIGHT_MESSAGE=${mensagem} \
-  imagem-ia && sudo docker rm AI-container
-`;
-
 
   // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  // LOCAL = const command = `java -jar ${jarPath} ${valueBodyServer}`;
+  const command = `java -jar ${jarPath} ${insightKey} ${mensagem}`;
 
   // Executa o comando no sistema operacional
   exec(command, (error, stdout, stderr) => {
