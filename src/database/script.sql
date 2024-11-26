@@ -53,9 +53,9 @@ create table if not exists wisight.vitima (
 );
 
 create table if not exists wisight.insight (
-  insight_id int auto_increment,
+  insight_id int,
   dt_insercao datetime,
-  texto_insight varchar(2500),
+  texto_insight varchar(5000),
   fk_cidade_estado int,
   fk_departamento int,
 	foreign key (fk_cidade_estado)
@@ -63,6 +63,21 @@ create table if not exists wisight.insight (
 	foreign key (fk_departamento)
     references departamento (departamento_id),
     primary key (insight_id, fk_cidade_estado, fk_departamento)
+);
+
+create table if not exists wisight.chamados (
+  chamado_id int auto_increment,
+  assunto varchar(255),
+  descricao varchar(5000),
+  status_chamado ENUM('Criado', 'Finalizado'),
+  resposta varchar(5000),
+  dt_criacao date,
+  fk_usuario int,
+  fk_departamento int,
+  foreign key(fk_usuario)
+    references usuario (usuario_id),
+  foreign key(fk_departamento)
+    references departamento (departamento_id)
 );
 
 INSERT INTO wisight.cidade_estado (cidade_estado_id, cidade, estado) VALUES

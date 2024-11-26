@@ -20,6 +20,7 @@ const departamentoRoute = require("./src/routes/departamento");
 const dashboardRoute = require("./src/routes/dashboard");
 const apiMapaRoute = require("./src/routes/apiMapa");
 const insightRoute = require("./src/routes/insight");
+const suporteRoute = require("./src/routes/suporte");
 
 
 app.use(express.json());
@@ -33,6 +34,8 @@ app.use("/departamento", departamentoRoute);
 app.use("/dashboard", dashboardRoute)
 app.use("/apiMapa", apiMapaRoute);
 app.use("/insight", insightRoute);
+app.use("/suporte", suporteRoute);
+
 
 app.listen(PORTA_APP, function () {
   console.log(`
