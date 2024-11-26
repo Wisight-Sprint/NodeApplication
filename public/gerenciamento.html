@@ -721,14 +721,10 @@
                                 <div class="objeto"><span>${publicacao.permissao}</span></div>
                             </div>
                             <div class="div-buttons">
-                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
-                                    <img src="./Assets/btn_editar.png">
-                                </button>
-                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
-                                    <img src="./Assets/btn_deletar.png">
-                                </button>
+                                <i class="fa-regular fa-pen-to-square" style="color: #000;" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')"></i>
+                                <i class="fa-solid fa-trash" style="color: #000;" onclick="deletar(${publicacao.usuario_id})"></i>
                             </div>
-                        `;
+                                `;
                                 tamanhoDiv += 100;
                                 if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
