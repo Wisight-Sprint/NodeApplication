@@ -9,7 +9,8 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: #FFF;
+        /* background-color: #FFF; */
+        background-color: #eaf1f7;
         border-radius: 15px;
     }
 
@@ -303,6 +304,16 @@ body {
                 justify-content: space-evenly;
                 align-items: center;
                 width: 20%;
+
+                i {
+                    cursor: pointer;
+                    font-size: 20px;
+                    /* color: #000; */
+                    transition: 0.2s;
+                }
+                i:hover {
+                    transform: scale(1.2);
+                }
             }
 
             .publicacao {

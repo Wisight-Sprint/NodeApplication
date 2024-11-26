@@ -7,7 +7,7 @@ function autenticar(email, senha) {
     senha
   );
   let instrucaoSql = `
-    SELECT u.usuario_id, u.nome, u.permissao, u.pularTutorial, u.fk_departamento, d.nome as nomeDepartamento, c.estado FROM wisight.usuario u 
+    SELECT u.*, d.nome as nomeDepartamento, c.estado, c.cidade FROM wisight.usuario u 
     JOIN departamento d on u.fk_departamento = d.departamento_id
     JOIN cidade_estado c on c.cidade_estado_id = d.fk_cidade_estado
     WHERE email = '${email}' AND senha = '${senha}';
