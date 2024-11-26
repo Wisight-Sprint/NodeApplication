@@ -1,6 +1,13 @@
 const departamentoModel = require("../models/departamentoModel");
 
 function buscarDepartamentoPorNome(req, res) {
+
+  let nome = req.query.departamentoServer;
+
+  departamentoModel.buscarDepartamentoPorNome(nome)
+    .then(function (response) {
+      res.json(response);
+
   let nome = req.params.nomeDepartamento;
   let cidade = req.params.cidade;
   let estado = req.params.estado;

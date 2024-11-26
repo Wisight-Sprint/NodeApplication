@@ -21,9 +21,10 @@ function obterRegioes(req, res) {
 
 function obterMediaIdade(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
 
-  dashboardModel.obterMediaIdade(cidadeUsuario)
+  dashboardModel.obterMediaIdade(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -42,9 +43,9 @@ function obterMediaIdade(req, res) {
 
 function obterCameraCorporal(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterCameraCorporal(cidadeUsuario)
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterCameraCorporal(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -63,9 +64,9 @@ function obterCameraCorporal(req, res) {
 
 function obterTranstorno(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterTranstorno(cidadeUsuario)
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterTranstorno(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -84,9 +85,9 @@ function obterTranstorno(req, res) {
 
 function obterGenero(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterGenero(cidadeUsuario)
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterGenero(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -105,9 +106,9 @@ function obterGenero(req, res) {
 
 function obterArma(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterArma(cidadeUsuario)
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterArma(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -126,9 +127,9 @@ function obterArma(req, res) {
 
 function obterEtnia(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterEtnia(cidadeUsuario)
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterEtnia(localizacaoUsuario, tipoLocalizacao)
     .then(function (response) {
       res.json(response);
     })
@@ -147,41 +148,41 @@ function obterEtnia(req, res) {
 
 function obterFuga(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterFuga(localizacaoUsuario, tipoLocalizacao)
+    .then(function (response) {
+      res.json(response);
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log(
+        "\nHouve um erro ao buscar as fugas! Erro: ",
+        erro.sqlMessage
+      );
+      res.status(500).json(erro.sqlMessage);
+    });
 
-  dashboardModel.obterFuga(cidadeUsuario)
-  .then(function (response) {
-    res.json(response);
-  })
-  .catch(function (erro) {
-    console.log(erro);
-    console.log(
-      "\nHouve um erro ao buscar as fugas! Erro: ",
-      erro.sqlMessage
-    );
-    res.status(500).json(erro.sqlMessage);
-  });
-
-console.log(res);
+  console.log(res);
 
 }
 
-function obterVitima(req, res){
+function obterVitima(req, res) {
 
-  const cidadeUsuario = req.query.cidadeServerUsuario
-
-  dashboardModel.obterVitima(cidadeUsuario)
-  .then(function (response) {
-    res.json(response);
-  })
-  .catch(function (erro) {
-    console.log(erro);
-    console.log(
-      "\nHouve um erro ao buscar as vitimas! Erro: ",
-      erro.sqlMessage
-    );
-    res.status(500).json(erro.sqlMessage);
-  });
+  const localizacaoUsuario = req.query.cidadeServerUsuario
+  const tipoLocalizacao = req.query.tipoLocalizacaoServer
+  dashboardModel.obterVitima(localizacaoUsuario, tipoLocalizacao)
+    .then(function (response) {
+      res.json(response);
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log(
+        "\nHouve um erro ao buscar as vitimas! Erro: ",
+        erro.sqlMessage
+      );
+      res.status(500).json(erro.sqlMessage);
+    });
 
 }
 

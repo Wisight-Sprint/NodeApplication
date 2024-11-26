@@ -104,6 +104,13 @@
     <div class="all-indicators">
         <div class="inline-row">
             <div class="title-page">Vítimas Por<br>Departamento</div>
+          <div class="sugests" id="sugests">
+                <input id="inpBuscar" class="city" name="inpBuscar" oninput="mostrarSugestoes()">
+                <div id="sugestoesContainer"></div>
+            </div>
+            <button onclick="acharLocal()" style="height: 25px; width: 25px; margin-top: 30px; border-radius: 5px;"><img
+                    src="./Assets/pesquisa.png" alt="" style="height: 15px; width: 15px;"></button>
+            <img class="icon-location" src="./Assets/location-icon.png">
             <div class="informacoes">
                 <div class="localizacao">
                     <span>Washington, DC</span>
@@ -185,68 +192,195 @@
 
 <script>
 
-    window.onload = validarSessao();
+    window.onload = validarSessao()
+
+    var sugestoes = []
+
+    function mostrarSugestoes() {
+
+        var local = inpBuscar.value.toLowerCase();
+        var sugestoesContainer = document.getElementById('sugestoesContainer');
+
+        console.log(local)
+
+        sugestoesContainer.innerHTML = '';
+
+        sugestoes = []
+
+        if (local != '') {
 
 
+            if (tipoLocalizacao === "departamento") {
+                for (let i = 0; i < departamentos.length; i++) {
+                    const depDaVez = departamentos[i]
 
-    const vitimas2023 = [120, 160, 120, 110];
-    const vitimas2024 = [145, 140, 130, 140];
 
-    const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
+                    if (depDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(depDaVez)
+                    }
 
-    function getColor(value, year) {
-        //if (value > 150) return 'rgb(255, 0, 0)'; 
-        return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
+                    if (sugestoes.length >= 5) break
+
+                }
+            } else if (tipoLocalizacao === "cidade") {
+                for (let i = 0; i < cidades.length; i++) {
+                    const cidadeDaVez = cidades[i]
+
+
+                    if (cidadeDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(cidadeDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break;
+
+                }
+
+            } else if (tipoLocalizacao === "estado") {
+                for (let i = 0; i < estados.length; i++) {
+                    const estadoDaVez = estados[i]
+
+
+                    if (estadoDaVez.toLowerCase().includes(local)) {
+                        sugestoes.push(estadoDaVez)
+                    }
+
+                    if (sugestoes.length >= 5) break
+
+                }
+            }
+
+            sugestoes.forEach(sugestao => {
+                const divSugestao = document.createElement('div')
+                divSugestao.textContent = sugestao
+                divSugestao.classList.add('sugestao')
+
+                divSugestao.onclick = () => selecionarSugestao(sugestao)
+
+                sugestoesContainer.appendChild(divSugestao)
+            });
+        }
     }
 
+    function selecionarSugestao(sugestao) {
+        inpBuscar.value = sugestao
+        document.getElementById('sugestoesContainer').innerHTML = ''
+        acharLocal()
+    }
+
+    function acharLocal() {
+        var local = inpBuscar.value
+
+        if (tipoLocalizacao == "departamento") {
+
+            fetch(`/departamento/buscarDepartamentoPorNome?departamentoServer=${local}`, {
+                method: "GET",
+            })
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data)
+
+                    for (let i = 0; i < departamentos.length; i++) {
+                        const depDaVez = departamentos[i]
+
+                        if (local === depDaVez) {
+                            localizacaoUsuario = data[0]["departamento_id"]
+                            break
+                        }
+                    }
+                })
+                .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
 
 
-    // vai ter que verificar se o usario pode ou não mudar a sua localização
-    // function verificarCargo() {
-    //    if (cargo != policial) {
-    //    obterRegioes();
-    //    exibir a pesquisa de região, e o cadastro de funcionario        
-    //    }
-    // }
+        } else if (tipoLocalizacao == "cidade") {
+            for (let i = 0; i < cidades.length; i++) {
+                const cidadeDaVez = cidades[i]
 
-    var regioes = []
+                if (local === cidadeDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
+            }
 
-    var cidadeUsuario = sessionStorage.CIDADE_USUARIO;
+        } else if (tipoLocalizacao == "estado") {
+            for (let i = 0; i < estados.length; i++) {
+                const estadoDaVez = estados[i]
+
+                if (local === estadoDaVez) {
+                    localizacaoUsuario = local
+                    break
+                }
+            }
+
+        } else {
+            // div que tem o pesquisar some ou algo parecido
+            console.log("Tipo de localização inválido.");
+        }
+
+        chamarGraficos()
+
+    }
+
+    var estados = []
+    var cidades = []
+    var departamentos = []
+
+    var localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+    var tipoLocalizacao = "departamento"
+
+    function visualizarDepartamento() {
+        tipoLocalizacao = "departamento"
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarCidades() {
+        tipoLocalizacao = "cidade"
+        localizacaoUsuario = sessionStorage.CIDADE_USUARIO
+        chamarGraficos()
+    }
+
+    function visualizarEstado() {
+        tipoLocalizacao = "estado"
+        localizacaoUsuario = sessionStorage.ESTADO_USUARIO
+        chamarGraficos()
+    }
+
+    function exibirGeral() {
+        localizacaoUsuario = ""
+        tipoLocalizacao = ""
+        chamarGraficos()
+    }
+
+    function exibirMeuLocal() {
+        localizacaoUsuario = sessionStorage.DEPARTAMENTO_USUARIO
+        tipoLocalizacao = "departamento"
+        chamarGraficos()
+    }
 
     function obterRegioes() {
         fetch(`/dashboard/obterRegioes`, {
             method: "GET",
         })
             .then(function (response) {
-                return response.json();
+                return response.json()
             })
             .then(function (data) {
-                console.table(JSON.stringify(data));
+                console.table(JSON.stringify(data))
 
                 data.forEach(item => {
-                    regioes.push(`cidade: ${item.cidade}, ${item.estado}`)
-
+                    estados.push(`${item.estado}`)
+                    cidades.push(`${item.cidade}`)
+                    departamentos.push(`${item.nome}`)
                 })
 
+                console.log(estados)
+                console.log(cidades)
+                console.log(departamentos)
 
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
-
-    function exibirGeral() {
-        cidadeUsuario = ""
-        chamarGraficos()
-    }
-
-    function exibirMeuLocal() {
-        cidadeUsuario = sessionStorage.CIDADE_USUARIO
-        chamarGraficos()
-    }
-
-    function exibirLocalEspecifico() {
-        // essa função é chamada so quando o cara clica pra pesquisar
-        cidadeUsuario = pesquisarCidade.value
-        chamarGraficos()
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function chamarGraficos() {
@@ -262,12 +396,12 @@
     }
 
     function obterMediaIdade() {
-        fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Element = document.getElementById('h1AgesIncident')
@@ -279,16 +413,16 @@
                 h1Element.innerText = idadeMedia
                 pElement.innerText = `Representando ${pctMortes}% do total de Mortes`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterCameraCorporal() {
-        fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Camera = document.getElementById('h1BodyCam')
@@ -296,16 +430,16 @@
                 pctCamera = pctCamera.toFixed(2)
                 h1Camera.innerText = `${pctCamera}%`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterTranstorno() {
-        fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Mental = document.getElementById('h1MentalDisorder')
@@ -313,16 +447,16 @@
                 pctMental = pctMental.toFixed(2)
                 h1Mental.innerText = `${pctMental}%`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
     }
 
     function obterGenero() {
-        fetch(`/dashboard/obterGenero?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterGenero?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                    throw new Error(`Erro na requisição: ${response.statusText}`)
                 }
-                return response.json();
+                return response.json()
             })
             .then(data => {
                 var h1Element = document.getElementById('h1Gende')
@@ -333,19 +467,19 @@
                 h1Element.innerText = genero
                 pElement.innerText = `Representando ${pctMortes}% dos incidentes`
             })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`))
 
     }
 
     function obterVitima() {
-        fetch(`/dashboard/obterVitima?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterVitima?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
-                return response.json();
+                return response.json()
             })
             .then(function (data) {
                 let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-                let vitimas2023 = new Array(12).fill(0);
-                let vitimas2024 = new Array(12).fill(0);
+                let vitimas2023 = new Array(12).fill(0)
+                let vitimas2024 = new Array(12).fill(0)
 
                 data.forEach(function (item) {
                     if (item.ano === 2023) {
@@ -373,7 +507,7 @@
                         },
                         labels: {
                             formatter: function () {
-                                return this.value;
+                                return this.value
                             }
                         }
                     },
@@ -384,7 +518,7 @@
                         },
                         labels: {
                             formatter: function () {
-                                return this.value;
+                                return this.value
                             }
                         }
                     },
@@ -416,7 +550,7 @@
 
 
     function obterArma() {
-        fetch(`/dashboard/obterArma?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterArma?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -424,16 +558,14 @@
                 console.log(data)
 
                 let armamentos = {
-                    'Nenhum': 0,
-                    'Facão': 0,
+                    'Não armado': 0,
                     'Arma de fogo': 0,
-                    'Faca': 0,
                     'Arma Branca': 0
                 };
 
                 data.forEach(function (item) {
                     if (armamentos[item.armamento] !== undefined) {
-                        armamentos[item.armamento] = item.quantidade;
+                        armamentos[item.armamento] = item.quantidade
                     }
                 });
 
@@ -445,42 +577,36 @@
                 // ];
 
                 myChart.data.datasets[0].data = [
-                    armamentos['Nenhum'],
-                    armamentos['Facão'],
+                    armamentos['Não armado'],
                     armamentos['Arma de fogo'],
-                    armamentos['Faca'],
                     armamentos['Arma branca']
                 ];
 
                 myChart.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
     }
 
-    const ctx2 = document.getElementById('PieChart');
+    const ctx2 = document.getElementById('PieChart')
 
     const myChart = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Facão', 'Arma de fogo', 'Faca', 'Arma branca'],
+            labels: ['Desarmado', 'Arma de fogo', 'Arma branca'],
             datasets: [{
                 label: 'Distribuição de armas',
                 data: [0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgba(128, 128, 128, 1)',
                     'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    'rgba(44, 65, 89, 1)'
                 ],
                 borderColor: [
                     'rgba(128, 128, 128, 1)',
                     'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    'rgba(44, 65, 89, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -503,7 +629,7 @@
 
 
     function obterEtnia() {
-        fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -520,7 +646,7 @@
 
                 data.forEach(function (item) {
                     if (etnias[item.etnia] !== undefined) {
-                        etnias[item.etnia] = item.quantidade;
+                        etnias[item.etnia] = item.quantidade
                     }
                 });
 
@@ -543,7 +669,7 @@
                 myChartEtnia.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
     }
 
@@ -592,7 +718,7 @@
 
     function obterFuga() {
 
-        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${localizacaoUsuario}&tipoLocalizacaoServer=${tipoLocalizacao}`, { cache: 'no-store' })
             .then(function (response) {
                 return response.json()
             })
@@ -601,13 +727,13 @@
 
                 let fugas = {
                     'A pé': 0,
-                    'Carro': 0,
-                    'Não fugiu': 0
+                    'Veículo': 0,
+                    'Sem tentativa': 0
                 };
 
                 data.forEach(function (item) {
                     if (fugas[item.fuga] !== undefined) {
-                        fugas[item.fuga] = item.quantidade;
+                        fugas[item.fuga] = item.quantidade
                     }
                 });
 
@@ -621,19 +747,19 @@
 
                 myChartFuga.data.datasets[0].data = [
                     fugas['A pé'],
-                    fugas['Carro'],
-                    fugas['Não fugiu']
+                    fugas['Veículo'],
+                    fugas['Sem tentativa']
                 ];
 
                 myChartFuga.update();
             })
             .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
+                console.log("Ocorreu um erro:", error)
             });
 
     }
 
-    const ctx4 = document.getElementById('PieChart3');
+    const ctx4 = document.getElementById('PieChart3')
 
     const myChartFuga = new Chart(ctx4, {
         type: 'pie',
