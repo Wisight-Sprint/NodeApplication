@@ -2,10 +2,11 @@ const insightModel = require("../models/insightModel");
 const { exec } = require("child_process");
 
 function executeJar(req, res) {
-  const insightKey = req.body.insightKeyServer;
+  const insightKey1 = req.body.insightKeyServer1;
+  const insightKey2 = req.body.insightKeyServer2;
   const mensagem = req.body.mensagemServer;
 
-  if (insightKey == "" || mensagem == "") {
+  if (insightKey1 == "" || insightKey2 == "" || mensagem == "") {
     return res
       .status(400)
       .json({ success: false, message: "Valor não fornecido no body" });
@@ -14,7 +15,7 @@ function executeJar(req, res) {
   const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
   // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  const command = `java -jar ${jarPath} ${insightKey} ${mensagem}`;
+  const command = `java -jar ${jarPath} ${insightKey1} ${insightKey2} ${mensagem}`;
 
   // Executa o comando no sistema operacional
   exec(command, (error, stdout, stderr) => {
