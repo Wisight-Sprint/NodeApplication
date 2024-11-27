@@ -52,13 +52,15 @@ function deletarUsuario(usuario_id) {
   return database.executar(instrucaoSql);
 }
 
-function buscarUsuarioPorDepartamento(fk_departamento) {
+function buscarUsuarioPorDepartamento(nome_departamento) {
   console.log(
     "ACESSEI O userModel \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscarUsuarioPorDepartamento(): ",
   );
   let instrucaoSql = `
-          SELECT * FROM wisight.usuario WHERE fk_departamento = '${fk_departamento}';
-      `;
+          SELECT d.nome AS departamento, u.* FROM usuario u
+          JOIN wisight.departamento d
+          ON d.departamento_id = u.fk_departamento
+          WHERE d.nome = '${nome_departamento}';`;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }

@@ -1,5 +1,20 @@
 const departamentoModel = require("../models/departamentoModel");
 
+function buscarTodosOsDepartamentos(req, res) {
+console.log("Entrei no buscarTodos controller");
+
+  departamentoModel
+    .buscarTodosOsDepartamentos()
+    .then(function (resultado) {
+      res.json(resultado);
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("\nHouve um erro ao buscar todos os departamentos", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function buscarDepartamentoPorNome(req, res) {
   let nome = req.params.nomeDepartamento;
   let cidade = req.params.cidade;
@@ -61,5 +76,6 @@ function buscarDepartamentoPorNome(req, res) {
 }
 
 module.exports = {
-  buscarDepartamentoPorNome,
+  buscarTodosOsDepartamentos,
+  buscarDepartamentoPorNome
 };

@@ -1,5 +1,18 @@
 const database = require("../database/config");
 
+function buscarTodosOsDepartamentos() {
+  console.log(
+    "function buscarTodosOsDepartamentos(): ",
+    
+  );
+  let instrucaoSql = `
+          SELECT departamento_id, nome
+          FROM wisight.departamento;
+      `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 function buscarDepartamentoPorNome(nome, cidade, estado) {
   console.log(
     "function buscarDepartamentoPorNome(nome, cidade, estado): ",
@@ -60,6 +73,7 @@ function cadastrarDepartamento(nome, idCidadeEstado) {
 }
 
 module.exports = {
+  buscarTodosOsDepartamentos,
   buscarDepartamentoPorNome,
   buscarCidadeEstado,
   cadastrarCidadeEstado,
