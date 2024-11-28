@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/sessao.js"></script>
+    <link rel="stylesheet" href="./css/gerenciamento.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Gerenciamento | Wisight</title>
+</head>
+
+<body onload="filtro(selectFiltro.value, inpPesquisa, false)">
+
+</body>
+
+</html>
+
+<script>
+    let idUsuario;
+    let permissaoDeAdministrador = true;
+    let totalPaginas;
+    delegacia.innerHTML = sessionStorage.NOME_DEPARTAMENTO;
+    inpPermissaoNovo.disabled = true;
+    inpPermissaoNovo.style.cursor = "not-allowed";
+
+    function mudarPagina(acao, numPagina) {
+        if (acao > 0 && numPagina < totalPaginas) {
+            inpNumeroPagina.value++;
+            paginacao();
+        }
+        if (acao < 0 && numPagina > 1) {
+            inpNumeroPagina.value--;
+            paginacao();
+        }
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+        btnAdicionarDepartamento.style.display = "flex";
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Usuário") {
+        permissaoDeAdministrador = false;
+        const inputsRestritos = document.querySelectorAll('[name="restrito"]');
+
+        inputsRestritos.forEach(input => {
+            input.addEventListener("mouseenter", function () {
+                input.style.cursor = "not-allowed";
+                input.disabled = true;
+            });
+
+            input.addEventListener("mouseleave", function () {
+                input.style.cursor = "default";
+                input.disabled = false;
+            });
+        });
+
+        divCadastrar.style.display = "none";
+    }
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Externo") {
+        permissaoDeAdministrador = false;
+        modalEditar.innerHTML = `
+        <div class="container">
+            <div class="cabecalho">
+                <header>Gerenciar Usuário</header>
+                <i class="fa-solid fa-xmark" onclick="sairEditar()"></i>
+                </div>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Nome</p>
+                            <div class="input-container">
+                                <input type="text" id="inpNomeEditar">
+                            </div>
+                        </div>
+                        <div class="perguntaExterno">
+                            <p>Email</p>
+                            <div class="input-container">
+                                <input type="text" id="inpEmailEditar">
+                                </div>
+                                </div>
+                                </div>
+                    <div class="caixas_pergunta">
+                        <div class="perguntaExterno">
+                            <p>Senha</p>
+                            <div class="input-container">
+                                <input type="password" id="inpSenhaEditar">
+                                <i class="fa-solid fa-eye" id="eyeInpSenhaEditar" style="color: black"
+                                onclick="togglePasswordVisibility(inpSenhaEditar, eyeInpSenhaEditar)"></i>
+                                </div>
+                                </div>
+                                <div class="perguntaExterno">
+                                    <p>Confirmar senha</p>
+                                    <div class="input-container">
+                                        <input type="password" id="inpConfSenhaEditar">
+                                        <i class="fa-solid fa-eye" id="eyeInpConfSenhaEditar" style="color: black"
+                                        onclick="togglePasswordVisibility(inpConfSenhaEditar, eyeInpConfSenhaEditar)"></i>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div class="caixa_button_editarExterno">
+                                            <button onclick="editar()">Editar</button>
+                                            <input id="inpPermissaoEditar" value="Externo" style="display: none;"></input>
+                                            <input id="inpDistintivoEditar" value="null" style="display: none;"></input>
+                                            </div>
+                                            </div>`;
+        divCadastrar.style.display = "none";
+    }
+
+    async function criarChamado() {
+        if (permissaoDeAdministrador) {
+            let assunto = inpAssunto.value
+            let descricao = iptDescricao.value
+            let usuario_id = sessionStorage.getItem('USUARIO_ID')
+            let respostaInicial = "";
+            let fk_departamento = sessionStorage.getItem('ID_DEPARTAMENTO')
+            if (validacaoChamado(assunto, descricao)) {
+                try {
+                    let dt_criacao = new Date();
+                    let status_chamado = "Criado"
+                    const responseCadastro = await fetch("suporte/criarChamado", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            assuntoServer: assunto,
+                            descricaoServer: descricao,
+                            usuario_idServer: usuario_id,
+                            dt_criacaoServer: dt_criacao,
+                            status_chamadoServer: status_chamado,
+                            respostaInicialServer: respostaInicial,
+                            fk_departamentoServer: fk_departamento
+                        }),
+                    });
+                    if (responseCadastro.ok) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Chamado criado com sucesso!",
+                            background: "#FFF",
+                            color: "#000",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        filtro(selectFiltro.value, inpPesquisa, false);
+                    } else {
+                        const errorText = await responseCadastro.text();
+                        throw new Error("Erro ao criar chamado: " + errorText);
+                    }
+
+                } catch (error) {
+                    console.log("Erro:", error);
+                }
+            }
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de administrador para cadastrar um novo usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function deletarChamado(chamado_id) {
+        if (sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Ao confirmar, o chamado será excluído permanentemente!",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/suporte/deletarChamado/`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            chamado_idServer: chamado_id
+                        }),
+
+                    }).then(function (resposta) {
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Chamado removido com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                            filtro(selectFiltro.value, inpPesquisa, false);
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a excluir o chamado! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                }
+            })
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão de Desenvolvedor para remover um chamado.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function irEditar(usuario_id, assunto, descricao, status_chamado, resposta, dt_criacao) {
+
+        if (permissaoDeAdministrador || usuario_id == sessionStorage.ID_USUARIO) {
+            document.body.style.overflow = 'hidden';
+            idUsuario = usuario_id;
+            modalEditar.style = `display: flex`;
+            inpNomeEditar.value = nome;
+            inpEmailEditar.value = email;
+            inpSenhaEditar.value = senha;
+        } else {
+            Swal.fire({
+                title: "ERRO",
+                text: "É necessária permissão para editar um usuário.",
+                icon: "error",
+                background: '#FFF',
+                color: '#000',
+                position: 'bottom-right',
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 2000
+            });
+        }
+    }
+
+    function editar() {
+        let chamado_id = idChamado;
+        let assunto = inpAssuntoEditar.value;
+        let descricao = inpDescricaoEditar.value;
+
+
+        if (validacaoChamado(assunto, descricao)) {
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Deseja alterar os dados deste chamado?",
+                icon: "warning",
+                background: "#FFF",
+                color: "#000",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/suporte/atualizarChamado/`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idServer: usuario_id,
+                            nomeServer: nome,
+                            permissaoServer: permissao,
+                            emailServer: email,
+                            senhaServer: senha,
+                            distintivoServer: distintivo
+                        })
+                    }).then(function (resposta) {
+
+                        if (resposta.ok) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Usuário modificado com sucesso!",
+                                background: "#FFF",
+                                color: "#000",
+                                showConfirmButton: false,
+                                timer: 1000,
+                            });
+
+                            sessionStorage.NOME_USUARIO = nome;
+                            sessionStorage.PERMISSAO_USUARIO = permissao;
+                            filtro(selectFiltro.value, inpPesquisa, false);
+                            sairEditar();
+                        } else if (resposta.status == 404) {
+                            window.alert("Deu 404!");
+                        } else {
+                            throw ("Houve um erro ao tentar realizar a edição! Código da resposta: " + resposta.status);
+                        }
+                    }).catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                } else {
+                    sairEditar();
+                }
+            }
+            )
+        }
+    }
+
+    function sairEditar() {
+        document.body.style.overflow = 'auto';
+        inpSenhaEditar.type = "password";
+        eyeInpSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        eyeInpConfSenhaEditar.classList.replace("fa-eye", "fa-eye-slash");
+        inpConfSenhaEditar.type = "password";
+        inpConfSenhaEditar.value = "";
+        modalEditar.style = `display: none`;
+    }
+
+    function atualizarListaChamados(temFiltro, filtro, filtroValue) {
+        let departamento = sessionStorage.ID_DEPARTAMENTO;
+        let numeroPagina = Number(inpNumeroPagina.value);
+        let tamanhoPagina = Number(inpTamanhoPagina.value);
+        tamanhoPagina = tamanhoPagina || 10;
+
+        fetch(`/suporte/buscarTodosChamadosAtivos/`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var listaChamados = document.getElementById("listaChamados_container");
+                        listaChamados.innerHTML = "";
+                        var chamado_container = document.createElement("span");
+                        chamado_container.innerHTML = "Nenhum usuário encontrado.";
+                        listaChamados.appendChild(chamado_container);
+                        return;
+                    }
+
+                    resposta.json().then(function (chamados) {
+
+                        let filtroChamados = chamados;
+
+                        if (temFiltro) {
+                            filtroChamados = chamados.filter(chamado => {
+                                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
+                                if (filtro === "assunto") {
+                                    return chamado.assunto
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
+                                } else if (filtro === "dt_criacao") {
+                                    return chamado.dt_criacao.startsWith(filtroValue);
+                                } else if (filtro === "departamento") {
+                                    return chamado.departamento.toLowerCase().startsWith(filtroValue.toLowerCase());
+                                }
+                                return false;
+                            });
+
+                        } else {
+                            filtroUsuarios = usuarios;
+                        }
+
+
+                        let totalChamados = filtroChamados.length;
+                        totalPaginas = Math.ceil(totalChamados / tamanhoPagina);
+                        inpTotalPaginas.innerHTML = totalPaginas;
+
+                        let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
+                        let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+
+                        let listaChamados = document.getElementById("listaChamados_container");
+                        listaChamados.innerHTML = `
+                        <div class="cabecalho">
+                            <div class="div-objetos">
+                                <div class="objeto">
+                                    <span>Assunto</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Descrição</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Status</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Data de criação</span>
+                                </div>
+                                 <div class="objeto">
+                                    <span>Resposta</span>
+                                </div>
+                            </div>
+                            <div class="div-buttons">
+                                <span>Ações</span>
+                            </div>
+                        </div>`;
+                        let tamanhoDiv = 50;
+                        if (filtroChamados.length > 0) {
+                            for (let u = primeiroItem; u < ultimoItem; u++) {
+                                let publicacao = filtroChamados[u];
+
+                                let divPublicacao = document.createElement("div");
+                                divPublicacao.className = "publicacao";
+                                divPublicacao.innerHTML = `
+                            <div class="div-objetos">
+                                <div class="objeto"><span>${publicacao.assunto}</span></div>
+                                <div class="objeto"><span>${publicacao.descricao}</span></div>
+                                <div class="objeto"><span>${publicacao.status_chamado}</span></div>
+                                <div class="objeto"><span>${publicacao.dt_criacao}</span></div>
+                                <div class="objeto"><span>${publicacao.resposta}</span></div>
+                            </div>
+                            <div class="div-buttons">
+                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.assunto}', '${publicacao.descricao}')">
+                                    <img src="./Assets/btn_editar.png">
+                                </button>
+                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.chamado_id})">
+                                    <img src="./Assets/btn_deletar.png">
+                                </button>
+                            </div>
+                        `;
+                                tamanhoDiv += 100;
+                                if (tamanhoDiv < 500) listaChamados.style.minHeight = `${tamanhoDiv}px`;
+                                listaChamados.appendChild(divPublicacao);
+                            }
+
+                            if (totalPaginas < numeroPagina) {
+                                inpNumeroPagina.value = filtroChamados.length;
+                                atualizarListaChamados();
+                            }
+                        } else {
+                            listaChamados.innerHTML = `
+                            <div class="error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Nenhum chamado encontrado</span>
+                            </div>`;
+                            chamado_container.innerHTML = "Nenhum chamado encontrado.";
+                            listaChamados.appendChild(chamado_container);
+                            inpNumeroPagina.value = 1;
+                            return;
+                        }
+                    })
+                }
+            })
+            .catch(function (error) {
+                console.error("Erro ao buscar chamados:", error);
+            });
+
+    }
+
+    function filtro(select, inputName, passouPorPaginacao) {
+        const temFiltro = select !== "#";
+        inputName.disabled = !temFiltro;
+        inputName.placeholder = temFiltro ? `Digite o ${select} desejado...` : "Selecione um campo para filtrar...";
+        if (!temFiltro) inputName.value = "";
+        if (!passouPorPaginacao) {
+            inpNumeroPagina.value = 1;
+        } else {
+            inpNumeroPagina.value = inpNumeroPagina.value;
+        }
+        atualizarListaChamados(temFiltro, select, inputName.value);
+    }
+
+    function mudarContainer(nome, distintivo, email, permissao, senha, confSenha) {
+
+        const administradorDisplay = window.getComputedStyle(containerAdicionarAdministrador).display;
+
+        if (administradorDisplay === "block") {
+            let nomeValue = nome.value;
+            let distintivoValue = distintivo.value;
+            let emailValue = email.value;
+            let permissaoValue = permissao.value;
+            let senhaValue = senha.value;
+            let confSenhaValue = confSenha.value;
+            if (validacaoChamado(nome, email, senha, confSenha, distintivo, permissao)) {
+                nome.value = nomeValue;
+                distintivo.value = distintivoValue;
+                email.value = emailValue;
+                permissao.value = permissaoValue;
+                senha.value = senhaValue;
+                confSenha.value = confSenhaValue;
+
+                containerAdicionarAdministrador.style.display = "none";
+                containerAdicionarDepartamento.style.display = "block";
+
+            } else permissao.value = "Administrador";
+        } else {
+            containerAdicionarAdministrador.style.display = "block";
+            containerAdicionarDepartamento.style.display = "none";
+        }
+    }
+
+    function paginacao() {
+        filtro(selectFiltro.value, inpPesquisa, true);
+    }
+
+    function validacaoChamado(assunto, descricao) {
+        if (assunto.value.length < 3) setFieldError(assunto, "Assunto muito curto.");
+        else setFieldSpecificSuccess(assunto);
+        if (descricao.value.length < 10) setFieldError(descricao, "Descrição muito curta.");
+        else setFieldSpecificSuccess(distintivo);
+        if (assunto.value.length >= 3 && descricao.value.length >= 10) {
+            setFieldAllSuccess(assunto);
+            setFieldAllSuccess(descricao);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setFieldError(input, message) {
+        input.value = "";
+        input.placeholder = message;
+        input.style.borderBottom = "solid red 2px";
+    }
+
+    function setFieldSpecificSuccess(input) {
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    function setFieldAllSuccess(input) {
+        input.value = "";
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style.borderBottom = "solid rgba(255, 255, 255, 0.5) 1px";
+    }
+
+    setInterval(() => {
+        filtro(selectFiltro.value, inpPesquisa, false);
+    }, 20000);
+</script>

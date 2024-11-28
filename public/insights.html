@@ -146,27 +146,30 @@
 
   function getValuesForJava(mensagemTexto) {
     const userPermission = sessionStorage.getItem("PERMISSAO_USUARIO");
-    let userInsightKey;
+    let userInsightKey1;
+    let userInsightKey2;
     let bodyServerName;
     let whereParam;
     let joinParam;
 
     if (userPermission == "Externo") {
-      userInsightKey = sessionStorage.getItem("ESTADO_USUARIO");
+      userInsightKey1 = sessionStorage.getItem("ESTADO_USUARIO");
+      userInsightKey2 = sessionStorage.getItem("ID_DEPARTAMENTO")
       whereParam = "fk_cidade_estado";
       joinParam = "JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id";
       sendValueForJava(userInsightKey, mensagemTexto);
-      //getInsights(userInsightKey, whereParam, joinParam);
+      getInsights(userInsightKey, whereParam, joinParam);
     } else {
-      userInsightKey = sessionStorage.getItem("ID_DEPARTAMENTO");
+      userInsightKey1 = sessionStorage.getItem("ID_DEPARTAMENTO");
+      userInsightKey2 = sessionStorage.getItem("ESTADO_USUARIO");
       whereParam = "fk_departamento";
       joinParam = "JOIN departamento d on i.fk_departamento = d.departamento_id";
-      sendValueForJava(userInsightKey, mensagemTexto);
-      //getInsights(userInsightKey, whereParam, joinParam);
+      sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto);
+      getInsights(userInsightKey, whereParam, joinParam);
     }
   }
 
-  function sendValueForJava(userInsightKey, mensagemTexto) {
+  function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
     if (userInsightKey && mensagemTexto) {
       fetch("/insight/executeJar", {
         method: "POST",
@@ -174,7 +177,8 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          insightKeyServer: userInsightKey,
+          insightKeyServer1: userInsightKey1,
+          insightKeyServer2: userInsightKey2,
           mensagemServer: mensagemTexto
         })
       })

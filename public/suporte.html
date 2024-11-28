@@ -28,14 +28,14 @@
         <div class="container-icon" id="telaAtual"> <img class="icon-support" src="./Assets/apoio-suporte 1.png"></div>
         <a href="gerenciamento.html">
           <div class="container-icon"><i class="fa-solid fa-user-gear"></i></div>
-      </a>
+        </a>
         <a href="map.html">
           <div class="container-icon">
             <span><i class="fa-solid fa-map-location-dot" style="color: #ffffff;"></i></span>
           </div>
         </a>
-      </a>
-      <a href="insights.html">
+        </a>
+        <a href="insights.html">
           <div class="container-icon"> <img class="icon-insights" src="./Assets/Insights.png"></div>
         </a>
         <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
@@ -88,7 +88,253 @@
       </div>
     </div>
 </body>
+
 </html>
+
+<script>
+  window.onload(buscarTodosChamadosAtivos)
+
+  function buscarTodosChamadosAtivos() {
+    var chamadosAtivos = [];
+
+    fetch("/suporte/buscarTodosChamadosAtivos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          res.json().then(json => {
+            console.log("chamados recebidos aqui")
+            // chamadosAtivos = chamados 
+          });
+        } else {
+          res.text().then(texto => {
+            throw "error" + texto;
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Erro na requisição:", error);
+      });
+  }
+
+  function buscarTodosChamadosFinalizados() {
+    var chamadosFinalizados = [];
+
+    fetch("/suporte/buscarTodosChamadosFinalizados", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          res.json().then(json => {
+            console.log("chamados recebidos aqui")
+            // chamadosFinalizados = chamados 
+          });
+        } else {
+          res.text().then(texto => {
+            throw "error" + texto;
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Erro na requisição:", error);
+      });
+  }
+
+  function deletar(usuario_id, chamado_id) {
+    if (permissaoDeAdministrador) {
+      Swal.fire({
+        title: "Tem certeza?",
+        text: "Ao confirmar, o chamado será excluído permanentemente!",
+        icon: "warning",
+        background: "#FFF",
+        color: "#000",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/suporte/deletarChamado/`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              usuario_idServer: usuario_id,
+              chamado_idServer: chamado_id
+            }),
+
+          }).then(function (resposta) {
+            if (resposta.ok) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Usuário removido com sucesso!",
+                background: "#FFF",
+                color: "#000",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              filtro(selectFiltro.value, inpPesquisa, false);
+            } else if (resposta.status == 404) {
+              window.alert("Deu 404!");
+            } else {
+              throw ("Houve um erro ao tentar realizar a excluir usuário! Código da resposta: " + resposta.status);
+            }
+          }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+        }
+      })
+    } else {
+      Swal.fire({
+        title: "ERRO",
+        text: "É necessária permissão de administrador para remover um usuário.",
+        icon: "error",
+        background: '#FFF',
+        color: '#000',
+        position: 'bottom-right',
+        showConfirmButton: false,
+        showCancelButton: false,
+        timer: 2000
+      });
+    }
+  }
+
+  function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
+    let departamento = sessionStorage.ID_DEPARTAMENTO;
+    let numeroPagina = Number(inpNumeroPagina.value);
+    let tamanhoPagina = Number(inpTamanhoPagina.value);
+    tamanhoPagina = tamanhoPagina || 10;
+
+    fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
+      .then(function (resposta) {
+        if (resposta.ok) {
+          if (resposta.status == 204) {
+            var listaUsuarios = document.getElementById("listaUsuarios_container");
+            listaUsuarios.innerHTML = "";
+            var usuario_container = document.createElement("span");
+            usuario_container.innerHTML = "Nenhum usuário encontrado.";
+            listaUsuarios.appendChild(usuario_container);
+            return;
+          }
+
+          resposta.json().then(function (usuarios) {
+
+            let filtroUsuarios = usuarios;
+
+            if (temFiltro) {
+              filtroUsuarios = usuarios.filter(usuario => {
+                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
+                if (filtro === "nome") {
+                  return usuario.nome
+                    .toLowerCase()
+                    .split(" ")
+                    .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
+                } else if (filtro === "distintivo") {
+                  return usuario.numero.startsWith(filtroValue);
+                } else if (filtro === "email") {
+                  return usuario.email.toLowerCase().startsWith(filtroValue.toLowerCase());
+                } else if (filtro === "permissao") {
+                  return usuario.permissao.toLowerCase().startsWith(filtroValue.toLowerCase());
+                }
+                return false;
+              });
+
+            } else {
+              filtroUsuarios = usuarios;
+            }
+
+
+            let totalUsuarios = filtroUsuarios.length;
+            totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
+            inpTotalPaginas.innerHTML = totalPaginas;
+
+            let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
+            let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+
+            let listaUsuarios = document.getElementById("listaUsuarios_container");
+            listaUsuarios.innerHTML = `
+                        <div class="cabecalho">
+                            <div class="div-objetos">
+                                <div class="objeto">
+                                    <span>Nome</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Distintivo</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Email</span>
+                                </div>
+                                <div class="objeto">
+                                    <span>Permissão</span>
+                                </div>
+                            </div>
+                            <div class="div-buttons">
+                                <span>Ações</span>
+                            </div>
+                        </div>`;
+            let tamanhoDiv = 50;
+            if (filtroUsuarios.length > 0) {
+              for (let u = primeiroItem; u < ultimoItem; u++) {
+                let publicacao = filtroUsuarios[u];
+
+                let divPublicacao = document.createElement("div");
+                divPublicacao.className = "publicacao";
+                divPublicacao.innerHTML = `
+                            <div class="div-objetos">
+                                <div class="objeto"><span>${publicacao.nome}</span></div>
+                                <div class="objeto"><span>${publicacao.numero}</span></div>
+                                <div class="objeto"><span>${publicacao.email}</span></div>
+                                <div class="objeto"><span>${publicacao.permissao}</span></div>
+                            </div>
+                            <div class="div-buttons">
+                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
+                                    <img src="./Assets/btn_editar.png">
+                                </button>
+                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
+                                    <img src="./Assets/btn_deletar.png">
+                                </button>
+                            </div>
+                        `;
+                tamanhoDiv += 100;
+                if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
+                listaUsuarios.appendChild(divPublicacao);
+              }
+
+              if (totalPaginas < numeroPagina) {
+                inpNumeroPagina.value = filtroUsuarios.length;
+                atualizarListaUsuarios();
+              }
+            } else {
+              listaUsuarios.innerHTML = `
+                            <div class="error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Nenhum usuário encontrado</span>
+                            </div>`;
+              usuario_container.innerHTML = "Nenhum usuário encontrado.";
+              listaUsuarios.appendChild(usuario_container);
+              inpNumeroPagina.value = 1;
+              return;
+            }
+          })
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao buscar usuários:", error);
+      });
+
+  }
+
+
+</script>
 <!-- <script>
   window.onload = validarSessao();
 
