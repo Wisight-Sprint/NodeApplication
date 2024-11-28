@@ -12,34 +12,24 @@ function executeJar(req, res) {
       .json({ success: false, message: "Valor não fornecido no body" });
   }
 
-  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-
-  // LOCAL = const jarPath = "C:\\Users\\samue\\Desktop\\SPTech-GitHub\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
+//  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  const jarPath = "c:\\Users\\marco\\Desktop\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   const command = `java -jar ${jarPath} ${insightKey1} ${insightKey2} ${mensagem}`;
 
-  // Executa o comando no sistema operacional
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Erro ao executar o .jar"
-      });
-    }
-    if (stderr) {
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "Erro no .jar"
-        });
-    }
+  exec(command, (stdout) => {
 
-    res.json({
-      success: true,
-      message: "Arquivo .jar executado com sucesso",
-      output: stdout,
-    });
-    console.log("Arquivo .jar executado com sucesso", stdout)
+    try {
+      res.json({
+        success: true,
+        message: "Arquivo .jar executado com sucesso",
+        output: stdout,
+      });
+    } catch (error) {
+        return res.status(500).json({
+          success: false,
+          message: "Erro ao executar o .jar"
+        });
+      }
   });
 }
 
