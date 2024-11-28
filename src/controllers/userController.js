@@ -122,9 +122,9 @@ function deletarUsuario(req, res) {
 
 //GET / READ
 function buscarUsuarioPorDepartamento(req, res) {
-  let fk_departamento = req.params.departamento;
+  let nome_departamento = req.params.departamento;
   userModel
-    .buscarUsuarioPorDepartamento(fk_departamento)
+    .buscarUsuarioPorDepartamento(nome_departamento)
     .then(function (resultadoBuscarUsuariosPorDepartamento) {
       console.log(`\nResultados encontrados: ${resultadoBuscarUsuariosPorDepartamento.length}`);
       res.json(resultadoBuscarUsuariosPorDepartamento); // Retorna todos os registros
