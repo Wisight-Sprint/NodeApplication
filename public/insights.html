@@ -157,20 +157,20 @@
       userInsightKey2 = sessionStorage.getItem("ID_DEPARTAMENTO")
       whereParam = "fk_cidade_estado";
       joinParam = "JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id";
-      sendValueForJava(userInsightKey, mensagemTexto);
-      getInsights(userInsightKey, whereParam, joinParam);
+      sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto);
+      //getInsights(userInsightKey, whereParam, joinParam);
     } else {
       userInsightKey1 = sessionStorage.getItem("ID_DEPARTAMENTO");
       userInsightKey2 = sessionStorage.getItem("ESTADO_USUARIO");
       whereParam = "fk_departamento";
       joinParam = "JOIN departamento d on i.fk_departamento = d.departamento_id";
       sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto);
-      getInsights(userInsightKey, whereParam, joinParam);
+      //getInsights(userInsightKey, whereParam, joinParam);
     }
   }
 
   function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
-    if (userInsightKey && mensagemTexto) {
+    if (userInsightKey1 && userInsightKey2 && mensagemTexto) {
       fetch("/insight/executeJar", {
         method: "POST",
         headers: {

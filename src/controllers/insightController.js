@@ -14,8 +14,9 @@ function executeJar(req, res) {
 
 //  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
   const jarPath = "c:\\Users\\marco\\Desktop\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  const command = `java -jar ${jarPath} ${insightKey1} ${insightKey2} ${mensagem}`;
+  const command = `java -jar ${jarPath} "${insightKey1}" "${insightKey2}" "${mensagem}"`;
 
+console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
   exec(command, (stdout) => {
 
     try {
