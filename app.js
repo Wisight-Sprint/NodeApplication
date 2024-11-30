@@ -23,7 +23,6 @@ const insightRoute = require("./src/routes/insight");
 const suporteRoute = require("./src/routes/suporte");
 const relatorioRoute = require("./src/routes/relatorio");
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));

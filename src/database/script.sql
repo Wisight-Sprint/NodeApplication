@@ -52,7 +52,6 @@ create table if not exists wisight.vitima (
     references relatorio (relatorio_id)
 );
 
-
 create table if not exists wisight.insight (
   insight_id int,
   dt_insercao datetime,
@@ -590,4 +589,3 @@ select * from departamento;
 select * from vitima;
 select * from cidade_estado;
 select * from insight;
-
