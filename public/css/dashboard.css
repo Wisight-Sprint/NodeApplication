@@ -1,160 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
 
+* {
+    font-family: "Josefin Sans";
+}
+
 body {
     margin: 0;
     padding: 0;
     display: flex;
     background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
-    font-family: 'Josefin Sans', sans-serif;
     overflow-x: hidden;
-}
-
-.title-page {
-    color: #FFF;
-    font-size: 40px;
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
-.icon-logo {
-    width: 85px;
-    height: 56px;
-}
-
-.icon-graphic {
-    width: 40px;
-    height: 37px;
-}
-
-.icon-support {
-    width: 40px;
-    height: 40px;
-}
-
-.icon-add-user {
-    width: 40px;
-    height: 37px;
-}
-
-.icon-logout {
-    width: 40px;
-    height: 41px;
-    margin-left: 10px;
-}
-
-.icon-personal-datas{
-    width: 50px;
-    height: 47px;
-}
-
-.container-logo {
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.container-graphic {
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    background-color: #49688D;
-    align-items: center;
-}
-
-.container-graphic:hover {
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-}
-
-.container-support {
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-support:hover {
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-   
-}
-
-.container-add-user {
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-add-user:hover {
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-   
-}
-
-.container-logout {
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-logout:hover {
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-}
-
-.container-personal-datas{
-    width: 115px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-personal-datas:hover{
-    cursor: pointer;
-    display: flex;
-    background-color: #49688D;
-    justify-content: center;
-}
-
-
-.armed-victims {
-    margin-top: 35px;
-    text-align: center;
-}
-
-.ethnicity-victims {
-    margin-top: 35px;
-    text-align: center;
-}
-
-.escape-victims {
-    margin-top: 35px;
-    text-align: center;
 }
 
 .armed-victims,
 .ethnicity-victims,
 .escape-victims {
+    margin-top: 35px;
+    text-align: center;
     flex: 1;
     box-sizing: border-box;
 }
@@ -203,19 +65,19 @@ body {
 .kpiContainer {
     display: flex;
     flex-direction: line;
-    gap: 25px;
+    justify-content: space-between;
     margin: 0;
     padding: 0;
+    width: 820px;
 }
 
 .kpi {
     display: flex;
-    width: 185px;
+    width: 23%;
     height: 128px;
     background-color: #FFF;
     border-radius: 15px;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-evenly;
     flex-direction: column;
     text-align: center;
 }
@@ -230,7 +92,7 @@ body {
     display: flex;
     justify-content: center;
     background-color: white;
-    width: 818px;
+    width: 820px;
     height: 405px;
     border-radius: 15px;
     align-items: stretch;
@@ -248,63 +110,112 @@ body {
     gap: 15px;
 }
 
-.graphic-size4 {
-    width: 1014px;
-    height: 250px;
-}
-
-.graphicSize1 {
+.graphicSize {
     width: 260px;
     height: 230px;
     margin-top: 40px;
     margin-left: 5%;
-}
-
-.graphicSize2 {
-    width: 260px;
-    height: 230px;
-    margin-top: 40px;
-    margin-left: 5%;
-}
-
-.graphicSize3 {
-    width: 260px;
-    height: 230px;
-    margin-top: 40px;
-    margin-left: 5%;
-}
-
-#h1BodyCamera {
-    color: #ffa600;
-}
-
-
-#h1MentalDisorders {
-    color: #ff0000;
 }
 
 .inline-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     height: 100px;
+
+    .title-page {
+        color: #FFF;
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+
+    .informacoes {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 500px;
+
+        .localizacao {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 450px;
+            padding: 2%;
+            background-color: #FFF;
+            border-radius: 15px;
+
+            select {
+                width: 35%;
+                border: none;
+                outline: none;
+                font-size: 18px;
+            }
+
+
+            .input {
+                position: relative;
+                width: 300px;
+
+                input {
+                    border: none;
+                    width: 250px;
+                    outline: none;
+                    font-size: 18px;
+                    position: relative;
+                }
+
+                i {
+                    position: absolute;
+                    right: 10px;
+                    top: 10%;
+                    display: unset;
+                    background-color: transparent;
+                    font-size: 18px;
+                    cursor: unset;
+                }
+            }
+
+        }
+
+        i {
+            background-color: #FFF;
+            font-size: 18px;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
 }
 
-.city {
-    display: flex;
-    color: #FFF;
-    font-weight: bold;
-    font-size: 25px;
-    margin-left: 65%;
-    margin-top: 37px;
-    height: 22px;
+.caixaSugestoes {
+    position: absolute;
+    top: 70px;
+    right: 60px;
+    display: none;
+    flex-direction: column;
+    background-color: #FFF;
+    width: 288px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 10px;
+
+    span {
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    span:hover {
+        background-color: #eaf1f7;
+    }
 }
 
-.icon-location {
-    margin-top: 25px;
-    width: 40px;
-    height: 40px;
-}
 
 .charts2Container {
     display: flex;
@@ -312,37 +223,168 @@ body {
     align-items: center;
 }
 
-h3 {
-    display: flex;
+.modalRelatorio,
+.modalVitima {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 115px;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 93%;
+    height: 100%;
+    display: none;
     justify-content: center;
-    margin-bottom: 10px;
-}
-
-
-label {
-    display: flex;
     align-items: center;
-    justify-content: center;
-}
+
+    .container {
+        border-radius: 15px;
+        padding-top: 3%;
+        padding-left: 2%;
+        width: 80%;
+        height: 70%;
+        background-color: white;
+
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            header {
+                color: black;
+                font-size: 40px;
+                margin-left: 5%;
+            }
+
+            i {
+                cursor: pointer;
+                margin-top: -3%;
+                margin-right: 4%;
+                font-size: 40px;
+                color: #000;
+            }
+
+            #voltar {
+                margin-right: 2.5%;
+                margin-left: -6%;
+            }
+        }
 
 
-.radio-span {
-    font-weight: bold;
-}
+        .container_form {
+            padding-top: 5vh;
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
 
-.custom-radio {
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    border: 2px solid #000;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-.custom-radio:checked {
-    background-color: #000;
-}
+            .caixas_pergunta,
+            .caixas_pergunta_tres {
 
-.radio-span {
-    margin-left: 5px;
+                .pergunta {
+
+                    width: 100%;
+                    height: 50%;
+
+                    p {
+                        font-size: 20px;
+                        margin-bottom: 4%;
+                        color: black;
+                    }
+
+                    .input-container {
+                        position: relative;
+                        width: fit-content;
+
+                        input,
+                        select,
+                        .vitima {
+                            transition: 0.3s;
+                            color: black;
+                            border-radius: 10px;
+                            border: none;
+                            background-color: #eaf1f7;
+                            height: 40px;
+                            width: 30vw;
+                            padding-left: 15px;
+                            font-size: 18px;
+                            outline: none;
+
+                            option {
+                                color: #000;
+                            }
+                        }
+
+                        i {
+                            color: black;
+                        }
+
+                        .vitima {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding-inline: 2vh;
+
+                            div {
+                                width: 120px;
+                                display: flex;
+                                justify-content: space-around;
+
+                                img {
+                                    width: 17%;
+                                    cursor: pointer;
+                                }
+                            }
+
+                        }
+                    }
+
+                    #caixaVitimas {
+                        overflow-y: auto;
+                        max-height: 110px;
+                        text-align: right;
+                    }
+
+                    i {
+                        position: absolute;
+                        right: -30px;
+                        top: 10px;
+                        cursor: pointer;
+                        font-size: 20px;
+                    }
+                }
+            }
+
+            .caixas_pergunta_tres {
+                .pergunta {
+                    width: 100%;
+                    height: 30%;
+                }
+            }
+
+        }
+
+        .caixa_button_relatorio {
+            position: absolute;
+            bottom: 9vh;
+            left: 40vw;
+
+            button {
+                background-color: #00a5f1;
+                cursor: pointer;
+                transition: 0.3s;
+                color: #FFF;
+                border: 1px solid #FFF;
+                height: 50px;
+                font-size: 18px;
+                width: 180px;
+                border-radius: 15px;
+            }
+
+            button:hover {
+                transform: scale(1.05);
+            }
+        }
+
+    }
 }

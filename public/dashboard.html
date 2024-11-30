@@ -35,17 +35,92 @@
             </a>
             <a href="insights.html">
                 <div class="container-icon"> <img class="icon-insights" src="./Assets/Insights.png"></div>
-              </a>
+            </a>
             <div onclick="limparSessao()" class="container-icon"> <img class="icon-logout" src="./Assets/logout 2.png">
             </div></a>
         </div>
     </div>
 
+    <div id="content">
+        <div class="modalRelatorio" id="modalRelatorio">
+            <div class="container">
+                <div class="cabecalho">
+                    <header>Adicionar Relatório</header>
+                    <i class="fa-solid fa-xmark" onclick="mudarContainer()"></i>
+                </div>
+                <div class="container_form">
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Data do relato:</p>
+                            <div class="input-container">
+                                <input type="date" id="inpData">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Houve tentativa de fuga?</p>
+                            <div class="input-container">
+                                <select id="selectFuga">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value="Sem tentativa">Sem tentativa</option>
+                                    <option value="A pé">A pé</option>
+                                    <option value="Veículo">Veículo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>A câmera corporal estava em funcionamento?</p>
+                            <div class="input-container">
+                                <select id="selectCamera" name="restrito">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value=true>Sim</option>
+                                    <option value=false>Não</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pergunta">
+                            <p>Dados da(s) vítima(s):</p>
+                            <div class="input-container" id="caixaVitimas">
+                                <div class="vitima">
+                                    <p>Adicione uma vítima:</p>
+                                    <div>
+                                        <div></div>
+                                        <img src="./Assets/plus-solid.svg" onclick="adicionarVitima()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixa_button_relatorio">
+                    <button onclick="adicionarRelatorio()">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="all-indicators">
         <div class="inline-row">
-            <div class="title-page">Vítimas Por<br>região</div>
-            <span class="city">Washington DC </span> <img class="icon-location" src="./Assets/location-icon.png">
+            <div class="title-page">Cockpit de Incidentes</div>
+            <div class="informacoes">
+                <div class="localizacao" id="localizacao">
+                    <select id="selectTipoLocal" onchange="mudarTipoLocal(selectTipoLocal.value)">
+                        <option value="Departamento">Departamento</option>
+                        <option value="Cidade">Cidade</option>
+                        <option value="Estado">Estado</option>
+                    </select>
+                    |
+                    <div class="input" id="caixa_input">
+                        <input type="text" id="inpLocal" oninput="mudarLocal(inpLocal.value)">
+                        <i class="fa-solid fa-magnifying-glass fa-rotate-90"></i>
+                    </div>
+                </div>
+                <i id="btnAdicionarRelatorio" class="fa-solid fa-file-import" onclick="abrirContainer()"></i>
+            </div>
         </div>
+        <div id="caixaSugestoes" class="caixaSugestoes"></div>
 
         <div class="welcome">Bem-vindo,&nbsp;<span id="bem_vindo" style="color: gray;"></span></div>
 
@@ -53,50 +128,45 @@
             <div class="charts1Container">
                 <div class="kpiContainer">
                     <div class="kpi">
-                        <h1 id="h1AgesIncident">XX</h1>
-                        <span id="h1AgesIncidents">Idade com mais <br> incidentes <br> <br>
-                            <p id="pAgesIncident">Representando XX% do total de Mortes</p>
-                        </span>
+                        <span id="h1AgesIncidents">Idade média</span>
+                        <h1 id="h1AgesIncident"></h1>
                     </div>
 
                     <div class="kpi">
-                        <h1 id="h1BodyCam" style="color: orange;">XX%</h1>
-                        <span id="h1BodyCamera">Taxa de oficiais com <br> câmera corporal<br><br>A porcentagem ideal
-                            seria entre 80% e 90%</span>
+                        <span id="h1BodyCamera">Funcionamento da BodyCam</span>
+                        <h1 id="h1BodyCam"></h1>
 
 
                     </div>
 
                     <div class="kpi">
-                        <h1 id="h1MentalDisorder" style="color: red;">XX%</h1>
-                        <span id="h1MentalDisorders">Taxa de vítimas com <br> transtornos mentais</span>
+                        <span id="h1MentalDisorders">Vítimas com transtornos mentais</span>
+                        <h1 id="h1MentalDisorder"></h1>
                     </div>
                     <div class="kpi">
-                        <h1 id="h1Gende">XXX</h1>
-                        <span id="h1Gender">Gênero de vítimas com <br><br>
-                            <p id="pGender">Representando mais de XX% dos incidentes</p>
-                        </span>
+                        <span id="h1Gender">Gênero mais afetado</span>
+                        <h1 id="h1Gende"></h1>
                     </div>
                 </div>
 
                 <div class="chart1">
                     <div class="armed-victims">
                         <h2>Vítimas Armadas</h2>
-                        <div class="graphicSize1"><canvas id="PieChart" style="opacity: 1;"></canvas></div>
+                        <div class="graphicSize"><canvas id="PieChart" style="opacity: 1;"></canvas></div>
                     </div>
 
                     <div class="line-vertical"></div>
 
                     <div class="ethnicity-victims">
                         <h2>Etnia da Vítima</h2>
-                        <div class="graphicSize2"><canvas id="PieChart2" style="opacity: 1;"></canvas></div>
+                        <div class="graphicSize"><canvas id="PieChart2" style="opacity: 1;"></canvas></div>
                     </div>
 
                     <div class="line-vertical"></div>
 
                     <div class="escape-victims">
                         <h2>Tentativas de fuga</h2>
-                        <div class="graphicSize3"><canvas id="PieChart3" style="opacity: 1;"></canvas></div>
+                        <div class="graphicSize"><canvas id="PieChart3" style="opacity: 1;"></canvas></div>
                     </div>
                 </div>
 
@@ -121,82 +191,139 @@
 
     window.onload = validarSessao();
 
+    let local = inpLocal.value;
+    let tipoLocal = selectTipoLocal.value;
+    local = sessionStorage.NOME_DEPARTAMENTO;
+    inpLocal.value = local;
+    let dadosFetch;
+    let filtroLocais;
+
+    if (sessionStorage.PERMISSAO_USUARIO != "Externo" && sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") {
+        localizacao.innerHTML = `
+        <div class="input" id="caixa_input">
+            <input id="inpLocal" disabled value="${local}"></input>
+        </div>
+        `;
+        localizacao.style = "width: 250px";
+    }
+
+    document.addEventListener("click", function (event) {
+
+        const input = document.getElementById("inpLocal");
+        const sugestoes = document.getElementById("caixaSugestoes");
 
 
-    const vitimas2023 = [120, 160, 120, 110];
-    const vitimas2024 = [145, 140, 130, 140];
+        if (!input.contains(event.target) && !sugestoes.contains(event.target)) {
+
+            inpLocal.value = local;
+            filtroLocais = [];
+            caixaSugestoes.innerHTML = "";
+            caixaSugestoes.style.display = "none";
+            localizacao.style = "border-bottom-right-radius: 15px";
+            if (sessionStorage.PERMISSAO_USUARIO != "Externo" && sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") {
+                localizacao.style = "width: 250px";
+            }
+        }
+    });
+
+    function mudarLocal(inputValue) {
+
+        let novoArray = {
+            departamento: [],
+            cidade: [],
+            estado: []
+        };
+
+        for (let i = 0; i < dadosFetch.length; i++) {
+            if (!novoArray.departamento.includes(dadosFetch[i].nome_departamento)) {
+                novoArray.departamento.push(dadosFetch[i].nome_departamento);
+            }
+
+            if (!novoArray.cidade.includes(dadosFetch[i].cidade)) {
+                novoArray.cidade.push(dadosFetch[i].cidade);
+            }
+
+            if (!novoArray.estado.includes(dadosFetch[i].estado)) {
+                novoArray.estado.push(dadosFetch[i].estado);
+            }
+        }
+
+        if (!dadosFetch || dadosFetch.length === 0) {
+            console.error("Dados não carregados. Execute 'carregarDados()' primeiro.");
+            return [];
+        }
+
+        if (tipoLocal === "Departamento") {
+            filtroLocais = novoArray.departamento.filter(item =>
+                item.toLowerCase().startsWith(inputValue.toLowerCase())
+            );
+        } else if (tipoLocal === "Cidade") {
+            filtroLocais = novoArray.cidade.filter(item =>
+                item.toLowerCase().startsWith(inputValue.toLowerCase())
+            );
+        } else if (tipoLocal === "Estado") {
+            filtroLocais = novoArray.estado.filter(item =>
+                item.toLowerCase().startsWith(inputValue.toLowerCase())
+            );
+        }
+
+        caixaSugestoes.style.display = "flex";
+        caixaSugestoes.innerHTML = "";
+        localizacao.style = "border-bottom-right-radius: 0";
+
+        if (filtroLocais.length == 0) {
+            caixaSugestoes.innerHTML += `<span>Nenhum dado encontrado.</span>`;
+        }
+
+        if (filtroLocais.length > 5) {
+            for (let i = 0; i < 5; i++) {
+                caixaSugestoes.innerHTML += `<span onclick="puxarNovosDados('${filtroLocais[i]}')">${filtroLocais[i]}</span>`;
+            }
+        } else {
+            for (let i = 0; i < filtroLocais.length; i++) {
+                caixaSugestoes.innerHTML += `<span onclick="puxarNovosDados('${filtroLocais[i]}')">${filtroLocais[i]}</span>`;
+            }
+        }
+    }
+
+    function puxarNovosDados(valor) {
+        local = valor;
+
+        inpLocal.value = valor;
+        filtroLocais = [];
+        caixaSugestoes.innerHTML = "";
+        caixaSugestoes.style.display = "none";
+        localizacao.style = "border-bottom-right-radius: 15px";
+        carregarDados();
+    }
+
+
+    function mudarTipoLocal(selectValue) {
+        if (selectValue == "Departamento") {
+            local = sessionStorage.NOME_DEPARTAMENTO;
+            inpLocal.value = local;
+        }
+        else if (selectValue == "Cidade") {
+            local = sessionStorage.CIDADE_USUARIO;
+            inpLocal.value = local;
+        }
+        else {
+            local = sessionStorage.ESTADO_USUARIO;
+            inpLocal.value = local;
+        }
+
+        tipoLocal = selectValue;
+
+        carregarDados();
+    }
 
     const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
 
-    function getColor(value, year) {
-        //if (value > 150) return 'rgb(255, 0, 0)'; 
-        return year === 2023 ? 'rgb(255, 220, 0)' : 'rgb(0, 0, 255)';
-    }
+    function carregarDados() {
+        let vitimas2023 = new Array(12).fill(0);
+        let vitimas2024 = new Array(12).fill(0);
 
-
-
-    // vai ter que verificar se o usario pode ou não mudar a sua localização
-    // function verificarCargo() {
-    //    if (cargo != policial) {
-    //    obterRegioes();
-    //    exibir a pesquisa de região, e o cadastro de funcionario        
-    //    }
-    // }
-
-    var regioes = []
-
-    var cidadeUsuario = sessionStorage.CIDADE_USUARIO;
-
-    function obterRegioes() {
-        fetch(`/dashboard/obterRegioes`, {
-            method: "GET",
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                console.table(JSON.stringify(data));
-
-                data.forEach(item => {
-                    regioes.push(`cidade: ${item.cidade}, ${item.estado}`)
-
-                })
-
-
-            })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
-
-    function exibirGeral() {
-        cidadeUsuario = ""
-        chamarGraficos()
-    }
-
-    function exibirMeuLocal() {
-        cidadeUsuario = sessionStorage.CIDADE_USUARIO
-        chamarGraficos()
-    }
-
-    function exibirLocalEspecifico() {
-        // essa função é chamada so quando o cara clica pra pesquisar
-        cidadeUsuario = pesquisarCidade.value
-        chamarGraficos()
-    }
-
-    function chamarGraficos() {
-        obterArma()
-        obterCameraCorporal()
-        obterEtnia()
-        obterFuga()
-        obterGenero()
-        obterMediaIdade()
-        obterRegioes()
-        obterTranstorno()
-        obterVitima()
-    }
-
-    function obterMediaIdade() {
-        fetch(`/dashboard/obterMediaIdade?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
+        fetch(`/dashboard/obterTodosOsDados/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -204,217 +331,195 @@
                 return response.json();
             })
             .then(data => {
-                var h1Element = document.getElementById('h1AgesIncident')
-                var pElement = document.getElementById('pAgesIncident')
-                var idadeMedia = Number(data[0]["idadeIncidente"])
-                var pctMortes = Number(data[0]["porcentagem"])
-                idadeMedia = Number(idadeMedia.toFixed(0))
-                pctMortes = pctMortes.toFixed(2)
-                h1Element.innerText = idadeMedia
-                pElement.innerText = `Representando ${pctMortes}% do total de Mortes`
-            })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
-
-    function obterCameraCorporal() {
-        fetch(`/dashboard/obterCameraCorporal?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                dadosFetch = data;
+                if (sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") {
+                    local = data[0].nome_departamento;
+                    inpLocal.value = local;
                 }
-                return response.json();
-            })
-            .then(data => {
-                var h1Camera = document.getElementById('h1BodyCam')
-                var pctCamera = Number(data[0]["porcentagem"])
-                pctCamera = pctCamera.toFixed(2)
-                h1Camera.innerText = `${pctCamera}%`
-            })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
 
-    function obterTranstorno() {
-        fetch(`/dashboard/obterTranstorno?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                var h1Mental = document.getElementById('h1MentalDisorder')
-                var pctMental = Number(data[0]["porcentagem"])
-                pctMental = pctMental.toFixed(2)
-                h1Mental.innerText = `${pctMental}%`
-            })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
-    }
+                for (let i = 0; i < data.length; i++) {
+                    if (tipoLocal == "Departamento" && data[i].nome_departamento == local ||
+                        tipoLocal == "Cidade" && data[i].cidade == local ||
+                        tipoLocal == "Estado" && data[i].estado == local) {
 
-    function obterGenero() {
-        fetch(`/dashboard/obterGenero?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro na requisição: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                var h1Element = document.getElementById('h1Gende')
-                var pElement = document.getElementById('pGender')
-                var genero = data[0]["generoIncidente"]
-                var pctMortes = Number(data[0]["porcentagem"])
-                pctMortes = pctMortes.toFixed(2)
-                h1Element.innerText = genero
-                pElement.innerText = `Representando ${pctMortes}% dos incidentes`
-            })
-            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
+                        //IDADE
+                        let h1Idade = document.getElementById('h1AgesIncident');
+                        let pIdade = document.getElementById('pAgesIncident');
+                        let mediaIdade = Number(data[i].mediaIdade);
+                        mediaIdade = Number(mediaIdade.toFixed(0));
+                        h1Idade.innerText = mediaIdade + " anos";
 
-    }
+                        //₢AMERA
+                        let h1Camera = document.getElementById('h1BodyCam');
+                        let pctCamera = Number(data[i].porcentagemCamera);
+                        pctCamera = pctCamera.toFixed(1);
+                        h1Camera.innerText = `${pctCamera}%`;
+                        if (pctCamera >= 85) h1BodyCam.style.color = "green";
+                        else h1BodyCam.style.color = "red";
 
-    function obterVitima() {
-        fetch(`/dashboard/obterVitima?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-                let vitimas2023 = new Array(12).fill(0);
-                let vitimas2024 = new Array(12).fill(0);
+                        //TRANSTORNO MENTAL
+                        let h1Mental = document.getElementById('h1MentalDisorder');
+                        let pctMental = Number(data[i].porcentagemMental);
+                        pctMental = pctMental.toFixed(1);
+                        h1Mental.innerText = `${pctMental}%`;
 
-                data.forEach(function (item) {
-                    if (item.ano === 2023) {
-                        vitimas2023[item.mes - 1] = item.total_vitimas;
-                    } else if (item.ano === 2024) {
-                        vitimas2024[item.mes - 1] = item.total_vitimas;
-                    }
-                });
+                        //GÊNERO
+                        let h1Genero = document.getElementById('h1Gende');
+                        let pGenero = document.getElementById('pGender');
+                        let genero = data[0].generoPredominante;
+                        h1Genero.innerText = genero;
 
-                Highcharts.chart('BarChart', {
-                    chart: {
-                        type: 'bar'
-                    },
-                    title: {
-                        text: 'Vítimas por Mês - Comparação entre 2023 e 2024',
-                        style: {
-                            fontSize: '22px',
-                            fontWeight: 'bold'
+                        //VÍTIMAS POR ANO
+                        let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+                        if (data[i].ano === 2023) {
+                            vitimas2023[data[i].mes - 1] += data[i].total_vitimas;
+                        } else if (data[i].ano === 2024) {
+                            vitimas2024[data[i].mes - 1] += data[i].total_vitimas;
                         }
-                    },
-                    xAxis: {
-                        categories: meses,
-                        title: {
-                            text: 'Mês'
-                        },
-                        labels: {
-                            formatter: function () {
-                                return this.value;
+
+                        Highcharts.chart('BarChart', {
+                            chart: {
+                                type: 'bar'
+                            },
+                            title: {
+                                text: 'Vítimas por Mês - Comparação entre 2023 e 2024',
+                                style: {
+                                    fontSize: '22px',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            xAxis: {
+                                categories: meses,
+                                title: {
+                                    text: 'Mês'
+                                },
+                                labels: {
+                                    formatter: function () {
+                                        return this.value;
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Número de Vítimas'
+                                },
+                                labels: {
+                                    formatter: function () {
+                                        return this.value;
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: 'Vítimas em 2023',
+                                color: '#c1121f',
+                                data: vitimas2023
+                            }, {
+                                name: 'Vítimas em 2024',
+                                color: '#669bbc',
+                                data: vitimas2024
+                            }],
+                            plotOptions: {
+                                series: {
+                                    pointPadding: 0.1,
+                                    groupPadding: 0.1,
+                                    dataLabels: {
+                                        enabled: true
+                                    }
+                                }
                             }
-                        }
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Número de Vítimas'
-                        },
-                        labels: {
-                            formatter: function () {
-                                return this.value;
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'Vítimas em 2023',
-                        color: 'rgb(255, 220, 0)',
-                        data: vitimas2023
-                    }, {
-                        name: 'Vítimas em 2024',
-                        color: 'rgb(0, 0, 255)',
-                        data: vitimas2024
-                    }],
-                    plotOptions: {
-                        series: {
-                            pointPadding: 0.1,
-                            groupPadding: 0.1,
-                            dataLabels: {
-                                enabled: true
-                            }
-                        }
+                        })
+
+                        //ARMA
+                        let armamentos = {
+                            'Não armado': 0,
+                            // 'Facão': 0,
+                            'Arma branca': 0,
+                            // 'Faca': 0,
+                            'Arma de fogo': 0
+                        };
+
+                        armamentos['Não armado'] = data[i].desarmado
+                        armamentos['Arma branca'] = data[i].armaBranca
+                        armamentos['Arma de fogo'] = data[i].armaFogo
+
+                        myChartArmamento.data.datasets[0].data = [
+                            armamentos['Não armado'],
+                            // armamentos['Facão'],
+                            armamentos['Arma branca'],
+                            // armamentos['Faca'],
+                            armamentos['Arma de fogo']
+                        ];
+
+                        myChartArmamento.update();
+
+                        let etnias = {
+                            'Hispânica': 0,
+                            'Asiática': 0,
+                            'Branca': 0,
+                            'Negra': 0,
+                            'Indígena': 0
+                        };
+
+                        etnias['Hispânica'] = data[i].totalHispânica;
+                        etnias['Asiática'] = data[i].totalAsiática;
+                        etnias['Branca'] = data[i].totalBranca;
+                        etnias['Negra'] = data[i].totalNegra;
+                        etnias['Indígena'] = data[i].totalIndígena;
+
+                        myChartEtnia.data.datasets[0].data = [
+                            etnias['Hispânica'],
+                            etnias['Asiática'],
+                            etnias['Branca'],
+                            etnias['Negra'],
+                            etnias['Indígena']
+                        ];
+
+                        myChartEtnia.update();
+
+                        //FUGA
+                        let fugas = {
+                            'A pé': 0,
+                            'Carro': 0,
+                            'Não fugiu': 0
+                        };
+
+                        fugas['A pé'] = data[i].aPe;
+                        fugas['Carro'] = data[i].Veículo;
+                        fugas['Não fugiu'] = data[i].semTentativa;
+
+                        myChartFuga.data.datasets[0].data = [
+                            fugas['A pé'],
+                            fugas['Carro'],
+                            fugas['Não fugiu']
+                        ];
+
+                        myChartFuga.update();
                     }
-                });
+                }
             })
-            .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
-            });
-    }
-
-
-
-    function obterArma() {
-        fetch(`/dashboard/obterArma?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(function (response) {
-                return response.json()
-            })
-            .then(function (data) {
-                console.log(data)
-
-                let armamentos = {
-                    'Nenhum': 0,
-                    'Facão': 0,
-                    'Arma de fogo': 0,
-                    'Faca': 0,
-                    'Arma Branca': 0
-                };
-
-                data.forEach(function (item) {
-                    if (armamentos[item.armamento] !== undefined) {
-                        armamentos[item.armamento] = item.quantidade;
-                    }
-                });
-
-                // depois trocar esse mychart por:
-                // myChart.data.datasets[0].data = [
-                //     armamentos['Gun'], 
-                //     armamentos['unarmed'], 
-                //     armamentos['knife']
-                // ];
-
-                myChart.data.datasets[0].data = [
-                    armamentos['Nenhum'],
-                    armamentos['Facão'],
-                    armamentos['Arma de fogo'],
-                    armamentos['Faca'],
-                    armamentos['Arma branca']
-                ];
-
-                myChart.update();
-            })
-            .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
-            });
+            .catch(error => console.error(`Erro na obtenção de dados: ${error.message}`));
     }
 
     const ctx2 = document.getElementById('PieChart');
 
-    const myChart = new Chart(ctx2, {
+    const myChartArmamento = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Facão', 'Arma de fogo', 'Faca', 'Arma branca'],
+            labels: ['Desarmado', 'Arma Branca', 'Arma de fogo'],
             datasets: [{
-                label: 'Distribuição de armas',
-                data: [0, 0, 0, 0, 0],
+                label: 'Quantidade',
+                data: [0, 0, 0],
                 backgroundColor: [
-                    'rgba(128, 128, 128, 1)',
-                    'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    '#000814',
+                    '#8ecae6',
+                    '#ffc300'
                 ],
                 borderColor: [
-                    'rgba(128, 128, 128, 1)',
-                    'rgba(110, 172, 218, 1)',
-                    'rgba(44, 65, 89, 1)',
-                    'rgba(90, 165, 26, 1)',
-                    'rgba(4, 244, 244, 2)'
+                    '#000814',
+                    '#8ecae6',
+                    '#ffc300'
                 ],
                 borderWidth: 1
             }]
@@ -434,52 +539,6 @@
             }
         }
     });
-
-
-    function obterEtnia() {
-        fetch(`/dashboard/obterEtnia?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(function (response) {
-                return response.json()
-            })
-            .then(function (data) {
-                console.log(data)
-
-                let etnias = {
-                    'Hispânica': 0,
-                    'Asiática': 0,
-                    'Branca': 0,
-                    'Negra': 0,
-                    'Indígena': 0
-                };
-
-                data.forEach(function (item) {
-                    if (etnias[item.etnia] !== undefined) {
-                        etnias[item.etnia] = item.quantidade;
-                    }
-                });
-
-                // depois trocar esse mychart por:
-                // myChartEtnia.data.datasets[0].data = [
-                //     etnias['Hispanic'], 
-                //     etnias['Asian'], 
-                //     etnias['White'],
-                //     etnias['Black']
-                // ];
-
-                myChartEtnia.data.datasets[0].data = [
-                    etnias['Hispânica'],
-                    etnias['Asiática'],
-                    etnias['Branca'],
-                    etnias['Negra'],
-                    etnias['Indígena']
-                ];
-
-                myChartEtnia.update();
-            })
-            .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
-            });
-    }
 
 
     const ctx3 = document.getElementById('PieChart2');
@@ -487,23 +546,23 @@
     const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Etnia Hispânica', 'Etnia Asiática', 'Etnia Branca', 'Etnia Negra', 'Etnia Indígena'],
+            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Indígena'],
             datasets: [{
-                label: 'Etnias',
+                label: 'Quantidade',
                 data: [0, 0, 0, 0, 0],
                 backgroundColor: [
-                    'rgb(74, 144, 226)',
-                    'rgb(0, 0, 156)',
-                    'rgb(128, 128, 128)',
-                    'rgb(0, 0, 0)',
-                    'rgb(255, 255, 255)'
+                    '#8ecae6',
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#fb8500'
                 ],
                 borderColor: [
-                    'rgb(74, 144, 226)',
-                    'rgb(0, 0, 156)',
-                    'rgb(128, 128, 128)',
-                    'rgb(0, 0, 0)',
-                    'rgb(200, 200, 200)'
+                    '#8ecae6',
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#fb8500'
                 ],
                 borderWidth: 1
             }]
@@ -524,67 +583,24 @@
         }
     });
 
-    function obterFuga() {
-
-        fetch(`/dashboard/obterFuga?cidadeServerUsuario=${cidadeUsuario}`, { cache: 'no-store' })
-            .then(function (response) {
-                return response.json()
-            })
-            .then(function (data) {
-                console.log(data)
-
-                let fugas = {
-                    'A pé': 0,
-                    'Carro': 0,
-                    'Não fugiu': 0
-                };
-
-                data.forEach(function (item) {
-                    if (fugas[item.fuga] !== undefined) {
-                        fugas[item.fuga] = item.quantidade;
-                    }
-                });
-
-                // depois trocar esse mychart por:
-                // myChartEtnia.data.datasets[0].data = [
-                //     etnias['Hispanic'], 
-                //     etnias['Asian'], 
-                //     etnias['White'],
-                //     etnias['Black']
-                // ];
-
-                myChartFuga.data.datasets[0].data = [
-                    fugas['A pé'],
-                    fugas['Carro'],
-                    fugas['Não fugiu']
-                ];
-
-                myChartFuga.update();
-            })
-            .catch(function (error) {
-                console.log("Ocorreu um erro:", error);
-            });
-
-    }
-
     const ctx4 = document.getElementById('PieChart3');
 
     const myChartFuga = new Chart(ctx4, {
         type: 'pie',
         data: {
-            labels: ['Com os pés', 'Veículo motorizado', 'Não houve tentativa'],
+            labels: ['A pé', 'Veículo', 'Sem tentativa'],
             datasets: [{
-                label: 'Cores favoritas',
+                label: 'Quantidade',
                 data: [0, 0, 0],
                 backgroundColor: [
-                    'rgb(255, 0, 0)',
-                    'rgb(255, 220, 0)',
-                    'rgb(246, 120, 40)',
+                    '#000814',
+                    '#8ecae6',
+                    '#ffc300'
                 ],
                 borderColor: [
-                    'rgb(255, 0, 0)',
-                    'rgb(255, 220, 0)',
-                    'rgb(246, 120, 40)',
+                    '#000814',
+                    '#8ecae6',
+                    '#ffc300'
                 ],
                 borderWidth: 1
             }]
@@ -597,13 +613,273 @@
                         font: {
                             weight: 'bold'
                         },
-                        color: 'rgba(0,0,0)'
+                        color: 'rgba(0,0,0)',
+                        padding: 10
                     }
                 }
             }
         }
     });
 
-    chamarGraficos()
+    let data;
+    let fuga;
+    let camera;
+    let numeroVitima = 1;
+    let vitimas = [];
+
+    if (sessionStorage.PERMISSAO_USUARIO == "Administrador" || sessionStorage.PERMISSAO_USUARIO == "Usuário") {
+        btnAdicionarRelatorio.style.display = "flex";
+    }
+
+    function abrirContainer() {
+        modalRelatorio.style.display = "flex";
+        inpData.value = "";
+        selectCamera.value = "#";
+        selectFuga.value = "#";
+        numeroVitima = 1;
+        vitimas = [];
+    }
+
+    function mudarContainer(vitima) {
+
+        const relatorioDisplay = window.getComputedStyle(modalRelatorio).display;
+        if (relatorioDisplay === "flex") {
+            modalRelatorio.style.display = "none";
+            vitima.style.display = "flex";
+        } else {
+            modalRelatorio.style.display = "flex";
+            inpData.value = data;
+            selectFuga.value = fuga;
+            selectCamera.value = camera;
+            vitima.style.display = "none";
+        }
+    }
+
+    function adicionarVitima() {
+        data = inpData.value;
+        fuga = selectFuga.value;
+        camera = selectCamera.value;
+        modalRelatorio.style.display = "none";
+
+        content.innerHTML += `
+        <div class="modalVitima" id="modalVitima${numeroVitima}" style="display: flex">
+            <div class="container">
+                <div class="cabecalho">
+                    <header>Adicionar Vítima</header>
+                    <i class="fa-solid fa-xmark" onclick="mudarContainer(modalVitima${numeroVitima})"></i>
+                </div>
+                <div class="container_form">
+                    <div class="caixas_pergunta_tres">
+                        <div class="pergunta">
+                            <p>Idade da vítima:</p>
+                            <div class="input-container">
+                                <input type="text" id="inpIdade${numeroVitima}">
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Etnia da vítima:</p>
+                            <div class="input-container">
+                                <select id="selectEtnia${numeroVitima}">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value="Branca">Branca</option>
+                                    <option value="Negra">Negra</option>
+                                    <option value="Asiática">Asiática</option>
+                                    <option value="Hispânica">Hispânica</option>
+                                    <option value="Indígena">Indígena</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pergunta">
+                            <p>Houve sinal de problema mental?</p>
+                            <div class="input-container">
+                                <select id="selectMentalidade${numeroVitima}">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value=true>Sim</option>
+                                    <option value=false>Não</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caixas_pergunta">
+                        <div class="pergunta">
+                            <p>Gênero da vítima</p>
+                            <div class="input-container">
+                                <select id="selectGenero${numeroVitima}">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pergunta">
+                            <p>Armamento da vítima</p>
+                            <div class="input-container">
+                                <select id="selectArma${numeroVitima}">
+                                    <option value="#">Selecione uma opção</option>
+                                    <option value="Não armado">Não armado</option>
+                                    <option value="Arma branca">Arma branca</option>
+                                    <option value="Arma de fogo">Arma de fogo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="caixa_button_relatorio">
+                    <button
+                        onclick="cadastrarVitima(modalVitima${numeroVitima}, ${numeroVitima}, inpIdade${numeroVitima}, selectEtnia${numeroVitima}, selectGenero${numeroVitima}, selectArma${numeroVitima}, selectMentalidade${numeroVitima})">Adicionar</button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function cadastrarVitima(vitima, numero, idade, etnia, genero, armamento, mentalidade) {
+        const idadeValue = document.getElementById(`inpIdade${numero}`).value;
+        const etniaValue = document.getElementById(`selectEtnia${numero}`).value;
+        const generoValue = document.getElementById(`selectGenero${numero}`).value;
+        const armamentoValue = document.getElementById(`selectArma${numero}`).value;
+        const mentalidadeValue = document.getElementById(`selectMentalidade${numero}`).value;
+
+        if (validacaoUsuario(idade, etnia, genero, armamento, mentalidade)) {
+            vitimas.push({ numero: numeroVitima, idadeValue, etniaValue, generoValue, armamentoValue, mentalidadeValue });
+            console.table(vitimas);
+
+            numeroVitima++;
+
+            atualizarListaVitimas();
+
+            mudarContainer(document.getElementById(`modalVitima${numero}`));
+        }
+    }
+
+    function atualizarListaVitimas() {
+        vitimas.forEach((v, index) => {
+            v.numero = index + 1;
+        });
+
+        caixaVitimas.innerHTML = vitimas.map(vitima => `
+        <div class="vitima">
+            <p>Vítima ${vitima.numero} - ${vitima.idadeValue} anos</p>
+            <div>
+                <div></div>
+                <img src="./Assets/trash-solid.svg" onclick="removerVitima(${vitima.numero})">
+            </div>
+        </div>
+        <br>
+    `).join('');
+
+        caixaVitimas.innerHTML += `
+        <div class="vitima">
+            <p>Adicione uma vítima:</p>
+            <div>
+                <div></div>
+                <img src="./Assets/plus-solid.svg" onclick="adicionarVitima()">
+            </div>
+        </div>
+    `;
+    }
+
+    function removerVitima(numero) {
+        vitimas = vitimas.filter(v => v.numero !== numero);
+
+        atualizarListaVitimas();
+
+        if (vitimas.length === 0) {
+            caixaVitimas.innerHTML = `
+            <div class="vitima">
+                <p>Adicione uma vítima:</p>
+                <div>
+                    <div></div>
+                    <img src="./Assets/plus-solid.svg" onclick="adicionarVitima()">
+                </div>
+            </div>`;
+        }
+    }
+
+    async function adicionarRelatorio() {
+        if (inpData.value != "" && selectFuga.value != "#" && selectCamera.value != "#" && vitimas.length > 0) {
+            try {
+                const responseCadastro = await fetch("/relatorio/criarRelatorio/", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        departamentoServer: sessionStorage.ID_DEPARTAMENTO,
+                        dataServer: inpData.value,
+                        fugaServer: selectFuga.value,
+                        cameraServer: selectCamera.value,
+                        vitimasServer: vitimas
+                    }),
+                });
+                if (responseCadastro.ok) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Relatório adicionado com sucesso!",
+                        background: "#FFF",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    carregarDados();
+                    modalRelatorio.style.display = "none";
+                    inpData.value = "";
+                    selectCamera.value = "#";
+                    selectFuga.value = "#";
+                    numeroVitima = 1;
+                    vitimas = [];
+                    caixaVitimas.innerHTML = `
+                    <div class="vitima">
+                        <p>Adicione uma vítima:</p>
+                        <div>
+                            <div></div>
+                            <img src="./Assets/plus-solid.svg" onclick="adicionarVitima()">
+                        </div>
+                    </div>`;
+                } else {
+                    const errorText = await responseCadastro.text();
+                    throw new Error("Erro ao cadastrar relatório: " + errorText);
+                }
+
+            } catch (error) {
+                console.log("Erro:", error);
+            }
+        }
+    }
+
+    function validacaoUsuario(idade, etnia, genero, armamento, mentalidade) {
+        let idadeValue = Number(idade.value);
+
+        if (idadeValue < 1) setFieldError(idade, "Idade inválida.");
+        else setFieldSpecificSuccess(idade);
+
+        if (idadeValue >= 1 && etnia.value != "#" && genero.value != "#" && armamento.value != "#" && mentalidade.value != "#") {
+            setFieldAllSuccess(idade);
+            setFieldAllSuccess(etnia);
+            setFieldAllSuccess(genero);
+            setFieldAllSuccess(armamento);
+            setFieldAllSuccess(mentalidade);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setFieldError(input, message) {
+        input.value = "";
+        input.placeholder = message;
+    }
+
+    function setFieldSpecificSuccess(input) {
+        input.placeholder = "";
+    }
+
+    function setFieldAllSuccess(input) {
+        input.placeholder = "";
+    }
+
+    carregarDados()
 
 </script>

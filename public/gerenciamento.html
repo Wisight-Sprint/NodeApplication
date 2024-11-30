@@ -45,11 +45,15 @@
         </div>
 
         <div class="content">
-            <div class="caixa-delegacia">
-                <span id="delegacia"></span>
-                <i id="btnAdicionarDepartamento" class="fa-solid fa-plus"
+            <div class="caixa-delegacia" id="caixa_delegacia">
+                <div class="input" id="caixa_input">
+                    <input type="text" id="inpLocal" oninput="mudarLocal(inpLocal.value)">
+                    <i class="fa-solid fa-magnifying-glass fa-rotate-90"></i>
+                </div>
+                <i id="btnAdicionarDepartamento" class="fa-solid fa-building"
                     onclick="mostrarAdicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)"></i>
             </div>
+            <div id="caixaSugestoes" class="caixaSugestoes"></div>
             <div class="modalEditar" id="modalEditar">
                 <div class="container">
                     <div class="cabecalho">
@@ -114,7 +118,7 @@
             <div id="modalAdicionarDepartamento" class="modalAdicionarDepartamento">
                 <div class="container" id="containerAdicionarAdministrador">
                     <div class="cabecalho">
-                        <header>Registre o Administrador</header>
+                        <header>Registre o Adm do Departamento</header>
                         <i class="fa-solid fa-xmark"
                             onclick="mostrarAdicionarDepartamento(inpNomeNovo, inpDistintivoNovo, inpEmailNovo, inpPermissaoNovo, inpSenhaNovo, inpConfSenhaNovo, inpNomeDepartamento, inpCidade, inpEstado)"></i>
                     </div>
@@ -244,9 +248,6 @@
                             <p>Permissão</p>
                             <div class="input-container">
                                 <select name="restrito" id="inpPermissao">
-                                    <option value="#">Escolha o nível de permissão do usuário.</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Usuário">Usuário</option>
                                 </select>
                             </div>
                         </div>
@@ -319,9 +320,120 @@
     let idUsuario;
     let permissaoDeAdministrador = true;
     let totalPaginas;
-    delegacia.innerHTML = sessionStorage.NOME_DEPARTAMENTO;
     inpPermissaoNovo.disabled = true;
     inpPermissaoNovo.style.cursor = "not-allowed";
+    let departamentoValue = sessionStorage.NOME_DEPARTAMENTO;
+    let id_departamento = sessionStorage.ID_DEPARTAMENTO;
+
+    let local = inpLocal.value;
+    local = sessionStorage.NOME_DEPARTAMENTO;
+    inpLocal.value = local;
+    let dadosFetch;
+    let filtroLocais;
+
+    if (sessionStorage.PERMISSAO_USUARIO != "Externo" && sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") {
+        caixa_input.innerHTML = `<input id="inpLocal" disabled value="${local}"></input>`;
+        inpLocal.style = "color: #FFF;";
+    }
+
+    document.addEventListener("click", function (event) {
+
+        const input = document.getElementById("inpLocal");
+        const sugestoes = document.getElementById("caixaSugestoes");
+
+
+        if (!input.contains(event.target) && !sugestoes.contains(event.target)) {
+            inpLocal.value = local;
+            filtroLocais = [];
+            caixaSugestoes.innerHTML = "";
+            caixaSugestoes.style.display = "none";
+            inpLocal.style = "border-bottom-right-radius: 15px";
+            inpLocal.style = "border-bottom-left-radius: 15px";
+        }
+    });
+
+    function mudarLocal(inputValue) {
+
+        filtroLocais = dadosFetch.filter(local => {
+            return local.nome
+                .toLowerCase()
+                .split(" ")
+                .some(palavraAtual => palavraAtual.startsWith(inputValue.toLowerCase()));
+        });
+
+        caixaSugestoes.style.display = "flex";
+        caixaSugestoes.innerHTML = "";
+        inpLocal.style = "border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-bottom: solid #000 1px;";
+
+        let textoSugestao = "";
+        let valorSugestao = "";
+
+        if (filtroLocais.length == 0) {
+            caixaSugestoes.innerHTML += `<span>Nenhum dado encontrado.</span>`;
+        }
+
+        if (filtroLocais.length > 5) {
+            for (let i = 0; i < 5; i++) {
+                caixaSugestoes.innerHTML += `<span onclick="puxarNovosDados('${filtroLocais[i].nome}', ${filtroLocais[i].departamento_id})">${filtroLocais[i].nome}</span>`;
+            }
+        } else {
+            for (let i = 0; i < filtroLocais.length; i++) {
+                caixaSugestoes.innerHTML += `<span onclick="puxarNovosDados('${filtroLocais[i].nome}', ${filtroLocais[i].departamento_id})">${filtroLocais[i].nome}</span>`;
+            }
+        }
+    }
+
+    if (sessionStorage.NOME_DEPARTAMENTO == "Desenvolvedores") {
+        inpPermissao.disabled = true;
+        inpPermissao.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
+    } else if (sessionStorage.NOME_DEPARTAMENTO == "Externo") {
+        inpPermissao.disabled = true;
+        inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+    } else {
+        inpPermissao.disabled = false;
+        inpPermissao.innerHTML = `
+            <option value="#">Escolha o nível de permissão do usuário.</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Usuário">Usuário</option>`;
+    }
+
+    function puxarNovosDados(valor, id) {
+        id_departamento = id;
+        local = valor;
+        inpLocal.value = valor;
+        filtroLocais = [];
+        caixaSugestoes.innerHTML = "";
+        caixaSugestoes.style.display = "none";
+        inpLocal.style = "border-bottom-right-radius: 15px";
+
+        if (valor == "Desenvolvedores") {
+            inpPermissao.disabled = true;
+            inpPermissao.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
+        } else if (valor == "Externos") {
+            inpPermissao.disabled = true;
+            inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+        } else {
+            inpPermissao.disabled = false;
+            inpPermissao.innerHTML = `
+            <option value="#">Escolha o nível de permissão do usuário.</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Usuário">Usuário</option>`;
+        }
+        filtro(selectFiltro.value, inpPesquisa, false);
+    }
+
+    function carregarDepartamentos() {
+        fetch(`/departamento/buscarTodosOsDepartamentos/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                dadosFetch = data;
+            });
+    }
 
     function mudarPagina(acao, numPagina) {
         if (acao > 0 && numPagina < totalPaginas) {
@@ -429,7 +541,7 @@
                             senhaServer: senha,
                             permissaoServer: permissao,
                             distintivoServer: distintivo,
-                            departamentoServer: sessionStorage.ID_DEPARTAMENTO
+                            departamentoServer: id_departamento
                         }),
                     });
                     if (responseCadastro.ok) {
@@ -536,6 +648,7 @@
             idUsuario = usuario_id;
             modalEditar.style = `display: flex`;
             inpNomeEditar.value = nome;
+            inpDistintivoEditar.value = numero;
             inpEmailEditar.value = email;
             inpSenhaEditar.value = senha;
         } else {
@@ -634,7 +747,8 @@
     }
 
     function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
-        let departamento = sessionStorage.ID_DEPARTAMENTO;
+
+        let departamento = local;
         let numeroPagina = Number(inpNumeroPagina.value);
         let tamanhoPagina = Number(inpTamanhoPagina.value);
         tamanhoPagina = tamanhoPagina || 10;
@@ -642,16 +756,8 @@
         fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
             .then(function (resposta) {
                 if (resposta.ok) {
-                    if (resposta.status == 204) {
-                        var listaUsuarios = document.getElementById("listaUsuarios_container");
-                        listaUsuarios.innerHTML = "";
-                        var usuario_container = document.createElement("span");
-                        usuario_container.innerHTML = "Nenhum usuário encontrado.";
-                        listaUsuarios.appendChild(usuario_container);
-                        return;
-                    }
-
                     resposta.json().then(function (usuarios) {
+                        console.table(usuarios);
 
                         let filtroUsuarios = usuarios;
 
@@ -721,14 +827,10 @@
                                 <div class="objeto"><span>${publicacao.permissao}</span></div>
                             </div>
                             <div class="div-buttons">
-                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
-                                    <img src="./Assets/btn_editar.png">
-                                </button>
-                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
-                                    <img src="./Assets/btn_deletar.png">
-                                </button>
+                                <i class="fa-regular fa-pen-to-square" style="color: #000;" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')"></i>
+                                <i class="fa-solid fa-trash" style="color: #000;" onclick="deletar(${publicacao.usuario_id})"></i>
                             </div>
-                        `;
+                                `;
                                 tamanhoDiv += 100;
                                 if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
                                 listaUsuarios.appendChild(divPublicacao);
@@ -903,8 +1005,7 @@
             } catch (error) {
                 console.error("Erro:", error);
             }
-        } else console.log("Não passei nas validações");
-
+        }
     }
 
     function paginacao() {
@@ -949,7 +1050,6 @@
     }
 
     function validacaoDepartamento(nomeDepartamento, cidade, estado) {
-        console.log("Cheguei no validacaoDepartamento");
 
         if (nomeDepartamento.value.length < 4) setFieldError(nomeDepartamento, "Departamento inválido.");
         else setFieldSpecificSuccess(nomeDepartamento);
@@ -961,7 +1061,6 @@
         else setFieldSpecificSuccess(estado);
 
         if (nomeDepartamento.value.length >= 4 && cidade.value.length >= 2 && estado.value.length <= 3) {
-            console.log("passei nas validações");
             setFieldAllSuccess(nomeDepartamento);
             setFieldAllSuccess(cidade);
             setFieldAllSuccess(estado);
@@ -1000,6 +1099,7 @@
             eyeName.classList.replace("fa-eye-slash", "fa-eye");
         }
     }
+    carregarDepartamentos();
 
     setInterval(() => {
         filtro(selectFiltro.value, inpPesquisa, false);

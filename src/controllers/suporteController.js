@@ -1,34 +1,15 @@
 const suporteModel = require("../models/suporteModel");
 
-function buscarTodosChamadosAtivos(req, res) {
+function buscarTodosChamados(req, res) {
     suporteModel
-        .buscarTodosChamadosAtivos()
+        .buscarTodosChamados()
         .then(function (response) {
             res.json(response);
         })
         .catch(function (erro) {
             console.log(erro);
             console.log(
-                "\nHouve um erro ao buscar os chamados ativos! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage);
-        });
-
-    console.log(res);
-}
-
-function buscarTodosChamadosFinalizados(req, res) {
-
-    suporteModel
-        .buscarTodosChamadosFinalizados()
-        .then(function (response) {
-            res.json(response);
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            console.log(
-                "\nHouve um erro ao buscar os chamados finalizados! Erro: ",
+                "\nHouve um erro ao buscar os chamados! Erro: ",
                 erro.sqlMessage
             );
             res.status(500).json(erro.sqlMessage);
@@ -41,13 +22,10 @@ function criarChamado(req, res) {
     let usuario_id = req.body.usuario_idServer;
     let assunto = req.body.assuntoServer;
     let descricao = req.body.descricaoServer;
-    let dt_criacao = req.body.dt_criacaoServer;
-    let status_chamado = req.body.status_chamadoServer;
-    let respostaInicial = req.body.respostaInicialServer;
-    let fk_departamento = req.body.fk_departamentoServer;
+    let fk_departamento = req.body.departamentoServer;
 
     suporteModel
-        .criarChamado(usuario_id, assunto, descricao, dt_criacao, status_chamado, respostaInicial, fk_departamento)
+        .criarChamado(usuario_id, assunto, descricao, fk_departamento)
         .then(function (response) {
             res.json(response);
         })
@@ -79,29 +57,27 @@ function deletarChamado(req, res) {
         })
 }
 
-function atualizarChamado(req, res) {
+function responderChamado(req, res) {
     let chamado_id = req.body.chamado_idServer;
-    let assunto = req.body.assuntoServer;
-    let descricao = req.body.descricaoServer;
+    let resposta = req.body.respostaServer;
 
     suporteModel
-        .atualizarChamado(chamado_id, assunto, descricao)
+        .responderChamado(chamado_id, resposta)
         .then(function (response) {
             res.json(response);
         })
         .catch(function (erro) {
             console.log(erro);
             console.log(
-                "\nHouve um erro ao deletar o chamado! Erro: ",
+                "\nHouve um erro ao finalizar o chamado! Erro: ",
                 erro.sqlMessage
             );
             res.status(500).json(erro.sqlMessage);
         })
 }
 module.exports = {
-    buscarTodosChamadosAtivos,
-    buscarTodosChamadosFinalizados,
+    buscarTodosChamados,
     criarChamado,
     deletarChamado,
-
+    responderChamado
 };

@@ -8,12 +8,14 @@ body {
     padding: 0;
     display: flex;
     background: linear-gradient(180deg, rgba(73, 104, 141, 0.61) 49.5%, rgba(2, 21, 38, 0.01) 87.5%), linear-gradient(0deg, #021526 0%, #021526 100%), linear-gradient(0deg, #FFF 0%, #FFF 100%), #49688D;
+    overflow: hidden;
 }
 
 .principalContainer {
     display: flex;
     height: 100vh;
     width: 100%;
+    justify-content: space-between;
 }
 
 .content {
@@ -22,20 +24,19 @@ body {
     width: 40%;
 
     h1 {
-        font-size: 55px;
+        margin-top: 40px;
+        font-size: 45px;
     }
 
     p {
         font-size: 18px;
-        margin-bottom: 30px;
         width: 85%;
         text-align: justify;
     }
 
     label {
         font-size: 20px;
-        margin-bottom: 15px;
-        margin-top: 20px;
+        margin-bottom: 25px;
     }
 
     select {
@@ -44,10 +45,10 @@ body {
         color: #FFF;
         background: transparent;
         border-bottom: solid #A9A9A9 1px;
-        /* border-right: solid #A9A9A9 1px; */
         width: 81%;
         height: 25px;
         font-size: 18px;
+        margin-bottom: 25px;
 
         option {
             outline: none;
@@ -69,6 +70,7 @@ body {
         max-width: 90%;
         max-height: 250px;
         font-size: 18px;
+        margin-bottom: 25px;
     }
 
     textarea::placeholder {
@@ -89,7 +91,6 @@ body {
         height: 50px;
         font-size: 18px;
         width: 180px;
-        margin-top: 30px;
         background: linear-gradient(270deg, transparent 50%, white 50%);
         background-size: 200% 100%;
         background-position: right;
@@ -106,7 +107,7 @@ body {
     width: 40%;
     border: 1px solid #fff;
     border-radius: 20px;
-    background-color: #FFF; 
+    background-color: #FFF;
     color: #000;
     height: 70%;
     margin-top: 130px;
@@ -118,11 +119,11 @@ body {
         color: #000;
     }
 
-    h2{
+    h2 {
         color: #000;
     }
 
-    span{
+    span {
         color: #000;
     }
 }
@@ -154,4 +155,195 @@ body {
 
 .numero {
     margin-right: 15px;
+}
+
+header {
+    font-size: 24px;
+}
+
+#divGerenciamento {
+    width: 50%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+    .header {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        justify-content: space-around;
+        border-bottom: solid #FFF 1px;
+
+        .pesquisa {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            border-right: solid #FFF 1px;
+
+            select {
+                color: white;
+                outline: none;
+                width: fit-content;
+                background-color: transparent;
+                border: none;
+                font-size: 16px;
+
+                option {
+                    color: black;
+                }
+            }
+
+            input {
+                border-left: solid #FFF 1px;
+                font-size: 15px;
+                color: white;
+                padding: 15px;
+                outline: none;
+                width: 300px;
+                height: 30px;
+                border: none;
+                background-color: transparent;
+            }
+
+            input::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        .paginacao {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .configuracoes {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                width: 90%;
+            }
+        }
+    }
+
+    .listaUsuarios_container::-webkit-scrollbar {
+        width: 10px;
+    }
+
+
+    .listaUsuarios_container {
+        width: 100%;
+        padding-right: 5px;
+        padding-bottom: 40px;
+        height: 540px;
+
+        center {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        #tituloEncerrado {
+            border-top: solid #FFF 1px;
+            padding-top: 5px;
+        }
+
+        .container {
+            overflow-y: auto;
+            max-height: 270px;
+        }
+
+        ::-webkit-scrollbar {
+            display: flex;
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #eaf1f7;
+            border-radius: 15px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #00a5f1;
+        }
+
+        .publicacao {
+            display: flex;
+            word-break: break-all;
+            justify-content: space-evenly;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            max-width: 100%;
+
+            border-radius: 15px;
+
+            .div-buttons button {
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+
+                img {
+                    width: 20px;
+                }
+            }
+
+            .div-buttons button:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        .div-objetos {
+            width: 100%;
+            padding: 10px;
+
+            .head,
+            .tipo,
+            .descricao {
+                border-bottom: solid white 1px;
+                display: flex;
+                align-items: center;
+                height: 30px;
+                width: 100%;
+
+                span {
+                    color: white;
+                    display: inline-block;
+                }
+
+                h4 {
+                    margin-right: 5px;
+                }
+            }
+
+            .descricao {
+                display: unset;
+                align-items: baseline;
+            }
+        }
+
+        .div-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 10%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-bottom-right-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100px;
+            font-size: 30px;
+
+            i {
+                font-size: 50px;
+            }
+        }
+    }
 }
