@@ -257,7 +257,7 @@
                 <li><i class="fa-solid fa-square" style="color: ${novasCores[4].hex}"></i> Negra</li>
                 <li><i class="fa-solid fa-square" style="color: ${novasCores[3].hex}"></i> Hispânica</li>
                 <li><i class="fa-solid fa-square" style="color: ${novasCores[2].hex}"></i> Indígena</li>
-                <li><i class="fa-solid fa-square" style="color: ${novasCores[0].hex}; border: 1px solid #ddd; border-radius: 3px;"></i> Sem predominância</li>
+                <li><i class="fa-solid fa-square" style="color: ${novasCores[1].hex}"></i> Asiática</li>
             </ul>`;
         } else if (filtroSelecionado === "armamento") {
             legenda.innerHTML = `
@@ -291,15 +291,15 @@
                             totalRelatorios_por_estado >= valorMaximo ? novasCores[1].hex :
                                 totalRelatorios_por_estado === 0 ? novasCores[0].hex : novasCores[1].hex;
         } else if (filtroSelecionado === "etnia") {
-            return etniaPredominante === "Branca" ? novasCores[5].hex :
-                etniaPredominante === "Negra" ? novasCores[4].hex :
-                    etniaPredominante === "Hispânica" ? novasCores[3].hex :
-                        etniaPredominante === "Indígena" ? novasCores[2].hex :
-                            etniaPredominante === "Empate" ? novasCores[1].hex : novasCores[0].hex;
+            return etniaPredominante === "WHITE" ? novasCores[5].hex :
+                etniaPredominante === "BLACK" ? novasCores[4].hex :
+                    etniaPredominante === "HISPANIC" ? novasCores[3].hex :
+                        etniaPredominante === "HISPANIC" ? novasCores[2].hex :
+                            etniaPredominante === "ASIAN" ? novasCores[1].hex : novasCores[0].hex;
         } else if (filtroSelecionado === "armamento") {
-            return armamentoPredominante === "Arma de fogo" ? novasCores[5].hex :
-                armamentoPredominante === "Arma branca" ? novasCores[3].hex :
-                    armamentoPredominante === "Não armado" ? novasCores[1].hex :
+            return armamentoPredominante === "GUN" ? novasCores[5].hex :
+                armamentoPredominante === "BLUNT_OBJECT" ? novasCores[3].hex :
+                    armamentoPredominante === "UNARMED" ? novasCores[1].hex :
                         armamentoPredominante === "Empate" ? novasCores[1].hex : novasCores[0].hex;
         }
     }

@@ -49,110 +49,107 @@
         plataforma, informe-nos detalhadamente o que está havendo e iremos verificar.</p>
 
       <label> Categoria do chamado </label>
-      <select>
+      <select id="selectAssunto">
         <option value="#">Selecione seu motivo</option>
         <option value="problema">Problemas</option>
         <option value="dificuldade">Dificuldades</option>
       </select>
 
       <label> Insira o motivo do chamado</label>
-      <textarea name="" id="" placeholder="Digite o motivo de sua mensagem."></textarea>
+      <textarea name="" id="textareaDescricao" placeholder="Digite o motivo de sua mensagem."></textarea>
 
-      <button>Abrir chamado</button>
+      <button onclick="cadastrarChamado(selectAssunto.value, textareaDescricao.value)">Abrir chamado</button>
     </div>
 
-    <div class="chamados">
-      <div>
-        <h2>Chamados abertos</h2>
-        <div class="linha"></div>
-
-        <span class="numero">Numero</span>
-        <span>Motivo</span>
-        <div class="dados_chamado">
-          <span>12</span>
-          <div class="linha_curta"></div>
-          <span>Dificuldade com visualização do mapa do Texas</span>
+    <div id="divGerenciamento">
+      <div class="header">
+        <div class="pesquisa">
+          <select id="selectDepartamento" onchange="carregarDados(selectDepartamento.value, selectStatus.value, false)">
+            <option value="todos">Todos os departamentos</option>
+            <option value="meu">Meu departamento</option>
+          </select>
+          <select id="selectStatus" onchange="carregarDados(selectDepartamento.value, selectStatus.value, false)">
+            <option value="todos">Todos</option>
+            <option value="ativo">Ativos</option>
+            <option value="encerrado">Encerrados</option>
+          </select>
         </div>
+        <div class="paginacao">
+          <div class="configuracoes">
+            <span id="spanTotalAbertos"></span>
+            |
+            <span id="spanTotalEncerrados"></span>
+          </div>
+        </div>
+      </div>
 
-        <div class="chamados_encerrados">
-          <h2>Chamados encerrados</h2>
-          <div class="linha"></div>
-          <span class="numero">Numero</span>
-          <span>Motivo</span>
-          <div class="dados_chamado">
-            <span>12</span>
-            <div class="linha_curta"></div>
-            <span>Problema na criação de um novo usuário</span>
+      <div class="listaUsuarios_container" id="listaChamados">
+        <center id="tituloAtivo">Chamados Abertos</center>
+        <div class="container">
+          <div class="caixa" id="divAtivo">
+          </div>
+        </div>
+        <center id="tituloEncerrado">Chamados Encerrados</center>
+        <div class="container">
+          <div class="caixa" id="divEncerrado">
           </div>
         </div>
       </div>
     </div>
+  </div>
 </body>
 
 </html>
 
 <script>
-  window.onload(buscarTodosChamadosAtivos)
 
-  function buscarTodosChamadosAtivos() {
-    var chamadosAtivos = [];
+  function cadastrarChamado(assunto, descricao) {
+    if (assunto != "#" && descricao.length > 5) {
+      fetch(`/suporte/criarChamado/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          usuario_idServer: sessionStorage.ID_USUARIO,
+          assuntoServer: assunto,
+          descricaoServer: descricao,
+          departamentoServer: sessionStorage.ID_DEPARTAMENTO
+        }),
 
-    fetch("/suporte/buscarTodosChamadosAtivos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          res.json().then(json => {
-            console.log("chamados recebidos aqui")
-            // chamadosAtivos = chamados 
+      }).then(function (resposta) {
+        if (resposta.ok) {
+          textareaDescricao.value = "";
+          textareaDescricao.placeholder = "Digite o motivo de sua mensagem...";
+          selectAssunto.value = "#";
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Chamado adicionado com sucesso!",
+            color: "#000",
+            showConfirmButton: false,
+            timer: 1500,
           });
+          carregarDados()
+        } else if (resposta.status == 404) {
+          window.alert("Deu 404!");
         } else {
-          res.text().then(texto => {
-            throw "error" + texto;
-          });
+          throw ("Houve um erro ao tentar realizar a excluir chamado! Código da resposta: " + resposta.status);
         }
-      })
-      .catch((error) => {
-        console.error("Erro na requisição:", error);
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
       });
-  }
-
-  function buscarTodosChamadosFinalizados() {
-    var chamadosFinalizados = [];
-
-    fetch("/suporte/buscarTodosChamadosFinalizados", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          res.json().then(json => {
-            console.log("chamados recebidos aqui")
-            // chamadosFinalizados = chamados 
-          });
-        } else {
-          res.text().then(texto => {
-            throw "error" + texto;
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Erro na requisição:", error);
-      });
+    } else if (descricao.length < 5) {
+      textareaDescricao.placeholder = "Necessária descrição do assunto!";
+    }
   }
 
   function deletar(usuario_id, chamado_id) {
-    if (permissaoDeAdministrador) {
+    if (usuario_id == sessionStorage.ID_USUARIO) {
       Swal.fire({
         title: "Tem certeza?",
         text: "Ao confirmar, o chamado será excluído permanentemente!",
-        icon: "warning",
-        background: "#FFF",
+        icon: "error",
         color: "#000",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -167,7 +164,6 @@
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              usuario_idServer: usuario_id,
               chamado_idServer: chamado_id
             }),
 
@@ -176,17 +172,17 @@
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Usuário removido com sucesso!",
+                title: "Chamado removido com sucesso!",
                 background: "#FFF",
                 color: "#000",
                 showConfirmButton: false,
                 timer: 1500,
               });
-              filtro(selectFiltro.value, inpPesquisa, false);
+              carregarDados(selectDepartamento.value, selectStatus.value)
             } else if (resposta.status == 404) {
               window.alert("Deu 404!");
             } else {
-              throw ("Houve um erro ao tentar realizar a excluir usuário! Código da resposta: " + resposta.status);
+              throw ("Houve um erro ao tentar realizar a excluir chamado! Código da resposta: " + resposta.status);
             }
           }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
@@ -196,7 +192,7 @@
     } else {
       Swal.fire({
         title: "ERRO",
-        text: "É necessária permissão de administrador para remover um usuário.",
+        text: "Apenas o usuário que abriu o chamado pode retirá-lo!.",
         icon: "error",
         background: '#FFF',
         color: '#000',
@@ -208,157 +204,171 @@
     }
   }
 
-  function atualizarListaUsuarios(temFiltro, filtro, filtroValue) {
-    let departamento = sessionStorage.ID_DEPARTAMENTO;
-    let numeroPagina = Number(inpNumeroPagina.value);
-    let tamanhoPagina = Number(inpTamanhoPagina.value);
-    tamanhoPagina = tamanhoPagina || 10;
+  async function responderFinalizar(chamado, usuario, email) {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Responda o chamado para finaliza-lo",
+      inputPlaceholder: "Digite aqui sua resposta...",
+      inputAttributes: {
+        "aria-label": "Digite aqui sua resposta"
+      },
+      showCancelButton: true
+    });
+    if (text.length > 4) {
+      fetch(`/suporte/responderChamado/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chamado_idServer: chamado,
+          respostaServer: text,
+        }),
 
-    fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
+      }).then(function (resposta) {
+        if (resposta.ok) {
+          console.log(text);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Chamado encerrado com sucesso!",
+            color: "#000",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          carregarDados()
+        }
+      })
+    }
+  }
+
+  function carregarDados(departamentoFiltro, status) {
+
+    fetch(`/suporte/buscarTodosChamados`)
       .then(function (resposta) {
         if (resposta.ok) {
-          if (resposta.status == 204) {
-            var listaUsuarios = document.getElementById("listaUsuarios_container");
-            listaUsuarios.innerHTML = "";
-            var usuario_container = document.createElement("span");
-            usuario_container.innerHTML = "Nenhum usuário encontrado.";
-            listaUsuarios.appendChild(usuario_container);
-            return;
-          }
+          resposta.json().then(function (chamados) {
 
-          resposta.json().then(function (usuarios) {
+            let filtroChamados = [];
+            let totalAbertos = 0;
+            let totalEncerrados = 0;
 
-            let filtroUsuarios = usuarios;
+            for (let i = chamados.length - 1; i >= 0; i--) {
+              let chamadoAtual = chamados[i];
+              if (chamadoAtual.status_chamado == "Criado") totalAbertos++;
+              if (chamadoAtual.status_chamado == "Finalizado") totalEncerrados++;
 
-            if (temFiltro) {
-              filtroUsuarios = usuarios.filter(usuario => {
-                // Aqui estou separando todas as palavras de uma coluna, colocando todas como toLowerCase e verificando se alguma (some) começa (startsWith) com o filtroValue
-                if (filtro === "nome") {
-                  return usuario.nome
-                    .toLowerCase()
-                    .split(" ")
-                    .some(palavraAtual => palavraAtual.startsWith(filtroValue.toLowerCase()));
-                } else if (filtro === "distintivo") {
-                  return usuario.numero.startsWith(filtroValue);
-                } else if (filtro === "email") {
-                  return usuario.email.toLowerCase().startsWith(filtroValue.toLowerCase());
-                } else if (filtro === "permissao") {
-                  return usuario.permissao.toLowerCase().startsWith(filtroValue.toLowerCase());
+              if (departamentoFiltro == "meu") {
+                if (sessionStorage.ID_DEPARTAMENTO == chamadoAtual.fk_departamento) {
+                  filtroChamados.push(chamadoAtual);
                 }
-                return false;
-              });
-
-            } else {
-              filtroUsuarios = usuarios;
+              } else {
+                filtroChamados.push(chamadoAtual);
+              }
             }
 
+            if (status == "ativo") {
+              divEncerrado.style.display = "none";
+              tituloEncerrado.style.display = "none";
+              divAtivo.style.display = "unset";
+              tituloAtivo.style.display = "flex";
+              spanTotalAbertos.innerHTML = `Abertos: ${totalAbertos}`;
+              spanTotalEncerrados.innerHTML = "";
+            } else if (status == "encerrado") {
+              divAtivo.style.display = "none";
+              tituloAtivo.style.display = "none";
+              divEncerrado.style.display = "unset";
+              tituloEncerrado.style.display = "flex";
+              spanTotalAbertos.innerHTML = "";
+              spanTotalEncerrados.innerHTML = `Encerrados: ${totalEncerrados}`;
+            } else {
+              divEncerrado.style.display = "unset";
+              tituloEncerrado.style.display = "flex";
+              divAtivo.style.display = "unset";
+              tituloAtivo.style.display = "flex";
+              spanTotalAbertos.innerHTML = `Abertos: ${totalAbertos}`;
+              spanTotalEncerrados.innerHTML = `Encerrados: ${totalEncerrados}`;
+            }
 
-            let totalUsuarios = filtroUsuarios.length;
-            totalPaginas = Math.ceil(totalUsuarios / tamanhoPagina);
-            inpTotalPaginas.innerHTML = totalPaginas;
+            divAtivo.innerHTML = "";
+            divEncerrado.innerHTML = "";
+            if (filtroChamados.length > 0) {
+              for (let u = 0; u < filtroChamados.length; u++) {
+                let publicacao = filtroChamados[u];
 
-            let primeiroItem = (numeroPagina - 1) * tamanhoPagina;
-            let ultimoItem = Math.min(primeiroItem + tamanhoPagina, totalUsuarios);
+                if (publicacao.status_chamado == "Criado") {
 
-            let listaUsuarios = document.getElementById("listaUsuarios_container");
-            listaUsuarios.innerHTML = `
-                        <div class="cabecalho">
-                            <div class="div-objetos">
-                                <div class="objeto">
-                                    <span>Nome</span>
-                                </div>
-                                <div class="objeto">
-                                    <span>Distintivo</span>
-                                </div>
-                                <div class="objeto">
-                                    <span>Email</span>
-                                </div>
-                                <div class="objeto">
-                                    <span>Permissão</span>
-                                </div>
-                            </div>
-                            <div class="div-buttons">
-                                <span>Ações</span>
-                            </div>
-                        </div>`;
-            let tamanhoDiv = 50;
-            if (filtroUsuarios.length > 0) {
-              for (let u = primeiroItem; u < ultimoItem; u++) {
-                let publicacao = filtroUsuarios[u];
+                  divAtivo.innerHTML += `
+                  <div class="publicacao">
+                    <div class="div-objetos">
+                      <div class="head">
+                        <h4>De: </h4>
+                        <span>${publicacao.email}, ${publicacao.nome} | ${publicacao.dt_criacao}</span>
+                      </div>
+                      <div class="tipo">
+                        <h4>Assunto: </h4>
+                        <span>${publicacao.assunto}</span>
+                      </div>
+                      <div class="descricao">
+                        <h4>Descrição:</h4>
+                        <span>${publicacao.descricao}</span>
+                      </div>
+                    </div>
+                    <div class="div-buttons">
+                      <button id="btnFinalizar"
+                        onclick="responderFinalizar(${publicacao.chamado_id}, ${publicacao.fk_usuario}, '${publicacao.email}')">
+                        <img src="./Assets/circle-check-regular.svg">
+                      </button>
+                      <button id="btnDeletar" onclick="deletar(${publicacao.fk_usuario}, ${publicacao.chamado_id})"> 
+                        <img src="./Assets/btn_deletar.png">
+                      </button>
+                    </div>
+                  </div>`;
 
-                let divPublicacao = document.createElement("div");
-                divPublicacao.className = "publicacao";
-                divPublicacao.innerHTML = `
-                            <div class="div-objetos">
-                                <div class="objeto"><span>${publicacao.nome}</span></div>
-                                <div class="objeto"><span>${publicacao.numero}</span></div>
-                                <div class="objeto"><span>${publicacao.email}</span></div>
-                                <div class="objeto"><span>${publicacao.permissao}</span></div>
-                            </div>
-                            <div class="div-buttons">
-                                <button name="botoesAcao" id="btnEditar" name="restrito" onclick="irEditar('${publicacao.usuario_id}', '${publicacao.nome}', '${publicacao.numero}', '${publicacao.email}', '${publicacao.permissao}', '${publicacao.senha}')">
-                                    <img src="./Assets/btn_editar.png">
-                                </button>
-                                <button name="botoesAcao" id="btnDeletar" name="restrito" onclick="deletar(${publicacao.usuario_id})">
-                                    <img src="./Assets/btn_deletar.png">
-                                </button>
-                            </div>
-                        `;
-                tamanhoDiv += 100;
-                if (tamanhoDiv < 500) listaUsuarios.style.minHeight = `${tamanhoDiv}px`;
-                listaUsuarios.appendChild(divPublicacao);
-              }
+                  if (sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") btnFinalizar.style.display = "none";
 
-              if (totalPaginas < numeroPagina) {
-                inpNumeroPagina.value = filtroUsuarios.length;
-                atualizarListaUsuarios();
+                } else {
+                  divEncerrado.innerHTML += `
+                  <div class="publicacao">
+                    <div class="div-objetos">
+                      <div class="head">
+                        <span>De: ${publicacao.email}, ${publicacao.nome} | ${publicacao.dt_criacao}</span>
+                      </div>
+                      <div class="tipo">
+                        <span>Assunto: ${publicacao.assunto}</span>
+                      </div>
+                      <div class="descricao">
+                        <h4>Descrição:</h4>
+                        <span>${publicacao.descricao}</span>
+                      </div>
+                      <div class="descricao">
+                        <h4>Resposta:</h4>
+                        <span>${publicacao.resposta}</span>
+                      </div>
+                    </div>
+                    </div>`;
+                }
               }
             } else {
-              listaUsuarios.innerHTML = `
-                            <div class="error">
-                                <i class="fa-solid fa-circle-exclamation"></i>
-                                <span>Nenhum usuário encontrado</span>
-                            </div>`;
-              usuario_container.innerHTML = "Nenhum usuário encontrado.";
-              listaUsuarios.appendChild(usuario_container);
-              inpNumeroPagina.value = 1;
+              divAtivo.innerHTML = `
+              <div class="error">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                  <span>Nenhum chamado encontrado</span>
+              </div>`;
+              divEncerrado.innerHTML = `
+              <div class="error">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                  <span>Nenhum chamado encontrado</span>
+              </div>`;
               return;
             }
           })
         }
       })
       .catch(function (error) {
-        console.error("Erro ao buscar usuários:", error);
+        console.error("Erro ao buscar chamados:", error);
       });
 
   }
-
-
+  carregarDados(selectDepartamento.value, selectStatus.value)
 </script>
-<!-- <script>
-  window.onload = validarSessao();
-
-  const nodemailer = require("nodemailer");
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "seu_email@gmail.com",
-      pass: "sua_senha",
-    },
-  });
-
-  const mailOptions = {
-    from: sessionStorage.EMAIL_USUARIO,
-    to: "support@samuelppaz03.atlassian.net",
-    subject: "Assunto do email",
-    text: "Conteúdo do email",
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log("Erro:", error);
-    }
-    console.log("Email enviado: " + info.response);
-  });
-</script> -->

@@ -37,7 +37,6 @@ app.use("/insight", insightRoute);
 app.use("/suporte", suporteRoute);
 app.use("/relatorio", relatorioRoute);
 
-
 app.listen(PORTA_APP, function () {
   console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  

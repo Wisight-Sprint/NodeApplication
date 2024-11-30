@@ -61,9 +61,9 @@
                             <div class="input-container">
                                 <select id="selectFuga">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Sem tentativa">Sem tentativa</option>
-                                    <option value="A pé">A pé</option>
-                                    <option value="Veículo">Veículo</option>
+                                    <option value="not">Sem tentativa</option>
+                                    <option value="foot">A pé</option>
+                                    <option value="car">Veículo</option>
                                 </select>
                             </div>
                         </div>
@@ -297,33 +297,30 @@
         carregarDados();
     }
 
-
     function mudarTipoLocal(selectValue) {
-        if (selectValue == "Departamento") {
-            local = sessionStorage.NOME_DEPARTAMENTO;
-            inpLocal.value = local;
-        }
-        else if (selectValue == "Cidade") {
-            local = sessionStorage.CIDADE_USUARIO;
-            inpLocal.value = local;
-        }
-        else {
-            local = sessionStorage.ESTADO_USUARIO;
-            inpLocal.value = local;
-        }
+        if (sessionStorage.PERMISSAO_USUARIO != "Externo" && sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") {
+            if (selectValue == "Departamento") {
+                local = sessionStorage.NOME_DEPARTAMENTO;
+                inpLocal.value = local;
+            }
+            else if (selectValue == "Cidade") {
+                local = sessionStorage.CIDADE_USUARIO;
+                inpLocal.value = local;
+            }
+            else {
+                local = sessionStorage.ESTADO_USUARIO;
+                inpLocal.value = local;
+            }
 
+        }
         tipoLocal = selectValue;
+        x = 0;
 
         carregarDados();
     }
 
-
-
     const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
-
-    function getColor(value, year) {
-        return year === 2023 ? '#c1121f' : '#669bbc';
-    }
+    let x = 0;
 
     function carregarDados() {
         let vitimas2023 = new Array(12).fill(0);
@@ -338,6 +335,15 @@
             })
             .then(data => {
                 dadosFetch = data;
+                if ((sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") && x == 0) {
+                    
+                    if (tipoLocal == "Departamento") local = data[0].nome_departamento;
+                    else if (tipoLocal == "Cidade") local = data[0].cidade;
+                    else local = data[0].estado;
+                    inpLocal.value = local;
+                    x = 1;
+                }
+
                 for (let i = 0; i < data.length; i++) {
                     if (tipoLocal == "Departamento" && data[i].nome_departamento == local ||
                         tipoLocal == "Cidade" && data[i].cidade == local ||
@@ -435,9 +441,7 @@
                         //ARMA
                         let armamentos = {
                             'Não armado': 0,
-                            // 'Facão': 0,
                             'Arma branca': 0,
-                            // 'Faca': 0,
                             'Arma de fogo': 0
                         };
 
@@ -447,9 +451,7 @@
 
                         myChartArmamento.data.datasets[0].data = [
                             armamentos['Não armado'],
-                            // armamentos['Facão'],
                             armamentos['Arma branca'],
-                            // armamentos['Faca'],
                             armamentos['Arma de fogo']
                         ];
 
@@ -467,7 +469,7 @@
                         etnias['Asiática'] = data[i].totalAsiática;
                         etnias['Branca'] = data[i].totalBranca;
                         etnias['Negra'] = data[i].totalNegra;
-                        etnias['Indígena'] = data[i].totalIndígena;
+                        etnias['Outra'] = data[i].totalOutra;
 
                         myChartEtnia.data.datasets[0].data = [
                             etnias['Hispânica'],
@@ -682,11 +684,11 @@
                             <div class="input-container">
                                 <select id="selectEtnia${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Branca">Branca</option>
-                                    <option value="Negra">Negra</option>
-                                    <option value="Asiática">Asiática</option>
-                                    <option value="Hispânica">Hispânica</option>
-                                    <option value="Indígena">Indígena</option>
+                                    <option value="WHITE">Branca</option>
+                                    <option value="BLACK">Negra</option>
+                                    <option value="ASIAN">Asiática</option>
+                                    <option value="HISPANIC">Hispânica</option>
+                                    <option value="OTHER">Outra</option>
                                 </select>
                             </div>
                         </div>
@@ -707,9 +709,9 @@
                             <div class="input-container">
                                 <select id="selectGenero${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Outro">Outro</option>
+                                    <option value="MALE">Masculino</option>
+                                    <option value="FEMALE">Feminino</option>
+                                    <option value="OTHER">Outro</option>
                                 </select>
                             </div>
                         </div>

@@ -756,15 +756,6 @@
         fetch(`/users/buscarUsuarioPorDepartamento/${departamento}`)
             .then(function (resposta) {
                 if (resposta.ok) {
-                    if (resposta.status == 204) {
-                        var listaUsuarios = document.getElementById("listaUsuarios_container");
-                        listaUsuarios.innerHTML = "";
-                        var usuario_container = document.createElement("span");
-                        usuario_container.innerHTML = "Nenhum usuário encontrado.";
-                        listaUsuarios.appendChild(usuario_container);
-                        return;
-                    }
-
                     resposta.json().then(function (usuarios) {
                         console.table(usuarios);
 
