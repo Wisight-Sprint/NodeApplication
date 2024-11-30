@@ -13,24 +13,24 @@ function obterTodosOsDados() {
     ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
     ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental,
     ROUND(AVG(v.idade)) AS mediaIdade,
-    COUNT(CASE WHEN v.genero = "Feminino" THEN 1 END) AS 'totalMulher',
-    COUNT(CASE WHEN v.genero = "Masculino" THEN 1 END) AS 'totalHomem',
+    COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) AS 'totalMulher',
+    COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) AS 'totalHomem',
     CASE 
-        WHEN COUNT(CASE WHEN v.genero = "Feminino" THEN 1 END) > COUNT(CASE WHEN v.genero = "Masculino" THEN 1 END) THEN 'Mulher'
-        WHEN COUNT(CASE WHEN v.genero = "Masculino" THEN 1 END) > COUNT(CASE WHEN v.genero = "Feminino" THEN 1 END) THEN 'Homem'
+        WHEN COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) THEN 'Mulher'
+        WHEN COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) THEN 'Homem'
         ELSE 'Empate'
     END AS generoPredominante,
-    COUNT(CASE WHEN v.etnia = "Branca" THEN 1 END) AS 'totalBranca',
-    COUNT(CASE WHEN v.etnia = "Negra" THEN 1 END) AS 'totalNegra',
-    COUNT(CASE WHEN v.etnia = "Asiática" THEN 1 END) AS 'totalAsiática',
-    COUNT(CASE WHEN v.etnia = "Hispânica" THEN 1 END) AS 'totalHispânica',
-    COUNT(CASE WHEN v.etnia = "Indígena" THEN 1 END) AS 'totalIndígena',
-    COUNT(CASE WHEN r.fuga = "Sem tentativa" THEN 1 END) AS semTentativa,
-    COUNT(CASE WHEN r.fuga = "A pé" THEN 1 END) AS aPe,
-    COUNT(CASE WHEN r.fuga = "Veículo" THEN 1 END) AS Veículo,
-    COUNT(CASE WHEN v.armamento = "Não armado" THEN 1 END) AS desarmado,
-    COUNT(CASE WHEN v.armamento = "Arma branca" THEN 1 END) AS armaBranca,
-    COUNT(CASE WHEN v.armamento = "Arma de fogo" THEN 1 END) AS armaFogo
+    COUNT(CASE WHEN v.etnia = "WHITE" THEN 1 END) AS 'totalBranca',
+    COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
+    COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
+    COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
+    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalIndígena',
+    COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
+    COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
+    COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
+    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
 FROM 
     wisight.relatorio r
 JOIN 
