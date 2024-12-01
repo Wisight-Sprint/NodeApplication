@@ -246,43 +246,53 @@
 
     async function enviarMensagem(nome, email, telefone, descricao) {
 
-
         if (validacao(nome, email, telefone, descricao)) {
-            console.log("passei na validacao");
-            const respostaEmail = await fetch("/users/enviarEmail", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+
+            Swal.fire({
+                title: "Enviando mensagem...",
+                text: "Por favor, aguarde.",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
                 },
-                body: JSON.stringify({
-                    deServer: email.value,
-                    paraServer: "jpmorenoce@gmail.com",
-                    assuntoServer: "Novo contato",
-                    mensagemServer: `${nome.value} entrou em contato para Wisight.\n\nNome: ${nome.value}\nEmail: ${email.value}\nTelefone: ${telefone.value}\nAssunto: ${descricao.value}`,
-                }),
             });
 
-            if (!respostaEmail.ok) {
+            try {
+                const respostaEmail = await fetch("/users/enviarEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        deServer: email.value,
+                        paraServer: "jpmorenoce@gmail.com",
+                        assuntoServer: "Novo contato",
+                        mensagemServer: `${nome.value} entrou em contato para Wisight.\n\nNome: ${nome.value}\nEmail: ${email.value}\nTelefone: ${telefone.value}\nAssunto: ${descricao.value}`,
+                    }),
+                });
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Email enviado com sucesso!",
+                    color: "#000",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                setFieldAllSuccess(nome, "Entre com seu nome");
+                setFieldAllSuccess(email, "Entre com seu email");
+                setFieldAllSuccess(telefone, "Entre com seu telefone");
+                setFieldAllSuccess(descricao, "Digite o propósito de contato");
+
+            } catch (error) {
+                // Mostrar mensagem de erro
                 Swal.fire({
                     icon: "error",
                     title: "Erro ao enviar e-mail.",
+                    text: error.message,
                     confirmButtonText: "Ok",
                 });
-                return;
             }
-
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Email enviado com sucesso!",
-                color: "#000",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-            setFieldAllSuccess(nome, "Entre com seu nome");
-            setFieldAllSuccess(email, "Entre com seu email");
-            setFieldAllSuccess(telefone, "Entre com seu telefone");
-            setFieldAllSuccess(descricao, "Digite o propósito de contato");
         }
     }
 

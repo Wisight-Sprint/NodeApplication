@@ -225,7 +225,6 @@
         return;
       }
 
-      // Enviar a resposta do chamado para o backend
       const resposta = await fetch(`/suporte/responderChamado/`, {
         method: "PUT",
         headers: {
@@ -246,41 +245,59 @@
         return;
       }
 
-      // Enviar e-mail após o sucesso do encerramento do chamado
-      const respostaEmail = await fetch("/users/enviarEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      Swal.fire({
+        title: "Enviando mensagem...",
+        text: "Por favor, aguarde.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
         },
-        body: JSON.stringify({
-          deServer: "jpmorenoce@gmail.com",
-          paraServer: email,
-          assuntoServer: "Resposta ao chamado",
-          mensagemServer: text,
-        }),
       });
 
-      if (!respostaEmail.ok) {
+      try {
+        const respostaEmail = await fetch("/users/enviarEmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            deServer: "jpmorenoce@gmail.com",
+            paraServer: email,
+            assuntoServer: "Resposta ao chamado",
+            mensagemServer: text,
+          }),
+        });
+
+        if (!respostaEmail.ok) {
+          Swal.fire({
+            icon: "error",
+            title: "Erro ao enviar e-mail.",
+            confirmButtonText: "Ok",
+          });
+          return;
+        }
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Chamado encerrado e e-mail enviado com sucesso!",
+          color: "#000",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        setInterval(() => {
+          carregarDados();
+        }, 20000);
+      } catch (error) {
+        // Mostrar mensagem de erro
         Swal.fire({
           icon: "error",
           title: "Erro ao enviar e-mail.",
+          text: error.message,
           confirmButtonText: "Ok",
         });
-        return;
       }
-
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Chamado encerrado e e-mail enviado com sucesso!",
-        color: "#000",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      setInterval(() => {
-        carregarDados();
-      }, 20000);
 
     } catch (error) {
       console.error("Erro na operação:", error);
