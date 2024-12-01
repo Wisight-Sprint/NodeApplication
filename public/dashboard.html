@@ -325,7 +325,7 @@
     function carregarDados() {
         let vitimas2023 = new Array(12).fill(0);
         let vitimas2024 = new Array(12).fill(0);
-        
+
         fetch(`/dashboard/obterTodosOsDados/${tipoLocal}`)
             .then(response => {
                 if (!response.ok) {
@@ -441,17 +441,17 @@
 
                         //ARMA
                         let armamentos = {
-                            'Não armado': 0,
+                            'Desarmado': 0,
                             'Arma branca': 0,
                             'Arma de fogo': 0
                         };
 
-                        armamentos['Não armado'] = data[i].desarmado
+                        armamentos['Desarmado'] = data[i].desarmado
                         armamentos['Arma branca'] = data[i].armaBranca
                         armamentos['Arma de fogo'] = data[i].armaFogo
 
                         myChartArmamento.data.datasets[0].data = [
-                            armamentos['Não armado'],
+                            armamentos['Desarmado'],
                             armamentos['Arma branca'],
                             armamentos['Arma de fogo']
                         ];
@@ -463,21 +463,24 @@
                             'Asiática': 0,
                             'Branca': 0,
                             'Negra': 0,
-                            'Outra': 0
+                            'Nativo': 0,
+                            'Nula': 0
                         };
 
                         etnias['Hispânica'] = data[i].totalHispânica;
                         etnias['Asiática'] = data[i].totalAsiática;
                         etnias['Branca'] = data[i].totalBranca;
                         etnias['Negra'] = data[i].totalNegra;
-                        etnias['Outra'] = data[i].totalOutra;
+                        etnias['Nativo'] = data[i].totalNativo;
+                        etnias['Nula'] = data[i].totalNula;
 
                         myChartEtnia.data.datasets[0].data = [
                             etnias['Hispânica'],
                             etnias['Asiática'],
                             etnias['Branca'],
                             etnias['Negra'],
-                            etnias['Outra']
+                            etnias['Nativo'],
+                            etnias['Nula']
                         ];
 
                         myChartEtnia.update();
@@ -486,17 +489,23 @@
                         let fugas = {
                             'A pé': 0,
                             'Carro': 0,
-                            'Não fugiu': 0
+                            'Não fugiu': 0,
+                            'Outro': 0,
+                            'Nula': 0
                         };
 
                         fugas['A pé'] = data[i].aPe;
                         fugas['Carro'] = data[i].Veículo;
                         fugas['Não fugiu'] = data[i].semTentativa;
+                        fugas['Outro'] = data[i].outro;
+                        fugas['Nula'] = data[i].fugaNula;
 
                         myChartFuga.data.datasets[0].data = [
                             fugas['A pé'],
                             fugas['Carro'],
-                            fugas['Não fugiu']
+                            fugas['Não fugiu'],
+                            fugas['Outro'],
+                            fugas['Nula']
                         ];
 
                         myChartFuga.update();
@@ -511,7 +520,7 @@
     const myChartArmamento = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Arma Branca', 'Arma de fogo'],
+            labels: ['Desarmado', 'Arma branca', 'Arma de fogo'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0],
@@ -550,7 +559,7 @@
     const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Outra'],
+            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Nativo', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0, 0, 0],
@@ -559,14 +568,16 @@
                     '#219ebc',
                     '#000814',
                     '#ffb703',
-                    '#fb8500'
+                    '#fb8500',
+                    '#ff6363'
                 ],
                 borderColor: [
                     '#8ecae6',
                     '#219ebc',
                     '#000814',
                     '#ffb703',
-                    '#fb8500'
+                    '#fb8500',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
@@ -592,19 +603,23 @@
     const myChartFuga = new Chart(ctx4, {
         type: 'pie',
         data: {
-            labels: ['A pé', 'Veículo', 'Sem tentativa'],
+            labels: ['A pé', 'Carro', 'Não fugiu', 'Outro', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0],
                 backgroundColor: [
-                    '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#ff6363'
                 ],
                 borderColor: [
-                    '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
@@ -722,7 +737,7 @@
                             <div class="input-container">
                                 <select id="selectArma${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="UNARMED">Não armado</option>
+                                    <option value="UNARMED">Desarmado</option>
                                     <option value="BLUNT_OBJECT">Arma branca</option>
                                     <option value="GUN">Arma de fogo</option>
                                 </select>

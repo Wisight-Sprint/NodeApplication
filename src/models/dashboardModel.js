@@ -24,13 +24,17 @@ function obterTodosOsDados() {
     COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
     COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
     COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
-    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
+    COUNT(CASE WHEN v.etnia = "NATIVEAMERICAN" THEN 1 END) AS 'totalNativo',
+    COUNT(CASE WHEN v.etnia = "" THEN 1 END) AS 'totalNulo',
     COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
     COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
     COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
-    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
-    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
-    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
+    COUNT(CASE WHEN r.fuga = "OTHER" THEN 1 END) AS outro,
+    COUNT(CASE WHEN r.fuga = "" THEN 1 END) AS fugaNula,
+    COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
+    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
@@ -73,13 +77,17 @@ function obterTodosOsDadosCidade() {
     COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
     COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
     COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
-    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
+    COUNT(CASE WHEN v.etnia = "NATIVEAMERICAN" THEN 1 END) AS 'totalNativo',
+    COUNT(CASE WHEN v.etnia = "" THEN 1 END) AS 'totalNulo',
     COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
     COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
     COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
-    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
-    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
-    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
+    COUNT(CASE WHEN r.fuga = "OTHER" THEN 1 END) AS outro,
+    COUNT(CASE WHEN r.fuga = "" THEN 1 END) AS fugaNula,
+    COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
+    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
@@ -108,7 +116,7 @@ function obterTodosOsDadosEstado() {
     SELECT 
     c.estado,
     YEAR(r.dt_relatorio) AS ano,
-	MONTH(r.dt_relatorio) AS mes,
+    MONTH(r.dt_relatorio) AS mes,
     COUNT(v.vitima_id) AS total_vitimas,
     ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
     ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental,
@@ -124,13 +132,17 @@ function obterTodosOsDadosEstado() {
     COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
     COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
     COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
-    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
+    COUNT(CASE WHEN v.etnia = "NATIVEAMERICAN" THEN 1 END) AS 'totalNativo',
+    COUNT(CASE WHEN v.etnia = "" THEN 1 END) AS 'totalNulo',
     COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
     COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
     COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
-    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
-    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
-    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
+    COUNT(CASE WHEN r.fuga = "OTHER" THEN 1 END) AS outro,
+    COUNT(CASE WHEN r.fuga = "" THEN 1 END) AS fugaNula,
+    COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
+    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
@@ -140,13 +152,13 @@ JOIN
 JOIN 
     wisight.cidade_estado c ON d.fk_cidade_estado = c.cidade_estado_id
 WHERE 
-	YEAR(r.dt_relatorio) IN (2023, 2024)
+    YEAR(r.dt_relatorio) IN (2023, 2024)
 AND
-	c.estado != "EXT"
+    c.estado != "EXT"
 GROUP BY 
     c.estado, ano, mes
 ORDER BY 
-     c.estado, ano, mes;`
+    c.estado, ano, mes;`
 
     // console.log("Executando instrução SQL: \n" + instrucaoSql)
 
