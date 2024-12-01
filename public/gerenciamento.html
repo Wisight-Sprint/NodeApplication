@@ -386,15 +386,25 @@
     if (sessionStorage.NOME_DEPARTAMENTO == "Desenvolvedores") {
         inpPermissao.disabled = true;
         inpPermissao.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
     } else if (sessionStorage.NOME_DEPARTAMENTO == "Externo") {
         inpPermissao.disabled = true;
         inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
     } else {
         inpPermissao.disabled = false;
         inpPermissao.innerHTML = `
             <option value="#">Escolha o nível de permissão do usuário.</option>
             <option value="Administrador">Administrador</option>
             <option value="Usuário">Usuário</option>`;
+    }
+    if (local == "Externos" && sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+        inpPermissao.disabled = true;
+        inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
     }
 
     function puxarNovosDados(valor, id) {
@@ -412,6 +422,8 @@
         } else if (valor == "Externos") {
             inpPermissao.disabled = true;
             inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+            inpPermissaoEditar.disabled = true;
+            inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
         } else {
             inpPermissao.disabled = false;
             inpPermissao.innerHTML = `
@@ -683,6 +695,7 @@
             inpDistintivoEditar.value = numero;
             inpEmailEditar.value = email;
             inpSenhaEditar.value = senha;
+            inpPermissaoEditar.value = permissao;
         } else {
             Swal.fire({
                 title: "ERRO",

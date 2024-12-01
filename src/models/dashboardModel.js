@@ -7,8 +7,8 @@ function obterTodosOsDados() {
     d.nome AS nome_departamento,
     c.cidade,
     c.estado,
-    YEAR(r.dt_dep) AS ano,
-	MONTH(r.dt_dep) AS mes,
+    YEAR(r.dt_relatorio) AS ano,
+	MONTH(r.dt_relatorio) AS mes,
     COUNT(v.vitima_id) AS total_vitimas,
     ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
     ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental,
@@ -24,7 +24,7 @@ function obterTodosOsDados() {
     COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
     COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
     COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
-    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalIndígena',
+    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
     COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
     COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
     COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
@@ -40,21 +40,121 @@ JOIN
 JOIN 
     wisight.cidade_estado c ON d.fk_cidade_estado = c.cidade_estado_id
 WHERE 
-	YEAR(r.dt_dep) IN (2023, 2024)
+	YEAR(r.dt_relatorio) IN (2023, 2024)
 AND
 	d.nome != "Desenvolvedores" AND d.nome != "Externos"
 GROUP BY 
     d.nome, c.cidade, c.estado, ano, mes
 ORDER BY 
-    ano, mes, c.estado, c.cidade, d.nome;
-    `
-
-    console.log("Executando instrução SQL: \n" + instrucaoSql)
+    ano, mes, c.estado, c.cidade, d.nome;`
 
     return database.executar(instrucaoSql)
+}
 
+function obterTodosOsDadosCidade() {
+
+    var instrucaoSql = `
+    SELECT 
+    c.cidade,
+    YEAR(r.dt_relatorio) AS ano,
+	MONTH(r.dt_relatorio) AS mes,
+    COUNT(v.vitima_id) AS total_vitimas,
+    ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
+    ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental,
+    ROUND(AVG(v.idade)) AS mediaIdade,
+    COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) AS 'totalMulher',
+    COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) AS 'totalHomem',
+    CASE 
+        WHEN COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) THEN 'Mulher'
+        WHEN COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) THEN 'Homem'
+        ELSE 'Empate'
+    END AS generoPredominante,
+    COUNT(CASE WHEN v.etnia = "WHITE" THEN 1 END) AS 'totalBranca',
+    COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
+    COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
+    COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
+    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
+    COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
+    COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
+    COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
+    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
+FROM 
+    wisight.relatorio r
+JOIN 
+    wisight.vitima v ON v.fk_relatorio = r.relatorio_id
+JOIN 
+    wisight.departamento d ON r.fk_departamento = d.departamento_id
+JOIN 
+    wisight.cidade_estado c ON d.fk_cidade_estado = c.cidade_estado_id
+WHERE 
+	YEAR(r.dt_relatorio) IN (2023, 2024)
+AND
+	c.cidade != "Externo"
+GROUP BY 
+    c.cidade, ano, mes
+ORDER BY 
+	c.cidade, ano, mes;`
+
+    // console.log("Executando instrução SQL: \n" + instrucaoSql)
+
+    return database.executar(instrucaoSql)
+}
+
+function obterTodosOsDadosEstado() {
+
+    var instrucaoSql = `
+    SELECT 
+    c.estado,
+    YEAR(r.dt_relatorio) AS ano,
+	MONTH(r.dt_relatorio) AS mes,
+    COUNT(v.vitima_id) AS total_vitimas,
+    ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
+    ROUND((COUNT(CASE WHEN problemas_mentais = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemMental,
+    ROUND(AVG(v.idade)) AS mediaIdade,
+    COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) AS 'totalMulher',
+    COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) AS 'totalHomem',
+    CASE 
+        WHEN COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) THEN 'Mulher'
+        WHEN COUNT(CASE WHEN v.genero = "MALE" THEN 1 END) > COUNT(CASE WHEN v.genero = "FEMALE" THEN 1 END) THEN 'Homem'
+        ELSE 'Empate'
+    END AS generoPredominante,
+    COUNT(CASE WHEN v.etnia = "WHITE" THEN 1 END) AS 'totalBranca',
+    COUNT(CASE WHEN v.etnia = "BLACK" THEN 1 END) AS 'totalNegra',
+    COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
+    COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
+    COUNT(CASE WHEN v.etnia = "OTHER" THEN 1 END) AS 'totalOutra',
+    COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
+    COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
+    COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
+    COUNT(CASE WHEN v.armamento = "UNARMED" THEN 1 END) AS desarmado,
+    COUNT(CASE WHEN v.armamento = "BLUNT_OBJECT" THEN 1 END) AS armaBranca,
+    COUNT(CASE WHEN v.armamento = "GUN" THEN 1 END) AS armaFogo
+FROM 
+    wisight.relatorio r
+JOIN 
+    wisight.vitima v ON v.fk_relatorio = r.relatorio_id
+JOIN 
+    wisight.departamento d ON r.fk_departamento = d.departamento_id
+JOIN 
+    wisight.cidade_estado c ON d.fk_cidade_estado = c.cidade_estado_id
+WHERE 
+	YEAR(r.dt_relatorio) IN (2023, 2024)
+AND
+	c.estado != "EXT"
+GROUP BY 
+    c.estado, ano, mes
+ORDER BY 
+     c.estado, ano, mes;`
+
+    // console.log("Executando instrução SQL: \n" + instrucaoSql)
+
+    return database.executar(instrucaoSql)
 }
 
 module.exports = {
-    obterTodosOsDados
+    obterTodosOsDados,
+    obterTodosOsDadosCidade,
+    obterTodosOsDadosEstado
 };
