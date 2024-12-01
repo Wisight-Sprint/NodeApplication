@@ -3,6 +3,12 @@ const database = require("../database/config");
 function obterTodosOsDados() {
 
     var instrucaoSql = `
+    WITH ultimos_relatorios AS (
+    SELECT relatorio_id
+    FROM wisight.relatorio
+    ORDER BY relatorio_id DESC
+    LIMIT 1000
+)
     SELECT 
     d.nome AS nome_departamento,
     c.cidade,
@@ -58,6 +64,12 @@ ORDER BY
 function obterTodosOsDadosCidade() {
 
     var instrucaoSql = `
+    WITH ultimos_relatorios AS (
+    SELECT relatorio_id
+    FROM wisight.relatorio
+    ORDER BY relatorio_id DESC
+    LIMIT 1000
+)
     SELECT 
     c.cidade,
     YEAR(r.dt_relatorio) AS ano,
@@ -113,6 +125,12 @@ ORDER BY
 function obterTodosOsDadosEstado() {
 
     var instrucaoSql = `
+    WITH ultimos_relatorios AS (
+    SELECT relatorio_id
+    FROM wisight.relatorio
+    ORDER BY relatorio_id DESC
+    LIMIT 1000
+)
     SELECT 
     c.estado,
     YEAR(r.dt_relatorio) AS ano,

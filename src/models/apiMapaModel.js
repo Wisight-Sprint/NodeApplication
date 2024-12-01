@@ -5,6 +5,12 @@ function criarMapa() {
         "ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function autenticar(): "
     );
     let instrucaoSql = `
+    WITH ultimos_relatorios AS (
+    SELECT relatorio_id
+    FROM wisight.relatorio
+    ORDER BY relatorio_id DESC
+    LIMIT 1000
+)
     SELECT c.estado,
     COUNT(r.relatorio_id) AS total_relatorios_por_estado,
     ROUND((COUNT(CASE WHEN camera_corporal = TRUE THEN 1 END) / COUNT(*)) * 100, 2) AS porcentagemCamera,
