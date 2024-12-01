@@ -61,9 +61,10 @@
                             <div class="input-container">
                                 <select id="selectFuga">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="not">Sem tentativa</option>
-                                    <option value="foot">A pé</option>
-                                    <option value="car">Veículo</option>
+                                    <option value="NOT">Sem tentativa</option>
+                                    <option value="FOOT">A pé</option>
+                                    <option value="CAR">Veículo</option>
+                                    <option value="OTHER">Outra</option>
                                 </select>
                             </div>
                         </div>
@@ -103,7 +104,7 @@
 
     <div class="all-indicators">
         <div class="inline-row">
-            <div class="title-page">Dashboard de Incidentes</div>
+            <div class="title-page" id="titlePage"></div>
             <div class="informacoes">
                 <div class="localizacao" id="localizacao">
                     <select id="selectTipoLocal" onchange="mudarTipoLocal(selectTipoLocal.value)">
@@ -335,7 +336,6 @@
             })
             .then(data => {
                 dadosFetch = data;
-                console.table(data[49]);
                 if ((sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") && x == 0) {
 
                     if (tipoLocal == "Departamento") local = data[0].nome_departamento;
@@ -349,6 +349,8 @@
                     if (tipoLocal == "Departamento" && data[i].nome_departamento == local ||
                         tipoLocal == "Cidade" && data[i].cidade == local ||
                         tipoLocal == "Estado" && data[i].estado == local) {
+
+                        titlePage.innerHTML = `Dashboard de Incidentes | ${data[i].mes}/${data[i].ano}`;
 
                         //IDADE
                         let h1Idade = document.getElementById('h1AgesIncident');
@@ -704,6 +706,7 @@
                                     <option value="BLACK">Negra</option>
                                     <option value="ASIAN">Asiática</option>
                                     <option value="HISPANIC">Hispânica</option>
+                                    <option value="NATIVEAMERICAN">Nativo</option>
                                     <option value="OTHER">Outra</option>
                                 </select>
                             </div>
@@ -727,7 +730,6 @@
                                     <option value="#">Selecione uma opção</option>
                                     <option value="MALE">Masculino</option>
                                     <option value="FEMALE">Feminino</option>
-                                    <option value="OTHER">Outro</option>
                                 </select>
                             </div>
                         </div>
