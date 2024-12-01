@@ -31,7 +31,7 @@ function obterTodosOsDados() {
     COUNT(CASE WHEN v.etnia = "ASIAN" THEN 1 END) AS 'totalAsiática',
     COUNT(CASE WHEN v.etnia = "HISPANIC" THEN 1 END) AS 'totalHispânica',
     COUNT(CASE WHEN v.etnia = "NATIVEAMERICAN" THEN 1 END) AS 'totalNativo',
-    COUNT(CASE WHEN v.etnia = "" OR v.etnia = "UNKNOWN" OR v.etnia = "UNDETERMINED" OR v.etnia = "OTHER" THEN 1 END) AS 'totalNulo',
+    COUNT(CASE WHEN v.etnia = "" OR v.etnia = "UNKNOWN" OR v.etnia = "UNDETERMINED" OR v.etnia = "OTHER" THEN 1 END) AS totalNula,
     COUNT(CASE WHEN r.fuga = "NOT" THEN 1 END) AS semTentativa,
     COUNT(CASE WHEN r.fuga = "FOOT" THEN 1 END) AS aPe,
     COUNT(CASE WHEN r.fuga = "CAR" THEN 1 END) AS Veículo,
