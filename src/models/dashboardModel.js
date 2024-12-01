@@ -40,7 +40,7 @@ function obterTodosOsDados() {
     COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
     COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
     COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
-    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
+    COUNT(CASE WHEN v.armamento = '' OR v.armamento = "VEHICLE" OR v.armamento = "UNKNOWN" OR v.armamento = "UNDETERMINED" OR v.armamento = "OTHER" THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
@@ -99,7 +99,7 @@ function obterTodosOsDadosCidade() {
     COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
     COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
     COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
-    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
+    COUNT(CASE WHEN v.armamento = '' OR v.armamento = "VEHICLE" OR v.armamento = "UNKNOWN" OR v.armamento = "UNDETERMINED" OR v.armamento = "OTHER" THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
@@ -160,7 +160,7 @@ function obterTodosOsDadosEstado() {
     COUNT(CASE WHEN v.armamento LIKE '%UNARMED%' THEN 1 END) AS desarmado,
     COUNT(CASE WHEN v.armamento LIKE '%BLUNT_OBJECT%' OR v.armamento LIKE '%KNIFE%' THEN 1 END) AS armaBranca,
     COUNT(CASE WHEN v.armamento LIKE '%GUN%' THEN 1 END) AS armaFogo,
-    COUNT(CASE WHEN v.armamento = '' THEN 1 END) AS armaNula
+    COUNT(CASE WHEN v.armamento = '' OR v.armamento = "VEHICLE" OR v.armamento = "UNKNOWN" OR v.armamento = "UNDETERMINED" OR v.armamento = "OTHER" THEN 1 END) AS armaNula
 FROM 
     wisight.relatorio r
 JOIN 
