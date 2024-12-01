@@ -386,15 +386,25 @@
     if (sessionStorage.NOME_DEPARTAMENTO == "Desenvolvedores") {
         inpPermissao.disabled = true;
         inpPermissao.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Desenvolvedor">Desenvolvedor</option>`;
     } else if (sessionStorage.NOME_DEPARTAMENTO == "Externo") {
         inpPermissao.disabled = true;
         inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
     } else {
         inpPermissao.disabled = false;
         inpPermissao.innerHTML = `
             <option value="#">Escolha o nível de permissão do usuário.</option>
             <option value="Administrador">Administrador</option>
             <option value="Usuário">Usuário</option>`;
+    }
+    if (local == "Externos" && sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor") {
+        inpPermissao.disabled = true;
+        inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+        inpPermissaoEditar.disabled = true;
+        inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
     }
 
     function puxarNovosDados(valor, id) {
@@ -412,6 +422,8 @@
         } else if (valor == "Externos") {
             inpPermissao.disabled = true;
             inpPermissao.innerHTML = `<option value="Externo">Externo</option>`;
+            inpPermissaoEditar.disabled = true;
+            inpPermissaoEditar.innerHTML = `<option value="Externo">Externo</option>`;
         } else {
             inpPermissao.disabled = false;
             inpPermissao.innerHTML = `
@@ -545,6 +557,28 @@
                         }),
                     });
                     if (responseCadastro.ok) {
+                        const respostaEmail = await fetch("/users/enviarEmail", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                deServer: "jpmorenoce@gmail.com",
+                                paraServer: email,
+                                assuntoServer: "Boas vindas à Wisight",
+                                mensagemServer: `Olá, ${nome}! Bem vindo à Wisight, seu sistema de análise de relatórios para o seu departamento. Aqui, você tem acesso à dashboard, informações sobre os integrantes de ${local}, visualização do mapa de calor dos Estados Unidos e acesso direto ao RoboCop, nossas IA que te trará insights de acordo com sua pergunta. Aqui estão suas informações para realizar o login na Wisight:\n\nEmail: ${email}\nSenha: ${senha}`,
+                            }),
+                        });
+
+                        if (!respostaEmail.ok) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Erro ao enviar e-mail.",
+                                confirmButtonText: "Ok",
+                            });
+                            return;
+                        }
+
                         Swal.fire({
                             position: "center",
                             icon: "success",
@@ -554,6 +588,16 @@
                             showConfirmButton: false,
                             timer: 1500,
                         });
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Email enviado com sucesso!",
+                            color: "#000",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
                         filtro(selectFiltro.value, inpPesquisa, false);
                     } else {
                         const errorText = await responseCadastro.text();
@@ -651,6 +695,7 @@
             inpDistintivoEditar.value = numero;
             inpEmailEditar.value = email;
             inpSenhaEditar.value = senha;
+            inpPermissaoEditar.value = permissao;
         } else {
             Swal.fire({
                 title: "ERRO",
@@ -940,7 +985,7 @@
 
         if (validacaoDepartamento(nomeDepartamento, cidade, estado)) {
             try {
-                const responseDepartamento = await fetch(`/departamento/buscarDepartamentoPorNome/${nomeDepartamentoValue}/${cidadeValue}/${estadoValue.toUpperCase()}`);
+                const responseDepartamento = await fetch(`/departamento/buscarDepartamentoPorNome/${nomeDepartamentoValue.toUpperCase()}/${cidadeValue.toUpperCase()}/${estadoValue.toUpperCase()}`);
                 if (!responseDepartamento.ok) {
                     throw new Error("Erro ao buscar departamento");
                 }
@@ -999,6 +1044,37 @@
                     nomeDepartamento.value = "";
                     cidade.value = "";
                     estado.value = "";
+
+                    const respostaEmail = await fetch("/users/enviarEmail", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            deServer: "jpmorenoce@gmail.com",
+                            paraServer: emailValue,
+                            assuntoServer: "Boas vindas à Wisight",
+                            mensagemServer: `Olá, ${nomeValue}! Bem vindo à Wisight, seu sistema de análise de relatórios para o seu departamento. Aqui, você tem acesso à dashboard, informações sobre os integrantes de ${nomeDepartamentoValue}, visualização do mapa de calor dos Estados Unidos e acesso direto ao RoboCop, nossas IA que te trará insights de acordo com sua pergunta. Aqui estão suas informações para realizar o login na Wisight:\n\nEmail: ${emailValue}\nSenha: ${senhaValue}`,
+                        }),
+                    });
+
+                    if (!respostaEmail.ok) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Erro ao enviar e-mail.",
+                            confirmButtonText: "Ok",
+                        });
+                        return;
+                    }
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Email enviado com sucesso!",
+                        color: "#000",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
 
                     mostrarAdicionarDepartamento(nome, distintivo, email, permissao, senha, confSenha, nomeDepartamento, cidade, estado);
                 }

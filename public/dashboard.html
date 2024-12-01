@@ -103,7 +103,7 @@
 
     <div class="all-indicators">
         <div class="inline-row">
-            <div class="title-page">Cockpit de Incidentes</div>
+            <div class="title-page">Dashboard de Incidentes</div>
             <div class="informacoes">
                 <div class="localizacao" id="localizacao">
                     <select id="selectTipoLocal" onchange="mudarTipoLocal(selectTipoLocal.value)">
@@ -128,7 +128,7 @@
             <div class="charts1Container">
                 <div class="kpiContainer">
                     <div class="kpi">
-                        <span id="h1AgesIncidents">Idade média</span>
+                        <span id="h1AgesIncidents">Idade média da vítima</span>
                         <h1 id="h1AgesIncident"></h1>
                     </div>
 
@@ -325,8 +325,8 @@
     function carregarDados() {
         let vitimas2023 = new Array(12).fill(0);
         let vitimas2024 = new Array(12).fill(0);
-
-        fetch(`/dashboard/obterTodosOsDados/`)
+        
+        fetch(`/dashboard/obterTodosOsDados/${tipoLocal}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -335,8 +335,9 @@
             })
             .then(data => {
                 dadosFetch = data;
+                console.table(data[49]);
                 if ((sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") && x == 0) {
-                    
+
                     if (tipoLocal == "Departamento") local = data[0].nome_departamento;
                     else if (tipoLocal == "Cidade") local = data[0].cidade;
                     else local = data[0].estado;
@@ -462,7 +463,7 @@
                             'Asiática': 0,
                             'Branca': 0,
                             'Negra': 0,
-                            'Indígena': 0
+                            'Outra': 0
                         };
 
                         etnias['Hispânica'] = data[i].totalHispânica;
@@ -476,7 +477,7 @@
                             etnias['Asiática'],
                             etnias['Branca'],
                             etnias['Negra'],
-                            etnias['Indígena']
+                            etnias['Outra']
                         ];
 
                         myChartEtnia.update();
@@ -549,7 +550,7 @@
     const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Indígena'],
+            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Outra'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0, 0, 0],
@@ -721,9 +722,9 @@
                             <div class="input-container">
                                 <select id="selectArma${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Não armado">Não armado</option>
-                                    <option value="Arma branca">Arma branca</option>
-                                    <option value="Arma de fogo">Arma de fogo</option>
+                                    <option value="UNARMED">Não armado</option>
+                                    <option value="BLUNT_OBJECT">Arma branca</option>
+                                    <option value="GUN">Arma de fogo</option>
                                 </select>
                             </div>
                         </div>
@@ -883,6 +884,11 @@
         input.placeholder = "";
     }
 
+
     carregarDados()
+    setInterval(() => {
+        console.log("oi");
+        carregarDados()
+    }, 20000);
 
 </script>

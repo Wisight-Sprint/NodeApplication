@@ -3,7 +3,7 @@ const router = express.Router();
 
 const dashboardController = require("../controllers/dashboardControllers")
 
-router.get("/obterTodosOsDados", (req,res) => {
+router.get("/obterTodosOsDados/:tipoLocal", (req,res) => {
     dashboardController.obterTodosOsDados(req, res)
 })
 

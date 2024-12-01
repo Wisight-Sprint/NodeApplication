@@ -31,4 +31,8 @@ router.get("/removerTutorialMapa/:usuario_id", (req, res) => {
   userController.removerTutorialMapa(req, res);
 });
 
+router.post("/enviarEmail", (req, res) => {
+  userController.enviarEmail(req, res)
+})
+
 module.exports = router;
