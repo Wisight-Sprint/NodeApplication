@@ -85,12 +85,12 @@
 
       <div class="listaUsuarios_container" id="listaChamados">
         <center id="tituloAtivo">Chamados Abertos</center>
-        <div class="container">
+        <div class="container" id="containerAtivos">
           <div class="caixa" id="divAtivo">
           </div>
         </div>
         <center id="tituloEncerrado">Chamados Encerrados</center>
-        <div class="container">
+        <div class="container" id="containerEncerrados">
           <div class="caixa" id="divEncerrado">
           </div>
         </div>
@@ -205,17 +205,28 @@
   }
 
   async function responderFinalizar(chamado, usuario, email) {
-    const { value: text } = await Swal.fire({
-      input: "textarea",
-      inputLabel: "Responda o chamado para finaliza-lo",
-      inputPlaceholder: "Digite aqui sua resposta...",
-      inputAttributes: {
-        "aria-label": "Digite aqui sua resposta"
-      },
-      showCancelButton: true
-    });
-    if (text.length > 4) {
-      fetch(`/suporte/responderChamado/`, {
+    try {
+      const { value: text } = await Swal.fire({
+        input: "textarea",
+        inputLabel: "Responda o chamado para finalizá-lo",
+        inputPlaceholder: "Digite aqui sua resposta...",
+        inputAttributes: {
+          "aria-label": "Digite aqui sua resposta"
+        },
+        showCancelButton: true
+      });
+
+      if (!text || text.length <= 4) {
+        Swal.fire({
+          icon: "warning",
+          title: "A resposta deve ter mais de 4 caracteres.",
+          confirmButtonText: "Ok",
+        });
+        return;
+      }
+
+      // Enviar a resposta do chamado para o backend
+      const resposta = await fetch(`/suporte/responderChamado/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -224,21 +235,60 @@
           chamado_idServer: chamado,
           respostaServer: text,
         }),
+      });
 
-      }).then(function (resposta) {
-        if (resposta.ok) {
-          console.log(text);
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Chamado encerrado com sucesso!",
-            color: "#000",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          carregarDados()
-        }
-      })
+      if (!resposta.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao finalizar chamado.",
+          confirmButtonText: "Ok",
+        });
+        return;
+      }
+
+      // Enviar e-mail após o sucesso do encerramento do chamado
+      const respostaEmail = await fetch("/users/enviarEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          deServer: "jpmorenoce@gmail.com",
+          paraServer: email,
+          assuntoServer: "Resposta ao chamado",
+          mensagemServer: text,
+        }),
+      });
+
+      if (!respostaEmail.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao enviar e-mail.",
+          confirmButtonText: "Ok",
+        });
+        return;
+      }
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Chamado encerrado e e-mail enviado com sucesso!",
+        color: "#000",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      setInterval(() => {
+        carregarDados();
+      }, 20000);
+
+    } catch (error) {
+      console.error("Erro na operação:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Ocorreu um erro inesperado.",
+        confirmButtonText: "Ok",
+      });
     }
   }
 
@@ -274,6 +324,7 @@
               tituloAtivo.style.display = "flex";
               spanTotalAbertos.innerHTML = `Abertos: ${totalAbertos}`;
               spanTotalEncerrados.innerHTML = "";
+              containerAtivos.style = "max-height: 500px;";
             } else if (status == "encerrado") {
               divAtivo.style.display = "none";
               tituloAtivo.style.display = "none";
@@ -281,6 +332,7 @@
               tituloEncerrado.style.display = "flex";
               spanTotalAbertos.innerHTML = "";
               spanTotalEncerrados.innerHTML = `Encerrados: ${totalEncerrados}`;
+              containerEncerrados.style = "max-height: 500px;";
             } else {
               divEncerrado.style.display = "unset";
               tituloEncerrado.style.display = "flex";
@@ -288,6 +340,8 @@
               tituloAtivo.style.display = "flex";
               spanTotalAbertos.innerHTML = `Abertos: ${totalAbertos}`;
               spanTotalEncerrados.innerHTML = `Encerrados: ${totalEncerrados}`;
+              containerAtivos.style = "max-height: 270px;";
+              containerEncerrados.style = "max-height: 270px;";
             }
 
             divAtivo.innerHTML = "";

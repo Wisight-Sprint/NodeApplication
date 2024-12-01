@@ -107,13 +107,15 @@ nav>button:hover {
         background-size: 200% 100%;
         background-position: right;
         transition: background-position 0.2s ease;
+
         a {
             color: white;
             text-decoration: none;
         }
     }
+
     .botao-focar:hover {
-        color:#021526;
+        color: #021526;
         background-position: left;
         border: none;
     }
@@ -391,10 +393,6 @@ nav>button:hover {
         }
     }
 
-    form {
-        width: 100vw;
-    }
-
     .form {
         display: flex;
         width: 100vw;
@@ -479,7 +477,7 @@ nav>button:hover {
     .form2 {
         display: flex;
         justify-content: space-between;
-        padding-inline: 80px;
+        width: 90vw;
 
         .input_checkbox {
             p {

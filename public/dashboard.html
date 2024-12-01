@@ -336,7 +336,7 @@
             .then(data => {
                 dadosFetch = data;
                 if ((sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") && x == 0) {
-                    
+
                     if (tipoLocal == "Departamento") local = data[0].nome_departamento;
                     else if (tipoLocal == "Cidade") local = data[0].cidade;
                     else local = data[0].estado;
@@ -721,9 +721,9 @@
                             <div class="input-container">
                                 <select id="selectArma${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Não armado">Não armado</option>
-                                    <option value="Arma branca">Arma branca</option>
-                                    <option value="Arma de fogo">Arma de fogo</option>
+                                    <option value="UNARMED">Não armado</option>
+                                    <option value="BLUNT_OBJECT">Arma branca</option>
+                                    <option value="GUN">Arma de fogo</option>
                                 </select>
                             </div>
                         </div>
@@ -883,6 +883,11 @@
         input.placeholder = "";
     }
 
+
     carregarDados()
+    setInterval(() => {
+        console.log("oi");
+        carregarDados()
+    }, 20000);
 
 </script>
