@@ -321,6 +321,7 @@
     }
 
     const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
+    const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
     let x = 0;
 
     function carregarDados() {
@@ -350,7 +351,7 @@
                         tipoLocal == "Cidade" && data[i].cidade == local ||
                         tipoLocal == "Estado" && data[i].estado == local) {
 
-                        titlePage.innerHTML = `Dashboard de Incidentes | ${data[i].mes}/${data[i].ano}`;
+                        titlePage.innerHTML = `Dashboard de Incidentes | ${meses[data[i].mes - 1]}/${data[i].ano}`;
 
                         //IDADE
                         let h1Idade = document.getElementById('h1AgesIncident');
@@ -380,7 +381,6 @@
                         h1Genero.innerText = genero;
 
                         //VÍTIMAS POR ANO
-                        let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
                         if (data[i].ano === 2023) {
                             vitimas2023[data[i].mes - 1] += data[i].total_vitimas;
@@ -445,17 +445,20 @@
                         let armamentos = {
                             'Desarmado': 0,
                             'Arma branca': 0,
-                            'Arma de fogo': 0
+                            'Arma de fogo': 0,
+                            'Nula': 0
                         };
 
                         armamentos['Desarmado'] = data[i].desarmado
                         armamentos['Arma branca'] = data[i].armaBranca
                         armamentos['Arma de fogo'] = data[i].armaFogo
+                        armamentos['Nula'] = data[i].armaNula
 
                         myChartArmamento.data.datasets[0].data = [
                             armamentos['Desarmado'],
                             armamentos['Arma branca'],
-                            armamentos['Arma de fogo']
+                            armamentos['Arma de fogo'],
+                            armamentos['Nula']
                         ];
 
                         myChartArmamento.update();
@@ -522,19 +525,21 @@
     const myChartArmamento = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Arma branca', 'Arma de fogo'],
+            labels: ['Desarmado', 'Arma branca', 'Arma de fogo', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0],
                 backgroundColor: [
                     '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#ffc300',
+                    '#ff6363'
                 ],
                 borderColor: [
                     '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#ffc300',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
