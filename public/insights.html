@@ -72,12 +72,7 @@
 <script>
 
   adicionarMensagem(`Olá, ${sessionStorage.NOME_USUARIO}! Eu sou RoboCop, seu assistente virtual.`, "resposta");
-  adicionarMensagem(`Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me
-              fazer uma pergunta!`, "resposta");
-  adicionarMensagem(`Qual a etnia mais atingida em meu departamento?`, "pergunta");
-  adicionarMensagem(`De acordo com os dados de <b>${sessionStorage.NOME_DEPARTAMENTO}</b>, a etnia mais atingida foi a negra. Foram
-              relatadas 53 ocorrências durante o período de um mês.`, "resposta");
-
+  adicionarMensagem(`Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me fazer uma pergunta!`, "resposta");
 
   const btnSugestoes = document.getElementById('btn-sugestoes');
   const caixaSugestoes = document.getElementById('caixa-sugestoes');
@@ -110,9 +105,7 @@
   function enviarMensagem(respostaIA) {
     const inputField = document.getElementById('pergunta-IA').querySelector('input');
     const mensagemTexto = inputField.value.trim();
-    console.log("Entrei em enviarMensagem");
     if (mensagemTexto) {
-      console.log("Mensagem de usuário: " + mensagemTexto);
       adicionarMensagem(mensagemTexto, 'pergunta');
       inputField.value = '';
       inputField.disabled = true;
@@ -120,9 +113,9 @@
     }
 
     if (respostaIA) {
-      console.log("Entrei na IA");
 
-      adicionarMensagem(respostaIA, "resposta")
+      adicionarMensagem(respostaIA, "resposta");
+      inputField.disabled = false;
     }
   }
 
@@ -155,7 +148,6 @@
   });
 
   function getValuesForJava(mensagemTexto) {
-    console.log("Entrei no getValuesForJava: " + mensagemTexto);
     const userPermission = sessionStorage.getItem("PERMISSAO_USUARIO");
     let userInsightKey1 = sessionStorage.getItem("ESTADO_USUARIO");
     let userInsightKey2 = sessionStorage.getItem("ID_DEPARTAMENTO");
@@ -164,13 +156,11 @@
     let joinParam;
 
     if (userPermission == "Externo") {
-      console.log("Externo");
       whereParam = "fk_cidade_estado";
       joinParam = "JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id";
       sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto);
       getInsights(userInsightKey1, whereParam, joinParam);
     } else {
-      console.log("Não Externo");
       whereParam = "fk_departamento";
       joinParam = "JOIN departamento d on i.fk_departamento = d.departamento_id";
       sendValueForJava(userInsightKey2, userInsightKey1, mensagemTexto);
@@ -179,8 +169,6 @@
   }
 
   function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
-    console.log(userInsightKey1, userInsightKey2, mensagemTexto);
-
     if (userInsightKey1 && userInsightKey2 && mensagemTexto) {
       fetch("/insight/executeJar", {
         method: "POST",
