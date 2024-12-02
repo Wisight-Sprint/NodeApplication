@@ -211,16 +211,15 @@
     }
   }
 
-  function getInsights(userInsightKey, whereParam, joinParam) {
-    console.log(userInsightKey, whereParam, joinParam);
-    if (userInsightKey && whereParam && joinParam) {
+  function getInsight(userInsightKey1, whereParam, joinParam) {
+    if (userInsightKey1 && whereParam && joinParam) {
       fetch("/insight/getInsight", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userInsightKeyServer: userInsightKey,
+          userInsightKeyServer: userInsightKey1,
           whereParamServer: whereParam,
           joinParamServer: joinParam
         }),

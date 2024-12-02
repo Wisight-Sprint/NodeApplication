@@ -12,11 +12,14 @@ function executeJar(req, res) {
       .json({ success: false, message: "Valor não fornecido no body" });
   }
 
-//  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  const jarPath = "c:\\Users\\marco\\Desktop\\AI-JavaApplication\\target\\AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
-  const command = `java -jar ${jarPath} "${insightKey1}" "${insightKey2}" "${mensagem}"`;
+  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
-console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
+  const command = `ssh -i /usr/src/app/NodeApplication/wisight.pem ubuntu@54.173.162.222  'java -jar "${jarPath}" "${insightKey1}" "${insightKey2}" "${mensagem}"'`;
+
+  //const oldCommand = `java -jar ${jarPath} "${insightKey1}" "${insightKey2}" "${mensagem}"`;
+
+
+  console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
   exec(command, (stdout) => {
 
     try {
@@ -26,11 +29,11 @@ console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
         output: stdout,
       });
     } catch (error) {
-        return res.status(500).json({
-          success: false,
-          message: "Erro ao executar o .jar"
-        });
-      }
+      return res.status(500).json({
+        success: false,
+        message: "Erro ao executar o .jar"
+      });
+    }
   });
 }
 
