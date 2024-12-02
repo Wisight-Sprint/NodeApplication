@@ -6,8 +6,8 @@ function getInsight(userInsightKey, whereParam, joinParam) {
     );
     let instrucaoSql = `
     SELECT i.texto_insight FROM wisight.insights i 
-    '${joinParam}'
-    WHERE '${whereParam}' = '${userInsightKey}' ORDER BY i.insight_id DESC LIMIT 1;
+    ${joinParam}
+    WHERE ${whereParam} = '${userInsightKey}' ORDER BY i.insight_id DESC LIMIT 1;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

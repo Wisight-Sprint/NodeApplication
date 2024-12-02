@@ -39,11 +39,16 @@ function getInsight(req, res) {
   let whereParamServer = req.body.whereParamServer;
   let joinParamServer = req.body.joinParamServer;
 
+  console.log(userInsightKeyServer, whereParamServer, joinParamServer);
+  
+
   insightModel
     .getInsight(userInsightKeyServer, whereParamServer, joinParamServer)
     .then(function (response) {
       if (response.length > 0) {
-        res.status(200).json(resultado);
+        console.log();
+        
+        res.status(200).json(response);
       } else {
         res.status(204).send("Nenhum resultado encontrado!")
       }
