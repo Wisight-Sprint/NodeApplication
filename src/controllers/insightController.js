@@ -12,14 +12,14 @@ function executeJar(req, res) {
       .json({ success: false, message: "Valor não fornecido no body" });
   }
 
-  //  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  const jarPath = "home/ubuntu/AI-JavaApplication-1.0-SNAPSHOT-jar-with-dependencies.jar";
 
-  //const command = ssh -i /usr/src/app/NodeApplication/wisight.pem ubuntu@ 'java -jar "${jarPath}" "${insightKey1}" "${insightKey2}" "${mensagem}"';
+  const command = `ssh -i /usr/src/app/NodeApplication/wisight.pem ubuntu@54.173.162.222  'java -jar "${jarPath}" "${insightKey1}" "${insightKey2}" "${mensagem}"'`;
 
   //const oldCommand = `java -jar ${jarPath} "${insightKey1}" "${insightKey2}" "${mensagem}"`;
 
 
-console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
+  console.log(`testeMensagem ${insightKey1} ${insightKey2} ${mensagem}`)
   exec(command, (stdout) => {
 
     try {
