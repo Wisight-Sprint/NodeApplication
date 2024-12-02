@@ -227,9 +227,7 @@
         .then(res => {
           if (res.ok) {
             res.json().then(json => {
-              console.log(json.texto_insight);
-
-              enviarMensagem(json.texto_insight);
+              enviarMensagem(json[0].texto_insight);
             });
           } else {
             res.text().then(texto => {
