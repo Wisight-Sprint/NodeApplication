@@ -156,7 +156,6 @@
     const userPermission = sessionStorage.getItem("PERMISSAO_USUARIO");
     let userInsightKey1;
     let userInsightKey2;
-    let bodyServerName;
     let whereParam;
     let joinParam;
 
@@ -165,7 +164,7 @@
       userInsightKey2 = sessionStorage.getItem("ID_DEPARTAMENTO")
       whereParam = "fk_cidade_estado";
       joinParam = "JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id";
-      sendValueForJava(userInsightKey, mensagemTexto);
+      sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto);
       getInsight(userInsightKey1, whereParam, joinParam);
     } else {
       userInsightKey1 = sessionStorage.getItem("ID_DEPARTAMENTO");
@@ -208,15 +207,15 @@
     }
   }
 
-  function getInsight(userInsightKey, whereParam, joinParam) {
-    if (userInsightKey && whereParam && joinParam) {
+  function getInsight(userInsightKey1, whereParam, joinParam) {
+    if (userInsightKey1 && whereParam && joinParam) {
       fetch("/insight/getInsight", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userInsightKeyServer: userInsightKey,
+          userInsightKeyServer: userInsightKey1,
           whereParamServer: whereParam,
           joinParamServer: joinParam
         }),
