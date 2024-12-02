@@ -61,9 +61,10 @@
                             <div class="input-container">
                                 <select id="selectFuga">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Sem tentativa">Sem tentativa</option>
-                                    <option value="A pé">A pé</option>
-                                    <option value="Veículo">Veículo</option>
+                                    <option value="NOT">Sem tentativa</option>
+                                    <option value="FOOT">A pé</option>
+                                    <option value="CAR">Veículo</option>
+                                    <option value="OTHER">Outra</option>
                                 </select>
                             </div>
                         </div>
@@ -103,7 +104,7 @@
 
     <div class="all-indicators">
         <div class="inline-row">
-            <div class="title-page">Cockpit de Incidentes</div>
+            <div class="title-page" id="titlePage"></div>
             <div class="informacoes">
                 <div class="localizacao" id="localizacao">
                     <select id="selectTipoLocal" onchange="mudarTipoLocal(selectTipoLocal.value)">
@@ -128,7 +129,7 @@
             <div class="charts1Container">
                 <div class="kpiContainer">
                     <div class="kpi">
-                        <span id="h1AgesIncidents">Idade média</span>
+                        <span id="h1AgesIncidents">Idade média da vítima</span>
                         <h1 id="h1AgesIncident"></h1>
                     </div>
 
@@ -297,39 +298,37 @@
         carregarDados();
     }
 
-
     function mudarTipoLocal(selectValue) {
-        if (selectValue == "Departamento") {
-            local = sessionStorage.NOME_DEPARTAMENTO;
-            inpLocal.value = local;
-        }
-        else if (selectValue == "Cidade") {
-            local = sessionStorage.CIDADE_USUARIO;
-            inpLocal.value = local;
-        }
-        else {
-            local = sessionStorage.ESTADO_USUARIO;
-            inpLocal.value = local;
-        }
+        if (sessionStorage.PERMISSAO_USUARIO != "Externo" && sessionStorage.PERMISSAO_USUARIO != "Desenvolvedor") {
+            if (selectValue == "Departamento") {
+                local = sessionStorage.NOME_DEPARTAMENTO;
+                inpLocal.value = local;
+            }
+            else if (selectValue == "Cidade") {
+                local = sessionStorage.CIDADE_USUARIO;
+                inpLocal.value = local;
+            }
+            else {
+                local = sessionStorage.ESTADO_USUARIO;
+                inpLocal.value = local;
+            }
 
+        }
         tipoLocal = selectValue;
+        x = 0;
 
         carregarDados();
     }
 
-
-
     const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril',];
-
-    function getColor(value, year) {
-        return year === 2023 ? '#c1121f' : '#669bbc';
-    }
+    const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    let x = 0;
 
     function carregarDados() {
         let vitimas2023 = new Array(12).fill(0);
         let vitimas2024 = new Array(12).fill(0);
 
-        fetch(`/dashboard/obterTodosOsDados/`)
+        fetch(`/dashboard/obterTodosOsDados/${tipoLocal}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -338,10 +337,21 @@
             })
             .then(data => {
                 dadosFetch = data;
+                if ((sessionStorage.PERMISSAO_USUARIO == "Desenvolvedor" || sessionStorage.PERMISSAO_USUARIO == "Externo") && x == 0) {
+
+                    if (tipoLocal == "Departamento") local = data[0].nome_departamento;
+                    else if (tipoLocal == "Cidade") local = data[0].cidade;
+                    else local = data[0].estado;
+                    inpLocal.value = local;
+                    x = 1;
+                }
+
                 for (let i = 0; i < data.length; i++) {
                     if (tipoLocal == "Departamento" && data[i].nome_departamento == local ||
                         tipoLocal == "Cidade" && data[i].cidade == local ||
                         tipoLocal == "Estado" && data[i].estado == local) {
+
+                        titlePage.innerHTML = `Dashboard de Incidentes | ${meses[data[i].mes - 1]}/${data[i].ano}`;
 
                         //IDADE
                         let h1Idade = document.getElementById('h1AgesIncident');
@@ -371,7 +381,6 @@
                         h1Genero.innerText = genero;
 
                         //VÍTIMAS POR ANO
-                        let meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
                         if (data[i].ano === 2023) {
                             vitimas2023[data[i].mes - 1] += data[i].total_vitimas;
@@ -434,23 +443,22 @@
 
                         //ARMA
                         let armamentos = {
-                            'Não armado': 0,
-                            // 'Facão': 0,
+                            'Desarmado': 0,
                             'Arma branca': 0,
-                            // 'Faca': 0,
-                            'Arma de fogo': 0
+                            'Arma de fogo': 0,
+                            'Nula': 0
                         };
 
-                        armamentos['Não armado'] = data[i].desarmado
+                        armamentos['Desarmado'] = data[i].desarmado
                         armamentos['Arma branca'] = data[i].armaBranca
                         armamentos['Arma de fogo'] = data[i].armaFogo
+                        armamentos['Nula'] = data[i].armaNula
 
                         myChartArmamento.data.datasets[0].data = [
-                            armamentos['Não armado'],
-                            // armamentos['Facão'],
+                            armamentos['Desarmado'],
                             armamentos['Arma branca'],
-                            // armamentos['Faca'],
-                            armamentos['Arma de fogo']
+                            armamentos['Arma de fogo'],
+                            armamentos['Nula']
                         ];
 
                         myChartArmamento.update();
@@ -460,21 +468,24 @@
                             'Asiática': 0,
                             'Branca': 0,
                             'Negra': 0,
-                            'Indígena': 0
+                            'Nativo': 0,
+                            'Nula': 0
                         };
 
                         etnias['Hispânica'] = data[i].totalHispânica;
                         etnias['Asiática'] = data[i].totalAsiática;
                         etnias['Branca'] = data[i].totalBranca;
                         etnias['Negra'] = data[i].totalNegra;
-                        etnias['Indígena'] = data[i].totalIndígena;
+                        etnias['Nativo'] = data[i].totalNativo;
+                        etnias['Nula'] = data[i].totalNula;
 
                         myChartEtnia.data.datasets[0].data = [
                             etnias['Hispânica'],
                             etnias['Asiática'],
                             etnias['Branca'],
                             etnias['Negra'],
-                            etnias['Indígena']
+                            etnias['Nativo'],
+                            etnias['Nula']
                         ];
 
                         myChartEtnia.update();
@@ -483,17 +494,23 @@
                         let fugas = {
                             'A pé': 0,
                             'Carro': 0,
-                            'Não fugiu': 0
+                            'Não fugiu': 0,
+                            'Outro': 0,
+                            'Nula': 0
                         };
 
                         fugas['A pé'] = data[i].aPe;
                         fugas['Carro'] = data[i].Veículo;
                         fugas['Não fugiu'] = data[i].semTentativa;
+                        fugas['Outro'] = data[i].outro;
+                        fugas['Nula'] = data[i].fugaNula;
 
                         myChartFuga.data.datasets[0].data = [
                             fugas['A pé'],
                             fugas['Carro'],
-                            fugas['Não fugiu']
+                            fugas['Não fugiu'],
+                            fugas['Outro'],
+                            fugas['Nula']
                         ];
 
                         myChartFuga.update();
@@ -508,19 +525,21 @@
     const myChartArmamento = new Chart(ctx2, {
         type: 'pie',
         data: {
-            labels: ['Desarmado', 'Arma Branca', 'Arma de fogo'],
+            labels: ['Desarmado', 'Arma branca', 'Arma de fogo', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0],
                 backgroundColor: [
                     '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#ffc300',
+                    '#ff6363'
                 ],
                 borderColor: [
                     '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#ffc300',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
@@ -547,7 +566,7 @@
     const myChartEtnia = new Chart(ctx3, {
         type: 'pie',
         data: {
-            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Indígena'],
+            labels: ['Hispânica', 'Asiática', 'Branca', 'Negra', 'Nativo', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0, 0, 0],
@@ -556,14 +575,16 @@
                     '#219ebc',
                     '#000814',
                     '#ffb703',
-                    '#fb8500'
+                    '#fb8500',
+                    '#ff6363'
                 ],
                 borderColor: [
                     '#8ecae6',
                     '#219ebc',
                     '#000814',
                     '#ffb703',
-                    '#fb8500'
+                    '#fb8500',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
@@ -589,19 +610,23 @@
     const myChartFuga = new Chart(ctx4, {
         type: 'pie',
         data: {
-            labels: ['A pé', 'Veículo', 'Sem tentativa'],
+            labels: ['A pé', 'Carro', 'Não fugiu', 'Outro', 'Nula'],
             datasets: [{
                 label: 'Quantidade',
                 data: [0, 0, 0],
                 backgroundColor: [
-                    '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#ff6363'
                 ],
                 borderColor: [
-                    '#000814',
                     '#8ecae6',
-                    '#ffc300'
+                    '#219ebc',
+                    '#000814',
+                    '#ffb703',
+                    '#ff6363'
                 ],
                 borderWidth: 1
             }]
@@ -682,11 +707,12 @@
                             <div class="input-container">
                                 <select id="selectEtnia${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Branca">Branca</option>
-                                    <option value="Negra">Negra</option>
-                                    <option value="Asiática">Asiática</option>
-                                    <option value="Hispânica">Hispânica</option>
-                                    <option value="Indígena">Indígena</option>
+                                    <option value="WHITE">Branca</option>
+                                    <option value="BLACK">Negra</option>
+                                    <option value="ASIAN">Asiática</option>
+                                    <option value="HISPANIC">Hispânica</option>
+                                    <option value="NATIVEAMERICAN">Nativo</option>
+                                    <option value="OTHER">Outra</option>
                                 </select>
                             </div>
                         </div>
@@ -707,9 +733,8 @@
                             <div class="input-container">
                                 <select id="selectGenero${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Outro">Outro</option>
+                                    <option value="MALE">Masculino</option>
+                                    <option value="FEMALE">Feminino</option>
                                 </select>
                             </div>
                         </div>
@@ -719,9 +744,9 @@
                             <div class="input-container">
                                 <select id="selectArma${numeroVitima}">
                                     <option value="#">Selecione uma opção</option>
-                                    <option value="Não armado">Não armado</option>
-                                    <option value="Arma branca">Arma branca</option>
-                                    <option value="Arma de fogo">Arma de fogo</option>
+                                    <option value="UNARMED">Desarmado</option>
+                                    <option value="BLUNT_OBJECT">Arma branca</option>
+                                    <option value="GUN">Arma de fogo</option>
                                 </select>
                             </div>
                         </div>
@@ -881,6 +906,11 @@
         input.placeholder = "";
     }
 
+
     carregarDados()
+    setInterval(() => {
+        console.log("oi");
+        carregarDados()
+    }, 20000);
 
 </script>

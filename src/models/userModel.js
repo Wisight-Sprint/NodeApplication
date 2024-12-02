@@ -1,4 +1,5 @@
 const database = require("../database/config");
+const nodemailer = require("nodemailer");
 
 function autenticar(email, senha) {
   console.log(
@@ -87,6 +88,36 @@ function removerTutorialMapa(usuario_id) {
   return database.executar(instrucaoSql);
 }
 
+function enviarEmail(de, para, assunto, mensagem) {
+  return new Promise((resolve, reject) => {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "seu email do google",
+        pass: "seu passe de aplicação do google",
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    const mailOptions = {
+      from: de,
+      to: para,
+      subject: assunto,
+      text: mensagem,
+    };
+   
+    transporter.sendMail(mailOptions, (erro, info) => {
+      if (erro) {
+        reject(erro);
+      } else {
+        resolve(info);
+      }
+    });
+  });
+}
+
 module.exports = {
   autenticar,
   cadastrarUsuario,
@@ -94,5 +125,6 @@ module.exports = {
   deletarUsuario,
   buscarUsuarioPorDepartamento,
   buscarExterno,
-  removerTutorialMapa
+  removerTutorialMapa,
+  enviarEmail
 };

@@ -9,6 +9,8 @@
     <link rel="shortcut icon" href="./Assets/logo-sem-fundo.png" type="image/x-icon">
     <script defer src="./js/index.js"></script>
     <script src="./js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
 <style>
@@ -163,41 +165,38 @@
         <div class="contato_tela" id="cadastro">
             <div class="container">
                 <h1>Entre em Contato!</h1>
-                <form onsubmit="cadastro()">
-                    <div class="form">
-                        <div class="perguntas">
-                            <label class="labels_cadastro" for="nome">NOME</label>
-                            <br>
-                            <input type="text" id="nome" placeholder="Entre com seu nome" required>
-                        </div>
-                        <div class="perguntas">
-                            <label class="labels_cadastro" for="email">EMAIL</label>
-                            <br>
-                            <input type="email" id="email" required placeholder="Entre com seu email">
-                        </div>
-                        <div class="perguntas">
-                            <label class="labels_cadastro" for="telefone">TELEFONE</label>
-                            <br>
-                            <input type="text" id="telefone" placeholder="Entre com seu telefone" required>
-                        </div>
+                <div class="form">
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="nome">NOME</label>
+                        <br>
+                        <input type="text" id="nome" placeholder="Entre com seu nome" required>
+                    </div>
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="email">EMAIL</label>
+                        <br>
+                        <input type="email" id="email" required placeholder="Entre com seu email">
+                    </div>
+                    <div class="perguntas">
+                        <label class="labels_cadastro" for="telefone">TELEFONE</label>
+                        <br>
+                        <input type="text" id="telefone" placeholder="Entre com seu telefone" required>
+                    </div>
+                </div>
+
+                <div class="form2">
+                    <div class="input_checkbox">
+                        <p>INFORME SEU INTERESSE</p>
+                        <br>
+                        <textarea required placeholder="Digite seu propósito de contato." id="textarea"></textarea>
                     </div>
 
-                    <div class="form2">
-                        <div class="input_checkbox">
-                            <p>INFORME SEU INTERESSE</p>
-                            <br>
-                            <textarea required placeholder="Digite seu propósito de contato."
-                                id="textarea_form"></textarea>
-                        </div>
-
-                        <div class="botao_enviar">
-                            <p>Ao clicar em "Enviar", você concorda com a nossa <b>Política de Privacidade</b></p>
-                            <button type="submit">ENVIAR <img id="seta_clara" src="../Assets/seta.png" width="10px">
-                                <img id="seta_escura" src="../Assets/seta_escura.png" width="10px"></button>
-                        </div>
+                    <div class="botao_enviar">
+                        <p>Ao clicar em "Enviar", você concorda com a nossa <b>Política de Privacidade</b></p>
+                        <button onclick="enviarMensagem(nome, email, telefone, textarea)">ENVIAR
+                            <img id="seta_clara" src="../Assets/seta.png" width="10px">
+                            <img id="seta_escura" src="../Assets/seta_escura.png" width="10px"></button>
                     </div>
-
-                </form>
+                </div>
             </div>
         </div>
 
@@ -236,13 +235,111 @@
             <div class="linha-resp"></div>
 
             <div class="comentario">
-                <!-- <h4>Mande-nos uma mensagem!</h4>
-                <textarea placeholder="Digite aqui..."></textarea>
-                <button>ENVIAR</button>
-                <div class="botao-focar">ENVIAR</div> -->
                 <img src="./Assets/logo.png" alt="">
             </div>
         </div>
 </body>
 
 </html>
+
+<script>
+
+    async function enviarMensagem(nome, email, telefone, descricao) {
+
+        if (validacao(nome, email, telefone, descricao)) {
+
+            Swal.fire({
+                title: "Enviando mensagem...",
+                text: "Por favor, aguarde.",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            try {
+                const respostaEmail = await fetch("/users/enviarEmail", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        deServer: email.value,
+                        paraServer: "jpmorenoce@gmail.com",
+                        assuntoServer: "Novo contato",
+                        mensagemServer: `${nome.value} entrou em contato para Wisight.\n\nNome: ${nome.value}\nEmail: ${email.value}\nTelefone: ${telefone.value}\nAssunto: ${descricao.value}`,
+                    }),
+                });
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Email enviado com sucesso!",
+                    color: "#000",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                setFieldAllSuccess(nome, "Entre com seu nome");
+                setFieldAllSuccess(email, "Entre com seu email");
+                setFieldAllSuccess(telefone, "Entre com seu telefone");
+                setFieldAllSuccess(descricao, "Digite o propósito de contato");
+
+            } catch (error) {
+                // Mostrar mensagem de erro
+                Swal.fire({
+                    icon: "error",
+                    title: "Erro ao enviar e-mail.",
+                    text: error.message,
+                    confirmButtonText: "Ok",
+                });
+            }
+        }
+    }
+
+    function validacao(nome, email, telefone, descricao) {
+        if (nome.value.length < 4) setFieldError(nome, "Nome inválido.");
+        else setFieldSpecificSuccess(nome, "Entre com seu nome");
+        if (email.value.indexOf("@") == -1 || email.value.length < 8) setFieldError(email, "Email precisa conter @ e ter no mínimo 8 caracteres.");
+        else setFieldSpecificSuccess(email, "Entre com seu email");
+        if (telefone.value.length < 8) setFieldError(telefone, "Necessário no mínimo 8 caracteres.");
+        else setFieldSpecificSuccess(telefone, "Entre com seu telefone");
+        if (descricao.value < 5) setFieldError(descricao, "Campo necessário para cadastro.");
+        else setFieldSpecificSuccess(descricao, "Digite seu propósito de contato.");
+
+        if (nome.value.length >= 4 && email.value.indexOf("@") != -1 && email.value.length >= 8 && telefone.value.length >= 8 && descricao.value.length > 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setFieldError(input, message) {
+        input.value = "";
+        input.placeholder = message;
+        input.style = "border-bottom: solid red 1px";
+    }
+
+    function setFieldSpecificSuccess(input, message) {
+        input.placeholder = "";
+        input.style.border = "none";
+        input.style = "border-bottom: solid #A9A9A9 1px";
+    }
+
+    function setFieldAllSuccess(input, message) {
+        input.value = "";
+        input.placeholder = message;
+        input.style.border = "none";
+        input.style = "border-bottom: solid #A9A9A9 1px";
+    }
+
+    function togglePasswordVisibility(inputName, eyeName) {
+
+        if (inputName.type === "password") {
+            inputName.type = "text";
+            eyeName.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+            inputName.type = "password";
+            eyeName.classList.replace("fa-eye-slash", "fa-eye");
+        }
+    }
+</script>

@@ -50,8 +50,8 @@
         </div>
 
         <div class="prompt" id="pergunta-IA">
-          <input type="text" placeholder="Faça uma pergunta ou utilize um prompt" id="input-pergunta">
-          <i class="fa-solid fa-lightbulb" style="color: #FFD43B;" id="btn-sugestoes"></i>
+          <input type="text" placeholder="Clique aqui para escolher um prompt" id="input-pergunta" readonly>
+          <i class="fa-solid fa-lightbulb" style="color: #000;" id="btn-sugestoes"></i>
           <i class="fa-solid fa-circle-right" style="color: #FFF;" onclick="enviarMensagem()"></i>
           <div class="caixaSugestoes" id="caixa-sugestoes">
             <div class="sugestao">Taxa de câmera corporal</div>
@@ -85,6 +85,14 @@
   const sugestoes = document.querySelectorAll('.sugestao');
 
   btnSugestoes.addEventListener('click', () => {
+    const legenda = document.getElementById('caixa-sugestoes');
+    let displayValueLegenda = legenda.style.display || "none";
+
+    displayValueLegenda = displayValueLegenda === "flex" ? "none" : "flex";
+    legenda.style.display = displayValueLegenda;
+  });
+
+  inputPergunta.addEventListener('click', () => {
     const legenda = document.getElementById('caixa-sugestoes');
     let displayValueLegenda = legenda.style.display || "none";
 
@@ -170,7 +178,7 @@
   }
 
   function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
-    if (userInsightKey && mensagemTexto) {
+    if (userInsightKey1 && userInsightKey2 && mensagemTexto) {
       fetch("/insight/executeJar", {
         method: "POST",
         headers: {
