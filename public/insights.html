@@ -211,10 +211,10 @@
     }
   }
 
-  function getInsight(userInsightKey1, whereParam, joinParam) {
+  function getInsights(userInsightKey1, whereParam, joinParam) {
     if (userInsightKey1 && whereParam && joinParam) {
       fetch("/insight/getInsight", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
