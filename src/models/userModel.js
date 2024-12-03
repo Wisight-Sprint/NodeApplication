@@ -93,8 +93,8 @@ function enviarEmail(de, para, assunto, mensagem) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "seu email do google",
-        pass: "seu passe de aplicação do google",
+        user: "",
+        pass: "",
       },
       tls: {
         rejectUnauthorized: false,
