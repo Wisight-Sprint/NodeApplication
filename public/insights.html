@@ -168,9 +168,9 @@
     }
   }
 
-  async function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
+  function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
     if (userInsightKey1 && userInsightKey2 && mensagemTexto) {
-      await fetch("/insight/executeJar", {
+      fetch("/insight/executeJar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
