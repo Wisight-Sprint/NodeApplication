@@ -168,9 +168,9 @@
     }
   }
 
-  function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
+  async function sendValueForJava(userInsightKey1, userInsightKey2, mensagemTexto) {
     if (userInsightKey1 && userInsightKey2 && mensagemTexto) {
-      fetch("/insight/executeJar", {
+      await fetch("/insight/executeJar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -199,9 +199,9 @@
     }
   }
 
-  function getInsights(userInsightKey1, whereParam, joinParam) {
+  async function getInsights(userInsightKey1, whereParam, joinParam) {
     if (userInsightKey1 && whereParam && joinParam) {
-      fetch("/insight/getInsight", {
+      await fetch("/insight/getInsight", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
