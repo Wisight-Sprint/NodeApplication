@@ -74,6 +74,9 @@
   adicionarMensagem(`Olá, ${sessionStorage.NOME_USUARIO}! Eu sou RoboCop, seu assistente virtual.`, "resposta");
   adicionarMensagem(`Estou aqui para lhe proporcionar insights de acordo com as informações do seu departamento. Basta me fazer uma pergunta!`, "resposta");
 
+  let whereParam;
+  let joinParam;
+
   const btnSugestoes = document.getElementById('btn-sugestoes');
   const caixaSugestoes = document.getElementById('caixa-sugestoes');
   const inputPergunta = document.getElementById('input-pergunta');
@@ -151,9 +154,6 @@
     const userPermission = sessionStorage.getItem("PERMISSAO_USUARIO");
     let userInsightKey1 = sessionStorage.getItem("ESTADO_USUARIO");
     let userInsightKey2 = sessionStorage.getItem("ID_DEPARTAMENTO");
-    let bodyServerName;
-    let whereParam;
-    let joinParam;
 
     if (userPermission == "Externo") {
       whereParam = "fk_cidade_estado";
@@ -200,9 +200,9 @@
     }
   }
 
-  async function getInsights(userInsightKey1, whereParam, joinParam) {
+  function getInsight(userInsightKey1, whereParam, joinParam) {
     if (userInsightKey1 && whereParam && joinParam) {
-      await fetch("/insight/getInsight", {
+      fetch("/insight/getInsight", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
